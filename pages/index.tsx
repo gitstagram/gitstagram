@@ -1,7 +1,7 @@
+import React from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 
-const Home = () => {
+const Home = (): JSX.Element => {
   return (
     <div>
       <Head>

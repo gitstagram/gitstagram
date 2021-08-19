@@ -1,6 +1,7 @@
+import React from 'react'
 import type { AppProps } from 'next/app'
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return <Component {...pageProps} />
 }
 
