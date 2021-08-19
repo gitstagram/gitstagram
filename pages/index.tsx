@@ -1,5 +1,10 @@
 import React from 'react'
 import Head from 'next/head'
+import styled from 'styled-components'
+
+const Title = styled.h1`
+  color: blue;
+`
 
 const Home = (): JSX.Element => {
   return (
@@ -10,7 +15,13 @@ const Home = (): JSX.Element => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
-        <h1>Gitstagram</h1>
+        <Title
+          css={`
+            text-decoration: underline;
+          `}
+        >
+          Gitstagram
+        </Title>
       </main>
     </div>
   )
