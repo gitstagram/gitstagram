@@ -1,21 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
-
-const Title = styled.h1`
-  color: blue;
-`
+import * as sty from 'styles/pages/index'
 
 const Home = (): JSX.Element => {
   return (
     <div>
       <main>
-        <Title
-          css={`
-            text-decoration: underline;
-          `}
-        >
-          Gitstagram
-        </Title>
+        <h1 css={sty.pageTitle}>Gitstagram</h1>
       </main>
     </div>
   )
