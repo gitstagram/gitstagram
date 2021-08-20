@@ -1,5 +1,4 @@
 import React from 'react'
-import Head from 'next/head'
 import styled from 'styled-components'
 
 const Title = styled.h1`
@@ -9,11 +8,6 @@ const Title = styled.h1`
 const Home = (): JSX.Element => {
   return (
     <div>
-      <Head>
-        <title>Gitstagram</title>
-        <meta name='description' content='Gitstagram' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <main>
         <Title
           css={`
