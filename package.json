@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "rm -rf ./dist && next build && next export -o dist",
+    "preview": "yarn build && http-server ./dist",
     "start": "next start",
     "lint": "next lint"
   },
@@ -26,6 +27,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-webpack-plugin": "^3.0.1",
+    "http-server": "^13.0.1",
     "prettier": "^2.3.2",
     "typescript": "4.3.5"
   },
