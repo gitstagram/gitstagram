@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { useAuth0 } from '@auth0/auth0-react'
+import { externalLoader } from 'helpers'
 
 export const Header = (): JSX.Element => {
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
@@ -11,7 +12,11 @@ export const Header = (): JSX.Element => {
   }
 
   const handleLogout = (): void => {
-    logout({ returnTo: 'http://localhost:3000' })
+    logout({ returnTo: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URL })
+  }
+
+  if (isLoading) {
+    return <>Auth0 Loading</>
   }
 
   const headerContents = isAuthenticated ? (
@@ -20,10 +25,11 @@ export const Header = (): JSX.Element => {
         {user && user.picture && user.nickname ? (
           <>
             <Image
+              loader={externalLoader}
               src={user.picture}
               height={50}
               width={50}
-              alt={user.nickname}
+              alt={`${user.nickname}'s avatar`}
             />
             {user.nickname}
           </>
@@ -34,9 +40,7 @@ export const Header = (): JSX.Element => {
       </>
     </div>
   ) : (
-    <button onClick={handleLogin}>
-      {isLoading ? 'Logging in...' : 'Login'}
-    </button>
+    <button onClick={handleLogin}>Login</button>
   )
 
   return <header>{headerContents}</header>

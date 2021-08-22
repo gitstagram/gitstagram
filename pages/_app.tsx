@@ -13,9 +13,9 @@ import { DefaultLayout } from 'components/layouts'
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <Auth0Provider
-      domain='dev-igi1dzxy.auth0.com'
-      clientId='yhS6TIgUzw1KVo8QKY53omGC4UBzUd2y'
-      redirectUri='http://localhost:3000'
+      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN as string}
+      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID as string}
+      redirectUri={process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URL as string}
     >
       <GlobalStyles />
       <Head>
