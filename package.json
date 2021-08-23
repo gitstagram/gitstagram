@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "rm -rf ./dist && next build && next export -o dist",
-    "preview": "yarn build && http-server ./dist",
+    "build": "next build",
     "start": "next start",
+    "preview": "rm -rf ./.next && yarn build && yarn start",
     "lint": "next lint"
   },
   "dependencies": {
