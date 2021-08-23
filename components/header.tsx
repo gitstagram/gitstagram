@@ -1,40 +1,23 @@
 import React from 'react'
-import Image from 'next/image'
-import { externalLoader } from 'helpers'
+import { signIn, signOut, useSession } from 'next-auth/client'
 
 export const Header = (): JSX.Element => {
-  const isAuthenticated = false
-  const user = {
-    picture: 'picture.png',
-    alt: 'name',
-    nickname: 'nickname',
-  }
+  const [session, loading] = useSession()
 
   const handleLogin = (): void => {
-    return
+    void signIn()
   }
 
   const handleLogout = (): void => {
-    return
+    void signOut()
   }
 
-  const headerContents = isAuthenticated ? (
+  if (loading) return <>Loading</>
+
+  const headerContents = session ? (
     <div>
       <>
-        {user && user.picture && user.nickname ? (
-          <>
-            <Image
-              loader={externalLoader}
-              src={user.picture}
-              height={50}
-              width={50}
-              alt={`${user.nickname}'s avatar`}
-            />
-            {user.nickname}
-          </>
-        ) : (
-          'User load failed'
-        )}
+        {JSON.stringify(session)}
         <button onClick={handleLogout}>Logout</button>
       </>
     </div>
