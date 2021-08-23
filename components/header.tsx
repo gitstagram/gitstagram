@@ -1,22 +1,21 @@
 import React from 'react'
 import Image from 'next/image'
-import { useAuth0 } from '@auth0/auth0-react'
 import { externalLoader } from 'helpers'
 
 export const Header = (): JSX.Element => {
-  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } =
-    useAuth0()
+  const isAuthenticated = false
+  const user = {
+    picture: 'picture.png',
+    alt: 'name',
+    nickname: 'nickname',
+  }
 
-  const handleLogin = (): Promise<void> => {
-    return loginWithRedirect()
+  const handleLogin = (): void => {
+    return
   }
 
   const handleLogout = (): void => {
-    logout({ returnTo: process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URL })
-  }
-
-  if (isLoading) {
-    return <>Auth0 Loading</>
+    return
   }
 
   const headerContents = isAuthenticated ? (
