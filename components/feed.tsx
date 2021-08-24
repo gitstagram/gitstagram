@@ -1,13 +1,22 @@
 import React from 'react'
-import { gql } from '@apollo/client'
 import { getApolloClient } from 'graphql/apolloClient'
+import { gql } from '@apollo/client'
 
 export const Feed = (): JSX.Element => {
   void getApolloClient()
+    // .query({
+    //   query: gql`
+    //     {
+    //       repository(name: "gitstagram", owner: "mongkuen") {
+    //         id
+    //       }
+    //     }
+    //   `,
+    // })
     .query({
       query: gql`
         {
-          repository(name: "gitstagram", owner: "mongkuen") {
+          repos @rest(path: "/user/repos") {
             id
           }
         }

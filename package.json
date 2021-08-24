@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
+    "apollo-link-rest": "^0.8.0-beta.0",
     "graphql": "^15.5.1",
+    "graphql-anywhere": "^4.2.7",
     "next": "^11.1.1-canary.13",
     "next-auth": "^3.28.0",
+    "qs": "^6.10.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sanitize.css": "^12.0.1",
