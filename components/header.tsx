@@ -7,7 +7,7 @@ export const Header = (): JSX.Element => {
   const [session, loading] = useSession()
 
   const handleLogin = (): void => {
-    void signIn()
+    void signIn('github')
   }
 
   const handleLogout = (): void => {
@@ -23,6 +23,7 @@ export const Header = (): JSX.Element => {
           <>
             {session.user.image && (
               <Image
+                unoptimized
                 loader={externalLoader}
                 src={session.user.image}
                 height={50}
@@ -37,7 +38,7 @@ export const Header = (): JSX.Element => {
       </>
     </div>
   ) : (
-    <button onClick={handleLogin}>Login</button>
+    <button onClick={handleLogin}>Login with Github</button>
   )
 
   return <header>{headerContents}</header>
