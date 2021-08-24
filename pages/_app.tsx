@@ -3,6 +3,8 @@ import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import type { Session } from 'next-auth'
 import { Provider } from 'next-auth/client'
+import { ApolloProvider } from '@apollo/client'
+import { apolloClient } from 'graphql/apolloClient'
 
 import { GlobalStyles } from 'styles/global'
 import 'sanitize.css'
@@ -25,7 +27,9 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <DefaultLayout>
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </DefaultLayout>
     </Provider>
   )

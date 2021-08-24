@@ -2,7 +2,6 @@ import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
-  NormalizedCacheObject,
   ApolloLink,
 } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
@@ -27,6 +26,7 @@ const retryLink = new RetryLink({
 })
 
 const restLink = new RestLink({ uri: 'https://api.github.com' })
+
 const httpLink = createHttpLink({
   uri: 'https://api.github.com/graphql',
 })
@@ -41,7 +41,7 @@ const getAuthorization = async (type: 'graphql' | 'rest') => {
 
   const prefixMap = {
     graphql: 'Bearer',
-    rest: 'tokena',
+    rest: 'token',
   }
   const prefix = prefixMap[type]
 
@@ -72,18 +72,12 @@ const authRestLink = setContext(async (_, { headers }: PreviousContext) => {
   }
 })
 
-let apolloClient: ApolloClient<NormalizedCacheObject> | undefined = undefined
-export const getApolloClient = (): ApolloClient<NormalizedCacheObject> => {
-  if (!apolloClient) {
-    apolloClient = new ApolloClient({
-      link: ApolloLink.from([
-        errorLink,
-        retryLink,
-        authRestLink.concat(restLink),
-        authLink.concat(httpLink),
-      ]),
-      cache: new InMemoryCache(),
-    })
-  }
-  return apolloClient
-}
+export const apolloClient = new ApolloClient({
+  link: ApolloLink.from([
+    errorLink,
+    retryLink,
+    authRestLink.concat(restLink),
+    authLink.concat(httpLink),
+  ]),
+  cache: new InMemoryCache(),
+})
