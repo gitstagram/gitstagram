@@ -11,6 +11,9 @@ import 'sanitize.css'
 import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
 
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 import { DefaultLayout } from 'components/layouts'
 
 interface PageProps {
@@ -31,6 +34,7 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
           <Component {...pageProps} />
         </ApolloProvider>
       </DefaultLayout>
+      <ToastContainer />
     </Provider>
   )
 }
