@@ -1,4 +1,9 @@
 {
+  "env": {
+    "development": {
+      "compact": false
+    }
+  },
   "presets": [
     "next/babel"
   ],

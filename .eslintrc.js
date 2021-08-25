@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['**/generated/*.ts'],
   parserOptions: {
     project: ['./tsconfig.json'],
   },

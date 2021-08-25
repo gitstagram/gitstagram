@@ -11,6 +11,9 @@ import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
 import { toast } from 'react-toastify'
 
+import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
+import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) => {
@@ -75,6 +78,8 @@ const authRestLink = setContext(async (_, { headers }: PreviousContext) => {
   }
 })
 
+const typePolicies: StrictTypedTypePolicies = {}
+
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([
     errorLink,
@@ -82,5 +87,8 @@ export const apolloClient = new ApolloClient({
     authRestLink.concat(restLink),
     authLink.concat(httpLink),
   ]),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    possibleTypes: generatedIntrospection.possibleTypes,
+    typePolicies,
+  }),
 })

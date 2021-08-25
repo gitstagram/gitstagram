@@ -1,0 +1,20 @@
+overwrite: true
+schema:
+  - https://api.github.com/graphql:
+      headers:
+        Authorization: 'token ${GITHUB_ACCESS_TOKEN}'
+documents: 'graphql/operations/**/*.ts'
+generates:
+  graphql/generated/index.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      maybeValue: T | null | undefined
+  graphql/generated/fragmentIntrospection.ts:
+    plugins:
+      - 'fragment-matcher'
+  graphql/generated/apolloHelpers.ts:
+    plugins:
+      - 'typescript-apollo-client-helpers'
