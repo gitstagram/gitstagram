@@ -1,17 +1,33 @@
 var ESLintPlugin = require('eslint-webpack-plugin')
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
-module.exports = {
+const nextConfig = {
   reactStrictMode: true,
   images: {
     loader: 'custom',
     domains: ['avatars.githubusercontent.com'],
   },
   webpack: (config) => {
-    config.plugins.push(
-      new ESLintPlugin({
-        extensions: ['js', 'jsx', 'ts', 'tsx'],
-      })
-    )
+    if (process.env.NODE_ENV === 'development') {
+      config.plugins.push(
+        new ESLintPlugin({
+          extensions: ['js', 'jsx', 'ts', 'tsx'],
+        })
+      )
+
+      config.optimization.removeAvailableModules = false
+      config.optimization.removeEmptyChunks = false
+    }
+
+    if (process.env.ANALYZE === 'true') {
+      config.plugins.push(new DuplicatePackageCheckerPlugin())
+    }
+
     return config
   },
 }
+
+module.exports =
+  process.env.ANALYZE === 'true'
+    ? require('@next/bundle-analyzer')({ enabled: true })(nextConfig)
+    : nextConfig
