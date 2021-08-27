@@ -15,6 +15,9 @@ export const defaultTheme = {
   fontTertiary_Size: `${sys.fontSizes.fs12}rem`,
   fontTertiary_Color: sys.monos.mc300,
 
+  fontFooter_Size: `${sys.fontSizes.fs12}rem`,
+  fontFooter_Color: sys.monos.mc900,
+
   root_BgColor: sys.monos.mc900,
   base_BgColor: sys.monos.mc700,
 
