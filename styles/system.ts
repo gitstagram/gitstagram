@@ -2,7 +2,7 @@ export const baseSize = 16
 
 // https://furbo.org/2018/03/28/system-fonts-in-css/
 export const fontFamily =
-  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif'
+  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Noto Sans", sans-serif'
 
 export const monos = {
   mc000: '#f0f6fc',
@@ -39,4 +39,11 @@ export const fontSizes = {
   fs30: 30 / baseSize,
   fs36: 36 / baseSize,
   fs48: 48 / baseSize,
+}
+
+export const breakPointMinimums = {
+  tabletPortrait: 600 / baseSize,
+  tabletLandscape: 900 / baseSize,
+  laptop: 1200 / baseSize,
+  desktop: 1800 / baseSize,
 }

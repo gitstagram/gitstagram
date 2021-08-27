@@ -1,8 +1,12 @@
 import * as sys from 'styles/system'
 
 export const defaultTheme = {
-  // Root font size in px, all other sizes in rem
-  font_Size: `${sys.baseSize}px`,
+  tabletPortrait: `(min-width: ${sys.breakPointMinimums.tabletPortrait}rem)`,
+  tabletLandscape: `(min-width: ${sys.breakPointMinimums.tabletLandscape}rem)`,
+  laptop: `(min-width: ${sys.breakPointMinimums.laptop}rem)`,
+  desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
+
+  font_Size: `${sys.fontSizes.fs16}rem`,
   font_Family: sys.fontFamily,
 
   font_Color: sys.monos.mc100,
