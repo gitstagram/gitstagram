@@ -13,7 +13,7 @@ const createCssVariables = (theme: Theme): string => {
 }
 
 export const GlobalStyles = createGlobalStyle`
-  ${customResets}
+  ${/* sc-declaration */ customResets}
 
   :root {
     ${createCssVariables(defaultTheme)}

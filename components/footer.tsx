@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
 const FooterStyles = styled.footer`
-  font-size: ${theme('fontTertiary_Size')};
   color: ${theme('fontTertiary_Color')};
+  font-size: ${theme('fontTertiary_Size')};
   text-align: center;
 `
 

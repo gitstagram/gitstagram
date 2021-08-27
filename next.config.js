@@ -1,4 +1,5 @@
-var ESLintPlugin = require('eslint-webpack-plugin')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const StylelintPlugin = require('stylelint-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
 
 const nextConfig = {
@@ -12,6 +13,12 @@ const nextConfig = {
       config.plugins.push(
         new ESLintPlugin({
           extensions: ['js', 'jsx', 'ts', 'tsx'],
+        })
+      )
+
+      config.plugins.push(
+        new StylelintPlugin({
+          extensions: ['ts', 'tsx'],
         })
       )
 

@@ -42,8 +42,8 @@ export const customResets = css`
   */
   ul[class],
   ol[class] {
-    list-style: none;
     padding: 0;
+    list-style: none;
   }
 
   /**
