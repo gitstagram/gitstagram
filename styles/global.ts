@@ -17,7 +17,12 @@ export const GlobalStyles = createGlobalStyle`
 
   :root {
     ${createCssVariables(defaultTheme)}
-    color: ${theme('fontColor')};
-    background-color: ${theme('bgColor')};
+    color: ${theme('font_Color')};
+    background-color: ${theme('root_BgColor')};
+  }
+
+  html {
+    font-size: ${theme('font_Size')};
+    font-family: ${theme('font_Family')};
   }
 `

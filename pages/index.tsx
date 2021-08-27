@@ -2,19 +2,11 @@ import React from 'react'
 import { useSession } from 'next-auth/client'
 
 import { Feed } from 'components/feed'
-import * as sty from 'styles/pages/index'
+import { Landing } from 'components/landing'
 
 const Home = (): JSX.Element => {
   const [session] = useSession()
-
-  return (
-    <div>
-      <main>
-        <h1 css={sty.pageTitle}>Gitstagram</h1>
-        {session ? <Feed /> : <>Home page</>}
-      </main>
-    </div>
-  )
+  return session ? <Feed /> : <Landing />
 }
 
 export default Home
