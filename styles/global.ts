@@ -15,14 +15,19 @@ const createCssVariables = (theme: Theme): string => {
 export const GlobalStyles = createGlobalStyle`
   ${/* sc-declaration */ customResets}
 
+  @font-face {
+    font-family: 'Cookie';
+    src: url('/cookieSubset.ttf');
+  }
+
   :root {
     ${createCssVariables(defaultTheme)}
   }
 
   html {
     color: ${theme('font_Color')};
-    font-size: ${theme('font_Size')};
-    font-family: ${theme('font_Family')};
+    font-size: ${theme('font_FontSize')};
+    font-family: ${theme('font_FontFamily')};
     background-color: ${theme('root_BgColor')};
   }
 `

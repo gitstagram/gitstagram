@@ -1,8 +1,26 @@
 export const baseSize = 16
 
-// https://furbo.org/2018/03/28/system-fonts-in-css/
-export const fontFamily =
-  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Noto Sans", sans-serif'
+const defaultFontFamily = [
+  'system-ui',
+  /* macOS San Francisco*/ '-apple-system',
+  /* macOS */ 'BlinkMacSystemFont',
+  /* Windows */ '"Segoe UI"',
+  /* Android & ChromeOS */ '"Roboto"',
+  /* Firefox */ '"Fira Sans"',
+  /* Ubuntu */ '"Ubuntu"',
+  /* Gnome */ '"Cantarell"',
+  /* KDE */ '"Noto Sans"',
+  /* Android fallback */ '"Droid Sans"',
+  /* KDE fallback */ '"Oxygen"',
+  /* macOS fallback */ '"Helvetica Neue"',
+  /* General fallback */ 'sans-serif',
+  /* exclude emoji fonts */
+].join(', ')
+export const fontFamilies = {
+  // https://furbo.org/2018/03/28/system-fonts-in-css/
+  default: defaultFontFamily,
+  logo: '"Cookie", serif',
+}
 
 export const monos = {
   mc000: '#f0f6fc',
@@ -39,6 +57,7 @@ export const fontSizes = {
   fs30: 30 / baseSize,
   fs36: 36 / baseSize,
   fs48: 48 / baseSize,
+  fs60: 60 / baseSize,
 }
 
 export const breakPointMinimums = {

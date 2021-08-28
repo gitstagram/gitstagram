@@ -6,11 +6,14 @@ export const defaultTheme = {
   laptop: `(min-width: ${sys.breakPointMinimums.laptop}rem)`,
   desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
 
-  font_Size: `${sys.fontSizes.fs16}rem`,
-  font_Family: sys.fontFamily,
+  font_FontSize: `${sys.fontSizes.fs16}rem`,
+  font_FontFamily: sys.fontFamilies.default,
 
   font_Color: sys.monos.mc100,
   font_Color__Inverse: sys.monos.mc900,
+
+  fontLogo_Family: sys.fontFamilies.logo,
+  fontHero_FontSize: `${sys.fontSizes.fs60}rem`,
 
   fontTertiary_Size: `${sys.fontSizes.fs12}rem`,
   fontTertiary_Color: sys.monos.mc300,
@@ -18,8 +21,8 @@ export const defaultTheme = {
   fontFooter_Size: `${sys.fontSizes.fs12}rem`,
   fontFooter_Color: sys.monos.mc900,
 
+  fontLink_Color: sys.colors.blue300,
+
   root_BgColor: sys.monos.mc900,
   base_BgColor: sys.monos.mc700,
-
-  link_Color: sys.colors.blue300,
 }
