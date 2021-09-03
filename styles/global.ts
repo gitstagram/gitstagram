@@ -28,6 +28,6 @@ export const GlobalStyles = createGlobalStyle`
     color: ${theme('font_Color')};
     font-size: ${theme('font_FontSize')};
     font-family: ${theme('font_FontFamily')};
-    background-color: ${theme('root_BgColor')};
+    background: ${theme('root_Bg')};
   }
 `

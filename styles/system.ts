@@ -1,4 +1,7 @@
+import { keys } from 'helpers'
+
 export const baseSize = 16
+export const maxWidth = 1000 / baseSize
 
 const defaultFontFamily = [
   'system-ui',
@@ -46,6 +49,32 @@ export const colors = {
   blue700: '#0d419d',
   blue800: '#0c2d6b',
   blue900: '#051d4d',
+
+  yellow000: '#f8e3a1',
+  yellow100: '#f2cc60',
+  yellow200: '#e3b341',
+  yellow300: '#d29922',
+  yellow400: '#f5a623',
+  yellow500: '#9e6a03',
+  yellow600: '#845306',
+  yellow700: '#693e00',
+  yellow800: '#4b2900',
+  yellow900: '#341a00',
+
+  green000: '#aff5b4',
+  green100: '#7ee787',
+  green200: '#56d364',
+  green300: '#3fb950',
+  green400: '#2ea043',
+  green500: '#238636',
+  green600: '#196c2e',
+  green700: '#0f5323',
+  green800: '#033a16',
+  green900: '#04260f',
+}
+
+export const letterSpacings = {
+  ls2: 2 / baseSize,
 }
 
 export const fontSizes = {
@@ -66,3 +95,38 @@ export const breakPointMinimums = {
   laptop: 1200 / baseSize,
   desktop: 1800 / baseSize,
 }
+
+export const borderRads = {
+  rad0: 0,
+  rad4: 4,
+  rad8: 8,
+  rad16: 16,
+  radFull: '50%',
+}
+
+export const sizes = {
+  sz4: 4 / baseSize,
+  sz8: 8 / baseSize,
+  sz12: 12 / baseSize,
+  sz16: 16 / baseSize,
+  sz24: 24 / baseSize,
+  sz32: 32 / baseSize,
+  sz48: 48 / baseSize,
+  sz64: 64 / baseSize,
+  sz96: 96 / baseSize,
+  sz128: 128 / baseSize,
+  sz192: 192 / baseSize,
+  sz256: 256 / baseSize,
+  sz384: 384 / baseSize,
+  sz512: 512 / baseSize,
+  sz640: 640 / baseSize,
+}
+
+type SizesMembers = {
+  [K in keyof typeof sizes]: string
+}
+
+export const sizesRem = keys(sizes).reduce((acc, key) => {
+  acc[key] = `${sizes[key]}rem`
+  return acc
+}, {} as Record<string, string>) as SizesMembers

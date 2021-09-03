@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
 const FooterStyles = styled.footer`
+  position: relative;
   color: ${theme('fontFooter_Color')};
-  font-size: ${theme('fontFooter_Size')};
+  font-size: ${theme('fontFooter_FontSize')};
   text-align: center;
 
   .footer-text {
@@ -26,21 +27,19 @@ const FooterStyles = styled.footer`
     position: relative;
     display: block;
     width: calc(124% + 1.3px);
-    height: 125px;
+    height: 45px;
     transform: rotateY(180deg);
   }
 
   .shape .shape-fill {
-    fill: #f5a623;
+    fill: ${theme('intentPrimary_Color')};
   }
 `
 
 export const Footer = (): JSX.Element => {
   return (
     <FooterStyles>
-      <div className='footer-text'>
-        ❤ Gitstagram, {new Date().getFullYear()}
-      </div>
+      <div className='footer-text'>Gitstagram, {new Date().getFullYear()}</div>
       <div className='shape'>
         <svg
           data-name='Layer 1'

@@ -19,6 +19,7 @@ const nextConfig = {
       config.plugins.push(
         new StylelintPlugin({
           extensions: ['ts', 'tsx'],
+          failOnError: false,
         })
       )
 

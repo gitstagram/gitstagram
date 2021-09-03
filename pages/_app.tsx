@@ -16,6 +16,20 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { DefaultLayout } from 'components/layouts'
 
+// Calculates proper 100vh size without iOS Safari navigation and document bars
+// https://dev.to/maciejtrzcinski/100vh-problem-with-ios-safari-3ge9
+const initializeAppHeight = `
+  (function () {
+    const setAppHeight = () => {
+      const docElem = document.documentElement
+      const height = docElem.clientHeight + 'px'
+      docElem.style.setProperty('--app-height', height)
+    }
+    window.addEventListener('resize', setAppHeight)
+    setAppHeight()
+  })()
+`
+
 interface PageProps {
   session: Session
 }
@@ -27,6 +41,11 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
       <Head>
         <title>Gitstagram</title>
         <meta name='description' content='Gitstagram' />
+        <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1, viewport-fit=cover'
+        />
+        <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <DefaultLayout>

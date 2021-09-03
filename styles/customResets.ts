@@ -14,7 +14,7 @@ export const customResets = css`
   * Full viewport body
   */
   body {
-    min-block-size: 100vh;
+    min-block-size: var(--app-height);
   }
 
   /**
@@ -40,8 +40,8 @@ export const customResets = css`
   /**
   * Remove list styles
   */
-  ul[class],
-  ol[class] {
+  ul,
+  ol {
     padding: 0;
     list-style: none;
   }
