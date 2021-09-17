@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import { signIn } from 'next-auth/client'
 import { LandingStyles } from './styles'
 
@@ -46,6 +47,16 @@ export const Landing = (): JSX.Element => {
         </ul>
       </div>
       <div className='right-column'>
+        <div className='mobile-preview'>
+          <div className='mobile-content'>
+            <Image
+              src='/mobileContent.jpeg'
+              alt='Gitstagram photo sharing app'
+              layout='fill'
+            />
+          </div>
+          <Image src='/mobileFrame.png' alt='iPhone frame' layout='fill' />
+        </div>
         <Panel className='login-panel'>
           <TextAttn className='explain-title'>How it works:</TextAttn>
           <ul className='explain-list'>
@@ -55,13 +66,18 @@ export const Landing = (): JSX.Element => {
             </li>
             <li>Actions self-contained to repo</li>
           </ul>
+          <TextLink
+            className='sign-up'
+            deemph
+            external
+            href='https://github.com/signup'
+          >
+            Need an account? Sign up
+          </TextLink>
           <Button className='login' type='large' onClick={handleLogin}>
             Login with Github
           </Button>
         </Panel>
-        <TextLink deemph external href='https://github.com/signup'>
-          Need an account? Sign up
-        </TextLink>
       </div>
     </LandingStyles>
   )

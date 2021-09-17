@@ -26,6 +26,10 @@ export const LandingStyles = styled.div`
     }
   }
 
+  .mobile-preview {
+    display: none;
+  }
+
   .login-panel {
     max-width: ${theme('sz512')};
     margin-right: auto;
@@ -38,10 +42,15 @@ export const LandingStyles = styled.div`
   }
 
   .explain-list {
-    margin-bottom: ${theme('sz32')};
     text-align: left;
     list-style: circle;
     list-style-position: inside;
+  }
+
+  .sign-up {
+    display: block;
+    margin-top: ${theme('sz16')};
+    margin-bottom: ${theme('sz24')};
   }
 
   .login {
@@ -83,6 +92,28 @@ export const LandingStyles = styled.div`
       padding-right: ${theme('sz48')};
       padding-left: ${theme('sz48')};
       transform: translate(0, -50%);
+
+      .mobile-preview {
+        position: absolute;
+        top: -120%;
+        left: -5%;
+        display: block;
+        width: ${theme('sz256')};
+        height: ${theme('sz512')};
+      }
+
+      .mobile-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 84%;
+        height: 65%;
+        transform: translate(-50%, -50%);
+      }
+
+      .login-panel {
+        position: relative;
+      }
     }
   }
 `

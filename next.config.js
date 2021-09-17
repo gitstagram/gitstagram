@@ -4,10 +4,6 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    loader: 'custom',
-    domains: ['avatars.githubusercontent.com'],
-  },
   webpack: (config) => {
     if (process.env.NODE_ENV === 'development') {
       config.plugins.push(

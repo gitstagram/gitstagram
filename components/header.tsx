@@ -1,7 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
 import { signIn, signOut, useSession } from 'next-auth/client'
-import { externalLoader } from 'helpers'
 
 export const Header = (): JSX.Element => {
   const [session, loading] = useSession()
@@ -24,7 +23,6 @@ export const Header = (): JSX.Element => {
             {session.user.image && (
               <Image
                 unoptimized
-                loader={externalLoader}
                 src={session.user.image}
                 height={50}
                 width={50}
