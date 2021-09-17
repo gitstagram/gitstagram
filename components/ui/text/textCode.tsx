@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
 const TextCodeStyles = styled.code`
-  background-color: ${theme('fontCode_BgColor')};
   color: ${theme('fontCode_Color')};
+  background-color: ${theme('fontCode_BgColor')};
 `
 
 export const TextCode: FC<IComponentProps> = ({ children, ...props }) => {

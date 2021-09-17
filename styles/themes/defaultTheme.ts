@@ -2,10 +2,10 @@ import * as sys from 'styles/system'
 
 const viewPorts = {
   maxWidth: `${sys.maxWidth}rem`,
-  tabletPortrait: `(min-width: ${sys.breakPointMinimums.tabletPortrait}rem)`,
-  tabletLandscape: `(min-width: ${sys.breakPointMinimums.tabletLandscape}rem)`,
-  laptop: `(min-width: ${sys.breakPointMinimums.laptop}rem)`,
-  desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
+  media_TabletPortrait: `(min-width: ${sys.breakPointMinimums.tabletPortrait}rem)`,
+  media_TabletLandscape: `(min-width: ${sys.breakPointMinimums.tabletLandscape}rem)`,
+  media_Laptop: `(min-width: ${sys.breakPointMinimums.laptop}rem)`,
+  media_Desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
 }
 
 const backgrounds = {

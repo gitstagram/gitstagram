@@ -22,7 +22,7 @@ const defaultFontFamily = [
 export const fontFamilies = {
   // https://furbo.org/2018/03/28/system-fonts-in-css/
   default: defaultFontFamily,
-  logo: '"Cookie", serif',
+  logo: '"Cookie", cursive',
 }
 
 export const monos = {

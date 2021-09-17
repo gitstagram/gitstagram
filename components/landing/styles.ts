@@ -1,0 +1,88 @@
+import styled from 'styled-components'
+import { theme, themeProp } from 'styles/themes'
+
+export const LandingStyles = styled.div`
+  flex-grow: 1;
+  width: 100%;
+  text-align: center;
+
+  .logo {
+    margin-bottom: ${theme('sz16')};
+  }
+
+  .hero {
+    margin-bottom: ${theme('sz24')};
+  }
+
+  .benefit-list {
+    width: fit-content;
+    margin-right: auto;
+    margin-bottom: ${theme('sz24')};
+    margin-left: auto;
+    text-align: left;
+
+    li {
+      margin-bottom: ${theme('sz4')};
+    }
+  }
+
+  .login-panel {
+    max-width: ${theme('sz512')};
+    margin-right: auto;
+    margin-bottom: ${theme('sz4')};
+    margin-left: auto;
+  }
+
+  .explain-title {
+    margin-bottom: ${theme('sz4')};
+  }
+
+  .explain-list {
+    margin-bottom: ${theme('sz32')};
+    text-align: left;
+    list-style: circle;
+    list-style-position: inside;
+  }
+
+  .login {
+    width: calc(${theme('sz16')} * 2 + 100%);
+    margin: calc(${theme('sz16')} * -1);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  @media ${themeProp('media_TabletLandscape')} {
+    position: relative;
+
+    .left-column {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      width: 50%;
+      max-height: ${theme('sz512')};
+      margin-top: auto;
+      margin-bottom: auto;
+      padding-right: ${theme('sz48')};
+      padding-left: ${theme('sz48')};
+      text-align: left;
+
+      .benefit-list {
+        margin-left: 0;
+      }
+    }
+
+    .right-column {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 50%;
+      padding-right: ${theme('sz48')};
+      padding-left: ${theme('sz48')};
+      transform: translate(0, -50%);
+    }
+  }
+`

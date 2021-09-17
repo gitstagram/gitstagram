@@ -9,6 +9,7 @@
     "preview": "rm -rf ./.next && yarn build && yarn start",
     "buildAnalyze": "rm -rf ./.next && ANALYZE=true yarn build && yarn start",
     "lint": "next lint",
+    "lint:styles": "yarn stylelint \"**/*.{ts,tsx}\" --config ./.stylelintrcWithProcessor.js",
     "codegen": "graphql-codegen --config codegen.yml",
     "subsetFont": "node ./subsetFont.js"
   },

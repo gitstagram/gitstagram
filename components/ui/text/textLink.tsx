@@ -42,8 +42,8 @@ const TextLinkStyles = styled.a<StyleProps>`
   ${({ deemph }) =>
     deemph &&
     css`
-      font-size: ${theme('fontLink_FontSize__Deemph')};
       color: ${theme('fontLink_Color__Deemph')};
+      font-size: ${theme('fontLink_FontSize__Deemph')};
 
       &:hover,
       &:focus {

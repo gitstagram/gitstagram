@@ -10,4 +10,10 @@ export const theme = (prop: ThemeItem): string => {
   return `var(--${prop})`
 }
 
+export const themeProp = (prop: ThemeItem): string => {
+  if (process.env.NODE_ENV === 'development' && nullish(defaultTheme[prop]))
+    throw new Error(`Property ${prop} not found on theme`)
+  return defaultTheme[prop]
+}
+
 export * from 'styles/themes/defaultTheme'

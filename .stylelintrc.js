@@ -1,5 +1,7 @@
 module.exports = {
-  processors: ['stylelint-processor-styled-components'],
+  // Stylelint --fix not supported with processor
+  // https://github.com/styled-components/stylelint-processor-styled-components#readme
+  // Use `yarn lint:styles` to check stylelinting with processor with .stylelintrcWithProcessor.js
   extends: [
     'stylelint-config-standard',
     'stylelint-a11y/recommended',
@@ -14,5 +16,12 @@ module.exports = {
     'declaration-colon-newline-after': null,
     // conflicts with styled-components interpolations
     'declaration-empty-line-before': null,
+    // ignore custom fonts
+    'font-family-no-missing-generic-family-keyword': [
+      true,
+      { ignoreFontFamilies: ['Cookie'] },
+    ],
+    // conflicts with prop activated selectors
+    'no-duplicate-selectors': null,
   },
 }

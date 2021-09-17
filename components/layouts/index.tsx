@@ -15,6 +15,7 @@ const LayoutStyles = styled.div`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    width: 100%;
     max-width: ${theme('maxWidth')};
     margin-right: auto;
     margin-left: auto;
