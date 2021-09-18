@@ -10,6 +10,7 @@ import { GlobalStyles } from 'styles/global'
 import 'sanitize.css'
 import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
+import 'styles/bootstrapIconsSubset.css'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'

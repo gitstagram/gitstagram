@@ -2,16 +2,16 @@ import React, { FC } from 'react'
 import styled, { css } from 'styled-components'
 import { theme } from 'styles/themes'
 
-interface StyleProps {
+interface ButtonStyleProps {
   intent?: 'success'
   type?: 'large'
 }
 
-interface ButtonProps extends IComponentProps, StyleProps {
+interface ButtonProps extends IComponentProps, ButtonStyleProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const ButtonStyles = styled.button<StyleProps>`
+const ButtonStyles = styled.button<ButtonStyleProps>`
   color: ${theme('fontButton_Color')};
   border: none;
   border-radius: ${theme('rounded_BorderRadius')};
@@ -19,7 +19,7 @@ const ButtonStyles = styled.button<StyleProps>`
   cursor: pointer;
 
   ${({ intent }) =>
-    intent &&
+    intent === 'success' &&
     css`
       background-color: ${theme('intentSuccess_Color')};
 

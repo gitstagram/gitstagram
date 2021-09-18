@@ -3,6 +3,8 @@ export * from 'components/ui/emoji'
 export * from 'components/ui/middot'
 export * from 'components/ui/panel'
 
+export * from 'components/ui/icon/icon'
+
 export * from 'components/ui/text/text'
 export * from 'components/ui/text/textAttn'
 export * from 'components/ui/text/textCode'

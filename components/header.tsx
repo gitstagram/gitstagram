@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { signIn, signOut, useSession } from 'next-auth/client'
+import { Icon } from 'components/ui'
 
 export const Header = (): JSX.Element => {
   const [session, loading] = useSession()
@@ -20,6 +21,7 @@ export const Header = (): JSX.Element => {
       <>
         {session && session.user && (
           <>
+            <Icon icon='search' ariaLabel='Find users on Gitstagram' />
             {session.user.image && (
               <Image
                 unoptimized

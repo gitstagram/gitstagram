@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import { theme } from 'styles/themes'
 
 type Url = string | UrlObject
-type StyleProps = { deemph?: boolean }
+type TextLinkStyleProps = { deemph?: boolean }
 
 type ConditionalProps =
   | { external: true; as?: never; onClick?: never; href: string }
@@ -25,9 +25,9 @@ type ConditionalProps =
 type TextLinkProps = IComponentProps &
   Omit<LinkProps, 'as' | 'href' | 'passHref'> &
   ConditionalProps &
-  StyleProps
+  TextLinkStyleProps
 
-const TextLinkStyles = styled.a<StyleProps>`
+const TextLinkStyles = styled.a<TextLinkStyleProps>`
   color: ${theme('fontLink_Color')};
 
   &:hover,

@@ -11,7 +11,8 @@
     "lint": "next lint",
     "lint:styles": "yarn stylelint \"**/*.{ts,tsx}\" --config ./.stylelintrcWithProcessor.js",
     "codegen": "graphql-codegen --config codegen.yml",
-    "subsetFont": "node ./subsetFont.js"
+    "subsetFont": "node ./subsetFont.js",
+    "subsetIcons": "node ./subsetIcons.js"
   },
   "dependencies": {
     "@apollo/client": "^3.4.8",
@@ -40,6 +41,7 @@
     "@types/styled-components": "^5.1.12",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "babel-plugin-styled-components": "^1.13.2",
+    "bootstrap-icons": "^1.5.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1",
@@ -47,6 +49,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-webpack-plugin": "^3.0.1",
+    "fantasticon": "^1.2.2",
     "http-server": "^13.0.1",
     "node-jose-tools": "^1.6.28",
     "prettier": "^2.3.2",
