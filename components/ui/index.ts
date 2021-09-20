@@ -1,6 +1,7 @@
 export * from 'components/ui/button'
 export * from 'components/ui/emoji'
 export * from 'components/ui/middot'
+export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
 
 export * from 'components/ui/icon/icon'

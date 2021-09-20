@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { signIn } from 'next-auth/client'
-import { LandingStyles } from './styles'
+import { LandingStyles } from 'components/landing/styles'
 
 import {
   Emoji,
@@ -13,6 +13,7 @@ import {
   TextSecondary,
   TextLink,
   Button,
+  NextImgWrapper,
 } from 'components/ui'
 
 export const Landing = (): JSX.Element => {
@@ -49,13 +50,17 @@ export const Landing = (): JSX.Element => {
       <div className='right-column'>
         <div className='mobile-preview'>
           <div className='mobile-content'>
-            <Image
-              src='/mobileContent.jpeg'
-              alt='Gitstagram photo sharing app'
-              layout='fill'
-            />
+            <NextImgWrapper>
+              <Image
+                src='/mobileContent.jpeg'
+                alt='Gitstagram photo sharing app'
+                layout='fill'
+              />
+            </NextImgWrapper>
           </div>
-          <Image src='/mobileFrame.png' alt='iPhone frame' layout='fill' />
+          <NextImgWrapper>
+            <Image src='/mobileFrame.png' alt='iPhone frame' layout='fill' />
+          </NextImgWrapper>
         </div>
         <Panel className='login-panel'>
           <TextAttn className='explain-title'>How it works:</TextAttn>

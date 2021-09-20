@@ -1,7 +1,7 @@
 import { keys } from 'helpers'
 
 export const baseSize = 16
-export const maxWidth = 1000 / baseSize
+export const maxWidth = 900 / baseSize
 
 const defaultFontFamily = [
   'system-ui',
@@ -104,6 +104,24 @@ export const borderRads = {
   radFull: '50%',
 }
 
+export const transitionSpeeds = {
+  trans150: 150,
+}
+
+export const iconSizes = {
+  icn16: 16 / baseSize,
+  icn20: 20 / baseSize,
+}
+
+type IconSizesMembers = {
+  [K in keyof typeof iconSizes]: string
+}
+
+export const iconSizesRem = keys(iconSizes).reduce((acc, key) => {
+  acc[key] = `${iconSizes[key]}rem`
+  return acc
+}, {} as Record<string, string>) as IconSizesMembers
+
 export const sizes = {
   sz4: 4 / baseSize,
   sz8: 8 / baseSize,
@@ -112,6 +130,7 @@ export const sizes = {
   sz24: 24 / baseSize,
   sz32: 32 / baseSize,
   sz48: 48 / baseSize,
+  sz56: 56 / baseSize,
   sz64: 64 / baseSize,
   sz96: 96 / baseSize,
   sz128: 128 / baseSize,

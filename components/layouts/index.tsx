@@ -1,5 +1,7 @@
 import React, { PropsWithChildren, ReactNode } from 'react'
 import { useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
+import { HOME } from 'routes'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
@@ -26,11 +28,15 @@ const LayoutStyles = styled.div`
 export const DefaultLayout = ({
   children,
 }: PropsWithChildren<ReactNode>): JSX.Element => {
+  const router = useRouter()
   const [session] = useSession()
+
+  const isHome = router.pathname === HOME
+  const showHeader = session || (!session && !isHome)
 
   return (
     <LayoutStyles>
-      {session && <Header />}
+      {showHeader && <Header />}
       <main>{children}</main>
       <Footer />
     </LayoutStyles>

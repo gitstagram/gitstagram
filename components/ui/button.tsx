@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import styled, { css } from 'styled-components'
+import { Button as ReakitButton } from 'reakit/Button'
 import { theme } from 'styles/themes'
 
 interface ButtonStyleProps {
@@ -11,7 +12,7 @@ interface ButtonProps extends IComponentProps, ButtonStyleProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const ButtonStyles = styled.button<ButtonStyleProps>`
+const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
   color: ${theme('fontButton_Color')};
   border: none;
   border-radius: ${theme('rounded_BorderRadius')};

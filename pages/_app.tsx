@@ -5,6 +5,7 @@ import type { Session } from 'next-auth'
 import { Provider } from 'next-auth/client'
 import { ApolloProvider } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
+import { Provider as ReakitProvider } from 'reakit'
 
 import { GlobalStyles } from 'styles/global'
 import 'sanitize.css'
@@ -38,23 +39,25 @@ interface PageProps {
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
     <Provider session={(pageProps as PageProps).session}>
-      <GlobalStyles />
-      <Head>
-        <title>Gitstagram</title>
-        <meta name='description' content='Gitstagram' />
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1, viewport-fit=cover'
-        />
-        <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <DefaultLayout>
-        <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </DefaultLayout>
-      <ToastContainer />
+      <ReakitProvider>
+        <GlobalStyles />
+        <Head>
+          <title>Gitstagram</title>
+          <meta name='description' content='Gitstagram' />
+          <meta
+            name='viewport'
+            content='width=device-width, initial-scale=1, viewport-fit=cover'
+          />
+          <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+        <DefaultLayout>
+          <ApolloProvider client={apolloClient}>
+            <Component {...pageProps} />
+          </ApolloProvider>
+        </DefaultLayout>
+        <ToastContainer />
+      </ReakitProvider>
     </Provider>
   )
 }

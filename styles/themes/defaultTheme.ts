@@ -10,7 +10,10 @@ const viewPorts = {
 
 const backgrounds = {
   root_Bg: `radial-gradient(ellipse at right bottom, ${sys.monos.mc600}, ${sys.monos.mc800})`,
+  nav_Bg: sys.monos.mc800,
   base_BgColor: sys.monos.mc700,
+  base_BgColor__Hover: sys.monos.mc500,
+  base_BgColor__Active: sys.monos.mc600,
 }
 
 const boxShadows = {
@@ -27,7 +30,9 @@ const fonts = {
 
   fontLogo_Family: sys.fontFamilies.logo,
   fontLogo_FontSize: `${sys.fontSizes.fs60}rem`,
+  fontLogo_FontSize__Small: `${sys.fontSizes.fs36}rem`,
   fontLogo_Color: sys.monos.mc000,
+  fontLogo_Color__Emboss: sys.monos.mc300,
   fontLogo_LetterSpacing: `-${sys.letterSpacings.ls2}rem`,
 
   fontHero_FontSize: `${sys.fontSizes.fs30}rem`,
@@ -66,6 +71,22 @@ const intentionColors = {
   intentSuccess_Color__Active: sys.colors.green600,
 }
 
+const iconColors = {
+  iconNav_Color: sys.monos.mc300,
+  iconNav_Color__Hover: sys.monos.mc200,
+  iconNav_Color__Active: sys.monos.mc400,
+}
+
+const opacityAnimate = `opacity ${sys.transitionSpeeds.trans150}ms ease-in-out`
+const transformAnimate = `transform ${sys.transitionSpeeds.trans150}ms ease-in-out`
+
+const transitions = {
+  trans_Speed: `${sys.transitionSpeeds.trans150}`,
+  trans_Opacity: opacityAnimate,
+  trans_Transform: transformAnimate,
+  trans_OpacityTransform: `${opacityAnimate}, ${transformAnimate}`,
+}
+
 const roundedRadius = {
   roundedNone: `${sys.borderRads.rad0}px`,
   roundedSmall_BorderRadius: `${sys.borderRads.rad4}px`,
@@ -75,11 +96,14 @@ const roundedRadius = {
 }
 
 export const defaultTheme = {
+  ...sys.iconSizesRem,
   ...sys.sizesRem,
   ...viewPorts,
   ...backgrounds,
   ...boxShadows,
   ...fonts,
   ...intentionColors,
+  ...iconColors,
+  ...transitions,
   ...roundedRadius,
 }
