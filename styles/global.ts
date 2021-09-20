@@ -30,4 +30,11 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${theme('font_FontFamily')};
     background: ${theme('root_Bg')};
   }
+
+  /* stylelint-disable */
+  /* focus-visible polyfill */
+  *:focus:not(.focus-visible) {
+    outline: none;
+  }
+  /* stylelint-enable */
 `

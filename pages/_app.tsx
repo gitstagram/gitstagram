@@ -13,6 +13,8 @@ import 'sanitize.css/forms.css'
 import 'sanitize.css/typography.css'
 import 'styles/bootstrapIconsSubset.css'
 
+import 'focus-visible/dist/focus-visible.min.js'
+
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
