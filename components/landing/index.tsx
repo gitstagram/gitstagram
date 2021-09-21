@@ -82,8 +82,8 @@ export const Landing = (): JSX.Element => {
           </TextLink>
           <Button
             className='login'
-            $variant='large'
-            $intent='success'
+            variant='large'
+            intent='success'
             onClick={handleLogin}
           >
             Login with Github

@@ -3,6 +3,6 @@ import styled from 'styled-components'
 
 const TextStyles = styled.p``
 
-export const Text: FC<IComponentProps> = ({ children, ...props }) => {
+export const Text: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextStyles {...props}>{children}</TextStyles>
 }

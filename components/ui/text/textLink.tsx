@@ -22,7 +22,7 @@ type ConditionalProps =
       href?: never
     }
 
-type TextLinkProps = IComponentProps &
+type TextLinkProps = ComponentProps &
   Omit<LinkProps, 'as' | 'href' | 'passHref'> &
   ConditionalProps &
   TextLinkStyleProps

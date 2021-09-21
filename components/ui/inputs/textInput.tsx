@@ -71,7 +71,7 @@ export const TextInput = ({
   onChange,
   clearable = false,
   ...props
-}: IInputProps<string>): JSX.Element => {
+}: InputProps<string>): JSX.Element => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [value, setValue] = useState<string>(initialValue)
 
@@ -93,7 +93,7 @@ export const TextInput = ({
     <TextInputStyles {...props}>
       {hasPlaceholder && !value && (
         <span className='placeholder'>
-          {placeholderIcon && <Icon {...placeholderIcon} $size={12} />}
+          {placeholderIcon && <Icon {...placeholderIcon} size={12} />}
           {placeholderText}
         </span>
       )}
@@ -109,9 +109,9 @@ export const TextInput = ({
         <Button
           className='clear-input'
           onClick={handleClear}
-          $variant={{
+          variant={{
             icon: 'x-lg',
-            $size: 12,
+            size: 12,
             ariaLabel: `Clear ${name} input`,
           }}
         />

@@ -5,16 +5,18 @@ import { Icon, IconProps } from 'components/ui/icon/icon'
 import { theme } from 'styles/themes'
 
 interface ButtonStyleProps {
-  $intent?: 'success'
-  $variant?: 'large' | IconProps
-  $isIconButton?: boolean
+  intent?: 'success'
+  variant?: 'large' | IconProps
+  isIconButton?: boolean
 }
 
-interface ButtonProps extends IComponentProps, ButtonStyleProps {
+interface ButtonProps extends ComponentProps, ButtonStyleProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
+const ButtonStyles = styled(ReakitButton).withConfig({
+  shouldForwardProp: (prop) => !['isIconButton'].includes(prop),
+})<ButtonStyleProps>`
   padding: ${theme('sz4')} ${theme('sz12')};
   color: ${theme('fontButton_Color')};
   font-weight: bold;
@@ -33,15 +35,15 @@ const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
     background-color: ${theme('intentPrimary_Color__Active')};
   }
 
-  ${({ $variant }) =>
-    $variant === 'large' &&
+  ${({ variant }) =>
+    variant === 'large' &&
     css`
       padding: ${theme('sz16')} ${theme('sz32')};
       font-weight: normal;
     `}
 
-  ${({ $isIconButton }) =>
-    $isIconButton &&
+  ${({ isIconButton }) =>
+    isIconButton &&
     css`
       height: fit-content;
       padding: ${theme('sz4')};
@@ -63,8 +65,8 @@ const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
       }
     `}
 
-  ${({ $intent }) =>
-    $intent === 'success' &&
+  ${({ intent }) =>
+    intent === 'success' &&
     css`
       background-color: ${theme('intentSuccess_Color')};
 
@@ -78,9 +80,9 @@ const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
       }
     `}
 
-  ${({ $isIconButton, $intent }) =>
-    $isIconButton &&
-    $intent === 'success' &&
+  ${({ isIconButton, intent }) =>
+    isIconButton &&
+    intent === 'success' &&
     css`
       color: ${theme('intentSuccess_Color')};
 
@@ -95,12 +97,12 @@ const ButtonStyles = styled(ReakitButton)<ButtonStyleProps>`
     `}
 `
 
-export const Button: FC<ButtonProps> = ({ children, $variant, ...props }) => {
-  const isIconButton = !!(typeof $variant === 'object' && $variant?.icon)
+export const Button: FC<ButtonProps> = ({ children, variant, ...props }) => {
+  const isIconButton = !!(typeof variant === 'object' && variant?.icon)
 
   return (
-    <ButtonStyles $variant={$variant} $isIconButton={isIconButton} {...props}>
-      {isIconButton ? <Icon {...$variant} /> : children}
+    <ButtonStyles variant={variant} isIconButton={isIconButton} {...props}>
+      {isIconButton ? <Icon {...variant} /> : children}
     </ButtonStyles>
   )
 }

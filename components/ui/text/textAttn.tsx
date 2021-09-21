@@ -9,6 +9,6 @@ const TextAttnStyles = styled.p`
   text-transform: uppercase;
 `
 
-export const TextAttn: FC<IComponentProps> = ({ children, ...props }) => {
+export const TextAttn: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextAttnStyles {...props}>{children}</TextAttnStyles>
 }

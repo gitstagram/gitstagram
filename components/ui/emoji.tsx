@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 
-interface EmojiProps extends IComponentProps {
+interface EmojiProps extends ComponentProps {
   emoji: string
   ariaLabel: string
 }

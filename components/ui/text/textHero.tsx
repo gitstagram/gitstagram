@@ -7,6 +7,6 @@ const TextHeroStyles = styled.h1`
   font-size: ${theme('fontHero_FontSize')};
 `
 
-export const TextHero: FC<IComponentProps> = ({ children, ...props }) => {
+export const TextHero: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextHeroStyles {...props}>{children}</TextHeroStyles>
 }

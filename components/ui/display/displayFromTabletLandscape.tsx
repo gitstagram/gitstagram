@@ -12,7 +12,7 @@ const DisplayFromTabletLandscapeStyles = styled.div`
   }
 `
 
-export const DisplayFromTabletLandscape: FC<IComponentProps> = ({
+export const DisplayFromTabletLandscape: FC<ComponentProps> = ({
   children,
   ...props
 }) => {

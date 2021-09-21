@@ -67,16 +67,11 @@ export const Header = (): JSX.Element => {
   const rightContent = session ? (
     <>
       <DisplayUntilTabletLandscape>
-        <Icon
-          $clickable
-          className='nav-icon'
-          icon='search'
-          ariaLabel='Search'
-        />
+        <Icon clickable className='nav-icon' icon='search' ariaLabel='Search' />
       </DisplayUntilTabletLandscape>
       <DisplayFromTabletLandscape>
         <Icon
-          $clickable
+          clickable
           className='nav-icon'
           icon='camera'
           ariaLabel='Add a photo'
@@ -84,7 +79,7 @@ export const Header = (): JSX.Element => {
         <Link href={HOME} passHref>
           <a>
             <Icon
-              $clickable
+              clickable
               className='nav-icon'
               icon='house-door'
               ariaLabel='Home'

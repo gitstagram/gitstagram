@@ -7,6 +7,6 @@ const TextSecondaryStyles = styled.p`
   font-weight: bold;
 `
 
-export const TextSecondary: FC<IComponentProps> = ({ children, ...props }) => {
+export const TextSecondary: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextSecondaryStyles {...props}>{children}</TextSecondaryStyles>
 }

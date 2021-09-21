@@ -39,7 +39,7 @@ const TextLogoStyles = styled.h1<TextLogoStyleProps>`
     `}
 `
 
-interface TextLogoProps extends IComponentProps, TextLogoStyleProps {
+interface TextLogoProps extends ComponentProps, TextLogoStyleProps {
   href?: Url
 }
 

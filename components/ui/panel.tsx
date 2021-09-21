@@ -9,6 +9,6 @@ const PanelStyles = styled.div`
   box-shadow: ${theme('panel_BoxShadow')};
 `
 
-export const Panel: FC<IComponentProps> = ({ children, ...props }) => {
+export const Panel: FC<ComponentProps> = ({ children, ...props }) => {
   return <PanelStyles {...props}>{children}</PanelStyles>
 }

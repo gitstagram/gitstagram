@@ -9,7 +9,7 @@ const DisplayUntilTabletLandscapeStyles = styled.div`
   }
 `
 
-export const DisplayUntilTabletLandscape: FC<IComponentProps> = ({
+export const DisplayUntilTabletLandscape: FC<ComponentProps> = ({
   children,
   ...props
 }) => {

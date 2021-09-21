@@ -1,6 +1,6 @@
 type IconProps = import('components/ui/icon/icon').IconProps
 
-declare interface IComponentProps {
+declare interface ComponentProps {
   className?: string
   children?: React.ReactNode
   as?: keyof React.ReactHTML
@@ -13,7 +13,7 @@ type InputChangeHandler<T> = (
   event: React.ChangeEvent<HTMLInputElement>
 ) => void
 
-declare interface IInputProps<T> extends IComponentProps {
+declare interface InputProps<T> extends ComponentProps {
   id: string
   name: string
   initialValue: T

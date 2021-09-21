@@ -7,6 +7,6 @@ const TextCodeStyles = styled.code`
   background-color: ${theme('fontCode_BgColor')};
 `
 
-export const TextCode: FC<IComponentProps> = ({ children, ...props }) => {
+export const TextCode: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextCodeStyles {...props}>`{children}`</TextCodeStyles>
 }

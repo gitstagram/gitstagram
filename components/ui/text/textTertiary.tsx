@@ -7,6 +7,6 @@ const TextTertiaryStyles = styled.p`
   font-size: ${theme('fontTertiary_FontSize')};
 `
 
-export const TextTertiary: FC<IComponentProps> = ({ children, ...props }) => {
+export const TextTertiary: FC<ComponentProps> = ({ children, ...props }) => {
   return <TextTertiaryStyles {...props}>{children}</TextTertiaryStyles>
 }

@@ -7,6 +7,6 @@ const MiddotStyles = styled.span`
   margin-left: ${theme('sz12')};
 `
 
-export const Middot: FC<IComponentProps> = ({ ...props }) => {
+export const Middot: FC<ComponentProps> = ({ ...props }) => {
   return <MiddotStyles {...props}>&middot;</MiddotStyles>
 }
