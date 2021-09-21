@@ -24,6 +24,6 @@ module.exports = {
     // conflicts with prop activated selectors
     'no-duplicate-selectors': null,
     // conflicts with JS style function name cases
-    'function-name-case': ['/^theme.*$/'],
+    'function-name-case': null,
   },
 }

@@ -19,5 +19,7 @@ module.exports = {
     'no-console': 'warn',
     // Allows template interpolation with styled-components
     '@typescript-eslint/restrict-template-expressions': 'off',
+    // Next link needs empty <a></a> wrappers
+    'jsx-a11y/anchor-is-valid': 'off',
   },
 }

@@ -61,10 +61,15 @@ const fonts = {
 
   fontCode_BgColor: `${sys.monos.mc000}`,
   fontCode_Color: `${sys.monos.mc900}`,
+
+  fontPlaceholder_Color: `${sys.monos.mc300}`,
+  fontPlaceholder_FontSize: `${sys.fontSizes.fs14}`,
 }
 
 const intentionColors = {
   intentPrimary_Color: sys.colors.yellow400,
+  intentPrimary_Color__Hover: sys.colors.yellow300,
+  intentPrimary_Color__Active: sys.colors.yellow500,
 
   intentSuccess_Color: sys.colors.green500,
   intentSuccess_Color__Hover: sys.colors.green400,
@@ -75,6 +80,16 @@ const iconColors = {
   iconNav_Color: sys.monos.mc300,
   iconNav_Color__Hover: sys.monos.mc200,
   iconNav_Color__Active: sys.monos.mc400,
+
+  iconInput_Color: sys.monos.mc200,
+  iconInput_Color__Hover: sys.monos.mc000,
+  iconInput_Color__Active: sys.monos.mc300,
+}
+
+const borderColors = {
+  input_BorderColor: sys.monos.mc500,
+  input_BorderColor__Hover: sys.monos.mc400,
+  input_BorderColor__Focus: sys.monos.mc300,
 }
 
 const opacityAnimate = `opacity ${sys.transitionSpeeds.trans150}ms ease-in-out`
@@ -104,6 +119,7 @@ export const defaultTheme = {
   ...fonts,
   ...intentionColors,
   ...iconColors,
+  ...borderColors,
   ...transitions,
   ...roundedRadius,
 }

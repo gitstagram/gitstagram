@@ -4,7 +4,12 @@ export * from 'components/ui/middot'
 export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
 
+export * from 'components/ui/display/displayFromTabletLandscape'
+export * from 'components/ui/display/displayUntilTabletLandscape'
+
 export * from 'components/ui/icon/icon'
+
+export * from 'components/ui/inputs/textInput'
 
 export * from 'components/ui/text/text'
 export * from 'components/ui/text/textAttn'

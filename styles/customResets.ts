@@ -68,4 +68,11 @@ export const customResets = css`
   figcaption {
     max-width: 60ch;
   }
+
+  /**
+  * Sanitize.css overwrites
+  */
+  button {
+    padding: 0;
+  }
 `

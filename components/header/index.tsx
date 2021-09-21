@@ -3,8 +3,16 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/client'
 import styled from 'styled-components'
-import { TextLogo, TextLink, Icon } from 'components/ui'
+import {
+  TextLogo,
+  TextLink,
+  Icon,
+  Button,
+  DisplayFromTabletLandscape,
+  DisplayUntilTabletLandscape,
+} from 'components/ui'
 import { ProfileMenu } from 'components/header/profileMenu'
+import { SearchBox } from 'components/header/searchBox'
 import { HOME } from 'routes'
 import { theme } from 'styles/themes'
 
@@ -23,13 +31,18 @@ const HeaderStyles = styled.header`
     margin-left: auto;
   }
 
-  .auth-content {
+  .sign-up {
+    margin-left: ${theme('sz12')};
+  }
+
+  .right-content {
+    position: inherit;
     display: flex;
     align-items: center;
   }
 
   .nav-icon {
-    margin-right: ${theme('sz12')};
+    margin-right: ${theme('sz16')};
     color: ${theme('iconNav_Color')};
 
     &:hover,
@@ -51,26 +64,50 @@ export const Header = (): JSX.Element => {
     void signIn('github')
   }
 
-  const authenticatedContent = session ? (
+  const rightContent = session ? (
     <>
-      <Link href={HOME} passHref>
+      <DisplayUntilTabletLandscape>
         <Icon
-          as='a'
-          clickable
+          $clickable
           className='nav-icon'
-          icon='house-door'
-          ariaLabel='Home'
-          filled={router.pathname === HOME}
+          icon='search'
+          ariaLabel='Search'
         />
-      </Link>
-      <ProfileMenu />
+      </DisplayUntilTabletLandscape>
+      <DisplayFromTabletLandscape>
+        <Icon
+          $clickable
+          className='nav-icon'
+          icon='camera'
+          ariaLabel='Add a photo'
+        />
+        <Link href={HOME} passHref>
+          <a>
+            <Icon
+              $clickable
+              className='nav-icon'
+              icon='house-door'
+              ariaLabel='Home'
+              filled={router.pathname === HOME}
+            />
+          </a>
+        </Link>
+        <ProfileMenu />
+      </DisplayFromTabletLandscape>
     </>
   ) : (
     <>
-      <button onClick={handleLogin}>Login with Github</button>
-      <TextLink external href='https://github.com/signup'>
-        Sign Up
-      </TextLink>
+      <Button onClick={handleLogin}>Log In</Button>
+      <DisplayFromTabletLandscape>
+        <TextLink
+          className='sign-up'
+          boldened
+          external
+          href='https://github.com/signup'
+        >
+          Sign Up
+        </TextLink>
+      </DisplayFromTabletLandscape>
     </>
   )
 
@@ -80,7 +117,10 @@ export const Header = (): JSX.Element => {
         <TextLogo size='small' href={HOME}>
           Gitstagram
         </TextLogo>
-        <div className='auth-content'>{authenticatedContent}</div>
+        <DisplayFromTabletLandscape>
+          <SearchBox />
+        </DisplayFromTabletLandscape>
+        <div className='right-content'>{rightContent}</div>
       </nav>
     </HeaderStyles>
   )

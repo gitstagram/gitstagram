@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import { theme } from 'styles/themes'
 
 type Url = string | UrlObject
-type TextLinkStyleProps = { deemph?: boolean }
+type TextLinkStyleProps = { deemph?: boolean; boldened?: boolean }
 
 type ConditionalProps =
   | { external: true; as?: never; onClick?: never; href: string }
@@ -53,6 +53,13 @@ const TextLinkStyles = styled.a<TextLinkStyleProps>`
       &:active {
         color: ${theme('fontLink_Color__Deemph_Active')};
       }
+    `}
+
+  ${({ boldened }) =>
+    boldened &&
+    css`
+      font-weight: bold;
+      text-decoration: none;
     `}
 `
 

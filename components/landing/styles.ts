@@ -26,10 +26,6 @@ export const LandingStyles = styled.div`
     }
   }
 
-  .mobile-preview {
-    display: none;
-  }
-
   .login-panel {
     max-width: ${theme('sz512')};
     margin-right: auto;

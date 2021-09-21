@@ -57,11 +57,11 @@ export const ProfileMenu = (): JSX.Element => {
       <Menu {...menu} aria-label='Profile menu'>
         <div className='profile-menu-items'>
           <MenuItem {...menu} as='a' href='#' onClick={menu.hide}>
-            <Icon icon='person' size={16} ariaLabel='Profile page icon' />
+            <Icon icon='person' $size={16} ariaHidden />
             Profile
           </MenuItem>
           <MenuItem {...menu} as='a' href='#' onClick={menu.hide}>
-            <Icon icon='gear' size={16} ariaLabel='Settings page icon' />
+            <Icon icon='gear' $size={16} ariaHidden />
             Settings
           </MenuItem>
           <MenuSeparator {...menu} />

@@ -14,6 +14,7 @@ import {
   TextLink,
   Button,
   NextImgWrapper,
+  DisplayFromTabletLandscape,
 } from 'components/ui'
 
 export const Landing = (): JSX.Element => {
@@ -48,7 +49,7 @@ export const Landing = (): JSX.Element => {
         </ul>
       </div>
       <div className='right-column'>
-        <div className='mobile-preview'>
+        <DisplayFromTabletLandscape className='mobile-preview'>
           <div className='mobile-content'>
             <NextImgWrapper>
               <Image
@@ -61,7 +62,7 @@ export const Landing = (): JSX.Element => {
           <NextImgWrapper>
             <Image src='/mobileFrame.png' alt='iPhone frame' layout='fill' />
           </NextImgWrapper>
-        </div>
+        </DisplayFromTabletLandscape>
         <Panel className='login-panel'>
           <TextAttn className='explain-title'>How it works:</TextAttn>
           <ul className='explain-list'>
@@ -79,7 +80,12 @@ export const Landing = (): JSX.Element => {
           >
             Need an account? Sign up
           </TextLink>
-          <Button className='login' type='large' onClick={handleLogin}>
+          <Button
+            className='login'
+            $variant='large'
+            $intent='success'
+            onClick={handleLogin}
+          >
             Login with Github
           </Button>
         </Panel>

@@ -9,11 +9,11 @@ export const ProfileMenuStyles = styled.div`
     width: ${theme('sz32')};
     height: ${theme('sz32')};
     border: 1px solid ${theme('iconNav_Color')};
-    border-radius: 50%;
+    border-radius: ${theme('roundedCircle_BorderRadius')};
   }
 
   .profile-image {
-    border-radius: 50%;
+    border-radius: ${theme('roundedCircle_BorderRadius')};
   }
 
   .placeholder-wrapper {
@@ -23,7 +23,7 @@ export const ProfileMenuStyles = styled.div`
     width: ${theme('sz32')};
     height: ${theme('sz32')};
     border: 1px solid ${theme('iconNav_Color__Hover')};
-    border-radius: 50%;
+    border-radius: ${theme('roundedCircle_BorderRadius')};
   }
 
   .profile-placeholder {
@@ -100,10 +100,11 @@ export const ProfileMenuStyles = styled.div`
   }
 
   .logout-button {
+    padding-top: ${theme('sz8')};
     padding-bottom: ${theme('sz8')};
     border: none;
-    border-radius: 0 0 ${theme('rounded_BorderRadius')}
-      ${theme('rounded_BorderRadius')};
+    border-radius: ${theme('roundedNone')} ${theme('roundedNone')}
+      ${theme('rounded_BorderRadius')} ${theme('rounded_BorderRadius')};
     cursor: pointer;
 
     &:hover,
