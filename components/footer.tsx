@@ -10,7 +10,6 @@ const FooterStyles = styled.footer`
 
   .footer-text {
     position: relative;
-    z-index: 1;
   }
 
   .shape {
@@ -39,7 +38,6 @@ const FooterStyles = styled.footer`
 export const Footer = (): JSX.Element => {
   return (
     <FooterStyles>
-      <div className='footer-text'>Gitstagram, {new Date().getFullYear()}</div>
       <div className='shape'>
         <svg
           data-name='Layer 1'
@@ -63,6 +61,7 @@ export const Footer = (): JSX.Element => {
           ></path>
         </svg>
       </div>
+      <div className='footer-text'>Gitstagram, {new Date().getFullYear()}</div>
     </FooterStyles>
   )
 }

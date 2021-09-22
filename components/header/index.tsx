@@ -76,7 +76,7 @@ export const Header = (): JSX.Element => {
           icon='camera'
           ariaLabel='Add a photo'
         />
-        <Link href={HOME} passHref>
+        <Link href={HOME}>
           <a>
             <Icon
               clickable

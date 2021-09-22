@@ -11,6 +11,10 @@ export * from 'components/ui/icon/icon'
 
 export * from 'components/ui/inputs/textInput'
 
+export * from 'components/ui/menu/menu'
+export * from 'components/ui/menu/menuItem'
+export * from 'components/ui/menu/menuSeparator'
+
 export * from 'components/ui/text/text'
 export * from 'components/ui/text/textAttn'
 export * from 'components/ui/text/textCode'

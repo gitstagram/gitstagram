@@ -1,17 +1,23 @@
 import React from 'react'
-import Image from 'next/image'
+import Link from 'next/link'
 import { signOut, useSession } from 'next-auth/client'
-import {
-  Menu,
-  MenuArrow,
-  MenuItem,
-  MenuButton,
-  MenuSeparator,
-  useMenuState,
-} from 'reakit/Menu'
-import { NextImgWrapper, Icon } from 'components/ui'
-import { ProfileMenuStyles } from 'components/header/profileMenuStyles'
+import styled from 'styled-components'
+import { MenuButton, useMenuState } from 'reakit/Menu'
+import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
+import { ProfileIcon } from 'components/profileIcon'
 import { themeProp } from 'styles/themes'
+
+const ProfileMenuStyles = styled.div`
+  display: flex;
+
+  .profile-menu-button {
+    border: none;
+  }
+
+  .logout {
+    justify-content: center;
+  }
+`
 
 export const ProfileMenu = (): JSX.Element => {
   const [session] = useSession()
@@ -26,50 +32,32 @@ export const ProfileMenu = (): JSX.Element => {
     void signOut()
   }
 
-  const MenuButtonContent = session?.user?.image ? (
-    <div className='profile'>
-      <NextImgWrapper>
-        <Image
-          className='profile-image'
-          unoptimized
-          src={session.user.image}
-          layout='fill'
-          alt={`${session.user.name}'s avatar`}
-        />
-      </NextImgWrapper>
-    </div>
-  ) : (
-    <div className='placeholder-wrapper'>
-      <Icon
-        className='profile-placeholder'
-        icon='person'
-        ariaLabel='Profile image placeholder'
-        filled
-      />
-    </div>
-  )
-
   return session?.user ? (
     <ProfileMenuStyles>
       <MenuButton {...menu} className='profile-menu-button'>
-        {MenuButtonContent}
+        <ProfileIcon />
       </MenuButton>
       <Menu {...menu} aria-label='Profile menu'>
-        <div className='profile-menu-items'>
-          <MenuItem {...menu} as='a' href='#' onClick={menu.hide}>
-            <Icon icon='person' size={16} ariaHidden />
-            Profile
-          </MenuItem>
-          <MenuItem {...menu} as='a' href='#' onClick={menu.hide}>
-            <Icon icon='gear' size={16} ariaHidden />
-            Settings
-          </MenuItem>
-          <MenuSeparator {...menu} />
-          <MenuItem {...menu} className='logout-button' onClick={handleLogout}>
-            Logout
-          </MenuItem>
-          <MenuArrow {...menu} className='profile-menu-arrow' />
-        </div>
+        <MenuItem {...menu} as='div' onClick={menu.hide}>
+          <Link href='#'>
+            <a>
+              <Icon icon='person' size={16} ariaHidden />
+              Profile
+            </a>
+          </Link>
+        </MenuItem>
+        <MenuItem {...menu} as='div' onClick={menu.hide}>
+          <Link href='#'>
+            <a>
+              <Icon icon='gear' size={16} ariaHidden />
+              Settings
+            </a>
+          </Link>
+        </MenuItem>
+        <MenuSeparator {...menu} />
+        <MenuItem {...menu} className='logout' onClick={handleLogout}>
+          Logout
+        </MenuItem>
       </Menu>
     </ProfileMenuStyles>
   ) : (
