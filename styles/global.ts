@@ -17,7 +17,8 @@ export const GlobalStyles = createGlobalStyle`
 
   @font-face {
     font-family: 'Cookie';
-    src: url('/cookieSubset.ttf');
+    src: url('/cookieSubset.ttf') format('woff');
+    font-display: fallback;
   }
 
   :root {
