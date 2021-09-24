@@ -4,9 +4,11 @@ import { Button as ReakitButton } from 'reakit/Button'
 import { Icon, IconProps } from 'components/ui/icon/icon'
 import { theme } from 'styles/themes'
 
+type ButtonVariants = 'large' | IconProps | undefined
+
 interface ButtonStyleProps {
   intent?: 'success'
-  variant?: 'large' | IconProps
+  variant?: ButtonVariants
   isIconButton?: boolean
 }
 
@@ -97,12 +99,18 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     `}
 `
 
-export const Button: FC<ButtonProps> = ({ children, variant, ...props }) => {
-  const isIconButton = !!(typeof variant === 'object' && variant?.icon)
+function isIconVariant(variant: ButtonVariants): variant is IconProps {
+  return !!(variant && typeof variant === 'object' && variant?.icon)
+}
 
+export const Button: FC<ButtonProps> = ({ children, variant, ...props }) => {
   return (
-    <ButtonStyles variant={variant} isIconButton={isIconButton} {...props}>
-      {isIconButton ? <Icon {...variant} /> : children}
+    <ButtonStyles
+      variant={variant}
+      isIconButton={isIconVariant(variant)}
+      {...props}
+    >
+      {isIconVariant(variant) ? <Icon {...variant} /> : children}
     </ButtonStyles>
   )
 }
