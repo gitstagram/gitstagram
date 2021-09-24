@@ -8,8 +8,13 @@ const viewPorts = {
   media_Desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
 }
 
+const rootGradientColor1 = sys.monos.mc600
+const rootGradientColor2 = sys.monos.mc800
+
 const backgrounds = {
-  root_Bg: `radial-gradient(ellipse at right bottom, ${sys.monos.mc600}, ${sys.monos.mc800})`,
+  root_Bg__Gradient1: rootGradientColor1,
+  root_Bg__Gradient2: rootGradientColor2,
+  root_Bg: `radial-gradient(ellipse at right bottom, ${rootGradientColor1}, ${rootGradientColor2})`,
   nav_Bg: sys.monos.mc800,
   base_BgColor: sys.monos.mc700,
   base_BgColor__Hover: sys.monos.mc500,

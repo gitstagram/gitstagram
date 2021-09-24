@@ -5,6 +5,7 @@ import { HOME } from 'routes'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
+import { Overlay } from 'components/overlay'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
 
@@ -29,7 +30,7 @@ export const DefaultLayout = ({
   children,
 }: PropsWithChildren<ReactNode>): JSX.Element => {
   const router = useRouter()
-  const [session] = useSession()
+  const [session, loading] = useSession()
 
   const isHome = router.pathname === HOME
   const showHeader = session || (!session && !isHome)
@@ -39,6 +40,7 @@ export const DefaultLayout = ({
       {showHeader && <Header />}
       <main>{children}</main>
       <Footer />
+      <Overlay loading={loading} />
     </LayoutStyles>
   )
 }
