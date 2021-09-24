@@ -58,10 +58,12 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     top: 50%;
     right: ${theme('sz12')};
     transform: translate(0, -50%);
+    visibility: hidden;
     opacity: 0;
     transition: ${themeProp('trans_Opacity')};
 
     &.show-clear-input {
+      visibility: visible;
       opacity: 1;
     }
   }
@@ -95,20 +97,34 @@ function TextInputBase(
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const inputVal = e.currentTarget.value
     setValue(inputVal)
-    // enslint-disable-next-lie @typescript-eslint/no-unsafe-call
     onChange && onChange(`${inputVal}`, e)
   }
 
-  const handleClear: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+  const handleClear: React.EventHandler<React.SyntheticEvent> = (e) => {
     setValue('')
     onChange && onChange('', e)
     inputRef?.current?.focus()
   }
 
+  const handleKeyDown: React.KeyboardEventHandler<HTMLElement> = (e) => {
+    const target = e.target as HTMLButtonElement
+    const isConfirmKey = e.code === 'Enter' || e.code === 'Space'
+    const isClearInput =
+      target.tagName === 'BUTTON' &&
+      target.className.includes('clear-input') &&
+      isConfirmKey
+
+    if (isClearInput) {
+      handleClear(e)
+      e.preventDefault()
+    } else {
+      props?.onKeyDown && props.onKeyDown(e)
+    }
+  }
   const hasPlaceholder = !!(placeholderText || placeholderIcon)
 
   return (
-    <TextInputStyles {...props}>
+    <TextInputStyles {...props} onKeyDown={handleKeyDown}>
       {hasPlaceholder && !value && (
         <span className='placeholder'>
           {placeholderIcon && <Icon {...placeholderIcon} size={12} />}
@@ -122,10 +138,12 @@ function TextInputBase(
         value={value}
         className='text-input'
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
       {clearable && (
         <Button
           className={cn('clear-input', { 'show-clear-input': value })}
+          aria-hidden={!!value}
           onClick={handleClear}
           variant={{
             icon: 'x-lg',
