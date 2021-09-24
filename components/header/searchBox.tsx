@@ -8,7 +8,6 @@ export const SearchBox = (): JSX.Element => {
   const menu = useMenuState({
     animated: parseInt(themeProp('trans_Speed')),
     placement: 'bottom',
-    unstable_virtual: true,
   })
 
   const handleChange: InputChangeHandler<string> = (val) => {

@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react'
 import { Input } from 'reakit/Input'
 import { useForkRef } from 'reakit-utils'
 import styled, { css } from 'styled-components'
+import cn from 'classnames'
 import { Icon } from 'components/ui/icon/icon'
 import { Button } from 'components/ui/button'
-import { theme } from 'styles/themes'
+import { theme, themeProp } from 'styles/themes'
 
 interface TextInputStylesProps {
   placeholderPos?: PlaceholderPos
@@ -46,11 +47,23 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     }
   }
 
+  @media screen and (prefers-reduced-motion: reduce) {
+    .clear-input {
+      transition: none;
+    }
+  }
+
   .clear-input {
     position: absolute;
     top: 50%;
     right: ${theme('sz12')};
     transform: translate(0, -50%);
+    opacity: 0;
+    transition: ${themeProp('trans_Opacity')};
+
+    &.show-clear-input {
+      opacity: 1;
+    }
   }
 
   ${({ placeholderPos }) =>
@@ -110,9 +123,9 @@ function TextInputBase(
         className='text-input'
         onChange={handleChange}
       />
-      {clearable && value && (
+      {clearable && (
         <Button
-          className='clear-input'
+          className={cn('clear-input', { 'show-clear-input': value })}
           onClick={handleClear}
           variant={{
             icon: 'x-lg',
