@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Input } from 'reakit/Input'
+import { useForkRef } from 'reakit-utils'
 import styled, { css } from 'styled-components'
 import { Icon } from 'components/ui/icon/icon'
 import { Button } from 'components/ui/button'
@@ -62,16 +63,19 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     `}
 `
 
-export const TextInput = ({
-  id,
-  name,
-  initialValue = '',
-  placeholderText,
-  placeholderIcon,
-  onChange,
-  clearable = false,
-  ...props
-}: InputProps<string>): JSX.Element => {
+function TextInputBase(
+  {
+    id,
+    name,
+    initialValue = '',
+    placeholderText,
+    placeholderIcon,
+    onChange,
+    clearable = false,
+    ...props
+  }: InputProps<string>,
+  ref: React.Ref<HTMLInputElement> | undefined
+) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [value, setValue] = useState<string>(initialValue)
 
@@ -82,8 +86,9 @@ export const TextInput = ({
     onChange && onChange(`${inputVal}`, e)
   }
 
-  const handleClear = () => {
+  const handleClear: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     setValue('')
+    onChange && onChange('', e)
     inputRef?.current?.focus()
   }
 
@@ -98,7 +103,7 @@ export const TextInput = ({
         </span>
       )}
       <Input
-        ref={inputRef}
+        ref={useForkRef(inputRef, ref)}
         id={id}
         name={name}
         value={value}
@@ -119,3 +124,5 @@ export const TextInput = ({
     </TextInputStyles>
   )
 }
+
+export const TextInput = React.forwardRef(TextInputBase)

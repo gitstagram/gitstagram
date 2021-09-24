@@ -10,7 +10,9 @@ type InputStates = 'error' | 'success'
 type PlaceholderPos = 'left' | 'center'
 type InputChangeHandler<T> = (
   value: T,
-  event: React.ChangeEvent<HTMLInputElement>
+  event:
+    | React.ChangeEvent<HTMLInputElement>
+    | React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) => void
 
 declare interface InputProps<T> extends ComponentProps {
@@ -24,4 +26,8 @@ declare interface InputProps<T> extends ComponentProps {
   state?: InputStates
   clearable?: boolean
   onChange?: InputChangeHandler<T>
+  onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
+  ref?: React.ForwardedRef
+  type: string
+  role: string
 }

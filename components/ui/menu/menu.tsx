@@ -1,6 +1,10 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { Menu as ReakitMenu, MenuProps, MenuArrow } from 'reakit/Menu'
+import {
+  Menu as ReakitMenu,
+  MenuProps as ReakitMenuProps,
+  MenuArrow,
+} from 'reakit/Menu'
 import { theme, themeProp } from 'styles/themes'
 import { zIndicies } from 'components/ui/menu/zIndicies'
 
@@ -32,15 +36,19 @@ const MenuStyles = styled.div`
   }
 `
 
+type MenuProps = ReakitMenuProps & { ariaLabel: string; hasArrow?: boolean }
+
 export const Menu: FC<MenuProps> = ({
   children,
   className,
+  ariaLabel,
+  hasArrow = true,
   ...props
 }): JSX.Element => {
   return (
-    <ReakitMenu className={className} {...props}>
+    <ReakitMenu className={className} aria-label={ariaLabel} {...props}>
       <MenuStyles>
-        <MenuArrow {...props} className='menu-arrow' />
+        {hasArrow && <MenuArrow {...props} className='menu-arrow' />}
         {children}
       </MenuStyles>
     </ReakitMenu>

@@ -19,6 +19,7 @@ const MenuItemStyles = styled(ReakitMenuItem)`
       margin-right: ${theme('sz8')};
     }
 
+    &[aria-selected],
     &:hover,
     &:focus {
       background-color: ${theme('base_BgColor__Hover')};
@@ -31,6 +32,8 @@ const MenuItemStyles = styled(ReakitMenuItem)`
     cursor: pointer;
   }
 
+  :first-child,
+  :first-child a,
   :nth-child(2),
   :nth-child(2) a {
     border-radius: ${theme('rounded_BorderRadius')}
@@ -41,6 +44,10 @@ const MenuItemStyles = styled(ReakitMenuItem)`
   :last-child a {
     border-radius: ${theme('roundedNone')} ${theme('roundedNone')}
       ${theme('rounded_BorderRadius')} ${theme('rounded_BorderRadius')};
+  }
+
+  :only-child {
+    border-radius: ${theme('rounded_BorderRadius')};
   }
 `
 

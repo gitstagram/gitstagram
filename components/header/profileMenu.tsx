@@ -37,7 +37,7 @@ export const ProfileMenu = (): JSX.Element => {
       <MenuButton {...menu} className='profile-menu-button'>
         <ProfileIcon />
       </MenuButton>
-      <Menu {...menu} aria-label='Profile menu'>
+      <Menu {...menu} ariaLabel='Profile menu'>
         <MenuItem {...menu} as='div' onClick={menu.hide}>
           <Link href='#'>
             <a>
