@@ -22,11 +22,24 @@ const HeaderStyles = styled.header`
   background-color: ${theme('nav_Bg')};
 
   nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: ${theme('sz56')};
+    padding-right: ${theme('sz32')};
+    padding-left: ${theme('sz32')};
+    background-color: ${theme('nav_Bg')};
+  }
+
+  .nav-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     max-width: ${theme('maxWidth')};
-    height: ${theme('sz56')};
+    height: 100%;
     margin-right: auto;
     margin-left: auto;
   }
@@ -143,28 +156,30 @@ export const Header = (): JSX.Element => {
   return (
     <HeaderStyles>
       <nav>
-        {!searchMode ? (
-          <>
-            <TextLogo size='small' href={HOME}>
-              Gitstagram
-            </TextLogo>
-            <DisplayFromTabletLandscape>
-              <SearchBox />
-            </DisplayFromTabletLandscape>
-            <div className='right-content'>{rightContent}</div>
-          </>
-        ) : (
-          <div className='mobile-search-mode'>
-            <SearchBox
-              ref={mobileSearchRef}
-              className='mobile-search-box'
-              expand
-            />
-            <Button onClick={searchModeToggle} variant='naked'>
-              Cancel
-            </Button>
-          </div>
-        )}
+        <div className='nav-container'>
+          {!searchMode ? (
+            <>
+              <TextLogo size='small' href={HOME}>
+                Gitstagram
+              </TextLogo>
+              <DisplayFromTabletLandscape>
+                <SearchBox />
+              </DisplayFromTabletLandscape>
+              <div className='right-content'>{rightContent}</div>
+            </>
+          ) : (
+            <div className='mobile-search-mode'>
+              <SearchBox
+                ref={mobileSearchRef}
+                className='mobile-search-box'
+                expand
+              />
+              <Button onClick={searchModeToggle} variant='naked'>
+                Cancel
+              </Button>
+            </div>
+          )}
+        </div>
       </nav>
     </HeaderStyles>
   )

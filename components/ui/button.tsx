@@ -49,6 +49,8 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     css`
       color: ${theme('intentNaked_Color')};
       background: none;
+      border-radius: none;
+      box-shadow: none;
 
       &:hover,
       &:focus {

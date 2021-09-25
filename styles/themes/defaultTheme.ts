@@ -14,6 +14,7 @@ const rootGradientColor2 = sys.monos.mc800
 const backgrounds = {
   root_Bg__Gradient1: rootGradientColor1,
   root_Bg__Gradient2: rootGradientColor2,
+  html_Bg: rootGradientColor2,
   root_Bg: `radial-gradient(ellipse at right bottom, ${rootGradientColor1}, ${rootGradientColor2})`,
   nav_Bg: sys.monos.mc800,
   base_BgColor: sys.monos.mc700,

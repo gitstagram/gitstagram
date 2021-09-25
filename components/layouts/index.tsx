@@ -23,6 +23,7 @@ const LayoutStyles = styled.div`
     margin-right: auto;
     margin-left: auto;
     padding: ${theme('sz24')};
+    padding-top: calc(${theme('sz64')});
   }
 `
 
