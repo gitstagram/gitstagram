@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import {
   Menu as ReakitMenu,
   MenuProps as ReakitMenuProps,
@@ -8,7 +8,11 @@ import {
 import { theme, themeProp } from 'styles/themes'
 import { zIndicies } from 'components/ui/menu/zIndicies'
 
-const MenuStyles = styled.div`
+interface MenuStylesProps {
+  expand?: boolean
+}
+
+const MenuStyles = styled.div<MenuStylesProps>`
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -34,20 +38,31 @@ const MenuStyles = styled.div`
     z-index: ${zIndicies.menuItem};
     color: ${theme('base_BgColor')};
   }
+
+  ${({ expand }) =>
+    expand &&
+    css`
+      width: 100%;
+    `}
 `
 
-type MenuProps = ReakitMenuProps & { ariaLabel: string; hasArrow?: boolean }
+type MenuProps = ReakitMenuProps & {
+  ariaLabel: string
+  hasArrow?: boolean
+  expand?: boolean
+}
 
 export const Menu: FC<MenuProps> = ({
   children,
   className,
   ariaLabel,
   hasArrow = true,
+  expand,
   ...props
 }): JSX.Element => {
   return (
     <ReakitMenu className={className} aria-label={ariaLabel} {...props}>
-      <MenuStyles>
+      <MenuStyles expand={expand}>
         {hasArrow && <MenuArrow {...props} className='menu-arrow' />}
         {children}
       </MenuStyles>

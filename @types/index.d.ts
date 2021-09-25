@@ -1,8 +1,11 @@
 type IconProps = import('components/ui/icon/icon').IconProps
 
-declare interface ComponentProps {
+declare interface BaseProps {
   className?: string
   children?: React.ReactNode
+}
+
+declare interface ComponentProps extends BaseProps {
   as?: keyof React.ReactHTML
 }
 

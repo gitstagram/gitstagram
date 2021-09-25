@@ -76,6 +76,10 @@ const intentionColors = {
   intentPrimary_Color__Hover: sys.colors.yellow300,
   intentPrimary_Color__Active: sys.colors.yellow500,
 
+  intentNaked_Color: sys.monos.mc200,
+  intentNaked_Color__Hover: sys.monos.mc000,
+  intentNaked_Color__Active: sys.monos.mc300,
+
   intentSuccess_Color: sys.colors.green500,
   intentSuccess_Color__Hover: sys.colors.green400,
   intentSuccess_Color__Active: sys.colors.green600,

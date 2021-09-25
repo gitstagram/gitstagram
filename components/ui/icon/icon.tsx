@@ -59,7 +59,8 @@ export const Icon = ({
   ...props
 }: IconProps): JSX.Element => {
   const iconType = `bi-${icon}${filled ? '-fill' : ''}`
-  const iconClassName = `${className} ${iconType}`
+  const iconClassName = `${className ? className : ''} ${iconType}`
+
   return (
     <IconStyles
       className={iconClassName}

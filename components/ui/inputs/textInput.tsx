@@ -33,6 +33,7 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
   }
 
   .text-input {
+    width: 100%;
     padding-left: ${theme('sz12')};
     border-color: ${theme('input_BorderColor')};
     border-radius: ${theme('rounded_BorderRadius')};
@@ -139,6 +140,7 @@ function TextInputBase(
         className='text-input'
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        type='text'
       />
       {clearable && (
         <Button

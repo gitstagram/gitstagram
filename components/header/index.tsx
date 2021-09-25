@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/client'
@@ -54,20 +54,54 @@ const HeaderStyles = styled.header`
       color: ${theme('iconNav_Color__Active')};
     }
   }
+
+  .mobile-search-mode {
+    display: flex;
+    width: 100%;
+
+    [role='menu'] {
+      width: calc(90% - ${theme('sz32')});
+    }
+  }
+
+  .mobile-search-box {
+    width: 100%;
+    margin-right: ${theme('sz16')};
+  }
 `
 
 export const Header = (): JSX.Element => {
+  const mobileSearchRef = useRef<HTMLButtonElement | null>(null)
   const router = useRouter()
   const [session] = useSession()
+
+  const [searchMode, setSearchMode] = useState<boolean>(false)
 
   const handleLogin = (): void => {
     void signIn('github')
   }
 
+  const searchModeToggle = () => {
+    setSearchMode(!searchMode)
+  }
+
+  useEffect(() => {
+    if (searchMode) {
+      mobileSearchRef.current?.focus()
+    }
+  }, [searchMode])
+
   const rightContent = session ? (
     <>
       <DisplayUntilTabletLandscape>
-        <Icon clickable className='nav-icon' icon='search' ariaLabel='Search' />
+        <Button
+          className='nav-icon'
+          onClick={searchModeToggle}
+          variant={{
+            icon: 'search',
+            ariaLabel: `Search`,
+          }}
+        />
       </DisplayUntilTabletLandscape>
       <DisplayFromTabletLandscape>
         <Icon
@@ -109,13 +143,28 @@ export const Header = (): JSX.Element => {
   return (
     <HeaderStyles>
       <nav>
-        <TextLogo size='small' href={HOME}>
-          Gitstagram
-        </TextLogo>
-        <DisplayFromTabletLandscape>
-          <SearchBox />
-        </DisplayFromTabletLandscape>
-        <div className='right-content'>{rightContent}</div>
+        {!searchMode ? (
+          <>
+            <TextLogo size='small' href={HOME}>
+              Gitstagram
+            </TextLogo>
+            <DisplayFromTabletLandscape>
+              <SearchBox />
+            </DisplayFromTabletLandscape>
+            <div className='right-content'>{rightContent}</div>
+          </>
+        ) : (
+          <div className='mobile-search-mode'>
+            <SearchBox
+              ref={mobileSearchRef}
+              className='mobile-search-box'
+              expand
+            />
+            <Button onClick={searchModeToggle} variant='naked'>
+              Cancel
+            </Button>
+          </div>
+        )}
       </nav>
     </HeaderStyles>
   )

@@ -4,7 +4,7 @@ import { Button as ReakitButton } from 'reakit/Button'
 import { Icon, IconProps } from 'components/ui/icon/icon'
 import { theme } from 'styles/themes'
 
-type ButtonVariants = 'large' | IconProps | undefined
+type ButtonVariants = 'large' | 'naked' | IconProps | undefined
 
 interface ButtonStyleProps {
   intent?: 'success'
@@ -42,6 +42,24 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     css`
       padding: ${theme('sz16')} ${theme('sz32')};
       font-weight: normal;
+    `}
+
+  ${({ variant }) =>
+    variant === 'naked' &&
+    css`
+      color: ${theme('intentNaked_Color')};
+      background: none;
+
+      &:hover,
+      &:focus {
+        color: ${theme('intentNaked_Color__Hover')};
+        background: none;
+      }
+
+      &:active {
+        color: ${theme('intentNaked_Color__Active')};
+        background: none;
+      }
     `}
 
   ${({ isIconButton }) =>

@@ -3,11 +3,18 @@ import { useMenuState, MenuButton } from 'reakit/Menu'
 import { TextInput, Menu, MenuItem } from 'components/ui'
 import { themeProp } from 'styles/themes'
 
-export const SearchBox = (): JSX.Element => {
+interface SearchBoxProps extends BaseProps {
+  expand?: boolean
+}
+
+function SearchBoxBase(
+  { className, expand }: SearchBoxProps,
+  ref: React.ForwardedRef<HTMLButtonElement>
+): JSX.Element {
   const [search, setSearch] = useState<string>('')
   const menu = useMenuState({
     animated: parseInt(themeProp('trans_Speed')),
-    placement: 'bottom',
+    gutter: 2,
   })
 
   const handleChange: InputChangeHandler<string> = (val) => {
@@ -21,11 +28,11 @@ export const SearchBox = (): JSX.Element => {
 
   return (
     <>
-      <MenuButton {...menu}>
+      <MenuButton {...menu} ref={ref}>
         {(props) => (
           <TextInput
             {...props}
-            className='search-input'
+            className={`search-input ${className}`}
             id='search'
             name='search'
             initialValue={search}
@@ -40,7 +47,12 @@ export const SearchBox = (): JSX.Element => {
           />
         )}
       </MenuButton>
-      <Menu {...menu} hasArrow={false} ariaLabel='Search results'>
+      <Menu
+        {...menu}
+        hasArrow={false}
+        ariaLabel='Search results'
+        expand={expand}
+      >
         {search.split('').map((letter) => {
           return (
             <MenuItem {...menu} key={letter}>
@@ -52,3 +64,5 @@ export const SearchBox = (): JSX.Element => {
     </>
   )
 }
+
+export const SearchBox = React.forwardRef(SearchBoxBase)
