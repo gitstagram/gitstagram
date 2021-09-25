@@ -1,7 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMenuState, MenuButton } from 'reakit/Menu'
+import styled from 'styled-components'
 import { TextInput, Menu, MenuItem } from 'components/ui'
 import { themeProp } from 'styles/themes'
+
+const SearchBoxStyles = styled.div`
+  .search-menu {
+    max-height: 30vh;
+  }
+`
 
 interface SearchBoxProps extends BaseProps {
   expand?: boolean
@@ -26,8 +33,19 @@ function SearchBoxBase(
     search ? menu.show() : menu.hide()
   }
 
+  useEffect(() => {
+    const blur = () => {
+      const inputRef = ref as React.RefObject<HTMLButtonElement>
+      inputRef?.current?.blur()
+    }
+
+    document.addEventListener('touchmove', blur, { passive: false })
+
+    return () => document.removeEventListener('touchmove', blur)
+  }, [ref])
+
   return (
-    <>
+    <SearchBoxStyles>
       <MenuButton {...menu} ref={ref}>
         {(props) => (
           <TextInput
@@ -49,6 +67,7 @@ function SearchBoxBase(
       </MenuButton>
       <Menu
         {...menu}
+        className='search-menu'
         hasArrow={false}
         ariaLabel='Search results'
         expand={expand}
@@ -61,7 +80,7 @@ function SearchBoxBase(
           )
         })}
       </Menu>
-    </>
+    </SearchBoxStyles>
   )
 }
 

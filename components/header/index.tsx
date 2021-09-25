@@ -90,7 +90,7 @@ export const Header = (): JSX.Element => {
 
   const [searchMode, setSearchMode] = useState<boolean>(false)
 
-  const handleLogin = (): void => {
+  const handleLogin = () => {
     void signIn('github')
   }
 

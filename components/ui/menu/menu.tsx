@@ -27,6 +27,7 @@ const MenuStyles = styled.div<MenuStylesProps>`
   transform-origin: top center;
   opacity: 0;
   transition: ${themeProp('trans_OpacityTransform')};
+  overflow: scroll;
 
   [data-enter] & {
     transform: scaleY(1);
@@ -61,8 +62,8 @@ export const Menu: FC<MenuProps> = ({
   ...props
 }): JSX.Element => {
   return (
-    <ReakitMenu className={className} aria-label={ariaLabel} {...props}>
-      <MenuStyles expand={expand}>
+    <ReakitMenu aria-label={ariaLabel} {...props}>
+      <MenuStyles className={className} expand={expand}>
         {hasArrow && <MenuArrow {...props} className='menu-arrow' />}
         {children}
       </MenuStyles>

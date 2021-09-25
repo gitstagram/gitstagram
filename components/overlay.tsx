@@ -78,11 +78,36 @@ export const Overlay = ({ loading }: OverlayProps): JSX.Element => {
   const [visibility, setVisibility] = useState<boolean>(true)
 
   useEffect(() => {
+    const preventScroll = (e: TouchEvent | Event) => {
+      e.preventDefault()
+    }
+    const eventTypes = [
+      'scroll',
+      'mousewheel',
+      'wheel',
+      'DOMMouseScroll',
+      'touchmove',
+    ]
+
+    eventTypes.forEach((type) => {
+      document.addEventListener(type, preventScroll, { passive: false })
+    })
+
     const timer = setTimeout(() => {
-      if (!loading) setVisibility(false)
+      if (!loading) {
+        eventTypes.forEach((type) => {
+          document.removeEventListener(type, preventScroll)
+        })
+        setVisibility(false)
+      }
     }, hideVisibilityAfter)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      eventTypes.forEach((type) => {
+        document.removeEventListener(type, preventScroll)
+      })
+    }
   }, [loading])
 
   return (

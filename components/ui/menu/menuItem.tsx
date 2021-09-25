@@ -10,10 +10,13 @@ const MenuItemStyles = styled(ReakitMenuItem)`
   a {
     z-index: ${zIndicies.menuItem};
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     padding: ${theme('sz8')} ${theme('sz12')};
     color: ${theme('font_Color')};
     text-decoration: none;
+    border: none;
+    cursor: pointer;
 
     i {
       margin-right: ${theme('sz8')};
@@ -28,8 +31,6 @@ const MenuItemStyles = styled(ReakitMenuItem)`
     &:active {
       background-color: ${theme('base_BgColor__Active')};
     }
-    border: none;
-    cursor: pointer;
   }
 
   :first-child,

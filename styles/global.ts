@@ -38,10 +38,23 @@ export const GlobalStyles = createGlobalStyle`
     background: ${theme('root_Bg')};
   }
 
+  /**
+  * focus-visible polyfill
+  */
   /* stylelint-disable */
-  /* focus-visible polyfill */
   *:focus:not(.focus-visible) {
     outline: none;
   }
   /* stylelint-enable */
+
+  /*
+  * fixes ios fixed position input from scrolling page
+  * https://stackoverflow.com/a/48516288/2957639
+  */
+  html,
+  body {
+    -webkit-overflow-scrolling: touch !important;
+    height: 100% !important;
+    overflow: auto !important;
+  }
 `
