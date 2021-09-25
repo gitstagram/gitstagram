@@ -1,5 +1,8 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 import styled from 'styled-components'
+import { DisplayUntilTabletLandscape } from 'components/ui'
+import { MobileNav } from 'components/footer/mobileNav'
 import { theme } from 'styles/themes'
 
 const FooterStyles = styled.footer`
@@ -33,9 +36,15 @@ const FooterStyles = styled.footer`
   .shape .shape-fill {
     fill: ${theme('intentPrimary_Color')};
   }
+
+  .mobile-nav {
+    position: relative;
+  }
 `
 
 export const Footer = (): JSX.Element => {
+  const [session] = useSession()
+
   return (
     <FooterStyles>
       <div className='shape'>
@@ -62,6 +71,11 @@ export const Footer = (): JSX.Element => {
         </svg>
       </div>
       <div className='footer-text'>Gitstagram, {new Date().getFullYear()}</div>
+      {session && (
+        <DisplayUntilTabletLandscape className='mobile-nav'>
+          <MobileNav />
+        </DisplayUntilTabletLandscape>
+      )}
     </FooterStyles>
   )
 }
