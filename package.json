@@ -12,7 +12,8 @@
     "lint:styles": "yarn stylelint \"**/*.{ts,tsx}\" --config ./.stylelintrcWithProcessor.js",
     "codegen": "graphql-codegen --config codegen.yml",
     "subsetFont": "node ./subsetFont.js",
-    "subsetIcons": "node ./subsetIcons.js"
+    "subsetIcons": "node ./subsetIcons.js",
+    "commit": "cz"
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
@@ -45,6 +46,8 @@
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "babel-plugin-styled-components": "^1.13.2",
     "bootstrap-icons": "^1.5.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "3.3.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
@@ -69,5 +72,10 @@
   },
   "resolutions": {
     "styled-components": "^5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
