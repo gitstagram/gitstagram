@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { themeProp } from 'styles/themes'
+import { themeConstant } from 'styles/themes'
 
 const DisplayUntilTabletLandscapeStyles = styled.div`
-  @media ${themeProp('media_TabletLandscape')} {
+  ${themeConstant('media__TabletLandscape')} {
     position: absolute;
     display: none;
   }

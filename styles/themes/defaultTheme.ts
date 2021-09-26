@@ -2,10 +2,6 @@ import * as sys from 'styles/system'
 
 const viewPorts = {
   maxWidth: `${sys.maxWidth}rem`,
-  media_TabletPortrait: `(min-width: ${sys.breakPointMinimums.tabletPortrait}rem)`,
-  media_TabletLandscape: `(min-width: ${sys.breakPointMinimums.tabletLandscape}rem)`,
-  media_Laptop: `(min-width: ${sys.breakPointMinimums.laptop}rem)`,
-  media_Desktop: `(min-width: ${sys.breakPointMinimums.desktop}rem)`,
 }
 
 const rootGradientColor1 = sys.monos.mc600
@@ -102,11 +98,12 @@ const borderColors = {
   input_BorderColor__Focus: sys.monos.mc300,
 }
 
-const opacityAnimate = `opacity ${sys.transitionSpeeds.trans150}ms ease-in-out`
-const transformAnimate = `transform ${sys.transitionSpeeds.trans150}ms ease-in-out`
+const transitionSpeed = `${sys.transitionSpeeds.trans150}`
+const opacityAnimate = `opacity ${transitionSpeed}ms ease-in-out`
+const transformAnimate = `transform ${transitionSpeed}ms ease-in-out`
 
 const transitions = {
-  trans_Speed: `${sys.transitionSpeeds.trans150}`,
+  trans_Speed: transitionSpeed,
   trans_Opacity: opacityAnimate,
   trans_Transform: transformAnimate,
   trans_OpacityTransform: `${opacityAnimate}, ${transformAnimate}`,

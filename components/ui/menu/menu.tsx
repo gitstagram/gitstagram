@@ -5,7 +5,7 @@ import {
   MenuProps as ReakitMenuProps,
   MenuArrow,
 } from 'reakit/Menu'
-import { theme, themeProp } from 'styles/themes'
+import { theme } from 'styles/themes'
 import { zIndicies } from 'components/ui/menu/zIndicies'
 
 interface MenuStylesProps {
@@ -26,7 +26,7 @@ const MenuStyles = styled.div<MenuStylesProps>`
   transform: scaleY(0.5);
   transform-origin: top center;
   opacity: 0;
-  transition: ${themeProp('trans_OpacityTransform')};
+  transition: ${theme('trans_OpacityTransform')};
   overflow: scroll;
 
   [data-enter] & {

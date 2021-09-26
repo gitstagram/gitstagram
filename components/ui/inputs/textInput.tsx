@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import cn from 'classnames'
 import { Icon } from 'components/ui/icon/icon'
 import { Button } from 'components/ui/button'
-import { theme, themeProp } from 'styles/themes'
+import { theme } from 'styles/themes'
 
 interface TextInputStylesProps {
   placeholderPos?: PlaceholderPos
@@ -61,7 +61,7 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     transform: translate(0, -50%);
     visibility: hidden;
     opacity: 0;
-    transition: ${themeProp('trans_Opacity')};
+    transition: ${theme('trans_Opacity')};
 
     &.show-clear-input {
       visibility: visible;

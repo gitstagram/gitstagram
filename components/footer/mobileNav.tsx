@@ -42,7 +42,7 @@ const MobileNavStyles = styled.nav`
   }
 `
 
-export const MobileNav = () => {
+export const MobileNav = (): JSX.Element => {
   const router = useRouter()
 
   return (

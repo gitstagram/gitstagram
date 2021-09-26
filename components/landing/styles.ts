@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { theme, themeProp } from 'styles/themes'
+import { theme, themeConstant } from 'styles/themes'
 
 export const LandingStyles = styled.div`
   flex-grow: 1;
@@ -56,7 +56,7 @@ export const LandingStyles = styled.div`
     border-top-right-radius: 0;
   }
 
-  @media ${themeProp('media_TabletLandscape')} {
+  ${themeConstant('media__TabletLandscape')} {
     position: relative;
 
     .left-column {

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useMenuState, MenuButton } from 'reakit/Menu'
 import styled from 'styled-components'
 import { TextInput, Menu, MenuItem } from 'components/ui'
-import { themeProp } from 'styles/themes'
 
 const SearchBoxStyles = styled.div`
+  width: 100%;
+
   .search-menu {
     max-height: 30vh;
   }
@@ -20,7 +21,7 @@ function SearchBoxBase(
 ): JSX.Element {
   const [search, setSearch] = useState<string>('')
   const menu = useMenuState({
-    animated: parseInt(themeProp('trans_Speed')),
+    animated: true,
     gutter: 2,
   })
 

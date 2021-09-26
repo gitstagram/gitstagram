@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { MenuButton, useMenuState } from 'reakit/Menu'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
-import { themeProp } from 'styles/themes'
 
 const ProfileMenuStyles = styled.div`
   display: flex;
@@ -22,7 +21,7 @@ const ProfileMenuStyles = styled.div`
 export const ProfileMenu = (): JSX.Element => {
   const [session] = useSession()
   const menu = useMenuState({
-    animated: parseInt(themeProp('trans_Speed')),
+    animated: true,
     placement: 'bottom-end',
     gutter: 8,
   })
