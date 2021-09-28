@@ -1,9 +1,7 @@
 import React from 'react'
-import { useGetRepoQuery } from 'graphql/generated'
+import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
 
 export const Feed = (): JSX.Element => {
-  const { loading, error, data } = useGetRepoQuery()
-  if (loading) return <>Loading</>
-  if (error) return <>Error</>
-  return <>{JSON.stringify(data)}</>
+  const { data, loading } = useGetViewerGitstagramLibraryQuery()
+  return loading ? <>Loading</> : <>{JSON.stringify(data)}</>
 }

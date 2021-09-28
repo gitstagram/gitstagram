@@ -300,7 +300,6 @@
       "DeployedEvent",
       "Deployment",
       "DeploymentEnvironmentChangedEvent",
-      "DeploymentProtectionRule",
       "DeploymentReview",
       "DeploymentStatus",
       "DisconnectedEvent",
