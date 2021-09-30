@@ -9,6 +9,9 @@ import { Overlay } from 'components/overlay'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
 
+import { EnsureLoad } from 'components/data/ensureLoad'
+import { useLoadingContext } from 'components/contexts/loading'
+
 const LayoutStyles = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,16 +35,39 @@ export const DefaultLayout = ({
 }: PropsWithChildren<ReactNode>): JSX.Element => {
   const router = useRouter()
   const [session, loading] = useSession()
+  const { loadingState } = useLoadingContext()
 
+  /**
+   * Show header if:
+   *   - Logged in
+   *   - Not logged in, but viewing page besides Home
+   */
   const isHome = router.pathname === HOME
   const showHeader = session || (!session && !isHome)
+
+  /**
+   * Show overlay if:
+   *   - Next-auth is loading
+   *   - Next-auth loaded, logged in, but loadingState not `libFound` or `libCreateSuccess`
+   */
+  const hasLib =
+    loadingState === 'libFound' || loadingState === 'libCreateSuccess'
+  const loadingLibs = !loading && !!session && !hasLib
+  const showOverlay = loading || loadingLibs
+
+  /**
+   * Ensure load if:
+   *   - Next-auth loaded, logged in, and loadingState is `initiating`
+   */
+  const ensureLoad = !loading && !!session && loadingState === 'initiating'
 
   return (
     <LayoutStyles>
       {showHeader && <Header />}
-      <main>{children}</main>
+      {ensureLoad && <EnsureLoad />}
+      <main>{!showOverlay && children}</main>
       <Footer />
-      <Overlay loading={loading} />
+      <Overlay show={showOverlay} />
     </LayoutStyles>
   )
 }

@@ -19,6 +19,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { DefaultLayout } from 'components/layouts'
+import { LoadingContextProvider } from 'components/contexts/loading'
 
 // Calculates proper 100vh size without iOS Safari navigation and document bars
 // https://dev.to/maciejtrzcinski/100vh-problem-with-ios-safari-3ge9
@@ -40,27 +41,29 @@ interface PageProps {
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (
-    <Provider session={(pageProps as PageProps).session}>
-      <ReakitProvider>
-        <GlobalStyles />
-        <Head>
-          <title>Gitstagram</title>
-          <meta name='description' content='Gitstagram' />
-          <meta
-            name='viewport'
-            content='width=device-width, initial-scale=1, viewport-fit=cover'
-          />
-          <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
-          <link rel='icon' href='/favicon.ico' />
-        </Head>
-        <DefaultLayout>
+    <LoadingContextProvider>
+      <Provider session={(pageProps as PageProps).session}>
+        <ReakitProvider>
+          <GlobalStyles />
+          <Head>
+            <title>Gitstagram</title>
+            <meta name='description' content='Gitstagram' />
+            <meta
+              name='viewport'
+              content='width=device-width, initial-scale=1, viewport-fit=cover'
+            />
+            <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
+            <link rel='icon' href='/favicon.ico' />
+          </Head>{' '}
           <ApolloProvider client={apolloClient}>
-            <Component {...pageProps} />
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
           </ApolloProvider>
-        </DefaultLayout>
-        <ToastContainer />
-      </ReakitProvider>
-    </Provider>
+          <ToastContainer />
+        </ReakitProvider>
+      </Provider>
+    </LoadingContextProvider>
   )
 }
 

@@ -8,7 +8,7 @@ const transitionDuration = 1000
 const hideVisibilityAfter = transitionDelay + transitionDuration
 
 type OverlayProps = {
-  loading: boolean
+  show: boolean
 }
 
 type OverlayStylesProps = OverlayProps & {
@@ -16,7 +16,7 @@ type OverlayStylesProps = OverlayProps & {
 }
 
 const OverlayStyles = styled.div.withConfig({
-  shouldForwardProp: (prop) => !['loading', 'visibility'].includes(prop),
+  shouldForwardProp: (prop) => !['show', 'visibility'].includes(prop),
 })<OverlayStylesProps>`
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
@@ -61,8 +61,8 @@ const OverlayStyles = styled.div.withConfig({
     opacity: 0.3;
   }
 
-  ${({ loading }) =>
-    !loading &&
+  ${({ show }) =>
+    !show &&
     css`
       opacity: 0;
     `}
@@ -74,7 +74,7 @@ const OverlayStyles = styled.div.withConfig({
     `}
 `
 
-export const Overlay = ({ loading }: OverlayProps): JSX.Element => {
+export const Overlay = ({ show }: OverlayProps): JSX.Element => {
   const [visibility, setVisibility] = useState<boolean>(true)
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export const Overlay = ({ loading }: OverlayProps): JSX.Element => {
     })
 
     const timer = setTimeout(() => {
-      if (!loading) {
+      if (!show) {
         eventTypes.forEach((type) => {
           document.removeEventListener(type, preventScroll)
         })
@@ -108,14 +108,10 @@ export const Overlay = ({ loading }: OverlayProps): JSX.Element => {
         document.removeEventListener(type, preventScroll)
       })
     }
-  }, [loading])
+  }, [show])
 
   return (
-    <OverlayStyles
-      loading={loading}
-      aria-hidden={!loading}
-      visibility={visibility}
-    >
+    <OverlayStyles show={show} aria-hidden={!show} visibility={visibility}>
       <TextLogo className='overlay-logo'>Gitstagram</TextLogo>
     </OverlayStyles>
   )
