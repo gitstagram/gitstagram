@@ -1,3 +1,5 @@
+import { captureException } from 'helpers'
+
 import {
   ApolloClient,
   createHttpLink,
@@ -15,14 +17,11 @@ import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) => {
-      const msg = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      toast.warn(msg)
-    })
+  if (graphQLErrors) captureException({ graphQLErrors })
+  toast.warn('Experiencing Graphql issues, try again later?')
   if (networkError) {
-    const msg = `[Network error]: ${networkError}`
-    toast.warn(msg)
+    captureException({ networkError })
+    toast.warn('Experiencing network issues, try again later?')
   }
 })
 const retryLink = new RetryLink({

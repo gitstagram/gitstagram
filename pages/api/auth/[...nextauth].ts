@@ -1,3 +1,5 @@
+import { captureException } from 'helpers'
+
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 
@@ -28,4 +30,9 @@ export default NextAuth({
       scope: 'user public_repo',
     }),
   ],
+  logger: {
+    error: (code, metadata) => captureException({ code, metadata }),
+    warn: () => undefined,
+    debug: () => undefined,
+  },
 })

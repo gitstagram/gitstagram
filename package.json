@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.4.13",
+    "@sentry/nextjs": "^6.13.2",
     "apollo-link-rest": "^0.8.0-beta.0",
     "classnames": "^2.3.1",
     "focus-visible": "^5.2.0",

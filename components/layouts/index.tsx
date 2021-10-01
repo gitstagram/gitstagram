@@ -1,9 +1,10 @@
-import React, { PropsWithChildren, ReactNode } from 'react'
-import { useSession } from 'next-auth/client'
+import React, { PropsWithChildren, ReactNode, useEffect } from 'react'
+import { useSession, signOut } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import { HOME } from 'routes'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
+import { toast } from 'react-toastify'
 
 import { Overlay } from 'components/overlay'
 import { Header } from 'components/header'
@@ -35,7 +36,29 @@ export const DefaultLayout = ({
 }: PropsWithChildren<ReactNode>): JSX.Element => {
   const router = useRouter()
   const [session, loading] = useSession()
-  const { loadingState } = useLoadingContext()
+  const { loadingState, setLoadingState } = useLoadingContext()
+
+  /**
+   * Reload fatal error if:
+   *   - Error finding library
+   *   - No found library, error creating library
+   */
+  const errored =
+    loadingState === 'libGetFailure' || loadingState === 'libCreateFailure'
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout
+
+    if (errored) {
+      toast.warn('Issue starting Gitstagram')
+
+      timer = setTimeout(() => {
+        void signOut()
+      }, 2000)
+    }
+
+    return () => timer && clearTimeout(timer)
+  }, [errored, setLoadingState])
 
   /**
    * Show header if:
@@ -50,10 +73,10 @@ export const DefaultLayout = ({
    *   - Next-auth is loading
    *   - Next-auth loaded, logged in, but loadingState not `libFound` or `libCreateSuccess`
    */
-  const hasLib =
+  const ensureLoadCompleted =
     loadingState === 'libFound' || loadingState === 'libCreateSuccess'
-  const loadingLibs = !loading && !!session && !hasLib
-  const showOverlay = loading || loadingLibs
+  const stillLoading = !loading && !!session && !ensureLoadCompleted
+  const showOverlay = loading || stillLoading
 
   /**
    * Ensure load if:

@@ -1,3 +1,5 @@
+import { captureException } from 'helpers'
+
 import React from 'react'
 import {
   useGetViewerGitstagramLibraryQuery,
@@ -48,15 +50,25 @@ export const EnsureLoad = (): JSX.Element => {
               setLoadingState('libCreateSuccess')
             } else {
               setLoadingState('libCreateFailure')
+              captureException({
+                results,
+                msg: 'createGitstagramLibrary mutated but received no ID',
+              })
             }
             return
           })
-          .catch(() => setLoadingState('libCreateFailure'))
+          .catch((err) => {
+            setLoadingState('libCreateFailure')
+            captureException(err)
+          })
       } else {
         setLoadingState('libFound')
       }
     },
-    onError: () => setLoadingState('libGetFailure'),
+    onError: (err) => {
+      setLoadingState('libGetFailure')
+      captureException(err)
+    },
   })
 
   return <></>
