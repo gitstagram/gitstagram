@@ -1,34 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+Running development
 
 ```bash
-npm run dev
-# or
+yarn
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Graphql
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Files in `graphql/operations` will be parsed for `gql` documents and have types/queries/mutations automatically generated
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.tsx`.
+Change the `codegen.yml` file `Authorization: 'token ${GITHUB_ACCESS_TOKEN}'` to an actual github access token.
+An access token can be optained by logging the session in `pages/api/auth/[...nextauth].ts`, beginning with `gho_xxxxx`
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Do not commit the token if the `codegen.yml` is changed during development.
 
-## Learn More
+## .env
 
-To learn more about Next.js, take a look at the following resources:
+The `.env` should be a template for the env variables required for the app to run.
+Populate values for `.env.development.local` to run locally.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Populate environment variable settings in Vercel for production
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+JWT Signing keys and IDs can be generated via `yarn jose newkey -s 512 -t oct -a HS512 -b`
 
-## Deploy on Vercel
+## Linting
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Linting automatically happens as part of the development process with Webpack plugins.
+But manual linting for code/styles can be accomplished through `yarn lint` and `yarn lint:styles` respectively.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Note that `'stylelint-processor-styled-components'` has been turned off during Webpack development stylelinting because it interferes with automatic fixing of style violations. The results don't seem to be different much, but `yarn lint:styles` will lint with the processor enabled.
+
+## Fonts and Icons
+
+Logo font only contains the characters necessary to load the logo. It is subsetted with `yarn subsetFont`
+
+Icon font only contains icons picked in `fontSources/bootstrap-icons/svgs`. Adding new icons to the folder and run `yarn subsetIcons` to rebuild the icon font.
+
+The script will automatically update `styles/bootstrapIconSubset.css`, `public/bootstrap-icons.woff`, `components/ui/icon/types.ts`, and update the preload link in `pages/_document.tsx`
+
+## Sentry
+
+Sentry `.sentryclirc.example` shows format needed for Sentry to upload sourcemaps with development tooling via CLI.
+
+Sentry is disabled in `process.env.NODE_ENV === 'development'` in the files `next.config.js` and in the error handlers in `helpers/errorHandling`. Switch them to test Sentry functionality.
+
+## Committing Code
+
+Code commits should be made via `yarn commit` via Commitizen by following the prompt.
