@@ -1,4 +1,5 @@
 type IconProps = import('components/ui/icon/icon').IconProps
+type Maybe<T> = T | null | undefined
 
 declare interface BaseProps {
   className?: string

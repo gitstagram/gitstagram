@@ -71,6 +71,17 @@ export const colors = {
   green700: '#0f5323',
   green800: '#033a16',
   green900: '#04260f',
+
+  red000: '#ffdcd7',
+  red100: '#ffc1ba',
+  red200: '#ffa198',
+  red300: '#ff7b72',
+  red400: '#f85149',
+  red500: '#da3633',
+  red600: '#b62324',
+  red700: '#8e1519',
+  red800: '#67060c',
+  red900: '#490202',
 }
 
 export const letterSpacings = {

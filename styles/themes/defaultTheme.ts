@@ -16,6 +16,8 @@ const backgrounds = {
   base_BgColor: sys.monos.mc700,
   base_BgColor__Hover: sys.monos.mc500,
   base_BgColor__Active: sys.monos.mc600,
+  tableRow_BgColor__THead: sys.monos.mc800,
+  tableRow_BgColor__TRowOdd: sys.monos.mc600,
 }
 
 const boxShadows = {
@@ -106,6 +108,10 @@ const intentionColors = {
   intentSuccess_Color: sys.colors.green500,
   intentSuccess_Color__Hover: sys.colors.green400,
   intentSuccess_Color__Active: sys.colors.green600,
+
+  intentWarning_Color: sys.colors.yellow300,
+
+  intentDanger_Color: sys.colors.red500,
 }
 
 const iconColors = {

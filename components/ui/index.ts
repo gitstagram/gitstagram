@@ -16,6 +16,8 @@ export * from 'components/ui/menu/menu'
 export * from 'components/ui/menu/menuItem'
 export * from 'components/ui/menu/menuSeparator'
 
+export * from 'components/ui/skeleton/paragraph'
+
 export * from 'components/ui/text/h2'
 export * from 'components/ui/text/h3'
 export * from 'components/ui/text/textAttn'

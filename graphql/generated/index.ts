@@ -21970,7 +21970,7 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any };
+export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, websiteUrl?: Maybe<any>, avatarUrl: any };
 
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, title: string, bodyText: string };
 
@@ -21997,7 +21997,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any, repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, websiteUrl?: Maybe<any>, avatarUrl: any, repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userName: Scalars['String'];
@@ -22011,7 +22011,7 @@ export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: Maybe
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any } };
+export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, websiteUrl?: Maybe<any>, avatarUrl: any } };
 
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
@@ -22019,6 +22019,7 @@ export const Frag_User_FieldsFragmentDoc = gql`
   login
   bio
   twitterUsername
+  websiteUrl
   avatarUrl
 }
     `;

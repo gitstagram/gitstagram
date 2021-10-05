@@ -6,6 +6,7 @@ export const FRAG_User_Fields = gql`
     login
     bio
     twitterUsername
+    websiteUrl
     avatarUrl
   }
 `
