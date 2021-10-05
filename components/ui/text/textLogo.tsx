@@ -12,7 +12,7 @@ interface TextLogoStyleProps {
 
 const TextLogoStyles = styled.h1<TextLogoStyleProps>`
   color: ${theme('fontLogo_Color')};
-  font-weight: normal;
+  font-weight: ${theme('fontLogo_FontWeight')};
   font-size: ${theme('fontLogo_FontSize')};
   font-family: ${theme('fontLogo_Family')};
   letter-spacing: ${theme('fontLogo_LetterSpacing')};

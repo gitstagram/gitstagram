@@ -39,6 +39,7 @@ const fonts = {
   fontLogo_Color: sys.monos.mc000,
   fontLogo_Color__Emboss: sys.monos.mc300,
   fontLogo_LetterSpacing: `-${sys.letterSpacings.ls2}rem`,
+  fontLogo_FontWeight: 'normal',
 
   fontHero_FontSize: `${sys.fontSizes.fs30}rem`,
 
@@ -51,6 +52,7 @@ const fonts = {
   fontH3_FontWeight: 'normal',
 
   fontSecondary_Color: sys.monos.mc200,
+  fontSecondary_FontWeight: 'bold',
 
   fontTertiary_Color: sys.monos.mc400,
   fontTertiary_FontSize: `${sys.fontSizes.fs14}rem`,
@@ -61,6 +63,7 @@ const fonts = {
   fontLink_Color: sys.colors.blue400,
   fontLink_Color__Hover: sys.colors.blue300,
   fontLink_Color__Active: sys.colors.blue500,
+  fontLink_FontWeight__Bold: 'bold',
 
   fontLink_FontSize__Deemph: `${sys.fontSizes.fs14}rem`,
   fontLink_Color__Deemph: sys.monos.mc400,
@@ -71,9 +74,17 @@ const fonts = {
   fontLabel_FontSize: `${sys.fontSizes.fs14}rem`,
 
   fontButton_Color: sys.monos.mc000,
+  fontButton_FontWeight: 'bold',
+  fontButton_FontWeight__Large: 'normal',
 
   fontAttn_FontSize: `${sys.fontSizes.fs12}rem`,
   fontAttn_Color: `${sys.monos.mc400}`,
+  fontAttn_FontWeight: 'bold',
+  fontAttn_TextTransform: 'uppercase',
+
+  fontInfo_FontSize: `${sys.fontSizes.fs14}rem`,
+  fontInfo_Color: `${sys.monos.mc400}`,
+  fontInfo_FontStyle: 'italic',
 
   fontCode_BgColor: `${sys.monos.mc000}`,
   fontCode_Color: `${sys.monos.mc900}`,

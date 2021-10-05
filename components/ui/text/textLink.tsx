@@ -58,7 +58,7 @@ const TextLinkStyles = styled.a<TextLinkStyleProps>`
   ${({ boldened }) =>
     boldened &&
     css`
-      font-weight: bold;
+      font-weight: ${theme('fontLink_FontWeight__Bold')};
       text-decoration: none;
     `}
 `

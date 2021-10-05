@@ -4,7 +4,7 @@ import { theme } from 'styles/themes'
 
 const TextSecondaryStyles = styled.p`
   color: ${theme('fontSecondary_Color')};
-  font-weight: bold;
+  font-weight: ${theme('fontSecondary_FontWeight')};
 `
 
 export const TextSecondary: FC<ComponentProps> = ({ children, ...props }) => {

@@ -21,7 +21,7 @@ const ButtonStyles = styled(ReakitButton).withConfig({
 })<ButtonStyleProps>`
   padding: ${theme('sz4')} ${theme('sz12')};
   color: ${theme('fontButton_Color')};
-  font-weight: bold;
+  font-weight: ${theme('fontButton_FontWeight')};
   background-color: ${theme('intentPrimary_Color')};
   border: none;
   border-radius: ${theme('rounded_BorderRadius')};
@@ -41,7 +41,7 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     variant === 'large' &&
     css`
       padding: ${theme('sz16')} ${theme('sz32')};
-      font-weight: normal;
+      font-weight: ${theme('fontButton_FontWeight__Large')};
     `}
 
   ${({ variant }) =>
