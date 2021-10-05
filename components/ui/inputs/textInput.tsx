@@ -14,6 +14,10 @@ interface TextInputStylesProps {
 const TextInputStyles = styled.div<TextInputStylesProps>`
   position: relative;
 
+  .input-container {
+    position: relative;
+  }
+
   .placeholder {
     position: absolute;
     top: 50%;
@@ -45,6 +49,7 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
 
     &:focus {
       border-color: ${theme('input_BorderColor__Focus')};
+      box-shadow: ${theme('input_BoxShadow__Focus')};
     }
   }
 
@@ -69,6 +74,11 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     }
   }
 
+  label {
+    font-weight: ${theme('fontLabel_FontWeight')};
+    font-size: ${theme('fontLabel_FontSize')};
+  }
+
   ${({ placeholderPos }) =>
     placeholderPos === 'center' &&
     css`
@@ -77,6 +87,38 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
         justify-content: center;
       }
     `}
+
+  &[disabled] {
+    color: ${theme('font_Color__Deemph')};
+
+    label {
+      cursor: not-allowed;
+
+      &:hover,
+      &:focus {
+        ~ .input-container {
+          .text-input {
+            border-color: ${theme('input_BorderColor')};
+          }
+        }
+      }
+    }
+
+    .placeholder {
+      color: ${theme('fontPlaceholder_Color__Deemph')};
+    }
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: ${theme('sz12')};
+    width: 50%;
+    height: ${theme('font_FontSize__Skeleton')};
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 `
 
 function TextInputBase(
@@ -88,6 +130,8 @@ function TextInputBase(
     placeholderIcon,
     onChange,
     clearable = false,
+    label,
+    loading,
     ...props
   }: InputProps<string>,
   ref: React.Ref<HTMLInputElement> | undefined
@@ -126,34 +170,39 @@ function TextInputBase(
 
   return (
     <TextInputStyles {...props} onKeyDown={handleKeyDown}>
-      {hasPlaceholder && !value && (
-        <span className='placeholder'>
-          {placeholderIcon && <Icon {...placeholderIcon} size={12} />}
-          {placeholderText}
-        </span>
-      )}
-      <Input
-        ref={useForkRef(inputRef, ref)}
-        id={id}
-        name={name}
-        value={value}
-        className='text-input'
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        type='text'
-      />
-      {clearable && (
-        <Button
-          className={cn('clear-input', { 'show-clear-input': value })}
-          aria-hidden={!!value}
-          onClick={handleClear}
-          variant={{
-            icon: 'x-lg',
-            size: 12,
-            ariaLabel: `Clear ${name} input`,
-          }}
+      {label && <label htmlFor={id}>{label}</label>}
+      <div className='input-container'>
+        {hasPlaceholder && !value && (
+          <span className='placeholder'>
+            {placeholderIcon && <Icon {...placeholderIcon} size={12} />}
+            {placeholderText}
+          </span>
+        )}
+        <Input
+          ref={useForkRef(inputRef, ref)}
+          id={id}
+          name={name}
+          value={value}
+          className='text-input'
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+          type='text'
+          disabled={props.disabled}
         />
-      )}
+        {clearable && (
+          <Button
+            className={cn('clear-input', { 'show-clear-input': value })}
+            aria-hidden={!!value}
+            onClick={handleClear}
+            variant={{
+              icon: 'x-lg',
+              size: 12,
+              ariaLabel: `Clear ${name} input`,
+            }}
+          />
+        )}
+        {loading && <div className='loading skeleton' />}
+      </div>
     </TextInputStyles>
   )
 }

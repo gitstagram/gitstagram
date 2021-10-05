@@ -57,4 +57,32 @@ export const GlobalStyles = createGlobalStyle`
     height: 100% !important;
     overflow: auto !important;
   }
+
+  .skeleton {
+    background-color: ${theme('font_Color')};
+    border-radius: ${theme('roundedSmall_BorderRadius')};
+    opacity: 0.3;
+    animation-name: skeleton;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+
+    @keyframes skeleton {
+      0% {
+        opacity: 0.1;
+      }
+
+      50% {
+        background: 0.3;
+      }
+
+      100% {
+        background: 0.1;
+      }
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
 `

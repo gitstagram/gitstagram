@@ -19682,6 +19682,8 @@ export type Topic = Node & Starrable & {
    *
    */
   relatedTopics: Array<Topic>;
+  /** A list of repositories. */
+  repositories: RepositoryConnection;
   /**
    * Returns a count of how many stargazers there are on this object
    *
@@ -19697,6 +19699,21 @@ export type Topic = Node & Starrable & {
 /** A topic aggregates entities that are related to a subject. */
 export type TopicRelatedTopicsArgs = {
   first?: Maybe<Scalars['Int']>;
+};
+
+
+/** A topic aggregates entities that are related to a subject. */
+export type TopicRepositoriesArgs = {
+  affiliations?: Maybe<Array<Maybe<RepositoryAffiliation>>>;
+  after?: Maybe<Scalars['String']>;
+  before?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  isLocked?: Maybe<Scalars['Boolean']>;
+  last?: Maybe<Scalars['Int']>;
+  orderBy?: Maybe<RepositoryOrder>;
+  ownerAffiliations?: Maybe<Array<Maybe<RepositoryAffiliation>>>;
+  privacy?: Maybe<RepositoryPrivacy>;
+  sponsorableOnly?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -21953,6 +21970,8 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any };
+
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, title: string, bodyText: string };
 
 export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> };
@@ -21978,7 +21997,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any, repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userName: Scalars['String'];
@@ -21989,6 +22008,20 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 
 export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> }> };
 
+export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, avatarUrl: any } };
+
+export const Frag_User_FieldsFragmentDoc = gql`
+    fragment FRAG_User_Fields on User {
+  id
+  login
+  bio
+  twitterUsername
+  avatarUrl
+}
+    `;
 export const Frag_Repository_FieldsFragmentDoc = gql`
     fragment FRAG_Repository_Fields on Repository {
   id
@@ -22069,10 +22102,12 @@ export type CreateGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<
 export const GetViewerGitstagramLibraryDocument = gql`
     query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
   viewer {
+    ...FRAG_User_Fields
     ...PART_Repository_With_Issues_On_User
   }
 }
-    ${Part_Repository_With_Issues_On_UserFragmentDoc}`;
+    ${Frag_User_FieldsFragmentDoc}
+${Part_Repository_With_Issues_On_UserFragmentDoc}`;
 
 /**
  * __useGetViewerGitstagramLibraryQuery__
@@ -22139,3 +22174,37 @@ export function useGetUserGitstagramLibraryLazyQuery(baseOptions?: Apollo.LazyQu
 export type GetUserGitstagramLibraryQueryHookResult = ReturnType<typeof useGetUserGitstagramLibraryQuery>;
 export type GetUserGitstagramLibraryLazyQueryHookResult = ReturnType<typeof useGetUserGitstagramLibraryLazyQuery>;
 export type GetUserGitstagramLibraryQueryResult = Apollo.QueryResult<GetUserGitstagramLibraryQuery, GetUserGitstagramLibraryQueryVariables>;
+export const GetViewerDocument = gql`
+    query GetViewer {
+  viewer {
+    ...FRAG_User_Fields
+  }
+}
+    ${Frag_User_FieldsFragmentDoc}`;
+
+/**
+ * __useGetViewerQuery__
+ *
+ * To run a query within a React component, call `useGetViewerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetViewerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetViewerQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetViewerQuery(baseOptions?: Apollo.QueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, options);
+      }
+export function useGetViewerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, options);
+        }
+export type GetViewerQueryHookResult = ReturnType<typeof useGetViewerQuery>;
+export type GetViewerLazyQueryHookResult = ReturnType<typeof useGetViewerLazyQuery>;
+export type GetViewerQueryResult = Apollo.QueryResult<GetViewerQuery, GetViewerQueryVariables>;

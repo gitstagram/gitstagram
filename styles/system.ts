@@ -133,6 +133,7 @@ export const sizes = {
   sz48: 48 / baseSize,
   sz56: 56 / baseSize,
   sz64: 64 / baseSize,
+  sz80: 80 / baseSize,
   sz96: 96 / baseSize,
   sz128: 128 / baseSize,
   sz192: 192 / baseSize,

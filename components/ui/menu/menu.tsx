@@ -6,7 +6,7 @@ import {
   MenuArrow,
 } from 'reakit/Menu'
 import { theme } from 'styles/themes'
-import { zIndicies } from 'components/ui/menu/zIndicies'
+import { zIndicies } from 'styles/zIndicies'
 
 interface MenuStylesProps {
   expand?: boolean

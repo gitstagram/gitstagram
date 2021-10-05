@@ -27,6 +27,8 @@ declare interface InputProps<T> extends ComponentProps {
   onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void
   ref?: React.ForwardedRef
-  type: string
-  role: string
+  type?: string
+  role?: string
+  label?: string
+  loading?: boolean
 }

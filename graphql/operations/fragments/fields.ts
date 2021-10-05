@@ -1,5 +1,15 @@
 import { gql } from '@apollo/client'
 
+export const FRAG_User_Fields = gql`
+  fragment FRAG_User_Fields on User {
+    id
+    login
+    bio
+    twitterUsername
+    avatarUrl
+  }
+`
+
 export const FRAG_Issue_Fields = gql`
   fragment FRAG_Issue_Fields on Issue {
     id

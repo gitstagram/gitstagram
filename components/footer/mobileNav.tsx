@@ -66,7 +66,7 @@ export const MobileNav = (): JSX.Element => {
       />
       <Link href={HOME}>
         <a>
-          <ProfileIcon />
+          <ProfileIcon interactive fromSession />
         </a>
       </Link>
     </MobileNavStyles>

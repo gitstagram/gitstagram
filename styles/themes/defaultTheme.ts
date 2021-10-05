@@ -21,16 +21,17 @@ const backgrounds = {
 const boxShadows = {
   panel_BoxShadow: `${sys.monos.mc800} 0px 13px 27px -5px, ${sys.monos.mc800} 0px 8px 16px -8px`,
   button_BoxShadow: `inset 0px -3px 4px 2px rgb(0 0 0 / 15%)`,
+  input_BoxShadow__Focus: `${sys.colors.blue200} 0 0 0 1px`,
 }
 
 const fonts = {
   font_FontSize: `${sys.fontSizes.fs16}rem`,
   font_FontFamily: sys.fontFamilies.default,
+  font_FontSize__Skeleton: `${sys.fontSizes.fs20}rem`,
 
   font_Color: sys.monos.mc100,
   font_Color__Inverse: sys.monos.mc900,
-  font_Color__Deemph: sys.monos.mc400,
-  font_FontSize__Deemph: `${sys.fontSizes.fs14}rem`,
+  font_Color__Deemph: sys.monos.mc300,
 
   fontLogo_Family: sys.fontFamilies.logo,
   fontLogo_FontSize: `${sys.fontSizes.fs60}rem`,
@@ -40,6 +41,14 @@ const fonts = {
   fontLogo_LetterSpacing: `-${sys.letterSpacings.ls2}rem`,
 
   fontHero_FontSize: `${sys.fontSizes.fs30}rem`,
+
+  fontH2_Color: sys.monos.mc100,
+  fontH2_FontSize: `${sys.fontSizes.fs30}rem`,
+  fontH2_Weight: 'normal',
+
+  fontH3_Color: sys.monos.mc100,
+  fontH3_FontSize: `${sys.fontSizes.fs20}rem`,
+  fontH3_FontWeight: 'normal',
 
   fontSecondary_Color: sys.monos.mc200,
 
@@ -58,6 +67,9 @@ const fonts = {
   fontLink_Color__Deemph_Hover: sys.monos.mc300,
   fontLink_Color__Deemph_Active: sys.monos.mc500,
 
+  fontLabel_FontWeight: 'bold',
+  fontLabel_FontSize: `${sys.fontSizes.fs14}rem`,
+
   fontButton_Color: sys.monos.mc000,
 
   fontAttn_FontSize: `${sys.fontSizes.fs12}rem`,
@@ -68,6 +80,7 @@ const fonts = {
 
   fontPlaceholder_Color: `${sys.monos.mc300}`,
   fontPlaceholder_FontSize: `${sys.fontSizes.fs14}`,
+  fontPlaceholder_Color__Deemph: `${sys.monos.mc500}`,
 }
 
 const intentionColors = {
@@ -98,6 +111,9 @@ const borderColors = {
   input_BorderColor: sys.monos.mc500,
   input_BorderColor__Hover: sys.monos.mc400,
   input_BorderColor__Focus: sys.monos.mc300,
+
+  hr_BorderColor: sys.monos.mc300,
+  hr_BorderColor__Deemph: sys.monos.mc600,
 }
 
 const transitionSpeed = `${sys.transitionSpeeds.trans150}`

@@ -15,8 +15,10 @@ import { ProfileMenu } from 'components/header/profileMenu'
 import { SearchBox } from 'components/header/searchBox'
 import { HOME } from 'routes'
 import { theme } from 'styles/themes'
+import { zIndicies } from 'styles/zIndicies'
 
 const HeaderStyles = styled.header`
+  z-index: ${zIndicies.header};
   padding-right: ${theme('sz32')};
   padding-left: ${theme('sz32')};
   background-color: ${theme('nav_Bg')};
@@ -28,8 +30,6 @@ const HeaderStyles = styled.header`
     left: 0;
     width: 100%;
     height: ${theme('sz56')};
-    padding-right: ${theme('sz32')};
-    padding-left: ${theme('sz32')};
     background-color: ${theme('nav_Bg')};
   }
 
@@ -42,6 +42,8 @@ const HeaderStyles = styled.header`
     height: 100%;
     margin-right: auto;
     margin-left: auto;
+    padding-right: ${theme('sz32')};
+    padding-left: ${theme('sz32')};
   }
 
   .sign-up {

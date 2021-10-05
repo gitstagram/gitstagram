@@ -7,6 +7,7 @@ export enum BootstrapIcons {
   Chat = 'chat',
   ChevronLeft = 'chevron-left',
   ChevronRight = 'chevron-right',
+  ExclamationTriangleFill = 'exclamation-triangle-fill',
   GearFill = 'gear-fill',
   Gear = 'gear',
   Github = 'github',

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled, { css } from 'styled-components'
 import { TextLogo } from 'components/ui'
 import { theme } from 'styles/themes'
+import { zIndicies } from 'styles/zIndicies'
 
 const transitionDelay = 1500
 const transitionDuration = 1000
@@ -41,6 +42,7 @@ const OverlayStyles = styled.div.withConfig({
   transition-timing-function: ease-in-out;
   opacity: 1;
   visibility: visible;
+  z-index: ${zIndicies.overlay};
 
   @keyframes backgroundColorPalette {
     0% {

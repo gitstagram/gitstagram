@@ -6399,11 +6399,12 @@ export type TextMatchHighlightFieldPolicy = {
 	endIndice?: FieldPolicy<any> | FieldReadFunction<any>,
 	text?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type TopicKeySpecifier = ('id' | 'name' | 'relatedTopics' | 'stargazerCount' | 'stargazers' | 'viewerHasStarred' | TopicKeySpecifier)[];
+export type TopicKeySpecifier = ('id' | 'name' | 'relatedTopics' | 'repositories' | 'stargazerCount' | 'stargazers' | 'viewerHasStarred' | TopicKeySpecifier)[];
 export type TopicFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	relatedTopics?: FieldPolicy<any> | FieldReadFunction<any>,
+	repositories?: FieldPolicy<any> | FieldReadFunction<any>,
 	stargazerCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	stargazers?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewerHasStarred?: FieldPolicy<any> | FieldReadFunction<any>

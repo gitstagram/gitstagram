@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { MenuButton, useMenuState } from 'reakit/Menu'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
+import { SETTINGS } from 'routes'
 
 const ProfileMenuStyles = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ export const ProfileMenu = (): JSX.Element => {
   return session?.user ? (
     <ProfileMenuStyles>
       <MenuButton {...menu} className='profile-menu-button'>
-        <ProfileIcon />
+        <ProfileIcon interactive fromSession />
       </MenuButton>
       <Menu {...menu} ariaLabel='Profile menu'>
         <MenuItem {...menu} as='div' onClick={menu.hide}>
@@ -46,7 +47,7 @@ export const ProfileMenu = (): JSX.Element => {
           </Link>
         </MenuItem>
         <MenuItem {...menu} as='div' onClick={menu.hide}>
-          <Link href='#'>
+          <Link href={SETTINGS}>
             <a>
               <Icon icon='gear' size={16} ariaHidden />
               Settings

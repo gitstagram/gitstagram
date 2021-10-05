@@ -13,12 +13,15 @@ import { Footer } from 'components/footer'
 import { EnsureLoad } from 'components/data/ensureLoad'
 import { useLoadingContext } from 'components/contexts/loading'
 
+import { zIndicies } from 'styles/zIndicies'
+
 const LayoutStyles = styled.div`
   display: flex;
   flex-direction: column;
   min-block-size: var(--app-height);
 
   main {
+    z-index: ${zIndicies.main};
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -26,8 +29,8 @@ const LayoutStyles = styled.div`
     max-width: ${theme('maxWidth')};
     margin-right: auto;
     margin-left: auto;
-    padding: ${theme('sz24')};
-    padding-top: calc(${theme('sz64')});
+    padding: ${theme('sz32')};
+    padding-top: calc(${theme('sz80')});
   }
 `
 

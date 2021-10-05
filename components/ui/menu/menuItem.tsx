@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { MenuItem as ReakitMenuItem, MenuItemProps } from 'reakit/Menu'
 import { As } from 'reakit-utils/types'
 import { theme } from 'styles/themes'
-import { zIndicies } from 'components/ui/menu/zIndicies'
+import { zIndicies } from 'styles/zIndicies'
 
 const MenuItemStyles = styled(ReakitMenuItem)`
   button&,
