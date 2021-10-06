@@ -4,9 +4,11 @@ import {
   LazyQueryHookOptions,
   QueryTuple,
   OperationVariables,
+  ApolloQueryResult,
 } from '@apollo/client'
+import { apolloClient } from 'graphql/apolloClient'
 
-export const GET_RATE_LIMIT = gql`
+const GET_RATE_LIMIT = gql`
   fragment FRAG_Rate_Limit_Resource on RestRateLimitResource {
     limit
     remaining
@@ -39,7 +41,7 @@ export type RestRateLimitResource = {
   reset: number
 }
 
-export type GetRestRateLimitQuery = {
+type GetRestRateLimitQuery = {
   restRateLimit: {
     __typename?: 'RestRateLimits'
     resources: {
@@ -56,4 +58,36 @@ export function useGetRateLimitLazyQuery(
   options?: LazyQueryHookOptions<GetRestRateLimitQuery>
 ): QueryTuple<GetRestRateLimitQuery, OperationVariables> {
   return useLazyQuery<GetRestRateLimitQuery>(GET_RATE_LIMIT, options)
+}
+
+type GetRestIssueExportQuery = {
+  restIssues: {
+    raw: string
+  }
+}
+
+type GetRestIssueExportQueryVariables = {
+  userName: string
+  page: number
+}
+
+const GET_ISSUE_EXPORT = gql`
+  query GetIssueExport($userName: String!, $page: Int!) {
+    restIssues(userName: $userName, page: $page)
+      @rest(
+        type: "RestIssues"
+        path: "/repos/{args.userName}/gitstagram-library/issues?state=all&per_page=100&page={args.page}"
+      ) {
+      raw
+    }
+  }
+`
+
+export const getIssueExportQueryPromise = (
+  variables: GetRestIssueExportQueryVariables
+): Promise<ApolloQueryResult<GetRestIssueExportQuery>> => {
+  return apolloClient.query<GetRestIssueExportQuery>({
+    query: GET_ISSUE_EXPORT,
+    variables,
+  })
 }

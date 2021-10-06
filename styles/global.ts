@@ -85,4 +85,22 @@ export const GlobalStyles = createGlobalStyle`
       animation: none;
     }
   }
+
+  .rotate {
+    animation: ${theme('trans_Rotation')};
+
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(359deg);
+      }
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
 `

@@ -34,6 +34,7 @@ export const FRAG_Repository_Issues = gql`
 
   fragment FRAG_Repository_Issues on Repository {
     issues(first: $firstIssues) {
+      totalCount
       ...FRAG_Issue_Nodes
     }
   }

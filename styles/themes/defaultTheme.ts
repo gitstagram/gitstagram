@@ -110,8 +110,12 @@ const intentionColors = {
   intentSuccess_Color__Active: sys.colors.green600,
 
   intentWarning_Color: sys.colors.yellow300,
+  intentWarning_Color__Active: sys.colors.yellow500,
 
   intentDanger_Color: sys.colors.red500,
+
+  intentDisabled_Color: sys.monos.mc600,
+  intentDisabled_Color__Accent: sys.monos.mc400,
 }
 
 const iconColors = {
@@ -131,17 +135,26 @@ const borderColors = {
 
   hr_BorderColor: sys.monos.mc300,
   hr_BorderColor__Deemph: sys.monos.mc600,
+
+  buttonInvert_Border_Color: sys.monos.mc500,
 }
 
 const transitionSpeed = `${sys.transitionSpeeds.trans150}`
 const opacityAnimate = `opacity ${transitionSpeed}ms ease-in-out`
 const transformAnimate = `transform ${transitionSpeed}ms ease-in-out`
+const colorAnimate = `color ${transitionSpeed}ms ease-in-out`
+const bgColorAnimate = `background-color ${transitionSpeed}ms ease-in-out`
+const rotation = `rotation 6s linear infinite`
 
 const transitions = {
   trans_Speed: transitionSpeed,
   trans_Opacity: opacityAnimate,
   trans_Transform: transformAnimate,
   trans_OpacityTransform: `${opacityAnimate}, ${transformAnimate}`,
+  trans_Color: colorAnimate,
+  trans_BgColor: bgColorAnimate,
+  trans_ColorBgColor: `${colorAnimate}, ${bgColorAnimate}`,
+  trans_Rotation: rotation,
 }
 
 const roundedRadius = {

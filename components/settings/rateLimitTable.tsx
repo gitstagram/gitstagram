@@ -61,9 +61,10 @@ export const RateLimitTable = ({
   resource,
 }: RateLimitTableProps): JSX.Element => {
   const diffInSeconds = resource && resource?.reset - getUtc()
+  const diffNoNegative = diffInSeconds && diffInSeconds < 0 ? 0 : diffInSeconds
   const minutes =
-    diffInSeconds &&
-    fromSeconds({ seconds: diffInSeconds, to: 'minutes', round: 0 })
+    diffNoNegative &&
+    fromSeconds({ seconds: diffNoNegative, to: 'minutes', round: 0 })
 
   const percentageUsed = resource && (resource.used / resource.limit) * 100
 
@@ -91,7 +92,8 @@ export const RateLimitTable = ({
           </td>
           <td className='bottom-right'>
             {minutes}{' '}
-            {minutes && pluralize({ word: 'minute', number: minutes })}
+            {!nullish(minutes) &&
+              pluralize({ word: 'minute', number: minutes })}
           </td>
         </tr>
       </tbody>

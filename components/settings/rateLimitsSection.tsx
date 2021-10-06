@@ -1,7 +1,12 @@
-/* eslint-disable */
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Panel, TextInfo, SkeletonParagraph, TextAttn } from 'components/ui'
+import {
+  Panel,
+  TextInfo,
+  SkeletonParagraph,
+  TextAttn,
+  TextLink,
+} from 'components/ui'
 import { RateLimitTable } from 'components/settings/rateLimitTable'
 import { theme } from 'styles/themes'
 
@@ -37,7 +42,7 @@ export const RateLimitsSection = (): JSX.Element => {
 
   useEffect(() => {
     getRateLimit()
-  }, [])
+  }, [getRateLimit])
 
   const core = data?.restRateLimit.resources.core
   const graphql = data?.restRateLimit.resources.graphql
@@ -46,8 +51,15 @@ export const RateLimitsSection = (): JSX.Element => {
   return (
     <RateLimitsSectionStyles>
       <TextInfo className='limit-info'>
-        Gitstagram uses Github's REST, GraphQL, and Search APIs. Requests are
-        made minimally and cached locally to preserve rate limit points
+        Gitstagram uses Github&apos;s REST, GraphQL, and Search APIs. Requests
+        are made minimally and cached locally to preserve rate limit points
+        <br />
+        <TextLink
+          href='https://docs.github.com/en/rest/reference/rate-limit'
+          external
+        >
+          Github rate limit details
+        </TextLink>
       </TextInfo>
       {loading ? (
         <>

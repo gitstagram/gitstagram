@@ -8,6 +8,7 @@ export enum BootstrapIcons {
   ChevronLeft = 'chevron-left',
   ChevronRight = 'chevron-right',
   ExclamationTriangleFill = 'exclamation-triangle-fill',
+  FileEarmarkZip = 'file-earmark-zip',
   GearFill = 'gear-fill',
   Gear = 'gear',
   Github = 'github',

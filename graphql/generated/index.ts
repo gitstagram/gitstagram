@@ -21976,20 +21976,20 @@ export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, titl
 
 export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> };
 
-export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } };
+export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } };
 
 export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string };
 
-export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> };
+export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> };
 
-export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> };
+export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> };
 
 export type CreateGitstagramLibraryMutationVariables = Exact<{
   firstIssues?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type CreateGitstagramLibraryMutation = { __typename?: 'Mutation', createRepository?: Maybe<{ __typename?: 'CreateRepositoryPayload', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> }> };
+export type CreateGitstagramLibraryMutation = { __typename?: 'Mutation', createRepository?: Maybe<{ __typename?: 'CreateRepositoryPayload', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> }> };
 
 export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
@@ -21997,7 +21997,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, websiteUrl?: Maybe<any>, avatarUrl: any, repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: Maybe<string>, twitterUsername?: Maybe<string>, websiteUrl?: Maybe<any>, avatarUrl: any, repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userName: Scalars['String'];
@@ -22006,7 +22006,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> }> };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'User', repository?: Maybe<{ __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Maybe<Array<Maybe<{ __typename?: 'Issue', id: string, title: string, bodyText: string }>>> } }> }> };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -22045,6 +22045,7 @@ export const Frag_Issue_NodesFragmentDoc = gql`
 export const Frag_Repository_IssuesFragmentDoc = gql`
     fragment FRAG_Repository_Issues on Repository {
   issues(first: $firstIssues) {
+    totalCount
     ...FRAG_Issue_Nodes
   }
 }

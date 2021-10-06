@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
-import { H2, H3, Panel, Hr, Icon } from 'components/ui'
+import { H2, H3, Hr, Icon } from 'components/ui'
 import { ProfileSection } from 'components/settings/profileSection'
 import { RateLimitsSection } from 'components/settings/rateLimitsSection'
+import { AccountSection } from 'components/settings/accountSection'
 
 const SettingsStyles = styled.div`
   width: 100%;
@@ -48,14 +49,10 @@ export const Settings = (): JSX.Element => {
       <Hr deemph />
       <div className='settings-section'>
         <H3>
-          <Icon
-            className='settings-icon'
-            icon='exclamation-triangle-fill'
-            ariaHidden
-          />
+          <Icon className='settings-icon' icon='gear-fill' ariaHidden />
           Account
         </H3>
-        <Panel>Setting</Panel>
+        <AccountSection />
       </div>
     </SettingsStyles>
   )

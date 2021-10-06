@@ -17,11 +17,13 @@ import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) captureException({ graphQLErrors })
-  toast.warn('Experiencing Graphql issues, try again later?')
+  if (graphQLErrors) {
+    toast.warn('Experiencing Graphql issues, try again later?')
+    captureException({ graphQLErrors })
+  }
   if (networkError) {
-    captureException({ networkError })
     toast.warn('Experiencing network issues, try again later?')
+    captureException({ networkError })
   }
 })
 const retryLink = new RetryLink({
@@ -30,7 +32,18 @@ const retryLink = new RetryLink({
   },
 })
 
-const restLink = new RestLink({ uri: 'https://api.github.com' })
+const restLink = new RestLink({
+  uri: 'https://api.github.com',
+  responseTransformer: async (response: Response) => {
+    const json = (await response.json()) as
+      | Record<string, unknown>
+      | Array<unknown>
+    const raw = JSON.stringify(json)
+    if (json.constructor.name === 'Object') return { ...json, raw }
+    if (json.constructor.name === 'Array') return { collection: json, raw }
+    return json
+  },
+})
 
 const httpLink = createHttpLink({
   uri: 'https://api.github.com/graphql',
