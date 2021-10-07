@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 import cn from 'classnames'
 import { Button as ReakitButton } from 'reakit/Button'
@@ -9,12 +9,13 @@ type ButtonVariants = 'large' | 'naked' | IconProps | undefined
 type ButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => void
 
 type ButtonStyleProps = {
-  intent?: 'success' | 'success-invert' | 'warning-invert'
+  intent?: 'success' | 'success-invert' | 'warning-invert' | 'danger-invert'
   variant?: ButtonVariants
   isIconButton?: boolean
   disabled?: boolean
   loading?: boolean
   icon?: IconProps
+  expand?: boolean
 }
 
 type ConditionalProps =
@@ -25,7 +26,8 @@ type ConditionalProps =
 type ButtonProps = ComponentProps & ButtonStyleProps & ConditionalProps
 
 const ButtonStyles = styled(ReakitButton).withConfig({
-  shouldForwardProp: (prop) => !['isIconButton'].includes(prop),
+  shouldForwardProp: (prop) =>
+    !['isIconButton', 'loading', 'expand'].includes(prop),
 })<ButtonStyleProps>`
   padding: ${theme('sz4')} ${theme('sz16')};
   color: ${theme('fontButton_Color')};
@@ -54,6 +56,12 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     color: ${theme('intentDisabled_Color__Accent')};
     background-color: ${theme('intentDisabled_Color')};
   }
+
+  ${({ expand }) =>
+    expand &&
+    css`
+      width: 100%;
+    `}
 
   ${({ variant }) =>
     variant === 'large' &&
@@ -111,6 +119,11 @@ const ButtonStyles = styled(ReakitButton).withConfig({
         color: ${theme('iconInput_Color__Active')};
         background: none;
       }
+
+      &:disabled {
+        background: none;
+        opacity: 0.6;
+      }
     `}
 
   ${({ intent }) =>
@@ -129,9 +142,10 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     `}
 
   ${({ intent }) =>
-    intent === 'success-invert' &&
+    intent &&
+    intent.includes('invert') &&
     css`
-      color: ${theme('intentSuccess_Color')};
+      color: ${theme('fontButton_Color__Invert')};
       background-color: initial;
       border: 1px solid ${theme('buttonInvert_Border_Color')};
       box-shadow: none;
@@ -144,6 +158,14 @@ const ButtonStyles = styled(ReakitButton).withConfig({
       &:hover,
       &:focus {
         color: ${theme('fontButton_Color')};
+      }
+    `}
+
+  ${({ intent }) =>
+    intent === 'success-invert' &&
+    css`
+      &:hover,
+      &:focus {
         background-color: ${theme('intentSuccess_Color')};
       }
 
@@ -156,23 +178,34 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     intent === 'warning-invert' &&
     css`
       color: ${theme('intentWarning_Color')};
-      background-color: initial;
-      border: 1px solid ${theme('buttonInvert_Border_Color')};
-      box-shadow: none;
-      transition: ${theme('trans_ColorBgColor')};
-
-      @media screen and (prefers-reduced-motion: reduce) {
-        transition: none;
-      }
 
       &:hover,
       &:focus {
-        color: ${theme('fontButton_Color')};
         background-color: ${theme('intentWarning_Color')};
       }
 
       &:active {
         background-color: ${theme('intentWarning_Color__Active')};
+      }
+    `}
+
+  ${({ intent }) =>
+    intent === 'danger-invert' &&
+    css`
+      color: ${theme('intentDanger_Color')};
+      border: 1px solid ${theme('intentDanger_Color')};
+
+      &:hover,
+      &:focus {
+        background-color: ${theme('intentDanger_Color')};
+      }
+
+      &:active {
+        background-color: ${theme('intentDanger_Color__Active')};
+      }
+
+      &:disabled {
+        border: 1px solid ${theme('buttonInvert_Border_Color')};
       }
     `}
 
@@ -193,30 +226,42 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     `}
 `
 
+const ClickSpan = styled.span<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      cursor: not-allowed;
+    `}
+`
+
 function isIconVariant(variant: ButtonVariants): variant is IconProps {
   return !!(variant && typeof variant === 'object' && variant?.icon)
 }
 
-export const Button: FC<ButtonProps> = ({
-  children,
-  variant,
-  icon,
-  ...props
-}) => {
+function ButtonBase(
+  { children, variant, icon, disabled, ...props }: ButtonProps,
+  ref: React.Ref<HTMLButtonElement>
+) {
   return (
-    <ButtonStyles
-      variant={variant}
-      isIconButton={isIconVariant(variant)}
-      {...props}
-    >
-      {icon && (
-        <Icon
-          {...icon}
-          size={icon.size || 16}
-          className={cn({ rotate: props.loading })}
-        />
-      )}
-      {isIconVariant(variant) ? <Icon {...variant} /> : children}
-    </ButtonStyles>
+    <ClickSpan disabled={disabled}>
+      <ButtonStyles
+        ref={ref}
+        variant={variant}
+        isIconButton={isIconVariant(variant)}
+        disabled={disabled}
+        {...props}
+      >
+        {icon && (
+          <Icon
+            {...icon}
+            size={icon.size || 16}
+            className={cn({ rotate: props.loading })}
+          />
+        )}
+        {isIconVariant(variant) ? <Icon {...variant} /> : children}
+      </ButtonStyles>
+    </ClickSpan>
   )
 }
+
+export const Button = React.forwardRef(ButtonBase)

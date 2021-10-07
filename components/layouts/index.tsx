@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, ReactNode, useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/client'
 import { useRouter } from 'next/router'
+import cn from 'classnames'
 import { HOME } from 'routes'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
@@ -30,7 +31,10 @@ const LayoutStyles = styled.div`
     margin-right: auto;
     margin-left: auto;
     padding: ${theme('sz32')};
-    padding-top: calc(${theme('sz80')});
+
+    &.header-shown {
+      padding-top: calc(${theme('sz80')});
+    }
   }
 `
 
@@ -91,7 +95,9 @@ export const DefaultLayout = ({
     <LayoutStyles>
       {showHeader && <Header />}
       {ensureLoad && <EnsureLoad />}
-      <main>{!showOverlay && children}</main>
+      <main className={cn({ ['header-shown']: showHeader })}>
+        {!showOverlay && children}
+      </main>
       <Footer />
       <Overlay show={showOverlay} />
     </LayoutStyles>

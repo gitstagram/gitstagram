@@ -89,7 +89,11 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     `}
 
   &[disabled] {
-    color: ${theme('font_Color__Deemph')};
+    .text-input {
+      -webkit-text-fill-color: ${theme('intentDisabled_Color__Accent')};
+      color: ${theme('intentDisabled_Color__Accent')};
+      background-color: ${theme('intentDisabled_Color')};
+    }
 
     label {
       cursor: not-allowed;

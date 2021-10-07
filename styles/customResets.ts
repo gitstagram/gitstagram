@@ -70,6 +70,17 @@ export const customResets = css`
   }
 
   /**
+  * Resets iOS disabled opacity issues
+  * https://stackoverflow.com/a/55876580/2957639
+  */
+  input:disabled,
+  textarea:disabled,
+  input:disabled::placeholder,
+  textarea:disabled::placeholder {
+    opacity: 1;
+  }
+
+  /**
   * Sanitize.css overwrites
   */
   button {

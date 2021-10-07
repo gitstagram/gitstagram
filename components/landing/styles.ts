@@ -7,17 +7,17 @@ export const LandingStyles = styled.div`
   text-align: center;
 
   .logo {
-    margin-bottom: ${theme('sz16')};
+    margin-bottom: ${theme('sz8')};
   }
 
   .hero {
-    margin-bottom: ${theme('sz24')};
+    margin-bottom: ${theme('sz12')};
   }
 
   .benefit-list {
     width: fit-content;
     margin-right: auto;
-    margin-bottom: ${theme('sz24')};
+    margin-bottom: ${theme('sz12')};
     margin-left: auto;
     text-align: left;
 

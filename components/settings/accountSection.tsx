@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Panel, TextAttn, TextInfo, Button, Hr, Icon } from 'components/ui'
+import { Panel, TextAttn, TextInfo, Button, Hr } from 'components/ui'
 import { AccountExportIssues } from 'components/settings/accountExportIssues'
+import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
 
 import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
@@ -58,6 +59,12 @@ export const AccountSection = (): JSX.Element => {
       <div className='account-action'>
         <AccountExportIssues name={name} totalIssues={totalIssues} />
       </div>
+      <Hr deemph />
+      <TextInfo className='account-info'>
+        Deleting Gitstagram removes the repository and all data permanently. You
+        may also optionally unstar all repositories the app has followed
+      </TextInfo>
+      <AccountDelete name={name} />
     </AccountSectionStyles>
   )
 }

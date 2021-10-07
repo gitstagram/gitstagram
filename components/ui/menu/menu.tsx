@@ -20,6 +20,7 @@ const MenuStyles = styled.div<MenuStylesProps>`
   display: flex;
   flex-direction: column;
   width: ${theme('sz192')};
+  overflow: scroll;
   background-color: ${theme('base_BgColor')};
   border-radius: ${theme('rounded_BorderRadius')};
   box-shadow: ${theme('panel_BoxShadow')};
@@ -27,7 +28,6 @@ const MenuStyles = styled.div<MenuStylesProps>`
   transform-origin: top center;
   opacity: 0;
   transition: ${theme('trans_OpacityTransform')};
-  overflow: scroll;
 
   [data-enter] & {
     transform: scaleY(1);

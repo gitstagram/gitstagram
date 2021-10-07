@@ -1,4 +1,5 @@
 export * from 'components/ui/button'
+export * from 'components/ui/dialog'
 export * from 'components/ui/emoji'
 export * from 'components/ui/hr'
 export * from 'components/ui/middot'
@@ -10,6 +11,7 @@ export * from 'components/ui/display/displayUntilTabletLandscape'
 
 export * from 'components/ui/icon/icon'
 
+export * from 'components/ui/inputs/checkbox'
 export * from 'components/ui/inputs/textInput'
 
 export * from 'components/ui/menu/menu'

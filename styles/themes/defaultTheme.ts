@@ -1,4 +1,5 @@
 import * as sys from 'styles/system'
+import { percentToHex } from 'styles/utilities'
 
 const viewPorts = {
   maxWidth: `${sys.maxWidth}rem`,
@@ -16,8 +17,11 @@ const backgrounds = {
   base_BgColor: sys.monos.mc700,
   base_BgColor__Hover: sys.monos.mc500,
   base_BgColor__Active: sys.monos.mc600,
+  dialog_BgColor: `${sys.monos.mc600}${percentToHex(50)}`,
   tableRow_BgColor__THead: sys.monos.mc800,
   tableRow_BgColor__TRowOdd: sys.monos.mc600,
+  checkbox_BgColor: sys.monos.mc800,
+  checkbox_BgColor__Checked: sys.monos.mc600,
 }
 
 const boxShadows = {
@@ -76,24 +80,29 @@ const fonts = {
   fontLabel_FontSize: `${sys.fontSizes.fs14}rem`,
 
   fontButton_Color: sys.monos.mc000,
+  fontButton_Color__Invert: sys.monos.mc200,
   fontButton_FontWeight: 'bold',
   fontButton_FontWeight__Large: 'normal',
 
   fontAttn_FontSize: `${sys.fontSizes.fs12}rem`,
-  fontAttn_Color: `${sys.monos.mc400}`,
+  fontAttn_Color: sys.monos.mc400,
   fontAttn_FontWeight: 'bold',
   fontAttn_TextTransform: 'uppercase',
 
   fontInfo_FontSize: `${sys.fontSizes.fs14}rem`,
-  fontInfo_Color: `${sys.monos.mc400}`,
+  fontInfo_Color: sys.monos.mc400,
   fontInfo_FontStyle: 'italic',
 
-  fontCode_BgColor: `${sys.monos.mc000}`,
-  fontCode_Color: `${sys.monos.mc900}`,
+  fontCode_BgColor: sys.monos.mc000,
+  fontCode_Color: sys.monos.mc900,
 
-  fontPlaceholder_Color: `${sys.monos.mc300}`,
-  fontPlaceholder_FontSize: `${sys.fontSizes.fs14}`,
-  fontPlaceholder_Color__Deemph: `${sys.monos.mc500}`,
+  fontPlaceholder_Color: sys.monos.mc300,
+  fontPlaceholder_FontSize: `${sys.fontSizes.fs16}rem`,
+  fontPlaceholder_Color__Deemph: sys.monos.mc500,
+
+  fontCheckbox_Color: sys.monos.mc100,
+  fontCheckbox_FontSize: `${sys.fontSizes.fs16}rem`,
+  fontCheckbox_FontWeight: 'bold',
 }
 
 const intentionColors = {
@@ -113,6 +122,7 @@ const intentionColors = {
   intentWarning_Color__Active: sys.colors.yellow500,
 
   intentDanger_Color: sys.colors.red500,
+  intentDanger_Color__Active: sys.colors.red700,
 
   intentDisabled_Color: sys.monos.mc600,
   intentDisabled_Color__Accent: sys.monos.mc400,
@@ -132,6 +142,7 @@ const borderColors = {
   input_BorderColor: sys.monos.mc500,
   input_BorderColor__Hover: sys.monos.mc400,
   input_BorderColor__Focus: sys.monos.mc300,
+  input_BorderColor__Active: sys.monos.mc200,
 
   hr_BorderColor: sys.monos.mc300,
   hr_BorderColor__Deemph: sys.monos.mc600,
@@ -139,7 +150,7 @@ const borderColors = {
   buttonInvert_Border_Color: sys.monos.mc500,
 }
 
-const transitionSpeed = `${sys.transitionSpeeds.trans150}`
+const transitionSpeed = sys.transitionSpeeds.trans150
 const opacityAnimate = `opacity ${transitionSpeed}ms ease-in-out`
 const transformAnimate = `transform ${transitionSpeed}ms ease-in-out`
 const colorAnimate = `color ${transitionSpeed}ms ease-in-out`

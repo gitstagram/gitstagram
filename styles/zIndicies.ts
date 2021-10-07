@@ -1,4 +1,5 @@
 export const zIndicies = {
+  dialog: 9,
   overlay: 2,
   header: 1,
   main: 0,

@@ -33,3 +33,12 @@ declare interface InputProps<T> extends ComponentProps {
   label?: string
   loading?: boolean
 }
+
+declare interface CheckboxProps extends BaseProps {
+  id: string
+  name: string
+  initialValue: boolean
+  onChange?: InputChangeHandler<boolean>
+  disabled?: boolean
+  label?: JSX.Element
+}

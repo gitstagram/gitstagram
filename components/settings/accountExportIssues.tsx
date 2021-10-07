@@ -11,7 +11,7 @@ type AccountExportIssuesProps = {
   totalIssues?: number
 }
 
-type ExportState = 'base' | 'loading' | 'error'
+type ExportState = 'base' | 'loading'
 
 export const AccountExportIssues = ({
   name,
@@ -60,19 +60,14 @@ export const AccountExportIssues = ({
     }
   }
 
-  const icon =
-    state === 'loading'
-      ? 'gear'
-      : state === 'error'
-      ? 'exclamation-triangle-fill'
-      : 'file-earmark-zip'
+  const icon = state === 'loading' ? 'gear' : 'file-earmark-zip'
 
   return (
     <>
       <TextAttn>Export repository issues:</TextAttn>
       <Button
         onClick={handleExportIssues}
-        intent={state === 'error' ? 'warning-invert' : 'success-invert'}
+        intent='success-invert'
         disabled={state === 'loading'}
         loading={state === 'loading'}
         icon={{ icon, ariaHidden: true }}
