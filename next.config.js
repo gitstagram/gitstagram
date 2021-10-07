@@ -1,8 +1,25 @@
+const { exec } = require('child_process')
+const path = require('path')
 const { withSentryConfig } = require('@sentry/nextjs')
-
 const ESLintPlugin = require('eslint-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin')
+
+if (process.env.NODE_ENV === 'production') {
+  // Force sentry install if postinstall scripts did not run
+  const installSentry = path.join(
+    'node_modules',
+    '@sentry',
+    'cli',
+    'scripts',
+    'install.js'
+  )
+  exec(`node ${installSentry}`, (error, stdout, stderr) => {
+    if (error) console.log(`Sentry install ERROR  - ${error.message}`)
+    if (stderr) console.log(`Sentry install STDERR  - ${stderr}`)
+    if (stdout) console.log(`Sentry install STDOUT  - ${stdout}`)
+  })
+}
 
 const nextConfig = {
   reactStrictMode: true,

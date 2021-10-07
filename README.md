@@ -42,8 +42,6 @@ The script will automatically update `styles/bootstrapIconSubset.css`, `public/b
 
 ## Sentry
 
-Sentry `.sentryclirc.example` shows format needed for Sentry to upload sourcemaps with development tooling via CLI.
-
 Sentry is disabled in `process.env.NODE_ENV === 'development'` in the files `next.config.js` and in the error handlers in `helpers/errorHandling`. Switch them to test Sentry functionality.
 
 ## Committing Code

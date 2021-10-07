@@ -32,6 +32,10 @@ const DialogBackdropStyles = styled(DialogBackdrop)`
   opacity: 0;
   transition: ${theme('trans_Opacity')};
 
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   &[data-enter] {
     opacity: 1;
   }
@@ -46,6 +50,10 @@ const ReakitDialogStyles = styled(ReakitDialog)`
   box-shadow: ${theme('panel_BoxShadow')};
   opacity: 0;
   transition: ${theme('trans_Opacity')};
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 
   &[data-enter] {
     opacity: 1;
