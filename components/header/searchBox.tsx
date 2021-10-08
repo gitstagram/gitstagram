@@ -68,6 +68,7 @@ function SearchBoxBase(
       </MenuButton>
       <Menu
         {...menu}
+        allowScroll
         className='search-menu'
         hasArrow={false}
         ariaLabel='Search results'

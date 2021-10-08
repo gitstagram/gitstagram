@@ -17,6 +17,7 @@ const backgrounds = {
   base_BgColor: sys.monos.mc700,
   base_BgColor__Hover: sys.monos.mc500,
   base_BgColor__Active: sys.monos.mc600,
+  base_BgColor__Emph: sys.monos.mc600,
   dialog_BgColor: `${sys.monos.mc600}${percentToHex(50)}`,
   tableRow_BgColor__THead: sys.monos.mc800,
   tableRow_BgColor__TRowOdd: sys.monos.mc600,

@@ -1,11 +1,21 @@
 import React, { FC } from 'react'
-import styled from 'styled-components'
-import { MenuItem as ReakitMenuItem, MenuItemProps } from 'reakit/Menu'
+import styled, { css } from 'styled-components'
+import {
+  MenuItem as ReakitMenuItem,
+  MenuItemProps as ReakitMenuItemProps,
+} from 'reakit/Menu'
 import { As } from 'reakit-utils/types'
 import { theme } from 'styles/themes'
 import { zIndicies } from 'styles/zIndicies'
 
-const MenuItemStyles = styled(ReakitMenuItem)`
+type MenuItemStylesProps = {
+  highlighted?: boolean
+}
+type MenuItemProps = ReakitMenuItemProps & MenuItemStylesProps & { as?: As }
+
+const MenuItemStyles = styled(ReakitMenuItem).withConfig({
+  shouldForwardProp: (prop) => !['highlighted'].includes(prop),
+})<MenuItemStylesProps>`
   button&,
   a {
     z-index: ${zIndicies.menuItem};
@@ -17,10 +27,17 @@ const MenuItemStyles = styled(ReakitMenuItem)`
     text-decoration: none;
     border: none;
     cursor: pointer;
+    background-color: ${theme('base_BgColor')};
 
     i {
       margin-right: ${theme('sz8')};
     }
+
+    ${({ highlighted }) =>
+      highlighted &&
+      css`
+        background-color: ${theme('base_BgColor__Emph')};
+      `}
 
     &[aria-selected],
     &:hover,
@@ -52,9 +69,6 @@ const MenuItemStyles = styled(ReakitMenuItem)`
   }
 `
 
-export const MenuItem: FC<MenuItemProps & { as?: As }> = ({
-  as = 'button',
-  ...props
-}) => {
+export const MenuItem: FC<MenuItemProps> = ({ as = 'button', ...props }) => {
   return <MenuItemStyles forwardedAs={as} {...props} />
 }

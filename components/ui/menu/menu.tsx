@@ -10,9 +10,14 @@ import { zIndicies } from 'styles/zIndicies'
 
 interface MenuStylesProps {
   expand?: boolean
+  arrowHighlighted?: boolean
+  allowScroll?: boolean
 }
 
-const MenuStyles = styled.div<MenuStylesProps>`
+const MenuStyles = styled.div.withConfig({
+  shouldForwardProp: (prop) =>
+    !['arrowHighlighted', 'allowScroll'].includes(prop),
+})<MenuStylesProps>`
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
   }
@@ -20,7 +25,6 @@ const MenuStyles = styled.div<MenuStylesProps>`
   display: flex;
   flex-direction: column;
   width: ${theme('sz192')};
-  overflow: scroll;
   background-color: ${theme('base_BgColor')};
   border-radius: ${theme('rounded_BorderRadius')};
   box-shadow: ${theme('panel_BoxShadow')};
@@ -36,8 +40,14 @@ const MenuStyles = styled.div<MenuStylesProps>`
 
   .menu-arrow {
     top: -40px;
-    z-index: ${zIndicies.menuItem};
+    z-index: ${zIndicies.menuArrow};
     color: ${theme('base_BgColor')};
+
+    ${({ arrowHighlighted }) =>
+      arrowHighlighted &&
+      css`
+        color: ${theme('base_BgColor__Hover')};
+      `}
   }
 
   ${({ expand }) =>
@@ -45,13 +55,19 @@ const MenuStyles = styled.div<MenuStylesProps>`
     css`
       width: 100%;
     `}
+
+  ${({ allowScroll }) =>
+    allowScroll &&
+    css`
+      overflow: scroll;
+    `}
 `
 
-type MenuProps = ReakitMenuProps & {
-  ariaLabel: string
-  hasArrow?: boolean
-  expand?: boolean
-}
+type MenuProps = ReakitMenuProps &
+  MenuStylesProps & {
+    ariaLabel: string
+    hasArrow?: boolean
+  }
 
 export const Menu: FC<MenuProps> = ({
   children,
@@ -59,11 +75,18 @@ export const Menu: FC<MenuProps> = ({
   ariaLabel,
   hasArrow = true,
   expand,
+  arrowHighlighted,
+  allowScroll,
   ...props
 }): JSX.Element => {
   return (
     <ReakitMenu aria-label={ariaLabel} {...props}>
-      <MenuStyles className={className} expand={expand}>
+      <MenuStyles
+        className={className}
+        expand={expand}
+        arrowHighlighted={arrowHighlighted}
+        allowScroll={allowScroll}
+      >
         {hasArrow && <MenuArrow {...props} className='menu-arrow' />}
         {children}
       </MenuStyles>
