@@ -35,10 +35,16 @@ const retryLink = new RetryLink({
 const restLink = new RestLink({
   uri: 'https://api.github.com',
   responseTransformer: async (response: Response) => {
+    // If response is null (404) or empty object (no response e.g. DELETE)
+    const isResponse = response instanceof Response
+    if (!isResponse) return response
+
     const json = (await response.json()) as
       | Record<string, unknown>
       | Array<unknown>
     const raw = JSON.stringify(json)
+    // Append entire response into `raw` key.
+    // Array returns placed under `collection` key
     if (json.constructor.name === 'Object') return { ...json, raw }
     if (json.constructor.name === 'Array') return { collection: json, raw }
     return json

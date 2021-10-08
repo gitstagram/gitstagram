@@ -27,7 +27,7 @@ export default NextAuth({
     Providers.GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      scope: 'user public_repo',
+      scope: 'user public_repo delete_repo',
     }),
   ],
   logger: {

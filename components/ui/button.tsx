@@ -9,6 +9,7 @@ type ButtonVariants = 'large' | 'naked' | IconProps | undefined
 type ButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => void
 
 type ButtonStyleProps = {
+  type?: string
   intent?: 'success' | 'success-invert' | 'warning-invert' | 'danger-invert'
   variant?: ButtonVariants
   isIconButton?: boolean

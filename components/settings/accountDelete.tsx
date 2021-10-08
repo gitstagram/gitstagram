@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { signOut } from 'next-auth/client'
 import { useDialogState, DialogDisclosure } from 'reakit/Dialog'
 import {
   TextAttn,
@@ -10,6 +11,12 @@ import {
   TextInput,
 } from 'components/ui'
 import { theme } from 'styles/themes'
+
+import {
+  deleteStarQueryPromise,
+  deleteRepoQueryPromise,
+} from 'graphql/restOperations/restQueries'
+import { promiseReduce, captureException } from 'helpers'
 
 type AccountDeleteProps = {
   name?: string
@@ -42,8 +49,12 @@ const DeleteDialogStyles = styled(Dialog)`
   }
 
   .delete-input {
-    margin-bottom: ${theme('sz16')};
+    margin-bottom: ${theme('sz8')};
     text-align: center;
+
+    label {
+      margin-bottom: ${theme('sz8')};
+    }
   }
 `
 
@@ -51,7 +62,7 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
   const dialog = useDialogState({ animated: true, modal: true })
 
   const [state, setState] = useState<DeleteState>('base')
-  const [unstarState, setUnstarState] = useState<boolean>(true)
+  const [unstarState, setUnstarState] = useState<boolean>(false)
   const [confirmVal, setConfirmVal] = useState<string>('')
 
   const handleCheckboxChange = (value: boolean) => {
@@ -62,8 +73,22 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
     setConfirmVal(value)
   }
 
-  const handleDeleteClick = () => {
+  const handleDelete = (e: React.SyntheticEvent) => {
+    e.preventDefault()
     setState('loading')
+    const followingList: string[] = []
+
+    const unstarUserList: string[] = unstarState ? followingList : []
+    const promises = unstarUserList.map((user) =>
+      deleteStarQueryPromise({ userName: user })
+    )
+    void promiseReduce(promises)
+      .then(() => {
+        if (!name) throw new Error('No username for repo deletion')
+        return deleteRepoQueryPromise({ userName: name })
+      })
+      .catch((err) => captureException(err))
+      .finally(() => void signOut())
   }
 
   const isLoading = state === 'loading'
@@ -100,12 +125,14 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
         </DialogDisclosure>
         <DeleteDialogStyles
           {...dialog}
+          hasFormAndOnSubmit={handleDelete}
           ariaLabel='Delete Gitstagram account dialog'
           disabled={isLoading}
           title={<span className='delete-header'>Delete Repository?</span>}
           footer={
             <Button
-              onClick={handleDeleteClick}
+              type='submit'
+              onClick={handleDelete}
               intent='danger-invert'
               disabled={unconfirmed || isLoading}
               loading={isLoading}

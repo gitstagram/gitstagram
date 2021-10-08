@@ -91,3 +91,67 @@ export const getIssueExportQueryPromise = (
     variables,
   })
 }
+
+type DeleteStarQuery = {
+  deleteStar: {
+    raw: string
+  }
+}
+
+type DeleteStarQueryVariables = {
+  userName: string
+}
+
+const DELETE_STAR = gql`
+  query DeleteStar($userName: String!) {
+    deleteStar(userName: $userName)
+      @rest(
+        type: "RestDeleteStar"
+        path: "/user/starred/{args.userName}/gitstagram-library"
+        method: "DELETE"
+      ) {
+      raw
+    }
+  }
+`
+
+export const deleteStarQueryPromise = (
+  variables: DeleteStarQueryVariables
+): Promise<ApolloQueryResult<DeleteStarQuery>> => {
+  return apolloClient.query<DeleteStarQuery>({
+    query: DELETE_STAR,
+    variables,
+  })
+}
+
+type DeleteRepoQuery = {
+  deleteRepo: {
+    raw: string
+  }
+}
+
+type DeleteRepoQueryVariables = {
+  userName: string
+}
+
+const DELETE_REPO = gql`
+  query DeleteRepo($userName: String!) {
+    deleteRepo(userName: $userName)
+      @rest(
+        type: "RestDeleteRepo"
+        path: "/repos/{args.userName}/gitstagram-library"
+        method: "DELETE"
+      ) {
+      raw
+    }
+  }
+`
+
+export const deleteRepoQueryPromise = (
+  variables: DeleteRepoQueryVariables
+): Promise<ApolloQueryResult<DeleteRepoQuery>> => {
+  return apolloClient.query<DeleteRepoQuery>({
+    query: DELETE_REPO,
+    variables,
+  })
+}

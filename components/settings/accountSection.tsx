@@ -37,7 +37,7 @@ export const AccountSection = (): JSX.Element => {
       <TextInfo className='account-info'>
         The <kbd>`gitstagram-library`</kbd> repository holds Gitstagram posts
         and uploaded images , as well as follower/followings and other metadata
-        information
+        information.
       </TextInfo>
       <div className='account-action'>
         <TextAttn>Export repository:</TextAttn>
@@ -54,7 +54,7 @@ export const AccountSection = (): JSX.Element => {
       <TextInfo className='account-info'>
         The repository&apos;s issues holds interactive data with other users
         such as comments and likes. Exporting calls the REST API in batches of
-        100 until all issues are exported
+        100 until all issues are exported.
       </TextInfo>
       <div className='account-action'>
         <AccountExportIssues name={name} totalIssues={totalIssues} />
@@ -62,7 +62,7 @@ export const AccountSection = (): JSX.Element => {
       <Hr deemph />
       <TextInfo className='account-info'>
         Deleting Gitstagram removes the repository and all data permanently. You
-        may also optionally unstar all repositories the app has followed
+        may also optionally unstar all repositories the app has followed.
       </TextInfo>
       <AccountDelete name={name} />
     </AccountSectionStyles>

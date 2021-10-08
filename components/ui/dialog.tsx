@@ -16,6 +16,7 @@ type DialogProps = DialogStateReturn &
     disabled?: boolean
     clearable?: boolean
     footer?: JSX.Element | string
+    hasFormAndOnSubmit?: React.FormEventHandler<HTMLFormElement>
   }
 
 const DialogBackdropStyles = styled(DialogBackdrop)`
@@ -84,8 +85,30 @@ export const Dialog = ({
   title,
   footer,
   clearable = true,
+  hasFormAndOnSubmit,
   ...props
 }: DialogProps): JSX.Element => {
+  const content = (
+    <>
+      <div className='dialog-title'>
+        <TextAttn>{title}</TextAttn>
+        {clearable && (
+          <Button
+            onClick={props.hide}
+            disabled={disabled}
+            variant={{
+              icon: 'x-lg',
+              size: 12,
+              ariaLabel: `Close ${ariaLabel}`,
+            }}
+          />
+        )}
+      </div>
+      <div className='dialog-body'>{children}</div>
+      {footer && <div className='dialog-footer'>{footer}</div>}
+    </>
+  )
+
   return (
     <DialogBackdropStyles className={className} {...props}>
       <ReakitDialogStyles
@@ -94,22 +117,11 @@ export const Dialog = ({
         hideOnEsc={!disabled}
         hideOnClickOutside={!disabled}
       >
-        <div className='dialog-title'>
-          <TextAttn>{title}</TextAttn>
-          {clearable && (
-            <Button
-              onClick={props.hide}
-              disabled={disabled}
-              variant={{
-                icon: 'x-lg',
-                size: 12,
-                ariaLabel: `Close ${ariaLabel}`,
-              }}
-            />
-          )}
-        </div>
-        <div className='dialog-body'>{children}</div>
-        {footer && <div className='dialog-footer'>{footer}</div>}
+        {hasFormAndOnSubmit ? (
+          <form onSubmit={hasFormAndOnSubmit}>{content}</form>
+        ) : (
+          content
+        )}
       </ReakitDialogStyles>
     </DialogBackdropStyles>
   )

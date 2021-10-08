@@ -75,6 +75,7 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
   }
 
   label {
+    display: block;
     font-weight: ${theme('fontLabel_FontWeight')};
     font-size: ${theme('fontLabel_FontSize')};
   }
