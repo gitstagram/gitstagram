@@ -67,16 +67,16 @@ type GetRestIssueExportQuery = {
 }
 
 type GetRestIssueExportQueryVariables = {
-  userName: string
+  userLogin: string
   page: number
 }
 
 const GET_ISSUE_EXPORT = gql`
-  query GetIssueExport($userName: String!, $page: Int!) {
-    restIssues(userName: $userName, page: $page)
+  query GetIssueExport($userLogin: String!, $page: Int!) {
+    restIssues(userLogin: $userLogin, page: $page)
       @rest(
         type: "RestIssues"
-        path: "/repos/{args.userName}/gitstagram-library/issues?state=all&per_page=100&page={args.page}"
+        path: "/repos/{args.userLogin}/gitstagram-library/issues?state=all&per_page=100&page={args.page}"
       ) {
       raw
     }
@@ -99,15 +99,15 @@ type DeleteStarQuery = {
 }
 
 type DeleteStarQueryVariables = {
-  userName: string
+  userLogin: string
 }
 
 const DELETE_STAR = gql`
-  query DeleteStar($userName: String!) {
-    deleteStar(userName: $userName)
+  query DeleteStar($userLogin: String!) {
+    deleteStar(userLogin: $userLogin)
       @rest(
         type: "RestDeleteStar"
-        path: "/user/starred/{args.userName}/gitstagram-library"
+        path: "/user/starred/{args.userLogin}/gitstagram-library"
         method: "DELETE"
       ) {
       raw
@@ -131,15 +131,15 @@ type DeleteRepoQuery = {
 }
 
 type DeleteRepoQueryVariables = {
-  userName: string
+  userLogin: string
 }
 
 const DELETE_REPO = gql`
-  query DeleteRepo($userName: String!) {
-    deleteRepo(userName: $userName)
+  query DeleteRepo($userLogin: String!) {
+    deleteRepo(userLogin: $userLogin)
       @rest(
         type: "RestDeleteRepo"
-        path: "/repos/{args.userName}/gitstagram-library"
+        path: "/repos/{args.userLogin}/gitstagram-library"
         method: "DELETE"
       ) {
       raw

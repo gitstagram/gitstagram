@@ -6,7 +6,9 @@ import styled from 'styled-components'
 import { MenuButton, useMenuState } from 'reakit/Menu'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
-import { SETTINGS, PROFILE } from 'routes'
+import { SETTINGS, PROFILE, getProfilePath } from 'routes'
+
+import { useGetViewerQuery } from 'graphql/generated'
 
 const ProfileMenuStyles = styled.div`
   display: flex;
@@ -23,6 +25,8 @@ const ProfileMenuStyles = styled.div`
 export const ProfileMenu = (): JSX.Element => {
   const router = useRouter()
   const [session] = useSession()
+  const { data } = useGetViewerQuery()
+  const viewerLogin = data?.viewer.login
 
   const menu = useMenuState({
     animated: true,
@@ -39,10 +43,10 @@ export const ProfileMenu = (): JSX.Element => {
   const isProfilePath = router.pathname === PROFILE
   const isSettingsPath = router.pathname === SETTINGS
 
-  return session?.user ? (
+  return session && viewerLogin ? (
     <ProfileMenuStyles>
       <MenuButton {...menu} className='profile-menu-button'>
-        <ProfileIcon interactive fromSession />
+        <ProfileIcon interactive useViewer />
       </MenuButton>
       <Menu {...menu} ariaLabel='Profile menu' arrowHighlighted={isProfilePath}>
         <MenuItem
@@ -51,7 +55,7 @@ export const ProfileMenu = (): JSX.Element => {
           onClick={menu.hide}
           highlighted={isProfilePath}
         >
-          <Link href={`/${session?.user?.name}`}>
+          <Link href={getProfilePath(viewerLogin)}>
             <a>
               <Icon icon='person' size={16} ariaHidden />
               Profile

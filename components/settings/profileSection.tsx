@@ -36,12 +36,7 @@ export const ProfileSection = (): JSX.Element => {
 
   return (
     <ProfileSectionStyles>
-      <ProfileIcon
-        className='profile-image'
-        size={96}
-        url={data?.viewer.avatarUrl as string}
-        name={data?.viewer.login as string}
-      />
+      <ProfileIcon className='profile-image' size={96} useViewer />
       <TextInput
         className='profile-input'
         id='profile-name'

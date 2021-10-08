@@ -5,7 +5,9 @@ import styled from 'styled-components'
 import { Icon } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
-import { HOME } from 'routes'
+import { HOME, getProfilePath } from 'routes'
+
+import { useGetViewerQuery } from 'graphql/generated'
 
 const MobileBottomNavStyles = styled.nav`
   position: fixed;
@@ -44,8 +46,12 @@ const MobileBottomNavStyles = styled.nav`
 
 export const MobileBottomNav = (): JSX.Element => {
   const router = useRouter()
+  const { userLogin } = router.query
 
-  return (
+  const { data } = useGetViewerQuery()
+  const viewerLogin = data?.viewer.login
+
+  return viewerLogin ? (
     <MobileBottomNavStyles>
       <Link href={HOME}>
         <a>
@@ -64,11 +70,13 @@ export const MobileBottomNav = (): JSX.Element => {
         icon='camera'
         ariaLabel='Add a photo'
       />
-      <Link href={HOME}>
+      <Link href={getProfilePath(viewerLogin)}>
         <a>
-          <ProfileIcon interactive fromSession />
+          <ProfileIcon interactive useViewer emph={userLogin === viewerLogin} />
         </a>
       </Link>
     </MobileBottomNavStyles>
+  ) : (
+    <></>
   )
 }

@@ -19,7 +19,7 @@ import {
 import { promiseReduce, captureException } from 'helpers'
 
 type AccountDeleteProps = {
-  name?: string
+  viewerLogin: string
 }
 
 type DeleteState = 'base' | 'loading'
@@ -58,7 +58,9 @@ const DeleteDialogStyles = styled(Dialog)`
   }
 `
 
-export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
+export const AccountDelete = ({
+  viewerLogin,
+}: AccountDeleteProps): JSX.Element => {
   const dialog = useDialogState({
     animated: true,
     modal: true,
@@ -82,14 +84,13 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
     setState('loading')
     const followingList: string[] = []
 
-    const unstarUserList: string[] = unstarState ? followingList : []
-    const promises = unstarUserList.map((user) =>
-      deleteStarQueryPromise({ userName: user })
+    const unstarLoginList: string[] = unstarState ? followingList : []
+    const promises = unstarLoginList.map((userLogin) =>
+      deleteStarQueryPromise({ userLogin: userLogin })
     )
     void promiseReduce(promises)
       .then(() => {
-        if (!name) throw new Error('No username for repo deletion')
-        return deleteRepoQueryPromise({ userName: name })
+        return deleteRepoQueryPromise({ userLogin: viewerLogin })
       })
       .catch((err) => captureException(err))
       .finally(() => void signOut())
@@ -98,7 +99,7 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
   const isLoading = state === 'loading'
   const icon = isLoading ? 'gear' : 'exclamation-triangle-fill'
 
-  const unconfirmed = confirmVal !== `${name}/gitstagram-library`
+  const unconfirmed = confirmVal !== `${viewerLogin}/gitstagram-library`
 
   return (
     <AccountDeleteStyles>
@@ -150,8 +151,8 @@ export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
           <div className='delete-body'>
             <TextInfo className='delete-final-warning'>
               This action <b>cannot</b> be undone. This will permanently delete
-              the <kbd>{name}/gitstagram-library</kbd> repository, wiki, issues,
-              comments, packages, secrets, workflow runs, and remove all
+              the <kbd>{viewerLogin}/gitstagram-library</kbd> repository, wiki,
+              issues, comments, packages, secrets, workflow runs, and remove all
               collaborator associations.
             </TextInfo>
             <TextInput

@@ -7,27 +7,27 @@ import { times, promiseReduce, captureException } from 'helpers'
 import { getIssueExportQueryPromise } from 'graphql/restOperations/restQueries'
 
 type AccountExportIssuesProps = {
-  name?: string
+  viewerLogin: string
   totalIssues?: number
 }
 
 type ExportState = 'base' | 'loading'
 
 export const AccountExportIssues = ({
-  name,
+  viewerLogin,
   totalIssues,
 }: AccountExportIssuesProps): JSX.Element => {
   const [state, setState] = useState<ExportState>('base')
 
   const handleExportIssues = () => {
-    if (totalIssues && name) {
+    if (totalIssues && viewerLogin) {
       setState('loading')
 
       const pages = Math.ceil(totalIssues / 100)
       const promises = times(pages).map((_, index) => {
         const pageNum = index + 1
         return getIssueExportQueryPromise({
-          userName: name,
+          userLogin: viewerLogin,
           page: pageNum,
         })
           .then(({ data }) => data.restIssues.raw)

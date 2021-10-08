@@ -21,11 +21,11 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
   ${parts.PART_Repository_With_Issues_On_User}
 
   query GetUserGitstagramLibrary(
-    $userName: String!
+    $userLogin: String!
     $repositoryName: String = "gitstagram-library"
     $firstIssues: Int = 21
   ) {
-    user(login: $userName) {
+    user(login: $userLogin) {
       ...PART_Repository_With_Issues_On_User
     }
   }

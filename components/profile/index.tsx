@@ -1,9 +1,9 @@
 import React from 'react'
 
 type ProfileProps = {
-  name: string
+  userLogin: string
 }
 
-export const Profile = ({ name }: ProfileProps): JSX.Element => {
-  return <>{name}</>
+export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
+  return <>{userLogin}</>
 }

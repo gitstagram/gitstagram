@@ -1,18 +1,20 @@
 import React from 'react'
 import Image from 'next/image'
-import { useSession } from 'next-auth/client'
 import styled, { css } from 'styled-components'
 import { NextImgWrapper, Icon } from 'components/ui'
 import { theme } from 'styles/themes'
 
+import { useGetViewerQuery } from 'graphql/generated'
+
 type ProfileIconStylesProps = {
   interactive?: boolean
   size?: 32 | 96
+  emph?: boolean
 }
 
 type ConditionalProps =
-  | { fromSession?: never; url: string; name: string }
-  | { fromSession: true; url?: never; name?: never }
+  | { useViewer?: never; url: string; userLogin: string }
+  | { useViewer: true; url?: never; userLogin?: never }
 
 type ProfileIconProps = ProfileIconStylesProps &
   ComponentProps &
@@ -54,6 +56,12 @@ const ProfileWrapper = styled.div<ProfileIconStylesProps>`
       &:active {
         border: 1px solid ${theme('iconNav_Color__Active')};
       }
+    `}
+
+  ${({ emph }) =>
+    emph &&
+    css`
+      border: 1px solid ${theme('intentPrimary_Color')};
     `}
 `
 
@@ -111,26 +119,28 @@ const PlaceholderWrapper = styled.div<ProfileIconStylesProps>`
 `
 
 export const ProfileIcon = ({
-  fromSession,
+  useViewer,
   url,
-  name,
+  userLogin,
   size = 32,
   ...props
 }: ProfileIconProps): JSX.Element => {
-  const [session] = useSession()
+  const { data } = useGetViewerQuery()
+  const viewerLogin = data?.viewer.login
+  const viewerImgUrl = data?.viewer.avatarUrl as Maybe<string>
 
-  const imgSrc = fromSession ? session?.user?.image : url
-  const imgName = fromSession ? session?.user?.name : name
+  const imgUrl = useViewer ? viewerImgUrl : url
+  const imgLogin = useViewer ? viewerLogin : userLogin
 
-  return imgSrc && imgName ? (
+  return imgUrl && imgLogin ? (
     <ProfileWrapper size={size} {...props}>
       <NextImgWrapper>
         <Image
           className='profile-image'
           unoptimized
-          src={imgSrc}
+          src={imgUrl}
           layout='fill'
-          alt={`${imgName}'s avatar`}
+          alt={`${imgLogin}'s avatar`}
         />
       </NextImgWrapper>
     </ProfileWrapper>

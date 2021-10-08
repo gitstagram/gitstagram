@@ -29,10 +29,10 @@ const AccountSectionStyles = styled(Panel)`
 
 export const AccountSection = (): JSX.Element => {
   const { data } = useGetViewerGitstagramLibraryQuery()
-  const name = data?.viewer.login
+  const viewerLogin = data?.viewer.login
   const totalIssues = data?.viewer?.repository?.issues.totalCount
 
-  return (
+  return viewerLogin ? (
     <AccountSectionStyles>
       <TextInfo className='account-info'>
         The <kbd>`gitstagram-library`</kbd> repository holds Gitstagram posts
@@ -44,7 +44,7 @@ export const AccountSection = (): JSX.Element => {
         <Button
           as='a'
           intent='success-invert'
-          href={`https://github.com/${name}/gitstagram-library/archive/refs/heads/main.zip`}
+          href={`https://github.com/${viewerLogin}/gitstagram-library/archive/refs/heads/main.zip`}
           icon={{ icon: 'file-earmark-zip', ariaHidden: true }}
         >
           Download Zip
@@ -57,14 +57,19 @@ export const AccountSection = (): JSX.Element => {
         100 until all issues are exported.
       </TextInfo>
       <div className='account-action'>
-        <AccountExportIssues name={name} totalIssues={totalIssues} />
+        <AccountExportIssues
+          viewerLogin={viewerLogin}
+          totalIssues={totalIssues}
+        />
       </div>
       <Hr deemph />
       <TextInfo className='account-info'>
         Deleting Gitstagram removes the repository and all data permanently. You
         may also optionally unstar all repositories the app has followed.
       </TextInfo>
-      <AccountDelete name={name} />
+      <AccountDelete viewerLogin={viewerLogin} />
     </AccountSectionStyles>
+  ) : (
+    <></>
   )
 }

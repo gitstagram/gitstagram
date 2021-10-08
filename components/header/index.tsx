@@ -73,7 +73,7 @@ const HeaderStyles = styled.header`
     justify-content: center;
   }
 
-  i {
+  .nav-icon {
     margin-right: ${theme('sz16')};
     color: ${theme('iconNav_Color')};
 
