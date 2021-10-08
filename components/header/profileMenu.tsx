@@ -28,6 +28,7 @@ export const ProfileMenu = (): JSX.Element => {
     animated: true,
     placement: 'bottom-end',
     gutter: 8,
+    baseId: 'ProfileMenu',
   })
 
   const handleLogout = (): void => {

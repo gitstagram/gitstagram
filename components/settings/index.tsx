@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
-import { H2, H3, Hr, Icon } from 'components/ui'
+import { H2, H3, Hr, Icon, FromTabletLandscape } from 'components/ui'
 import { ProfileSection } from 'components/settings/profileSection'
 import { RateLimitsSection } from 'components/settings/rateLimitsSection'
 import { AccountSection } from 'components/settings/accountSection'
@@ -13,8 +13,8 @@ const SettingsStyles = styled.div`
   margin-left: auto;
 
   .settings-section {
-    margin-top: ${theme('sz56')};
-    margin-bottom: ${theme('sz56')};
+    margin-top: ${theme('sz32')};
+    margin-bottom: ${theme('sz32')};
   }
 
   h3 {
@@ -29,8 +29,10 @@ const SettingsStyles = styled.div`
 export const Settings = (): JSX.Element => {
   return (
     <SettingsStyles>
-      <H2>Settings</H2>
-      <Hr />
+      <FromTabletLandscape>
+        <H2>Settings</H2>
+        <Hr className='hr' />
+      </FromTabletLandscape>
       <div className='settings-section'>
         <H3>
           <Icon className='settings-icon' icon='person-fill' ariaHidden />

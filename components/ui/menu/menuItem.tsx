@@ -1,5 +1,7 @@
+/* eslint-disable */
 import React, { FC } from 'react'
 import styled, { css } from 'styled-components'
+import cn from 'classnames'
 import {
   MenuItem as ReakitMenuItem,
   MenuItemProps as ReakitMenuItemProps,
@@ -25,28 +27,22 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
     padding: ${theme('sz8')} ${theme('sz12')};
     color: ${theme('font_Color')};
     text-decoration: none;
+    background-color: ${theme('base_BgColor')};
     border: none;
     cursor: pointer;
-    background-color: ${theme('base_BgColor')};
 
     i {
       margin-right: ${theme('sz8')};
     }
 
-    ${({ highlighted }) =>
-      highlighted &&
-      css`
-        background-color: ${theme('base_BgColor__Emph')};
-      `}
-
     &[aria-selected],
     &:hover,
     &:focus {
-      background-color: ${theme('base_BgColor__Hover')};
+      background-color: ${theme('base_BgColor__Hover')} !important;
     }
 
     &:active {
-      background-color: ${theme('base_BgColor__Active')};
+      background-color: ${theme('base_BgColor__Active')} !important;
     }
   }
 
@@ -67,8 +63,25 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
   :only-child {
     border-radius: ${theme('rounded_BorderRadius')};
   }
+
+  &.highlighted {
+    a {
+      background-color: ${theme('base_BgColor__Emph')};
+    }
+  }
 `
 
-export const MenuItem: FC<MenuItemProps> = ({ as = 'button', ...props }) => {
-  return <MenuItemStyles forwardedAs={as} {...props} />
+export const MenuItem: FC<MenuItemProps> = ({
+  as = 'button',
+  className,
+  highlighted,
+  ...props
+}) => {
+  return (
+    <MenuItemStyles
+      forwardedAs={as}
+      className={cn(className, { highlighted })}
+      {...props}
+    />
+  )
 }

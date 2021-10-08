@@ -23,6 +23,7 @@ function SearchBoxBase(
   const menu = useMenuState({
     animated: true,
     gutter: 2,
+    baseId: 'SearchBox',
   })
 
   const handleChange: InputChangeHandler<string> = (val) => {

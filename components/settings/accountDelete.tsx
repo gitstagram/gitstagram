@@ -59,7 +59,11 @@ const DeleteDialogStyles = styled(Dialog)`
 `
 
 export const AccountDelete = ({ name }: AccountDeleteProps): JSX.Element => {
-  const dialog = useDialogState({ animated: true, modal: true })
+  const dialog = useDialogState({
+    animated: true,
+    modal: true,
+    baseId: 'AccountDelete',
+  })
 
   const [state, setState] = useState<DeleteState>('base')
   const [unstarState, setUnstarState] = useState<boolean>(false)

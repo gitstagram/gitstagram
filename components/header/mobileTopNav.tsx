@@ -1,19 +1,34 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { useRouter } from 'next/router'
 import { Button } from 'components/ui'
+import { HOME } from 'routes'
 
-const MobileTopNavStyles = styled.div``
+type MobileTopNavStylesProps = {
+  hide?: boolean
+}
 
-export const MobileTopNav = (): JSX.Element => {
+type MobileTopNavProps = MobileTopNavStylesProps & BaseProps
+
+const MobileTopNavStyles = styled.div<MobileTopNavStylesProps>`
+  ${({ hide }) =>
+    hide &&
+    css`
+      visibility: hidden;
+    `}
+`
+
+export const MobileTopNav = ({ ...props }: MobileTopNavProps): JSX.Element => {
   const router = useRouter()
 
   const handleBackClick = () => {
     router.back()
   }
 
+  const hide = router.pathname === HOME
+
   return (
-    <MobileTopNavStyles>
+    <MobileTopNavStyles aria-hidden={hide} hide={hide} {...props}>
       <Button
         onClick={handleBackClick}
         variant={{
