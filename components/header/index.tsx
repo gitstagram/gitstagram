@@ -8,11 +8,13 @@ import {
   TextLink,
   Icon,
   Button,
-  DisplayFromTabletLandscape,
-  DisplayUntilTabletLandscape,
+  FromTabletLandscape,
+  UntilTabletLandscape,
 } from 'components/ui'
 import { ProfileMenu } from 'components/header/profileMenu'
 import { SearchBox } from 'components/header/searchBox'
+import { MobileTopNav } from 'components/header/mobileTopNav'
+import { MobileTitle } from 'components/header/mobileTitle'
 import { HOME } from 'routes'
 import { theme } from 'styles/themes'
 import { zIndicies } from 'styles/zIndicies'
@@ -50,13 +52,28 @@ const HeaderStyles = styled.header`
     margin-left: ${theme('sz12')};
   }
 
+  .left-content {
+    z-index: ${zIndicies.headerLeftRightContents};
+  }
+
   .right-content {
     position: inherit;
+    z-index: ${zIndicies.headerLeftRightContents};
     display: flex;
     align-items: center;
   }
 
-  .nav-icon {
+  .centered-content {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: ${zIndicies.headerCenterContent};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  i {
     margin-right: ${theme('sz16')};
     color: ${theme('iconNav_Color')};
 
@@ -108,7 +125,7 @@ export const Header = (): JSX.Element => {
 
   const rightContent = session ? (
     <>
-      <DisplayUntilTabletLandscape>
+      <UntilTabletLandscape>
         <Button
           className='nav-icon'
           onClick={searchModeToggle}
@@ -117,8 +134,8 @@ export const Header = (): JSX.Element => {
             ariaLabel: `Search`,
           }}
         />
-      </DisplayUntilTabletLandscape>
-      <DisplayFromTabletLandscape>
+      </UntilTabletLandscape>
+      <FromTabletLandscape>
         <Icon
           clickable
           className='nav-icon'
@@ -137,12 +154,12 @@ export const Header = (): JSX.Element => {
           </a>
         </Link>
         <ProfileMenu />
-      </DisplayFromTabletLandscape>
+      </FromTabletLandscape>
     </>
   ) : (
     <>
       <Button onClick={handleLogin}>Log In</Button>
-      <DisplayFromTabletLandscape>
+      <FromTabletLandscape>
         <TextLink
           className='sign-up'
           boldened
@@ -151,7 +168,7 @@ export const Header = (): JSX.Element => {
         >
           Sign Up
         </TextLink>
-      </DisplayFromTabletLandscape>
+      </FromTabletLandscape>
     </>
   )
 
@@ -161,13 +178,17 @@ export const Header = (): JSX.Element => {
         <div className='nav-container'>
           {!searchMode ? (
             <>
-              <TextLogo size='small' href={HOME}>
-                Gitstagram
-              </TextLogo>
-              <DisplayFromTabletLandscape>
-                <SearchBox />
-              </DisplayFromTabletLandscape>
+              {/* eslint-disable react/no-children-prop */}
+              <div className='left-content'>
+                <UntilTabletLandscape children={<MobileTopNav />} />
+                <FromTabletLandscape children={<TextLogo href={HOME} />} />
+              </div>
+              <div className='centered-content'>
+                <UntilTabletLandscape children={<MobileTitle />} />
+                <FromTabletLandscape children={<SearchBox />} />
+              </div>
               <div className='right-content'>{rightContent}</div>
+              {/* eslint-enable */}
             </>
           ) : (
             <div className='mobile-search-mode'>

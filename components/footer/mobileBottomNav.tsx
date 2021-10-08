@@ -7,7 +7,7 @@ import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
 import { HOME } from 'routes'
 
-const MobileNavStyles = styled.nav`
+const MobileBottomNavStyles = styled.nav`
   position: fixed;
   bottom: env(safe-area-inset-bottom);
   display: flex;
@@ -42,11 +42,11 @@ const MobileNavStyles = styled.nav`
   }
 `
 
-export const MobileNav = (): JSX.Element => {
+export const MobileBottomNav = (): JSX.Element => {
   const router = useRouter()
 
   return (
-    <MobileNavStyles>
+    <MobileBottomNavStyles>
       <Link href={HOME}>
         <a>
           <Icon
@@ -69,6 +69,6 @@ export const MobileNav = (): JSX.Element => {
           <ProfileIcon interactive fromSession />
         </a>
       </Link>
-    </MobileNavStyles>
+    </MobileBottomNavStyles>
   )
 }

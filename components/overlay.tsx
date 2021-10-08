@@ -114,7 +114,7 @@ export const Overlay = ({ show }: OverlayProps): JSX.Element => {
 
   return (
     <OverlayStyles show={show} aria-hidden={!show} visibility={visibility}>
-      <TextLogo className='overlay-logo'>Gitstagram</TextLogo>
+      <TextLogo className='overlay-logo' size='large' />
     </OverlayStyles>
   )
 }

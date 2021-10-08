@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSession } from 'next-auth/client'
 import styled from 'styled-components'
-import { DisplayUntilTabletLandscape } from 'components/ui'
-import { MobileNav } from 'components/footer/mobileNav'
+import { UntilTabletLandscape } from 'components/ui'
+import { MobileBottomNav } from 'components/footer/mobileBottomNav'
 import { theme } from 'styles/themes'
 
 const FooterStyles = styled.footer`
@@ -72,9 +72,9 @@ export const Footer = (): JSX.Element => {
       </div>
       <div className='footer-text'>Gitstagram, {new Date().getFullYear()}</div>
       {session && (
-        <DisplayUntilTabletLandscape className='mobile-nav'>
-          <MobileNav />
-        </DisplayUntilTabletLandscape>
+        <UntilTabletLandscape className='mobile-nav'>
+          <MobileBottomNav />
+        </UntilTabletLandscape>
       )}
     </FooterStyles>
   )

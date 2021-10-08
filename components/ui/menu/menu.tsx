@@ -16,7 +16,7 @@ interface MenuStylesProps {
 
 const MenuStyles = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !['arrowHighlighted', 'allowScroll'].includes(prop),
+    !['arrowHighlighted', 'allowScroll', 'expand'].includes(prop),
 })<MenuStylesProps>`
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;

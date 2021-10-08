@@ -6,21 +6,21 @@ import { theme } from 'styles/themes'
 
 type Url = string | UrlObject
 interface TextLogoStyleProps {
-  size?: 'small'
+  size?: 'small' | 'large'
   href?: Url
 }
 
 const TextLogoStyles = styled.h1<TextLogoStyleProps>`
   color: ${theme('fontLogo_Color')};
   font-weight: ${theme('fontLogo_FontWeight')};
-  font-size: ${theme('fontLogo_FontSize')};
+  font-size: ${theme('fontLogo_FontSize__Small')};
   font-family: ${theme('fontLogo_Family')};
   letter-spacing: ${theme('fontLogo_LetterSpacing')};
 
   ${({ size }) =>
-    size === 'small' &&
+    size === 'large' &&
     css`
-      font-size: ${theme('fontLogo_FontSize__Small')};
+      font-size: ${theme('fontLogo_FontSize__Large')};
     `}
 
   ${({ href }) =>
@@ -43,14 +43,20 @@ interface TextLogoProps extends ComponentProps, TextLogoStyleProps {
   href?: Url
 }
 
-export const TextLogo: FC<TextLogoProps> = ({ children, href, ...props }) => {
+export const TextLogo: FC<TextLogoProps> = ({
+  href,
+  size = 'small',
+  ...props
+}) => {
   return href ? (
     <Link href={href} passHref>
-      <TextLogoStyles as='a' href={href} {...props}>
-        {children}
+      <TextLogoStyles as='a' href={href} size={size} {...props}>
+        Gitstagram
       </TextLogoStyles>
     </Link>
   ) : (
-    <TextLogoStyles {...props}>{children}</TextLogoStyles>
+    <TextLogoStyles size={size} {...props}>
+      Gistagram
+    </TextLogoStyles>
   )
 }

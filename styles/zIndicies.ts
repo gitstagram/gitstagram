@@ -6,4 +6,7 @@ export const zIndicies = {
 
   menuArrow: 0,
   menuItem: 1,
+
+  headerCenterContent: 0,
+  headerLeftRightContents: 1,
 }

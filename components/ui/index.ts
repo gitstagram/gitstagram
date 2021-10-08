@@ -6,8 +6,8 @@ export * from 'components/ui/middot'
 export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
 
-export * from 'components/ui/display/displayFromTabletLandscape'
-export * from 'components/ui/display/displayUntilTabletLandscape'
+export * from 'components/ui/display/fromTabletLandscape'
+export * from 'components/ui/display/untilTabletLandscape'
 
 export * from 'components/ui/icon/icon'
 

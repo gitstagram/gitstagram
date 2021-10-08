@@ -14,7 +14,7 @@ import {
   TextLink,
   Button,
   NextImgWrapper,
-  DisplayFromTabletLandscape,
+  FromTabletLandscape,
 } from 'components/ui'
 
 export const Landing = (): JSX.Element => {
@@ -25,7 +25,7 @@ export const Landing = (): JSX.Element => {
   return (
     <LandingStyles>
       <div className='left-column'>
-        <TextLogo className='logo'>Gitstagram</TextLogo>
+        <TextLogo className='logo' size='large' />
         <TextHero className='hero'>
           Social photo sharing <br /> on your Github account
         </TextHero>
@@ -49,7 +49,7 @@ export const Landing = (): JSX.Element => {
         </ul>
       </div>
       <div className='right-column'>
-        <DisplayFromTabletLandscape className='mobile-preview'>
+        <FromTabletLandscape className='mobile-preview'>
           <div className='mobile-content'>
             <NextImgWrapper>
               <Image
@@ -62,7 +62,7 @@ export const Landing = (): JSX.Element => {
           <NextImgWrapper>
             <Image src='/mobileFrame.png' alt='iPhone frame' layout='fill' />
           </NextImgWrapper>
-        </DisplayFromTabletLandscape>
+        </FromTabletLandscape>
         <Panel className='login-panel'>
           <TextAttn className='explain-title'>How it works:</TextAttn>
           <ul className='explain-list'>

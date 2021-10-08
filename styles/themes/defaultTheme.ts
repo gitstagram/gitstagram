@@ -41,7 +41,7 @@ const fonts = {
   font_Color__Deemph: sys.monos.mc300,
 
   fontLogo_Family: sys.fontFamilies.logo,
-  fontLogo_FontSize: `${sys.fontSizes.fs60}rem`,
+  fontLogo_FontSize__Large: `${sys.fontSizes.fs60}rem`,
   fontLogo_FontSize__Small: `${sys.fontSizes.fs36}rem`,
   fontLogo_Color: sys.monos.mc000,
   fontLogo_Color__Emboss: sys.monos.mc300,
