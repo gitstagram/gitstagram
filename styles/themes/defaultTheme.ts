@@ -44,7 +44,7 @@ const fonts = {
   fontLogo_FontSize__Large: `${sys.fontSizes.fs60}rem`,
   fontLogo_FontSize__Small: `${sys.fontSizes.fs36}rem`,
   fontLogo_Color: sys.monos.mc000,
-  fontLogo_Color__Emboss: sys.monos.mc300,
+  fontLogo_ShadowColor: sys.monos.mc300,
   fontLogo_LetterSpacing: `-${sys.letterSpacings.ls2}rem`,
   fontLogo_FontWeight: 'normal',
 
@@ -96,6 +96,11 @@ const fonts = {
 
   fontCode_BgColor: sys.monos.mc000,
   fontCode_Color: sys.monos.mc900,
+
+  fontEmboss_FontSize: `${sys.fontSizes.fs36}rem`,
+  fontEmboss_Color: sys.monos.mc500,
+  fontEmboss_ShadowColor: sys.monos.mc800,
+  fontEmboss_FontWeight: 'bold',
 
   fontPlaceholder_Color: sys.monos.mc300,
   fontPlaceholder_FontSize: `${sys.fontSizes.fs16}rem`,

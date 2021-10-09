@@ -22,6 +22,7 @@ export * from 'components/ui/skeleton/paragraph'
 
 export * from 'components/ui/text/h2'
 export * from 'components/ui/text/h3'
+export * from 'components/ui/text/hEmboss'
 export * from 'components/ui/text/textAttn'
 export * from 'components/ui/text/textCode'
 export * from 'components/ui/text/textHero'

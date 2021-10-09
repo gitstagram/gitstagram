@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/client'
 import { Settings } from 'components/settings'
@@ -9,7 +10,14 @@ const SettingsPage = (): JSX.Element => {
   const router = useRouter()
 
   if (!session) void router.push(HOME)
-  return <Settings />
+  return (
+    <>
+      <Head>
+        <title>Settings · Gitstagram</title>
+      </Head>
+      <Settings />
+    </>
+  )
 }
 
 export default SettingsPage
