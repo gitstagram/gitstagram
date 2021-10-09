@@ -1,5 +1,3 @@
-import { captureException } from 'helpers'
-
 import React from 'react'
 import {
   useGetViewerGitstagramLibraryQuery,
@@ -7,6 +5,7 @@ import {
   GetViewerGitstagramLibraryQuery,
 } from 'graphql/generated'
 import { useLoadingContext } from 'components/contexts/loading'
+import { captureException } from 'helpers'
 
 import { gql } from '@apollo/client'
 

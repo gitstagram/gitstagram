@@ -93,12 +93,16 @@ export const DefaultLayout = ({
 
   return (
     <LayoutStyles>
-      {showHeader && <Header />}
       {ensureLoad && <EnsureLoad />}
-      <main className={cn({ ['header-shown']: showHeader })}>
-        {!showOverlay && children}
-      </main>
-      <Footer />
+      {!showOverlay && (
+        <>
+          {showHeader && <Header />}
+          <main className={cn({ ['header-shown']: showHeader })}>
+            {children}
+          </main>
+          <Footer />
+        </>
+      )}
       <Overlay show={showOverlay} />
     </LayoutStyles>
   )
