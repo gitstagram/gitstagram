@@ -62,6 +62,15 @@ const ProfileWrapper = styled.div<ProfileIconStylesProps>`
     emph &&
     css`
       border: 1px solid ${theme('intentPrimary_Color')};
+
+      &:hover,
+      &:focus {
+        border: 1px solid ${theme('intentPrimary_Color__Hover')};
+      }
+
+      &:active {
+        border: 1px solid ${theme('intentPrimary_Color__Active')};
+      }
     `}
 `
 

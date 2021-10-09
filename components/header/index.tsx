@@ -136,11 +136,15 @@ export const Header = (): JSX.Element => {
         />
       </UntilTabletLandscape>
       <FromTabletLandscape>
-        <Icon
-          clickable
+        <Button
           className='nav-icon'
-          icon='camera'
-          ariaLabel='Add a photo'
+          onClick={() => {
+            throw new Error('Test Error')
+          }}
+          variant={{
+            icon: 'camera',
+            ariaLabel: 'Add a photo',
+          }}
         />
         <Link href={HOME}>
           <a>

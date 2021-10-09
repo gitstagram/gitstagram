@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { DefaultLayout } from 'components/layouts'
 import { LoadingContextProvider } from 'components/contexts/loading'
+import { ErrorBoundary } from 'components/errorBoundaries'
 
 import TopBarProgress from 'react-topbar-progress-indicator'
 
@@ -60,30 +61,34 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   }, [router.events])
 
   return (
-    <LoadingContextProvider>
-      <Provider session={(pageProps as PageProps).session}>
-        <ReakitProvider>
-          <GlobalStyles />
-          <Head>
-            <title>Gitstagram</title>
-            <meta name='description' content='Gitstagram' />
-            <meta
-              name='viewport'
-              content='width=device-width, initial-scale=1, viewport-fit=cover'
-            />
-            <script dangerouslySetInnerHTML={{ __html: initializeAppHeight }} />
-            <link rel='icon' href='/favicon.ico' />
-          </Head>{' '}
-          <ApolloProvider client={apolloClient}>
-            <DefaultLayout>
-              {progress && <TopBarProgress />}
-              <Component {...pageProps} />
-            </DefaultLayout>
-          </ApolloProvider>
-          <ToastContainer />
-        </ReakitProvider>
-      </Provider>
-    </LoadingContextProvider>
+    <Provider session={(pageProps as PageProps).session}>
+      <GlobalStyles />
+      <ErrorBoundary>
+        <LoadingContextProvider>
+          <ReakitProvider>
+            <Head>
+              <title>Gitstagram</title>
+              <meta name='description' content='Gitstagram' />
+              <meta
+                name='viewport'
+                content='width=device-width, initial-scale=1, viewport-fit=cover'
+              />
+              <script
+                dangerouslySetInnerHTML={{ __html: initializeAppHeight }}
+              />
+              <link rel='icon' href='/favicon.ico' />
+            </Head>{' '}
+            <ApolloProvider client={apolloClient}>
+              <DefaultLayout>
+                {progress && <TopBarProgress />}
+                <Component {...pageProps} />
+              </DefaultLayout>
+            </ApolloProvider>
+            <ToastContainer />
+          </ReakitProvider>
+        </LoadingContextProvider>
+      </ErrorBoundary>
+    </Provider>
   )
 }
 

@@ -2,10 +2,11 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { Icon } from 'components/ui'
+import { Icon, Button } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
 import { HOME, getProfilePath } from 'routes'
+import { assertExists } from 'helpers'
 
 import { useGetViewerQuery } from 'graphql/generated'
 
@@ -51,7 +52,12 @@ export const MobileBottomNav = (): JSX.Element => {
   const { data } = useGetViewerQuery()
   const viewerLogin = data?.viewer.login
 
-  return viewerLogin ? (
+  assertExists(viewerLogin, {
+    expected: 'viewerLogin',
+    inside: 'MobileBottomNav',
+  })
+
+  return (
     <MobileBottomNavStyles>
       <Link href={HOME}>
         <a>
@@ -64,11 +70,15 @@ export const MobileBottomNav = (): JSX.Element => {
           />
         </a>
       </Link>
-      <Icon
-        clickable
+      <Button
         className='nav-icon'
-        icon='camera'
-        ariaLabel='Add a photo'
+        onClick={() => {
+          throw new Error('Test Error')
+        }}
+        variant={{
+          icon: 'camera',
+          ariaLabel: 'Add a photo',
+        }}
       />
       <Link href={getProfilePath(viewerLogin)}>
         <a>
@@ -76,7 +86,5 @@ export const MobileBottomNav = (): JSX.Element => {
         </a>
       </Link>
     </MobileBottomNavStyles>
-  ) : (
-    <></>
   )
 }

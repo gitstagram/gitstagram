@@ -25,6 +25,10 @@ export const GlobalStyles = createGlobalStyle`
     ${createCssVariables(defaultTheme)}
   }
 
+  #__next {
+    height: 100%;
+  }
+
   html {
     color: ${theme('font_Color')};
     font-size: ${theme('font_FontSize')};

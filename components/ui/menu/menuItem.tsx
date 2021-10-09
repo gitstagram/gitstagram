@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { FC } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import cn from 'classnames'
 import {
   MenuItem as ReakitMenuItem,

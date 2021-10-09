@@ -228,6 +228,10 @@ const ButtonStyles = styled(ReakitButton).withConfig({
 `
 
 const ClickSpan = styled.span<{ disabled?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   ${({ disabled }) =>
     disabled &&
     css`

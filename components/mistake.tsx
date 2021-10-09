@@ -1,9 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { HEmboss, TextTertiary } from 'components/ui'
 import { theme } from 'styles/themes'
 
-const MistakeStyles = styled.div`
+type MistakeStylesProps = {
+  expand?: boolean
+}
+
+const MistakeStyles = styled.div<MistakeStylesProps>`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -22,20 +26,28 @@ const MistakeStyles = styled.div`
   .mistake-action {
     margin-top: ${theme('sz32')};
   }
+
+  ${({ expand }) =>
+    expand &&
+    css`
+      height: 100%;
+    `}
 `
 
-type MistakeProps = BaseProps & {
-  mistake: string
-  mistakeDescription: string
-}
+type MistakeProps = MistakeStylesProps &
+  BaseProps & {
+    mistake: string
+    mistakeDescription: string
+  }
 
 export const Mistake = ({
   children,
   mistake,
   mistakeDescription,
+  expand,
 }: MistakeProps): JSX.Element => {
   return (
-    <MistakeStyles>
+    <MistakeStyles expand={expand}>
       <HEmboss as='h3' className='mistake'>
         {mistake}
       </HEmboss>

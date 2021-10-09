@@ -1,12 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { signOut, useSession } from 'next-auth/client'
+import { signOut } from 'next-auth/client'
 import styled from 'styled-components'
 import { MenuButton, useMenuState } from 'reakit/Menu'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { SETTINGS, PROFILE, getProfilePath } from 'routes'
+import { assertExists } from 'helpers'
 
 import { useGetViewerQuery } from 'graphql/generated'
 
@@ -24,7 +25,6 @@ const ProfileMenuStyles = styled.div`
 
 export const ProfileMenu = (): JSX.Element => {
   const router = useRouter()
-  const [session] = useSession()
   const { data } = useGetViewerQuery()
   const viewerLogin = data?.viewer.login
 
@@ -43,7 +43,12 @@ export const ProfileMenu = (): JSX.Element => {
   const isProfilePath = router.pathname === PROFILE
   const isSettingsPath = router.pathname === SETTINGS
 
-  return session && viewerLogin ? (
+  assertExists(viewerLogin, {
+    expected: 'viewerLogin',
+    inside: 'ProfileMenu',
+  })
+
+  return (
     <ProfileMenuStyles>
       <MenuButton {...menu} className='profile-menu-button'>
         <ProfileIcon interactive useViewer />
@@ -81,7 +86,5 @@ export const ProfileMenu = (): JSX.Element => {
         </MenuItem>
       </Menu>
     </ProfileMenuStyles>
-  ) : (
-    <></>
   )
 }

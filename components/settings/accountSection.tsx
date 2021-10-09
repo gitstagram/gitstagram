@@ -4,6 +4,7 @@ import { Panel, TextAttn, TextInfo, Button, Hr } from 'components/ui'
 import { AccountExportIssues } from 'components/settings/accountExportIssues'
 import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
+import { assertExists } from 'helpers'
 
 import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
 
@@ -32,7 +33,12 @@ export const AccountSection = (): JSX.Element => {
   const viewerLogin = data?.viewer.login
   const totalIssues = data?.viewer?.repository?.issues.totalCount
 
-  return viewerLogin ? (
+  assertExists(viewerLogin, {
+    expected: 'viewerLogin',
+    inside: 'AccountSection',
+  })
+
+  return (
     <AccountSectionStyles>
       <TextInfo className='account-info'>
         The <kbd>`gitstagram-library`</kbd> repository holds Gitstagram posts
@@ -69,7 +75,5 @@ export const AccountSection = (): JSX.Element => {
       </TextInfo>
       <AccountDelete viewerLogin={viewerLogin} />
     </AccountSectionStyles>
-  ) : (
-    <></>
   )
 }
