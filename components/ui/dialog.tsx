@@ -49,14 +49,16 @@ const ReakitDialogStyles = styled(ReakitDialog)`
   background: ${theme('base_BgColor')};
   border-radius: ${theme('rounded_BorderRadius')};
   box-shadow: ${theme('panel_BoxShadow')};
+  transform: scale(0);
   opacity: 0;
-  transition: ${theme('trans_Opacity')};
+  transition: ${theme('trans_OpacityTransform')};
 
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
   }
 
   &[data-enter] {
+    transform: scaleY(1);
     opacity: 1;
   }
 

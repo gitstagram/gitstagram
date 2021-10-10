@@ -21,6 +21,10 @@ const ProfileMenuStyles = styled.div`
   .logout {
     justify-content: center;
   }
+
+  [data-leave] {
+    visibility: hidden;
+  }
 `
 
 export const ProfileMenu = (): JSX.Element => {
@@ -51,7 +55,11 @@ export const ProfileMenu = (): JSX.Element => {
   return (
     <ProfileMenuStyles>
       <MenuButton {...menu} className='profile-menu-button'>
-        <ProfileIcon interactive useViewer />
+        <ProfileIcon
+          interactive
+          useViewer
+          emph={menu.visible || isProfilePath}
+        />
       </MenuButton>
       <Menu {...menu} ariaLabel='Profile menu' arrowHighlighted={isProfilePath}>
         <MenuItem

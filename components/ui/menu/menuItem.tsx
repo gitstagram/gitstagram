@@ -18,9 +18,10 @@ type MenuItemProps = ReakitMenuItemProps & MenuItemStylesProps & { as?: As }
 const MenuItemStyles = styled(ReakitMenuItem).withConfig({
   shouldForwardProp: (prop) => !['highlighted'].includes(prop),
 })<MenuItemStylesProps>`
+  z-index: ${zIndicies.menuItem};
+
   button&,
   a {
-    z-index: ${zIndicies.menuItem};
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -47,9 +48,7 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
   }
 
   :first-child,
-  :first-child a,
-  :nth-child(2),
-  :nth-child(2) a {
+  :first-child a {
     border-radius: ${theme('rounded_BorderRadius')}
       ${theme('rounded_BorderRadius')} 0 0;
   }

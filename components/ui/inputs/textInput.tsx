@@ -134,6 +134,7 @@ function TextInputBase(
     placeholderText,
     placeholderIcon,
     onChange,
+    onFocus,
     clearable = false,
     label,
     loading,
@@ -193,6 +194,7 @@ function TextInputBase(
           onKeyDown={handleKeyDown}
           type='text'
           disabled={props.disabled}
+          onFocus={onFocus}
         />
         {clearable && (
           <Button

@@ -92,7 +92,7 @@ const HeaderStyles = styled.header`
     width: 100%;
 
     [role='menu'] {
-      width: calc(90% - ${theme('sz32')});
+      width: 100%;
     }
   }
 
@@ -196,11 +196,7 @@ export const Header = (): JSX.Element => {
             </>
           ) : (
             <div className='mobile-search-mode'>
-              <SearchBox
-                ref={mobileSearchRef}
-                className='mobile-search-box'
-                expand
-              />
+              <SearchBox ref={mobileSearchRef} className='mobile-search-box' />
               <Button onClick={searchModeToggle} variant='naked'>
                 Cancel
               </Button>

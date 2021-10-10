@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled, { css } from 'styled-components'
 import {
   Menu as ReakitMenu,
@@ -9,14 +9,13 @@ import { theme } from 'styles/themes'
 import { zIndicies } from 'styles/zIndicies'
 
 interface MenuStylesProps {
-  expand?: boolean
   arrowHighlighted?: boolean
   allowScroll?: boolean
 }
 
 const MenuStyles = styled.div.withConfig({
   shouldForwardProp: (prop) =>
-    !['arrowHighlighted', 'allowScroll', 'expand'].includes(prop),
+    !['arrowHighlighted', 'allowScroll'].includes(prop),
 })<MenuStylesProps>`
   @media screen and (prefers-reduced-motion: reduce) {
     transition: none;
@@ -28,7 +27,7 @@ const MenuStyles = styled.div.withConfig({
   background-color: ${theme('base_BgColor')};
   border-radius: ${theme('rounded_BorderRadius')};
   box-shadow: ${theme('panel_BoxShadow')};
-  transform: scaleY(0.5);
+  transform: scaleY(0);
   transform-origin: top center;
   opacity: 0;
   transition: ${theme('trans_OpacityTransform')};
@@ -36,6 +35,10 @@ const MenuStyles = styled.div.withConfig({
   [data-enter] & {
     transform: scaleY(1);
     opacity: 1;
+  }
+
+  [data-leave] & {
+    visibility: hidden;
   }
 
   .menu-arrow {
@@ -50,12 +53,6 @@ const MenuStyles = styled.div.withConfig({
       `}
   }
 
-  ${({ expand }) =>
-    expand &&
-    css`
-      width: 100%;
-    `}
-
   ${({ allowScroll }) =>
     allowScroll &&
     css`
@@ -64,31 +61,34 @@ const MenuStyles = styled.div.withConfig({
 `
 
 type MenuProps = ReakitMenuProps &
-  MenuStylesProps & {
+  MenuStylesProps &
+  BaseProps & {
     ariaLabel: string
     hasArrow?: boolean
   }
 
-export const Menu: FC<MenuProps> = ({
+export const Menu = ({
   children,
   className,
   ariaLabel,
   hasArrow = true,
-  expand,
   arrowHighlighted,
   allowScroll,
   ...props
-}): JSX.Element => {
+}: MenuProps): JSX.Element => {
+  const Arrow = hasArrow && (
+    <MenuArrow {...props} key='arrow' className='menu-arrow' />
+  )
+  const [first, ...rest] = children as React.ReactNode[]
+
   return (
     <ReakitMenu aria-label={ariaLabel} {...props}>
       <MenuStyles
         className={className}
-        expand={expand}
         arrowHighlighted={arrowHighlighted}
         allowScroll={allowScroll}
       >
-        {hasArrow && <MenuArrow {...props} className='menu-arrow' />}
-        {children}
+        {[first, Arrow, ...rest]}
       </MenuStyles>
     </ReakitMenu>
   )

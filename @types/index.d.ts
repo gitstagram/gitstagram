@@ -26,6 +26,7 @@ declare interface InputProps<T> extends ComponentProps {
   clearable?: boolean
   onChange?: InputChangeHandler<T>
   onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
+  onFocus?: React.FocusEventHandler<HTMLInputElement>
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void
   ref?: React.ForwardedRef
   type?: string
