@@ -2,14 +2,16 @@ export * from 'components/ui/button'
 export * from 'components/ui/dialog'
 export * from 'components/ui/emoji'
 export * from 'components/ui/hr'
-export * from 'components/ui/middot'
 export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
+export * from 'components/ui/preWrap'
 
 export * from 'components/ui/display/fromTabletLandscape'
 export * from 'components/ui/display/untilTabletLandscape'
 
 export * from 'components/ui/icon/icon'
+export * from 'components/ui/icon/middot'
+export * from 'components/ui/icon/spinner'
 
 export * from 'components/ui/inputs/checkbox'
 export * from 'components/ui/inputs/textInput'
