@@ -14,6 +14,7 @@ const CheckboxStyles = styled.div<CheckboxStylesProps>`
 
   label {
     margin-right: ${theme('sz12')};
+    cursor: pointer;
   }
 
   input {
