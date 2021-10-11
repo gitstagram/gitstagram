@@ -28,7 +28,7 @@ export class ErrorBoundary extends React.Component {
         expand
       >
         <TextLink
-          href='https://github.com/mongkuen/gitstagram/issues'
+          href='https://github.com/gitstagram/gitstagram/issues'
           deemph
           external
         >
