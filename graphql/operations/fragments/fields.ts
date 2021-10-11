@@ -43,5 +43,7 @@ export const FRAG_Repository_Issues = gql`
 export const FRAG_Repository_Fields = gql`
   fragment FRAG_Repository_Fields on Repository {
     id
+    nameWithOwner
+    description
   }
 `

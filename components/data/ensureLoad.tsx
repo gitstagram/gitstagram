@@ -1,67 +1,73 @@
 import React from 'react'
 import {
   useGetViewerGitstagramLibraryQuery,
-  useCreateGitstagramLibraryMutation,
-  GetViewerGitstagramLibraryQuery,
+  Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment,
 } from 'graphql/generated'
+import { useCreateGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
 import { useLoadingContext } from 'components/contexts/loading'
-import { captureException } from 'helpers'
+import { captureException, getMetadataJson } from 'helpers'
 
-import { gql } from '@apollo/client'
+type CreatedRepository =
+  Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment['repository']
 
 export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
+  const [createGitstagramLibrary] = useCreateGitstagramLibrary()
+  const [updateRepository] = useUpdateRepository()
 
-  const [createGitstagramLibrary] = useCreateGitstagramLibraryMutation({
-    update(cache, { data }) {
-      cache.modify({
-        fields: {
-          viewer(existingViewer = {}) {
-            const newViewerGitstagramLib = cache.writeFragment({
-              data: data?.createRepository?.repository,
-              fragment: gql`
-                fragment NewGitStagramLibrary on Repository {
-                  id
-                  __typename
-                }
-              `,
-            })
-            return {
-              ...existingViewer,
-              'repository({"name":"gitstagram-library"})':
-                newViewerGitstagramLib,
-            } as GetViewerGitstagramLibraryQuery['viewer']
-          },
-        },
+  const createGitstagramLibraryPromise = (
+    descriptionMetadata: string
+  ): Promise<CreatedRepository> => {
+    return new Promise((resolve, reject) => {
+      createGitstagramLibrary({
+        variables: { description: descriptionMetadata },
       })
-    },
-  })
+        .then((results) => {
+          const repository = results.data?.createRepository?.repository
+
+          if (repository) {
+            setLoadingState('libCreateSuccess')
+            resolve(repository)
+          } else {
+            setLoadingState('libCreateFailure')
+            const msg =
+              'createGitstagramLibrary mutated but received no repository'
+            captureException({
+              results,
+              msg,
+            })
+            reject(msg)
+          }
+          return
+        })
+        .catch((err) => {
+          setLoadingState('libCreateFailure')
+          captureException(err)
+          reject(err)
+        })
+    })
+  }
 
   useGetViewerGitstagramLibraryQuery({
     skip: loadingState !== 'initiating',
-    onCompleted: (libData) => {
-      if (!libData?.viewer.repository) {
-        setLoadingState('libNotFound')
+    onCompleted: async (libData) => {
+      const viewer = libData?.viewer
+      const descriptionMetadata = getMetadataJson(viewer.login)
 
-        void createGitstagramLibrary()
-          .then((results) => {
-            if (results.data?.createRepository?.repository?.id) {
-              setLoadingState('libCreateSuccess')
-            } else {
-              setLoadingState('libCreateFailure')
-              captureException({
-                results,
-                msg: 'createGitstagramLibrary mutated but received no ID',
-              })
-            }
-            return
-          })
-          .catch((err) => {
-            setLoadingState('libCreateFailure')
-            captureException(err)
-          })
-      } else {
+      if (viewer.repository) {
         setLoadingState('libFound')
+
+        if (viewer.repository.description !== descriptionMetadata) {
+          void updateRepository({
+            variables: {
+              repositoryId: viewer.repository.id,
+              description: descriptionMetadata,
+            },
+          })
+        }
+      } else {
+        setLoadingState('libNotFound')
+        await createGitstagramLibraryPromise(descriptionMetadata)
       }
     },
     onError: (err) => {

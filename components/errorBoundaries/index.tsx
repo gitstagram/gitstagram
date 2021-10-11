@@ -24,7 +24,7 @@ export class ErrorBoundary extends React.Component {
     return this.state.errored ? (
       <Mistake
         mistake='SOMETHING WENT WRONG'
-        mistakeDescription='Something unexpected happened. Please wait, or try reloading as the problem is investigated.'
+        mistakeDescription='Something unexpected happened. Please try again, or wait for the issue report to be investigated.'
         expand
       >
         <TextLink

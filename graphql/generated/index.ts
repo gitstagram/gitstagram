@@ -21978,18 +21978,29 @@ export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?:
 
 export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } };
 
-export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string };
+export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined };
 
-export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
 
-export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+
+export type Part_Repository_On_UpdateRepositoryPayloadFragment = { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined } | null | undefined };
 
 export type CreateGitstagramLibraryMutationVariables = Exact<{
   firstIssues?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CreateGitstagramLibraryMutation = { __typename?: 'Mutation', createRepository?: { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type CreateGitstagramLibraryMutation = { __typename?: 'Mutation', createRepository?: { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+
+export type UpdateRepositoryMutationVariables = Exact<{
+  repositoryId: Scalars['ID'];
+  description: Scalars['String'];
+}>;
+
+
+export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined } | null | undefined } | null | undefined };
 
 export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
@@ -21997,16 +22008,16 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any, repository?: { __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
-  userName: Scalars['String'];
+  userLogin: Scalars['String'];
   repositoryName?: Maybe<Scalars['String']>;
   firstIssues?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -22026,6 +22037,8 @@ export const Frag_User_FieldsFragmentDoc = gql`
 export const Frag_Repository_FieldsFragmentDoc = gql`
     fragment FRAG_Repository_Fields on Repository {
   id
+  nameWithOwner
+  description
 }
     `;
 export const Frag_Issue_FieldsFragmentDoc = gql`
@@ -22068,9 +22081,18 @@ export const Part_Repository_With_Issues_On_CreateRepositoryPayloadFragmentDoc =
 }
     ${Frag_Repository_FieldsFragmentDoc}
 ${Frag_Repository_IssuesFragmentDoc}`;
+export const Part_Repository_On_UpdateRepositoryPayloadFragmentDoc = gql`
+    fragment PART_Repository_On_UpdateRepositoryPayload on UpdateRepositoryPayload {
+  repository {
+    ...FRAG_Repository_Fields
+  }
+}
+    ${Frag_Repository_FieldsFragmentDoc}`;
 export const CreateGitstagramLibraryDocument = gql`
-    mutation CreateGitstagramLibrary($firstIssues: Int = 21) {
-  createRepository(input: {name: "gitstagram-library", visibility: PUBLIC}) {
+    mutation CreateGitstagramLibrary($firstIssues: Int = 21, $description: String = "") {
+  createRepository(
+    input: {name: "gitstagram-library", visibility: PUBLIC, description: $description}
+  ) {
     ...PART_Repository_With_Issues_On_CreateRepositoryPayload
   }
 }
@@ -22091,6 +22113,7 @@ export type CreateGitstagramLibraryMutationFn = Apollo.MutationFunction<CreateGi
  * const [createGitstagramLibraryMutation, { data, loading, error }] = useCreateGitstagramLibraryMutation({
  *   variables: {
  *      firstIssues: // value for 'firstIssues'
+ *      description: // value for 'description'
  *   },
  * });
  */
@@ -22101,6 +22124,42 @@ export function useCreateGitstagramLibraryMutation(baseOptions?: Apollo.Mutation
 export type CreateGitstagramLibraryMutationHookResult = ReturnType<typeof useCreateGitstagramLibraryMutation>;
 export type CreateGitstagramLibraryMutationResult = Apollo.MutationResult<CreateGitstagramLibraryMutation>;
 export type CreateGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<CreateGitstagramLibraryMutation, CreateGitstagramLibraryMutationVariables>;
+export const UpdateRepositoryDocument = gql`
+    mutation UpdateRepository($repositoryId: ID!, $description: String!) {
+  updateRepository(
+    input: {repositoryId: $repositoryId, description: $description}
+  ) {
+    ...PART_Repository_On_UpdateRepositoryPayload
+  }
+}
+    ${Part_Repository_On_UpdateRepositoryPayloadFragmentDoc}`;
+export type UpdateRepositoryMutationFn = Apollo.MutationFunction<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>;
+
+/**
+ * __useUpdateRepositoryMutation__
+ *
+ * To run a mutation, you first call `useUpdateRepositoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRepositoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRepositoryMutation, { data, loading, error }] = useUpdateRepositoryMutation({
+ *   variables: {
+ *      repositoryId: // value for 'repositoryId'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useUpdateRepositoryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>(UpdateRepositoryDocument, options);
+      }
+export type UpdateRepositoryMutationHookResult = ReturnType<typeof useUpdateRepositoryMutation>;
+export type UpdateRepositoryMutationResult = Apollo.MutationResult<UpdateRepositoryMutation>;
+export type UpdateRepositoryMutationOptions = Apollo.BaseMutationOptions<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>;
 export const GetViewerGitstagramLibraryDocument = gql`
     query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
   viewer {
@@ -22140,8 +22199,8 @@ export type GetViewerGitstagramLibraryQueryHookResult = ReturnType<typeof useGet
 export type GetViewerGitstagramLibraryLazyQueryHookResult = ReturnType<typeof useGetViewerGitstagramLibraryLazyQuery>;
 export type GetViewerGitstagramLibraryQueryResult = Apollo.QueryResult<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>;
 export const GetUserGitstagramLibraryDocument = gql`
-    query GetUserGitstagramLibrary($userName: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
-  user(login: $userName) {
+    query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
+  user(login: $userLogin) {
     ...PART_Repository_With_Issues_On_User
   }
 }
@@ -22159,7 +22218,7 @@ export const GetUserGitstagramLibraryDocument = gql`
  * @example
  * const { data, loading, error } = useGetUserGitstagramLibraryQuery({
  *   variables: {
- *      userName: // value for 'userName'
+ *      userLogin: // value for 'userLogin'
  *      repositoryName: // value for 'repositoryName'
  *      firstIssues: // value for 'firstIssues'
  *   },

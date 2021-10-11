@@ -57,7 +57,9 @@ export const DefaultLayout = ({
     let timer: NodeJS.Timeout
 
     if (errored) {
-      toast.warn('Issue starting Gitstagram')
+      toast.warn(
+        'Issue starting Gitstagram. Please try again, or wait for the issue report to be investigated.'
+      )
 
       timer = setTimeout(() => {
         void signOut()

@@ -24,3 +24,13 @@ export const PART_Repository_With_Issues_On_CreateRepositoryPayload = gql`
     }
   }
 `
+
+export const PART_Repository_On_UpdateRepositoryPayload = gql`
+  ${fields.FRAG_Repository_Fields}
+
+  fragment PART_Repository_On_UpdateRepositoryPayload on UpdateRepositoryPayload {
+    repository {
+      ...FRAG_Repository_Fields
+    }
+  }
+`

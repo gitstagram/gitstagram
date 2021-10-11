@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { toast } from 'react-toastify'
 import { signOut } from 'next-auth/client'
 import { useDialogState, DialogDisclosure } from 'reakit/Dialog'
 import {
@@ -92,7 +93,10 @@ export const AccountDelete = ({
       .then(() => {
         return deleteRepoQueryPromise({ userLogin: viewerLogin })
       })
-      .catch((err) => captureException(err))
+      .catch((err) => {
+        captureException(err)
+        toast.warn(`Problem processing this request.`)
+      })
       .finally(() => void signOut())
   }
 
@@ -160,7 +164,7 @@ export const AccountDelete = ({
               id='delete-confirmation'
               name='delete-confirmation'
               initialValue={confirmVal}
-              label='Please type mongkuen/gitstagram-library to confirm.'
+              label={`Please type ${viewerLogin}/gitstagram-library to confirm.`}
               disabled={isLoading}
               onChange={handleInputChange}
             />

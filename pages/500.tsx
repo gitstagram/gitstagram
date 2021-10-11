@@ -5,7 +5,7 @@ import { TextLink } from 'components/ui'
 
 const ServerErrorPage = (): JSX.Element => {
   const mistakeDescription =
-    'Something went wrong processing this request (500). Please wait, or try again as the problem is investigated.'
+    'Something went wrong processing this request (500). Please try again, or wait for the issue report to be investigated.'
   return (
     <>
       <Head>
