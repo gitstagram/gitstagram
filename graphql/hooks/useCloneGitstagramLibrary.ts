@@ -1,21 +1,21 @@
 import { gql } from '@apollo/client'
 import {
-  useCreateGitstagramLibraryMutation,
+  useCloneGitstagramLibraryMutation,
   GetViewerGitstagramLibraryQuery,
 } from 'graphql/generated'
 
-type MutationTuple = ReturnType<typeof useCreateGitstagramLibraryMutation>
+type MutationTuple = ReturnType<typeof useCloneGitstagramLibraryMutation>
 
-export const useCreateGitstagramLibrary = (): MutationTuple => {
-  const mutationTuple = useCreateGitstagramLibraryMutation({
+export const useCloneGitstagramLibrary = (): MutationTuple => {
+  const mutationTuple = useCloneGitstagramLibraryMutation({
     update(cache, { data }) {
       cache.modify({
         fields: {
           viewer(existingViewer = {}) {
             const newViewerGitstagramLib = cache.writeFragment({
-              data: data?.createRepository?.repository,
+              data: data?.cloneTemplateRepository?.repository,
               fragment: gql`
-                fragment NewGitStagramLibrary on Repository {
+                fragment NewGitstagramLibrary on Repository {
                   id
                   __typename
                 }
@@ -25,7 +25,7 @@ export const useCreateGitstagramLibrary = (): MutationTuple => {
               ...existingViewer,
               'repository({"name":"gitstagram-library"})':
                 newViewerGitstagramLib,
-            } as GetViewerGitstagramLibraryQuery['viewer']
+            } as GetViewerGitstagramLibraryQuery
           },
         },
       })

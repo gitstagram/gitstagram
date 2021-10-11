@@ -21984,15 +21984,18 @@ export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User',
 
 export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
 
+export type Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragment = { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+
 export type Part_Repository_On_UpdateRepositoryPayloadFragment = { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined } | null | undefined };
 
-export type CreateGitstagramLibraryMutationVariables = Exact<{
+export type CloneGitstagramLibraryMutationVariables = Exact<{
   firstIssues?: Maybe<Scalars['Int']>;
+  ownerId: Scalars['ID'];
   description?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CreateGitstagramLibraryMutation = { __typename?: 'Mutation', createRepository?: { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
 
 export type UpdateRepositoryMutationVariables = Exact<{
   repositoryId: Scalars['ID'];
@@ -22081,6 +22084,15 @@ export const Part_Repository_With_Issues_On_CreateRepositoryPayloadFragmentDoc =
 }
     ${Frag_Repository_FieldsFragmentDoc}
 ${Frag_Repository_IssuesFragmentDoc}`;
+export const Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragmentDoc = gql`
+    fragment PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload on CloneTemplateRepositoryPayload {
+  repository {
+    ...FRAG_Repository_Fields
+    ...FRAG_Repository_Issues
+  }
+}
+    ${Frag_Repository_FieldsFragmentDoc}
+${Frag_Repository_IssuesFragmentDoc}`;
 export const Part_Repository_On_UpdateRepositoryPayloadFragmentDoc = gql`
     fragment PART_Repository_On_UpdateRepositoryPayload on UpdateRepositoryPayload {
   repository {
@@ -22088,42 +22100,43 @@ export const Part_Repository_On_UpdateRepositoryPayloadFragmentDoc = gql`
   }
 }
     ${Frag_Repository_FieldsFragmentDoc}`;
-export const CreateGitstagramLibraryDocument = gql`
-    mutation CreateGitstagramLibrary($firstIssues: Int = 21, $description: String = "") {
-  createRepository(
-    input: {name: "gitstagram-library", visibility: PUBLIC, description: $description}
+export const CloneGitstagramLibraryDocument = gql`
+    mutation CloneGitstagramLibrary($firstIssues: Int = 21, $ownerId: ID!, $description: String = "") {
+  cloneTemplateRepository(
+    input: {repositoryId: "R_kgDOGMruMg", visibility: PUBLIC, name: "gitstagram-library", ownerId: $ownerId, description: $description}
   ) {
-    ...PART_Repository_With_Issues_On_CreateRepositoryPayload
+    ...PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload
   }
 }
-    ${Part_Repository_With_Issues_On_CreateRepositoryPayloadFragmentDoc}`;
-export type CreateGitstagramLibraryMutationFn = Apollo.MutationFunction<CreateGitstagramLibraryMutation, CreateGitstagramLibraryMutationVariables>;
+    ${Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragmentDoc}`;
+export type CloneGitstagramLibraryMutationFn = Apollo.MutationFunction<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 
 /**
- * __useCreateGitstagramLibraryMutation__
+ * __useCloneGitstagramLibraryMutation__
  *
- * To run a mutation, you first call `useCreateGitstagramLibraryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateGitstagramLibraryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCloneGitstagramLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCloneGitstagramLibraryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createGitstagramLibraryMutation, { data, loading, error }] = useCreateGitstagramLibraryMutation({
+ * const [cloneGitstagramLibraryMutation, { data, loading, error }] = useCloneGitstagramLibraryMutation({
  *   variables: {
  *      firstIssues: // value for 'firstIssues'
+ *      ownerId: // value for 'ownerId'
  *      description: // value for 'description'
  *   },
  * });
  */
-export function useCreateGitstagramLibraryMutation(baseOptions?: Apollo.MutationHookOptions<CreateGitstagramLibraryMutation, CreateGitstagramLibraryMutationVariables>) {
+export function useCloneGitstagramLibraryMutation(baseOptions?: Apollo.MutationHookOptions<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateGitstagramLibraryMutation, CreateGitstagramLibraryMutationVariables>(CreateGitstagramLibraryDocument, options);
+        return Apollo.useMutation<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>(CloneGitstagramLibraryDocument, options);
       }
-export type CreateGitstagramLibraryMutationHookResult = ReturnType<typeof useCreateGitstagramLibraryMutation>;
-export type CreateGitstagramLibraryMutationResult = Apollo.MutationResult<CreateGitstagramLibraryMutation>;
-export type CreateGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<CreateGitstagramLibraryMutation, CreateGitstagramLibraryMutationVariables>;
+export type CloneGitstagramLibraryMutationHookResult = ReturnType<typeof useCloneGitstagramLibraryMutation>;
+export type CloneGitstagramLibraryMutationResult = Apollo.MutationResult<CloneGitstagramLibraryMutation>;
+export type CloneGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 export const UpdateRepositoryDocument = gql`
     mutation UpdateRepository($repositoryId: ID!, $description: String!) {
   updateRepository(

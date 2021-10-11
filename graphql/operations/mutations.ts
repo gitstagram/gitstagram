@@ -1,21 +1,27 @@
 import { gql } from '@apollo/client'
 import * as parts from 'graphql/operations/fragments/parts'
 
-export const CREATE_GITSTAGRAM_LIBRARY = gql`
-  ${parts.PART_Repository_With_Issues_On_CreateRepositoryPayload}
+/*
+ * gitstagram/gitstagram-library-template: R_kgDOGMruMg
+ */
+export const CLONE_GITSTAGRAM_LIBRARY = gql`
+  ${parts.PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload}
 
-  mutation CreateGitstagramLibrary(
+  mutation CloneGitstagramLibrary(
     $firstIssues: Int = 21
+    $ownerId: ID!
     $description: String = ""
   ) {
-    createRepository(
+    cloneTemplateRepository(
       input: {
-        name: "gitstagram-library"
+        repositoryId: "R_kgDOGMruMg"
         visibility: PUBLIC
+        name: "gitstagram-library"
+        ownerId: $ownerId
         description: $description
       }
     ) {
-      ...PART_Repository_With_Issues_On_CreateRepositoryPayload
+      ...PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload
     }
   }
 `

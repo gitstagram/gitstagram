@@ -25,6 +25,18 @@ export const PART_Repository_With_Issues_On_CreateRepositoryPayload = gql`
   }
 `
 
+export const PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload = gql`
+  ${fields.FRAG_Repository_Fields}
+  ${fields.FRAG_Repository_Issues}
+
+  fragment PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload on CloneTemplateRepositoryPayload {
+    repository {
+      ...FRAG_Repository_Fields
+      ...FRAG_Repository_Issues
+    }
+  }
+`
+
 export const PART_Repository_On_UpdateRepositoryPayload = gql`
   ${fields.FRAG_Repository_Fields}
 

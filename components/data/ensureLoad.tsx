@@ -3,7 +3,7 @@ import {
   useGetViewerGitstagramLibraryQuery,
   Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment,
 } from 'graphql/generated'
-import { useCreateGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
+import { useCloneGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
 import { useLoadingContext } from 'components/contexts/loading'
 import { captureException, getMetadataJson } from 'helpers'
 
@@ -12,18 +12,19 @@ type CreatedRepository =
 
 export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
-  const [createGitstagramLibrary] = useCreateGitstagramLibrary()
+  const [cloneGitstagramLibrary] = useCloneGitstagramLibrary()
   const [updateRepository] = useUpdateRepository()
 
   const createGitstagramLibraryPromise = (
+    ownerId: string,
     descriptionMetadata: string
   ): Promise<CreatedRepository> => {
     return new Promise((resolve, reject) => {
-      createGitstagramLibrary({
-        variables: { description: descriptionMetadata },
+      cloneGitstagramLibrary({
+        variables: { ownerId, description: descriptionMetadata },
       })
         .then((results) => {
-          const repository = results.data?.createRepository?.repository
+          const repository = results.data?.cloneTemplateRepository?.repository
 
           if (repository) {
             setLoadingState('libCreateSuccess')
@@ -67,7 +68,7 @@ export const EnsureLoad = (): JSX.Element => {
         }
       } else {
         setLoadingState('libNotFound')
-        await createGitstagramLibraryPromise(descriptionMetadata)
+        await createGitstagramLibraryPromise(viewer.id, descriptionMetadata)
       }
     },
     onError: (err) => {
