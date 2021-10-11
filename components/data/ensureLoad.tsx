@@ -1,14 +1,11 @@
 import React from 'react'
 import {
   useGetViewerGitstagramLibraryQuery,
-  Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment,
+  Part_Repository_With_IssuesFragment,
 } from 'graphql/generated'
 import { useCloneGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
 import { useLoadingContext } from 'components/contexts/loading'
 import { captureException, getMetadataJson } from 'helpers'
-
-type CreatedRepository =
-  Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment['repository']
 
 export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
@@ -18,7 +15,7 @@ export const EnsureLoad = (): JSX.Element => {
   const createGitstagramLibraryPromise = (
     ownerId: string,
     descriptionMetadata: string
-  ): Promise<CreatedRepository> => {
+  ): Promise<Part_Repository_With_IssuesFragment> => {
     return new Promise((resolve, reject) => {
       cloneGitstagramLibrary({
         variables: { ownerId, description: descriptionMetadata },

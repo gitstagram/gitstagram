@@ -3,7 +3,7 @@ import * as frags from 'graphql/operations/fragments/fields'
 import * as parts from 'graphql/operations/fragments/parts'
 
 export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
-  ${parts.PART_Repository_With_Issues_On_User}
+  ${parts.PART_Repository_With_Issues}
   ${frags.FRAG_User_Fields}
 
   query GetViewerGitstagramLibrary(
@@ -12,13 +12,15 @@ export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
   ) {
     viewer {
       ...FRAG_User_Fields
-      ...PART_Repository_With_Issues_On_User
+      repository(name: $repositoryName) {
+        ...PART_Repository_With_Issues
+      }
     }
   }
 `
 
 export const GET_USER_GITSTAGRAM_LIBRARY = gql`
-  ${parts.PART_Repository_With_Issues_On_User}
+  ${parts.PART_Repository_With_Issues}
 
   query GetUserGitstagramLibrary(
     $userLogin: String!
@@ -26,7 +28,9 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
     $firstIssues: Int = 21
   ) {
     user(login: $userLogin) {
-      ...PART_Repository_With_Issues_On_User
+      repository(name: $repositoryName) {
+        ...PART_Repository_With_Issues
+      }
     }
   }
 `

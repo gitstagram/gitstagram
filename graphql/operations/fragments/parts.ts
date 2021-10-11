@@ -1,48 +1,14 @@
 import { gql } from '@apollo/client'
 import * as fields from 'graphql/operations/fragments/fields'
 
-export const PART_Repository_With_Issues_On_User = gql`
+export const PART_Repository_With_Issues = gql`
   ${fields.FRAG_Repository_Fields}
   ${fields.FRAG_Repository_Issues}
+  ${fields.FRAG_Repository_DefaultBranchRef}
 
-  fragment PART_Repository_With_Issues_On_User on User {
-    repository(name: $repositoryName) {
-      ...FRAG_Repository_Fields
-      ...FRAG_Repository_Issues
-    }
-  }
-`
-
-export const PART_Repository_With_Issues_On_CreateRepositoryPayload = gql`
-  ${fields.FRAG_Repository_Fields}
-  ${fields.FRAG_Repository_Issues}
-
-  fragment PART_Repository_With_Issues_On_CreateRepositoryPayload on CreateRepositoryPayload {
-    repository {
-      ...FRAG_Repository_Fields
-      ...FRAG_Repository_Issues
-    }
-  }
-`
-
-export const PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload = gql`
-  ${fields.FRAG_Repository_Fields}
-  ${fields.FRAG_Repository_Issues}
-
-  fragment PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload on CloneTemplateRepositoryPayload {
-    repository {
-      ...FRAG_Repository_Fields
-      ...FRAG_Repository_Issues
-    }
-  }
-`
-
-export const PART_Repository_On_UpdateRepositoryPayload = gql`
-  ${fields.FRAG_Repository_Fields}
-
-  fragment PART_Repository_On_UpdateRepositoryPayload on UpdateRepositoryPayload {
-    repository {
-      ...FRAG_Repository_Fields
-    }
+  fragment PART_Repository_With_Issues on Repository {
+    ...FRAG_Repository_Fields
+    ...FRAG_Repository_Issues
+    ...FRAG_Repository_DefaultBranchRef
   }
 `

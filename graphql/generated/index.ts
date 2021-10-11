@@ -21980,13 +21980,11 @@ export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues
 
 export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined };
 
-export type Part_Repository_With_Issues_On_UserFragment = { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+export type Frag_BranchRef_TargetFragment = { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined };
 
-export type Part_Repository_With_Issues_On_CreateRepositoryPayloadFragment = { __typename?: 'CreateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
+export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repository', defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
-export type Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragment = { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined };
-
-export type Part_Repository_On_UpdateRepositoryPayloadFragment = { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined } | null | undefined };
+export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type CloneGitstagramLibraryMutationVariables = Exact<{
   firstIssues?: Maybe<Scalars['Int']>;
@@ -21995,15 +21993,16 @@ export type CloneGitstagramLibraryMutationVariables = Exact<{
 }>;
 
 
-export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type UpdateRepositoryMutationVariables = Exact<{
+  firstIssues?: Maybe<Scalars['Int']>;
   repositoryId: Scalars['ID'];
   description: Scalars['String'];
 }>;
 
 
-export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined } | null | undefined } | null | undefined };
+export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
@@ -22011,7 +22010,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22020,7 +22019,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -22066,49 +22065,40 @@ export const Frag_Repository_IssuesFragmentDoc = gql`
   }
 }
     ${Frag_Issue_NodesFragmentDoc}`;
-export const Part_Repository_With_Issues_On_UserFragmentDoc = gql`
-    fragment PART_Repository_With_Issues_On_User on User {
-  repository(name: $repositoryName) {
-    ...FRAG_Repository_Fields
-    ...FRAG_Repository_Issues
+export const Frag_BranchRef_TargetFragmentDoc = gql`
+    fragment FRAG_BranchRef_Target on Ref {
+  target {
+    oid
   }
+}
+    `;
+export const Frag_Repository_DefaultBranchRefFragmentDoc = gql`
+    fragment FRAG_Repository_DefaultBranchRef on Repository {
+  defaultBranchRef {
+    ...FRAG_BranchRef_Target
+  }
+}
+    ${Frag_BranchRef_TargetFragmentDoc}`;
+export const Part_Repository_With_IssuesFragmentDoc = gql`
+    fragment PART_Repository_With_Issues on Repository {
+  ...FRAG_Repository_Fields
+  ...FRAG_Repository_Issues
+  ...FRAG_Repository_DefaultBranchRef
 }
     ${Frag_Repository_FieldsFragmentDoc}
-${Frag_Repository_IssuesFragmentDoc}`;
-export const Part_Repository_With_Issues_On_CreateRepositoryPayloadFragmentDoc = gql`
-    fragment PART_Repository_With_Issues_On_CreateRepositoryPayload on CreateRepositoryPayload {
-  repository {
-    ...FRAG_Repository_Fields
-    ...FRAG_Repository_Issues
-  }
-}
-    ${Frag_Repository_FieldsFragmentDoc}
-${Frag_Repository_IssuesFragmentDoc}`;
-export const Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragmentDoc = gql`
-    fragment PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload on CloneTemplateRepositoryPayload {
-  repository {
-    ...FRAG_Repository_Fields
-    ...FRAG_Repository_Issues
-  }
-}
-    ${Frag_Repository_FieldsFragmentDoc}
-${Frag_Repository_IssuesFragmentDoc}`;
-export const Part_Repository_On_UpdateRepositoryPayloadFragmentDoc = gql`
-    fragment PART_Repository_On_UpdateRepositoryPayload on UpdateRepositoryPayload {
-  repository {
-    ...FRAG_Repository_Fields
-  }
-}
-    ${Frag_Repository_FieldsFragmentDoc}`;
+${Frag_Repository_IssuesFragmentDoc}
+${Frag_Repository_DefaultBranchRefFragmentDoc}`;
 export const CloneGitstagramLibraryDocument = gql`
     mutation CloneGitstagramLibrary($firstIssues: Int = 21, $ownerId: ID!, $description: String = "") {
   cloneTemplateRepository(
     input: {repositoryId: "R_kgDOGMruMg", visibility: PUBLIC, name: "gitstagram-library", ownerId: $ownerId, description: $description}
   ) {
-    ...PART_Repository_With_Issues_On_CloneTemplateRepositoryPayload
+    repository {
+      ...PART_Repository_With_Issues
+    }
   }
 }
-    ${Part_Repository_With_Issues_On_CloneTemplateRepositoryPayloadFragmentDoc}`;
+    ${Part_Repository_With_IssuesFragmentDoc}`;
 export type CloneGitstagramLibraryMutationFn = Apollo.MutationFunction<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 
 /**
@@ -22138,14 +22128,16 @@ export type CloneGitstagramLibraryMutationHookResult = ReturnType<typeof useClon
 export type CloneGitstagramLibraryMutationResult = Apollo.MutationResult<CloneGitstagramLibraryMutation>;
 export type CloneGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 export const UpdateRepositoryDocument = gql`
-    mutation UpdateRepository($repositoryId: ID!, $description: String!) {
+    mutation UpdateRepository($firstIssues: Int = 21, $repositoryId: ID!, $description: String!) {
   updateRepository(
     input: {repositoryId: $repositoryId, description: $description}
   ) {
-    ...PART_Repository_On_UpdateRepositoryPayload
+    repository {
+      ...PART_Repository_With_Issues
+    }
   }
 }
-    ${Part_Repository_On_UpdateRepositoryPayloadFragmentDoc}`;
+    ${Part_Repository_With_IssuesFragmentDoc}`;
 export type UpdateRepositoryMutationFn = Apollo.MutationFunction<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>;
 
 /**
@@ -22161,6 +22153,7 @@ export type UpdateRepositoryMutationFn = Apollo.MutationFunction<UpdateRepositor
  * @example
  * const [updateRepositoryMutation, { data, loading, error }] = useUpdateRepositoryMutation({
  *   variables: {
+ *      firstIssues: // value for 'firstIssues'
  *      repositoryId: // value for 'repositoryId'
  *      description: // value for 'description'
  *   },
@@ -22177,11 +22170,13 @@ export const GetViewerGitstagramLibraryDocument = gql`
     query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
   viewer {
     ...FRAG_User_Fields
-    ...PART_Repository_With_Issues_On_User
+    repository(name: $repositoryName) {
+      ...PART_Repository_With_Issues
+    }
   }
 }
     ${Frag_User_FieldsFragmentDoc}
-${Part_Repository_With_Issues_On_UserFragmentDoc}`;
+${Part_Repository_With_IssuesFragmentDoc}`;
 
 /**
  * __useGetViewerGitstagramLibraryQuery__
@@ -22214,10 +22209,12 @@ export type GetViewerGitstagramLibraryQueryResult = Apollo.QueryResult<GetViewer
 export const GetUserGitstagramLibraryDocument = gql`
     query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
   user(login: $userLogin) {
-    ...PART_Repository_With_Issues_On_User
+    repository(name: $repositoryName) {
+      ...PART_Repository_With_Issues
+    }
   }
 }
-    ${Part_Repository_With_Issues_On_UserFragmentDoc}`;
+    ${Part_Repository_With_IssuesFragmentDoc}`;
 
 /**
  * __useGetUserGitstagramLibraryQuery__

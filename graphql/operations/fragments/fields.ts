@@ -47,3 +47,21 @@ export const FRAG_Repository_Fields = gql`
     description
   }
 `
+
+export const FRAG_BranchRef_Target = gql`
+  fragment FRAG_BranchRef_Target on Ref {
+    target {
+      oid
+    }
+  }
+`
+
+export const FRAG_Repository_DefaultBranchRef = gql`
+  ${FRAG_BranchRef_Target}
+
+  fragment FRAG_Repository_DefaultBranchRef on Repository {
+    defaultBranchRef {
+      ...FRAG_BranchRef_Target
+    }
+  }
+`
