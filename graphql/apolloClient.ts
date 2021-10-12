@@ -32,7 +32,13 @@ const retryLink = new RetryLink({
   },
 })
 
+const customFetch = (input: RequestInfo, init: RequestInit | undefined) => {
+  // Cached responses causes issues with contents not updating
+  return fetch(input, { ...init, cache: 'no-store' })
+}
+
 const restLink = new RestLink({
+  customFetch: customFetch,
   uri: 'https://api.github.com',
   responseTransformer: async (response: Response) => {
     // If response is null (404) or empty object (no response e.g. DELETE)

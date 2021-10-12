@@ -4,15 +4,23 @@ import {
   Part_Repository_With_IssuesFragment,
 } from 'graphql/generated'
 import { useCloneGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
+import { getLibraryDataPromise } from 'graphql/restOperations'
 import { useLoadingContext } from 'components/contexts/loading'
-import { captureException, getMetadataJson } from 'helpers'
+import * as rxVars from 'components/data/reactiveVars'
+import {
+  captureException,
+  getMetadataJson,
+  isLibraryData,
+  coerceLibraryData,
+  coerceB64ToJson,
+} from 'helpers'
 
 export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
   const [cloneGitstagramLibrary] = useCloneGitstagramLibrary()
   const [updateRepository] = useUpdateRepository()
 
-  const createGitstagramLibraryPromise = (
+  const createGitstagramLibrary = (
     ownerId: string,
     descriptionMetadata: string
   ): Promise<Part_Repository_With_IssuesFragment> => {
@@ -53,19 +61,32 @@ export const EnsureLoad = (): JSX.Element => {
       const descriptionMetadata = getMetadataJson(viewer.login)
 
       if (viewer.repository) {
-        setLoadingState('libFound')
-
         if (viewer.repository.description !== descriptionMetadata) {
-          void updateRepository({
+          await updateRepository({
             variables: {
               repositoryId: viewer.repository.id,
               description: descriptionMetadata,
             },
           })
         }
+
+        const res = await getLibraryDataPromise({ userLogin: viewer.login })
+        const libraryData = coerceB64ToJson(res.data.getLibraryData.content)
+
+        if (isLibraryData(libraryData)) {
+          void rxVars.writeLibraryData({ libData: libraryData, commit: false })
+        } else {
+          const correctedLibraryData = coerceLibraryData(libraryData)
+          void rxVars.writeLibraryData({
+            libData: correctedLibraryData,
+            commit: true,
+          })
+        }
+
+        setLoadingState('libFound')
       } else {
         setLoadingState('libNotFound')
-        await createGitstagramLibraryPromise(viewer.id, descriptionMetadata)
+        await createGitstagramLibrary(viewer.id, descriptionMetadata)
       }
     },
     onError: (err) => {
