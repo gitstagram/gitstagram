@@ -30,7 +30,7 @@ export const AccountExportIssues = ({
           userLogin: viewerLogin,
           page: pageNum,
         })
-          .then(({ data }) => data.restIssues.raw)
+          .then(({ data }) => data.issueExport.raw)
           .catch((err) => {
             captureException(err)
             // continue throwing down the promise chain

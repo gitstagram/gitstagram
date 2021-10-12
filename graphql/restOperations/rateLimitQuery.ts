@@ -15,7 +15,7 @@ const GET_RATE_LIMIT = gql`
   }
 
   query GetRateLimit {
-    restRateLimit @rest(type: "RestRateLimit", path: "/rate_limit") {
+    getRateLimit @rest(type: "RestRateLimit", path: "/rate_limit") {
       resources {
         core @type(name: "RestRateLimitResource") {
           ...FRAG_Rate_Limit_Resource
@@ -31,7 +31,7 @@ const GET_RATE_LIMIT = gql`
   }
 `
 
-export type RestRateLimitResource = {
+export type RateLimitResource = {
   __typename: 'RestRateLimitResource'
   limit: number
   used: number
@@ -39,21 +39,21 @@ export type RestRateLimitResource = {
   reset: number
 }
 
-type GetRestRateLimitQuery = {
-  restRateLimit: {
+type GetRateLimitQuery = {
+  getRateLimit: {
     __typename?: 'RestRateLimits'
     resources: {
       __typename?: 'RestRateLimitResources'
-      core: RestRateLimitResource
-      search: RestRateLimitResource
-      graphql: RestRateLimitResource
+      core: RateLimitResource
+      search: RateLimitResource
+      graphql: RateLimitResource
     }
-    rate: RestRateLimitResource
+    rate: RateLimitResource
   }
 }
 
 export function useGetRateLimitLazyQuery(
-  options?: LazyQueryHookOptions<GetRestRateLimitQuery>
-): QueryTuple<GetRestRateLimitQuery, OperationVariables> {
-  return useLazyQuery<GetRestRateLimitQuery>(GET_RATE_LIMIT, options)
+  options?: LazyQueryHookOptions<GetRateLimitQuery>
+): QueryTuple<GetRateLimitQuery, OperationVariables> {
+  return useLazyQuery<GetRateLimitQuery>(GET_RATE_LIMIT, options)
 }

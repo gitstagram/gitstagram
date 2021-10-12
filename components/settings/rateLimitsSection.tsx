@@ -44,9 +44,9 @@ export const RateLimitsSection = (): JSX.Element => {
     getRateLimit()
   }, [getRateLimit])
 
-  const core = data?.restRateLimit.resources.core
-  const graphql = data?.restRateLimit.resources.graphql
-  const search = data?.restRateLimit.resources.search
+  const core = data?.getRateLimit.resources.core
+  const graphql = data?.getRateLimit.resources.graphql
+  const search = data?.getRateLimit.resources.search
 
   return (
     <RateLimitsSectionStyles>

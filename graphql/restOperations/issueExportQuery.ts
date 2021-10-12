@@ -1,20 +1,20 @@
 import { gql, ApolloQueryResult } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
 
-type GetRestIssueExportQuery = {
-  restIssues: {
+type GetIssueExportQuery = {
+  issueExport: {
     raw: string
   }
 }
 
-type GetRestIssueExportQueryVariables = {
+type GetIssueExportQueryVariables = {
   userLogin: string
   page: number
 }
 
 const GET_ISSUE_EXPORT = gql`
   query GetIssueExport($userLogin: String!, $page: Int!) {
-    restIssues(userLogin: $userLogin, page: $page)
+    issueExport(userLogin: $userLogin, page: $page)
       @rest(
         type: "RestIssues"
         path: "/repos/{args.userLogin}/gitstagram-library/issues?state=all&per_page=100&page={args.page}"
@@ -25,9 +25,9 @@ const GET_ISSUE_EXPORT = gql`
 `
 
 export const getIssueExportQueryPromise = (
-  variables: GetRestIssueExportQueryVariables
-): Promise<ApolloQueryResult<GetRestIssueExportQuery>> => {
-  return apolloClient.query<GetRestIssueExportQuery>({
+  variables: GetIssueExportQueryVariables
+): Promise<ApolloQueryResult<GetIssueExportQuery>> => {
+  return apolloClient.query<GetIssueExportQuery>({
     query: GET_ISSUE_EXPORT,
     variables,
   })
