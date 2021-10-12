@@ -23,7 +23,7 @@ const GET_LIBRARY_DATA = gql`
   }
 `
 
-export const getLibraryDataPromise = (
+export const getLibraryDataQueryPromise = (
   variables: LibraryDataQueryVariables
 ): Promise<ApolloQueryResult<LibraryDataQuery>> => {
   return apolloClient.query<LibraryDataQuery>({

@@ -9,15 +9,19 @@ const SettingsPage = (): JSX.Element => {
   const [session] = useSession()
   const router = useRouter()
 
-  if (!session) void router.push(HOME)
-  return (
-    <>
-      <Head>
-        <title>Settings · Gitstagram</title>
-      </Head>
-      <Settings />
-    </>
-  )
+  if (session) {
+    return (
+      <>
+        <Head>
+          <title>Settings · Gitstagram</title>
+        </Head>
+        <Settings />
+      </>
+    )
+  } else {
+    void router.push(HOME)
+    return <></>
+  }
 }
 
 export default SettingsPage

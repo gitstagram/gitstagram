@@ -4,7 +4,7 @@ import {
   Part_Repository_With_IssuesFragment,
 } from 'graphql/generated'
 import { useCloneGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
-import { getLibraryDataPromise } from 'graphql/restOperations'
+import { getLibraryDataQueryPromise } from 'graphql/restOperations'
 import { useLoadingContext } from 'components/contexts/loading'
 import * as rxVars from 'components/data/reactiveVars'
 import {
@@ -27,6 +27,7 @@ export const EnsureLoad = (): JSX.Element => {
     return new Promise((resolve, reject) => {
       cloneGitstagramLibrary({
         variables: { ownerId, description: descriptionMetadata },
+        refetchQueries: ['GetViewerGitstagramLibrary'],
       })
         .then((results) => {
           const repository = results.data?.cloneTemplateRepository?.repository
@@ -70,7 +71,9 @@ export const EnsureLoad = (): JSX.Element => {
           })
         }
 
-        const res = await getLibraryDataPromise({ userLogin: viewer.login })
+        const res = await getLibraryDataQueryPromise({
+          userLogin: viewer.login,
+        })
         const libraryData = coerceB64ToJson(res.data.getLibraryData.content)
 
         if (isLibraryData(libraryData)) {

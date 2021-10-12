@@ -20,10 +20,11 @@ export const AccountExportIssues = ({
   const [state, setState] = useState<ExportState>('base')
 
   const handleExportIssues = () => {
-    if (totalIssues && viewerLogin) {
+    if (viewerLogin) {
       setState('loading')
+      const pagesNumerator = totalIssues ? totalIssues : 1
 
-      const pages = Math.ceil(totalIssues / 100)
+      const pages = Math.ceil(pagesNumerator / 100)
       const promises = times(pages).map((_, index) => {
         const pageNum = index + 1
         return getIssueExportQueryPromise({
