@@ -68,25 +68,35 @@ export const EnsureLoad = (): JSX.Element => {
               repositoryId: viewer.repository.id,
               description: descriptionMetadata,
             },
-          })
+          }).catch((err) => captureException(err))
         }
 
-        const res = await getLibraryDataQueryPromise({
+        void getLibraryDataQueryPromise({
           userLogin: viewer.login,
         })
-        const libraryData = coerceB64ToJson(res.data.getLibraryData.content)
+          .then((res) => {
+            const libraryData = coerceB64ToJson(res.data.getLibraryData.content)
 
-        if (isLibraryData(libraryData)) {
-          void rxVars.writeLibraryData({ libData: libraryData, commit: false })
-        } else {
-          const correctedLibraryData = coerceLibraryData(libraryData)
-          void rxVars.writeLibraryData({
-            libData: correctedLibraryData,
-            commit: true,
+            if (isLibraryData(libraryData)) {
+              void rxVars.writeLibraryData({
+                libData: libraryData,
+                commit: false,
+              })
+            } else {
+              const correctedLibraryData = coerceLibraryData(libraryData)
+              void rxVars.writeLibraryData({
+                libData: correctedLibraryData,
+                commit: true,
+              })
+            }
+
+            setLoadingState('libFound')
+            return
           })
-        }
-
-        setLoadingState('libFound')
+          .catch((err) => {
+            setLoadingState('libGetFailure')
+            captureException(err)
+          })
       } else {
         setLoadingState('libNotFound')
         await createGitstagramLibrary(viewer.id, descriptionMetadata)

@@ -87,7 +87,9 @@ export const AccountDelete = ({
 
     const unstarLoginList: string[] = unstarState ? followingList : []
     const promises = unstarLoginList.map((userLogin) =>
-      deleteStarQueryPromise({ userLogin: userLogin })
+      deleteStarQueryPromise({ userLogin: userLogin }).catch(() => {
+        // noop: this request not important if it fails
+      })
     )
     void promiseReduce(promises)
       .then(() => {

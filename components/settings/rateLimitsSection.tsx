@@ -61,7 +61,7 @@ export const RateLimitsSection = (): JSX.Element => {
           Github rate limit details
         </TextLink>
       </TextInfo>
-      {loading ? (
+      {loading && data ? (
         <>
           <SkeletonParagraph className='load-paragraph' />
           <SkeletonParagraph className='load-paragraph' />
