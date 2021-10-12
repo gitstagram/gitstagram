@@ -2,8 +2,8 @@ export * from 'helpers/array/times'
 
 export * from 'helpers/assert/assertExists'
 
+export * from 'helpers/async/async'
 export * from 'helpers/async/promiseReduce'
-export * from 'helpers/async/tried'
 
 export * from 'helpers/errorHandling/captureException'
 

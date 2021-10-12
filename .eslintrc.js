@@ -21,5 +21,7 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 'off',
     // Next link needs empty <a></a> wrappers
     'jsx-a11y/anchor-is-valid': 'off',
+    // Allows _ to be unused in destructuring
+    '@typescript-eslint/no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
   },
 }

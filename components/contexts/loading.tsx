@@ -3,7 +3,6 @@ import React, { useState, createContext, useContext } from 'react'
 type LoadingStates =
   | 'initiating'
   | 'libFound'
-  | 'libNotFound'
   | 'libGetFailure'
   | 'libCreateSuccess'
   | 'libCreateFailure'

@@ -53,9 +53,9 @@ export const AccountExportIssues = ({
           return zip.generateAsync({ type: 'blob' })
         })
         .then((content) => saveAs(content, 'issues-export.zip'))
-        .catch((err) => {
+        .catch(() => {
           toast.warn(`Problem exporting issues from Github`)
-          captureException(err)
+          // individual errors already captured, no need to capture at this level
         })
         .finally(() => setState('base'))
     }
