@@ -41,8 +41,13 @@ export const EnsureLoad = (): JSX.Element => {
 
     if (err || !repository) {
       setLoadingState('libCreateFailure')
-      const msg = !repository && 'Library cloned but not received repository'
-      captureException({ err, msg })
+      captureException({
+        err,
+        msgs: [
+          [err, 'Error cloning template'],
+          [!repository, 'Library cloned but no repository received'],
+        ],
+      })
       return
     }
 
@@ -64,7 +69,7 @@ export const EnsureLoad = (): JSX.Element => {
           },
         })
       )
-      if (err) captureException(err)
+      if (err) captureException({ err, msgs: ['Metadata update failure'] })
     }
   }
 
@@ -87,12 +92,15 @@ export const EnsureLoad = (): JSX.Element => {
     skip: loadingState !== 'initiating',
     onCompleted: async (libData) => {
       const viewer = libData?.viewer
+      const repository = viewer.repository
+      const headOid = repository?.defaultBranchRef?.target?.oid as string
+
       const descriptionMetadata = getMetadataJson(viewer.login)
 
-      if (viewer.repository) {
+      if (repository) {
         void ensureMetadataExpected({
-          repositoryId: viewer.repository.id,
-          received: viewer.repository.description,
+          repositoryId: repository.id,
+          received: repository.description,
           expected: descriptionMetadata,
         })
 
@@ -103,9 +111,16 @@ export const EnsureLoad = (): JSX.Element => {
         )
         const fileContents = res?.data.getLibraryData.content
 
-        if (err || !fileContents) {
+        if (err || !fileContents || !headOid) {
           setLoadingState('libGetFailure')
-          captureException(err)
+          captureException({
+            err,
+            msgs: [
+              [err, 'Error fetching LibraryData'],
+              [!fileContents, 'Cannot read LibraryData file contents'],
+              [!headOid, 'Cannot read repository head oid'],
+            ],
+          })
           return
         }
 
@@ -118,7 +133,7 @@ export const EnsureLoad = (): JSX.Element => {
     },
     onError: (err) => {
       setLoadingState('libGetFailure')
-      captureException(err)
+      captureException({ err, msgs: ['GetViewer Library failed'] })
     },
   })
 

@@ -31,7 +31,8 @@ export default NextAuth({
     }),
   ],
   logger: {
-    error: (code, metadata) => captureException({ code, metadata }),
+    error: (code, metadata) =>
+      captureException({ code, metadata, msgs: ['NextAuth error'] }),
     warn: () => undefined,
     debug: () => undefined,
   },

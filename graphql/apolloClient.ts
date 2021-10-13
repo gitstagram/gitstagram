@@ -19,11 +19,11 @@ import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     toast.warn('Experiencing Graphql issues, try again later?')
-    captureException({ graphQLErrors })
+    captureException({ graphQLErrors, msgs: ['apolloClient gql error'] })
   }
   if (networkError) {
     toast.warn('Experiencing network issues, try again later?')
-    captureException({ networkError })
+    captureException({ networkError, msgs: ['apolloClient network error'] })
   }
 })
 const retryLink = new RetryLink({
