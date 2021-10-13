@@ -65,3 +65,10 @@ export const FRAG_Repository_DefaultBranchRef = gql`
     }
   }
 `
+
+export const FRAG_Commit_Fields = gql`
+  fragment FRAG_Commit_Fields on Commit {
+    oid
+    message
+  }
+`

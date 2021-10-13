@@ -5,6 +5,8 @@ export * from 'helpers/assert/assertExists'
 export * from 'helpers/async/async'
 export * from 'helpers/async/promiseReduce'
 
+export * from 'helpers/object/toJsonB64'
+
 export * from 'helpers/errorHandling/captureException'
 
 export * from 'helpers/string/pluralize'
@@ -25,8 +27,8 @@ export * from 'helpers/validation/structs/libraryData'
 export * from 'helpers/validation/structs/metadata'
 
 export * from 'helpers/validation/coerceArray'
-export * from 'helpers/validation/coerceB64ToJson'
 export * from 'helpers/validation/isAnyRecord'
-export * from 'helpers/validation/isJson'
+export * from 'helpers/validation/parseIfJson'
+export * from 'helpers/validation/parseJsonIfB64'
 export * from 'helpers/validation/validateLibraryData'
 export * from 'helpers/validation/validateMetadata'

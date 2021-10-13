@@ -1,34 +1,47 @@
-import { captureException } from 'helpers'
-
 import {
   ApolloClient,
   createHttpLink,
   InMemoryCache,
   ApolloLink,
 } from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
 import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
-import { toast } from 'react-toastify'
 
 import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    toast.warn('Experiencing Graphql issues, try again later?')
-    captureException({ graphQLErrors, msgs: ['apolloClient gql error'] })
-  }
-  if (networkError) {
-    toast.warn('Experiencing network issues, try again later?')
-    captureException({ networkError, msgs: ['apolloClient network error'] })
-  }
-})
+/*
+ * Apollo Link seems to catch all errors and prevents propagation back to caller
+ * https://github.com/apollographql/apollo-link/issues/1022
+ *   - Query Hook { error } becomes empty
+ *   - Mutation Hook { error } becomes empty, .catch() on hook promise empty
+ *   - apolloClient promise .catch becomes empty
+ *   - async utility receives no errors
+ *   - forward(operation) makes no difference
+ */
+// import { captureException } from 'helpers'
+// import { onError } from '@apollo/client/link/error'
+// import { toast } from 'react-toastify'
+
+// const errorLink = onError(
+//   ({ graphQLErrors, networkError, forward, operation }) => {
+//     if (graphQLErrors) {
+//       toast.warn('Experiencing Graphql issues, try again later?')
+//       captureException({ graphQLErrors, msgs: ['apolloClient gql error'] })
+//     }
+//     if (networkError) {
+//       toast.warn('Experiencing network issues, try again later?')
+//       captureException({ networkError, msgs: ['apolloClient network error'] })
+//     }
+//     return forward(operation)
+//   }
+// )
+
 const retryLink = new RetryLink({
   attempts: {
-    max: 3,
+    max: 2,
   },
 })
 
@@ -106,7 +119,7 @@ const typePolicies: StrictTypedTypePolicies = {}
 
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([
-    errorLink,
+    // errorLink,
     retryLink,
     authRestLink.concat(restLink),
     authLink.concat(httpLink),

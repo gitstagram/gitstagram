@@ -95,7 +95,7 @@ export const AccountDelete = ({
       .then(() => {
         return deleteRepoQueryPromise({ userLogin: viewerLogin })
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         captureException({ err, msgs: ['Delete repo failed'] })
         toast.warn(`Problem processing this request.`)
       })

@@ -3,16 +3,22 @@ import {
   useGetViewerGitstagramLibraryQuery,
   Part_Repository_With_IssuesFragment,
 } from 'graphql/generated'
-import { useCloneGitstagramLibrary, useUpdateRepository } from 'graphql/hooks'
+import {
+  useCloneGitstagramLibrary,
+  useUpdateRepository,
+} from 'graphql/mutationWrappers'
 import { getLibraryDataQueryPromise } from 'graphql/restOperations'
 import { useLoadingContext } from 'components/contexts/loading'
-import * as rxVars from 'components/data/reactiveVars'
+import {
+  CommitOpts,
+  writeLibraryData,
+} from 'components/data/gitstagramLibraryData'
 import {
   captureException,
   getMetadataJson,
   isLibraryData,
   coerceLibraryData,
-  coerceB64ToJson,
+  parseJsonIfB64,
   async,
 } from 'helpers'
 
@@ -69,22 +75,26 @@ export const EnsureLoad = (): JSX.Element => {
           },
         })
       )
-      if (err) captureException({ err, msgs: ['Metadata update failure'] })
+      if (err) {
+        captureException({ err, msgs: ['Metadata update failure'] })
+        // No need to change state flag, metadata write failure is benign
+      }
     }
   }
 
-  const ensureLibraryDataExpected = (libraryData: unknown) => {
+  const ensureLibraryDataExpected = async (
+    libraryData: unknown,
+    commitOpts: CommitOpts
+  ) => {
     if (isLibraryData(libraryData)) {
-      void rxVars.writeLibraryData({
-        libData: libraryData,
-        commit: false,
-      })
+      await writeLibraryData(libraryData)
+      setLoadingState('libFound')
     } else {
       const correctedLibraryData = coerceLibraryData(libraryData)
-      void rxVars.writeLibraryData({
-        libData: correctedLibraryData,
-        commit: true,
-      })
+      const { err } = await async(
+        writeLibraryData(correctedLibraryData, commitOpts)
+      )
+      if (err) setLoadingState('libGetFailure')
     }
   }
 
@@ -124,9 +134,12 @@ export const EnsureLoad = (): JSX.Element => {
           return
         }
 
-        const libraryData = coerceB64ToJson(fileContents)
-        ensureLibraryDataExpected(libraryData)
-        setLoadingState('libFound')
+        const libraryData = parseJsonIfB64(fileContents)
+        void ensureLibraryDataExpected(libraryData, {
+          repoWithLogin: `${viewer.login}/gitstagram-library`,
+          headOid,
+          commitMessage: 'Correct errors found in `gitstagram-library.json`',
+        })
       } else {
         void createGitstagramLibrary(viewer.id, descriptionMetadata)
       }

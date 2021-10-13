@@ -1,4 +1,4 @@
-export const isJson = <T>(str: string): T | false => {
+export const parseIfJson = <T>(str: string): T | false => {
   try {
     const parsed = JSON.parse(str) as T
     if (parsed && typeof parsed === 'object') {
