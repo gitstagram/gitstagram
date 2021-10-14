@@ -3,10 +3,15 @@ import { coerceArray } from 'helpers/validation/coerceArray'
 import { alphaNumString } from 'helpers/validation/structs/alphaNumString'
 import { alphaNumHyphenString } from 'helpers/validation/structs/alphaNumHyphenString'
 
+export const defaultFollowings = ['gitstagram']
+
 export const LibFollowingStruct = coerce(
   array(alphaNumHyphenString),
   unknown(),
-  coerceArray(alphaNumHyphenString as Struct<unknown, unknown>, ['gitstagram'])
+  coerceArray(
+    alphaNumHyphenString as Struct<unknown, unknown>,
+    defaultFollowings
+  )
 )
 
 export const LibFollowingTagsStruct = coerce(

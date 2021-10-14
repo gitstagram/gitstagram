@@ -1,3 +1,4 @@
+export * from 'graphql/restOperations/addStarQueryPromise'
 export * from 'graphql/restOperations/deleteRepoQueryPromise'
 export * from 'graphql/restOperations/deleteStarQueryPromise'
 export * from 'graphql/restOperations/getLibraryDataQueryPromise'

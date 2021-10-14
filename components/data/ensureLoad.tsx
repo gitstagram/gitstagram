@@ -7,7 +7,10 @@ import {
   useCloneGitstagramLibrary,
   useUpdateRepository,
 } from 'graphql/mutationWrappers'
-import { getLibraryDataQueryPromise } from 'graphql/restOperations'
+import {
+  getLibraryDataQueryPromise,
+  addStarQueryPromise,
+} from 'graphql/restOperations'
 import { useLoadingContext } from 'components/contexts/loading'
 import {
   CommitOpts,
@@ -22,6 +25,8 @@ import {
   async,
   isApolloClient404,
   exceptApolloClient404,
+  defaultFollowings,
+  promiseReduce,
 } from 'helpers'
 
 type EnsureMetadataExpectedOpts = {
@@ -34,6 +39,23 @@ export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
   const [cloneGitstagramLibrary] = useCloneGitstagramLibrary()
   const [updateRepository] = useUpdateRepository()
+
+  const starDefaultFollowingCollection = () => {
+    const defaultFollowingsPromiseCollection = defaultFollowings.map(
+      (defaultFollowing) => {
+        return addStarQueryPromise({ userLogin: defaultFollowing })
+      }
+    )
+    void promiseReduce(defaultFollowingsPromiseCollection).catch(
+      (err: unknown) => {
+        captureException({
+          err,
+          msgs: ['Error following default followings'],
+        })
+        // No need to change state flag, metadata write failure is benign
+      }
+    )
+  }
 
   const createGitstagramLibrary = async (
     ownerId: string,
@@ -58,6 +80,8 @@ export const EnsureLoad = (): JSX.Element => {
       })
       return
     }
+
+    starDefaultFollowingCollection()
 
     setLoadingState('libCreateSuccess')
     return repository
