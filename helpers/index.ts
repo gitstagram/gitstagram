@@ -5,6 +5,7 @@ export * from 'helpers/assert/assertExists'
 export * from 'helpers/async/async'
 export * from 'helpers/async/promiseReduce'
 
+export * from 'helpers/object/deepMerge'
 export * from 'helpers/object/toJsonB64'
 
 export * from 'helpers/errorHandling/apolloClient404'

@@ -1,4 +1,4 @@
-export const toJsonB64 = (object: Record<string, unknown>): string => {
+export const toJsonB64 = (object: AnyRecord): string => {
   const jsonStr = JSON.stringify(object, null, 2)
 
   return window === undefined

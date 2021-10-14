@@ -71,9 +71,7 @@ const restLink = new RestLink({
     const isResponse = response instanceof Response
     if (!isResponse) return response
 
-    const json = (await response.json()) as
-      | Record<string, unknown>
-      | Array<unknown>
+    const json = (await response.json()) as AnyRecord | Array<unknown>
     const raw = JSON.stringify(json)
     // Append entire response into `raw` key.
     // Array returns placed under `collection` key

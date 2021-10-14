@@ -96,7 +96,10 @@ export const EnsureLoad = (): JSX.Element => {
       const { err } = await async(
         writeLibraryData(correctedLibraryData, commitOpts)
       )
-      if (err) setLoadingState('libGetFailure')
+      if (err) {
+        setLoadingState('libGetFailure')
+        captureException({ err, msgs: ['Error committing LibraryData'] })
+      }
       setLoadingState('libFound')
     }
   }
