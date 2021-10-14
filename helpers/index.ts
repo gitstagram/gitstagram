@@ -11,6 +11,9 @@ export * from 'helpers/object/toJsonB64'
 export * from 'helpers/errorHandling/apolloClient404'
 export * from 'helpers/errorHandling/captureException'
 
+export * from 'helpers/file/fileToB64'
+
+export * from 'helpers/string/nanoid'
 export * from 'helpers/string/pluralize'
 export * from 'helpers/string/stringCombinatorials'
 

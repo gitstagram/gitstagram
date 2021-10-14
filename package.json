@@ -25,6 +25,7 @@
     "graphql": "^15.6.1",
     "graphql-anywhere": "^4.2.7",
     "jszip": "^3.7.1",
+    "nanoid": "^3.1.30",
     "next": "^11.1.2",
     "next-auth": "^3.29.0",
     "qs": "^6.10.1",
