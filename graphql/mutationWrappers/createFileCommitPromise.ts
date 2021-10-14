@@ -12,5 +12,6 @@ export const createFileCommitPromise = (
   return apolloClient.mutate<CreateFileCommitMutation>({
     mutation: CREATE_FILE_COMMIT,
     variables,
+    refetchQueries: ['GetViewerGitstagramLibrary'],
   })
 }

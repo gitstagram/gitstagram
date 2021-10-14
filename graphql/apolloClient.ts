@@ -8,6 +8,7 @@ import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
+import { toast } from 'react-toastify'
 
 import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
@@ -23,7 +24,6 @@ import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
  */
 // import { captureException } from 'helpers'
 // import { onError } from '@apollo/client/link/error'
-// import { toast } from 'react-toastify'
 
 // const errorLink = onError(
 //   ({ graphQLErrors, networkError, forward, operation }) => {
@@ -48,6 +48,19 @@ const retryLink = new RetryLink({
 const customFetch = (input: RequestInfo, init: RequestInit | undefined) => {
   // Cached responses causes issues with contents not updating
   return fetch(input, { ...init, cache: 'no-store' })
+    .then((res) => {
+      // fetch's 404 / 500 do not throw and instead return responses
+      if (!res.ok) throw { res } as FetchThrowNotOk
+      return res
+    })
+    .catch((err) => {
+      // Show network error if it is not a thrown response object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      if (!err.res) toast.warn('You may have network issues, try again later?')
+      // toast.warn('You may have network issues, try again later?')
+      // Keep throwing error to ApolloClient
+      throw err
+    })
 }
 
 const restLink = new RestLink({
@@ -72,6 +85,7 @@ const restLink = new RestLink({
 
 const httpLink = createHttpLink({
   uri: 'https://api.github.com/graphql',
+  fetch: customFetch,
 })
 
 type PreviousContext = {

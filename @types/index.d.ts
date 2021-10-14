@@ -1,5 +1,8 @@
 type IconProps = import('components/ui/icon/icon').IconProps
 type Maybe<T> = T | null | undefined
+type FetchThrowNotOk = {
+  res: Response
+}
 
 declare interface BaseProps {
   className?: string

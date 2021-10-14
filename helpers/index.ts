@@ -7,6 +7,7 @@ export * from 'helpers/async/promiseReduce'
 
 export * from 'helpers/object/toJsonB64'
 
+export * from 'helpers/errorHandling/apolloClient404'
 export * from 'helpers/errorHandling/captureException'
 
 export * from 'helpers/string/pluralize'

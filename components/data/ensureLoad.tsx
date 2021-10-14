@@ -20,6 +20,8 @@ import {
   coerceLibraryData,
   parseJsonIfB64,
   async,
+  isApolloClient404,
+  exceptApolloClient404,
 } from 'helpers'
 
 type EnsureMetadataExpectedOpts = {
@@ -95,6 +97,7 @@ export const EnsureLoad = (): JSX.Element => {
         writeLibraryData(correctedLibraryData, commitOpts)
       )
       if (err) setLoadingState('libGetFailure')
+      setLoadingState('libFound')
     }
   }
 
@@ -119,9 +122,19 @@ export const EnsureLoad = (): JSX.Element => {
             userLogin: viewer.login,
           })
         )
-        const fileContents = res?.data.getLibraryData.content
+        const not404Error = err && exceptApolloClient404(err)
 
-        if (err || !fileContents || !headOid) {
+        /*
+         * Treat 404 (no gitstagram-library.json) as bad data
+         *   - Set contents as arbitrary string to distinguish it from no response contents
+         *   - But bad contents will invoke coercion and committing of corrected data
+         */
+        const fileContents = isApolloClient404(err)
+          ? '404NoContent'
+          : res?.data?.getLibraryData?.content
+
+        // Only fatally terminate if err is not 404
+        if (not404Error || !fileContents || !headOid) {
           setLoadingState('libGetFailure')
           captureException({
             err,
@@ -135,6 +148,7 @@ export const EnsureLoad = (): JSX.Element => {
         }
 
         const libraryData = parseJsonIfB64(fileContents)
+
         void ensureLibraryDataExpected(libraryData, {
           repoWithLogin: `${viewer.login}/gitstagram-library`,
           headOid,
