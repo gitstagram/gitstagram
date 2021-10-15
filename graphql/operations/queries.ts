@@ -44,3 +44,20 @@ export const GET_VIEWER = gql`
     }
   }
 `
+
+// Use SEARCH API in favor of GQL search when possible
+// As SEARCH API rate limit refreshes 30 searches / minute
+export const SEARCH_USERS = gql`
+  query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
+    search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {
+      nodes {
+        ... on Repository {
+          id
+          owner {
+            login
+          }
+        }
+      }
+    }
+  }
+`

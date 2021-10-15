@@ -22039,6 +22039,14 @@ export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any } };
 
+export type SearchUsersQueryVariables = Exact<{
+  loginSearch: Scalars['String'];
+  firstRepositories?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, owner: { __typename?: 'Organization', login: string } | { __typename?: 'User', login: string } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
+
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
   id
@@ -22339,3 +22347,46 @@ export function useGetViewerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type GetViewerQueryHookResult = ReturnType<typeof useGetViewerQuery>;
 export type GetViewerLazyQueryHookResult = ReturnType<typeof useGetViewerLazyQuery>;
 export type GetViewerQueryResult = Apollo.QueryResult<GetViewerQuery, GetViewerQueryVariables>;
+export const SearchUsersDocument = gql`
+    query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
+  search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {
+    nodes {
+      ... on Repository {
+        id
+        owner {
+          login
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSearchUsersQuery__
+ *
+ * To run a query within a React component, call `useSearchUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchUsersQuery({
+ *   variables: {
+ *      loginSearch: // value for 'loginSearch'
+ *      firstRepositories: // value for 'firstRepositories'
+ *   },
+ * });
+ */
+export function useSearchUsersQuery(baseOptions: Apollo.QueryHookOptions<SearchUsersQuery, SearchUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument, options);
+      }
+export function useSearchUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchUsersQuery, SearchUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchUsersQuery, SearchUsersQueryVariables>(SearchUsersDocument, options);
+        }
+export type SearchUsersQueryHookResult = ReturnType<typeof useSearchUsersQuery>;
+export type SearchUsersLazyQueryHookResult = ReturnType<typeof useSearchUsersLazyQuery>;
+export type SearchUsersQueryResult = Apollo.QueryResult<SearchUsersQuery, SearchUsersQueryVariables>;

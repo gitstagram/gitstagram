@@ -1,4 +1,4 @@
-import { makeVar } from '@apollo/client'
+import { makeVar, useReactiveVar } from '@apollo/client'
 import { toast } from 'react-toastify'
 import {
   coerceLibraryData,
@@ -14,8 +14,19 @@ import { createFileCommitPromise } from 'graphql/mutationWrappers'
 
 const defaultLibData = coerceLibraryData({})
 export const followingVar = makeVar(defaultLibData.following)
+export const useFollowingVar = (): LibraryData['following'] => {
+  return useReactiveVar(followingVar)
+}
+
 export const followingTagsVar = makeVar(defaultLibData.followingTags)
+export const useFollowingTagsVar = (): LibraryData['followingTags'] => {
+  return useReactiveVar(followingTagsVar)
+}
+
 export const savedVar = makeVar(defaultLibData.saved)
+export const useSavedVar = (): LibraryData['saved'] => {
+  return useReactiveVar(savedVar)
+}
 
 export type CommitOpts = {
   repoWithLogin: string
