@@ -11,17 +11,6 @@ export const FRAG_User_Fields = gql`
   }
 `
 
-export const FRAG_Org_Fields = gql`
-  fragment FRAG_Org_Fields on Organization {
-    id
-    login
-    avatarUrl
-    name
-    location
-    twitterUsername
-  }
-`
-
 export const FRAG_Issue_Fields = gql`
   fragment FRAG_Issue_Fields on Issue {
     id

@@ -21972,8 +21972,6 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
 
 export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined };
 
-export type Frag_Org_FieldsFragment = { __typename?: 'Organization', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined };
-
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, title: string, bodyText: string };
 
 export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined };
@@ -22047,20 +22045,10 @@ export type SearchUsersQueryVariables = Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, owner: { __typename?: 'Organization', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
+export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, owner: { __typename?: 'Organization' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
 
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
-  id
-  login
-  avatarUrl
-  name
-  location
-  twitterUsername
-}
-    `;
-export const Frag_Org_FieldsFragmentDoc = gql`
-    fragment FRAG_Org_Fields on Organization {
   id
   login
   avatarUrl
@@ -22370,14 +22358,12 @@ export const SearchUsersDocument = gql`
         name
         owner {
           ...FRAG_User_Fields
-          ...FRAG_Org_Fields
         }
       }
     }
   }
 }
-    ${Frag_User_FieldsFragmentDoc}
-${Frag_Org_FieldsFragmentDoc}`;
+    ${Frag_User_FieldsFragmentDoc}`;
 
 /**
  * __useSearchUsersQuery__

@@ -49,7 +49,6 @@ export const GET_VIEWER = gql`
 
 export const SEARCH_USERS = gql`
   ${frags.FRAG_User_Fields}
-  ${frags.FRAG_Org_Fields}
 
   query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
     search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {
@@ -59,7 +58,6 @@ export const SEARCH_USERS = gql`
           name
           owner {
             ...FRAG_User_Fields
-            ...FRAG_Org_Fields
           }
         }
       }

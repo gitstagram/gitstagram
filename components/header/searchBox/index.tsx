@@ -124,39 +124,43 @@ function SearchBoxBase(
         {itemsInResults &&
           searchResults?.map((node) => {
             return (
-              <MenuItem
-                {...menu}
-                key={node.owner.id}
-                className='search-item'
-                as='div'
-              >
-                <Link href={getProfilePath(node.owner.login)}>
-                  <a>
-                    <ProfileIcon
-                      className='search-item-img'
-                      url={node.owner.avatarUrl as string | undefined}
-                      userLogin={node.owner.login}
-                      size={48}
-                    />
-                    <div className='search-item-text'>
-                      <div className='search-item-headline'>
-                        <b className='search-item-login'>{node.owner.login}</b>
-                        {following.includes(node.owner.login) && (
-                          <>
-                            <Middot />
-                            <TextInfo>Following</TextInfo>
-                          </>
+              node?.owner.__typename === 'User' && (
+                <MenuItem
+                  {...menu}
+                  key={node.owner.id}
+                  className='search-item'
+                  as='div'
+                >
+                  <Link href={getProfilePath(node.owner.login)}>
+                    <a>
+                      <ProfileIcon
+                        className='search-item-img'
+                        url={node.owner.avatarUrl as string | undefined}
+                        userLogin={node.owner.login}
+                        size={48}
+                      />
+                      <div className='search-item-text'>
+                        <div className='search-item-headline'>
+                          <b className='search-item-login'>
+                            {node.owner.login}
+                          </b>
+                          {following.includes(node.owner.login) && (
+                            <>
+                              <Middot />
+                              <TextInfo>Following</TextInfo>
+                            </>
+                          )}
+                        </div>
+                        {node.owner?.name && (
+                          <TextDeemph className='search-item-byline'>
+                            {node.owner.name}
+                          </TextDeemph>
                         )}
                       </div>
-                      {node.owner?.name && (
-                        <TextDeemph className='search-item-byline'>
-                          {node.owner.name}
-                        </TextDeemph>
-                      )}
-                    </div>
-                  </a>
-                </Link>
-              </MenuItem>
+                    </a>
+                  </Link>
+                </MenuItem>
+              )
             )
           })}
       </Menu>

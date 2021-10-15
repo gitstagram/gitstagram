@@ -44,7 +44,8 @@ export const ProfileMenu = (): JSX.Element => {
     void signOut()
   }
 
-  const isProfilePath = router.pathname === PROFILE
+  const isProfilePath =
+    router.pathname === PROFILE && router.query.userLogin === viewerLogin
   const isSettingsPath = router.pathname === SETTINGS
 
   assertExists(viewerLogin, {
