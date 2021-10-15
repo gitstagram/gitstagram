@@ -9,14 +9,20 @@ import {
   TextInfo,
   Spinner,
   Middot,
+  TextDeemph,
 } from 'components/ui'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { SearchBoxStyles } from 'components/header/searchBox/styles'
-import { useSearchUsersLazyQuery } from 'graphql/restOperations'
-import { debounce, getURIQueryString, searchUsersQueryString } from 'helpers'
+import { useSearchUsersLazyQuery, SearchUsersQuery } from 'graphql/generated'
+import { debounce, searchUsersQueryString } from 'helpers'
 import { getProfilePath } from 'routes'
 
 type SearchBoxProps = BaseProps
+
+// [number] gets value type of nodes[]
+type SearchTypes = NonNullable<SearchUsersQuery['search']['nodes']>[number]
+// Extract the Repository/User type
+type SearchRepo = Extract<SearchTypes, { __typename?: 'Repository' }>
 
 function SearchBoxBase(
   { className }: SearchBoxProps,
@@ -25,9 +31,10 @@ function SearchBoxBase(
   const [search, setSearch] = useState<string>('')
   const following = useFollowingVar()
   const [searchUsers, { data, error }] = useSearchUsersLazyQuery()
-  const searchResults = data?.searchUsers?.items?.filter((item) => {
-    return item.name === 'gitstagram-library'
-  })
+  const searchResults = data?.search?.nodes?.filter(
+    (item) =>
+      item?.__typename === 'Repository' && item.name === 'gitstagram-library'
+  ) as SearchRepo[]
 
   const menu = useMenuState({
     animated: true,
@@ -42,9 +49,7 @@ function SearchBoxBase(
       menu.show()
       searchUsers({
         variables: {
-          loginSearchQueryString: getURIQueryString(
-            searchUsersQueryString(val)
-          ),
+          loginSearch: searchUsersQueryString(val),
         },
       })
     }
@@ -121,25 +126,34 @@ function SearchBoxBase(
             return (
               <MenuItem
                 {...menu}
+                key={node.owner.id}
                 className='search-item'
-                key={node.node_id}
                 as='div'
               >
                 <Link href={getProfilePath(node.owner.login)}>
                   <a>
                     <ProfileIcon
                       className='search-item-img'
-                      url={node.owner.avatar_url}
+                      url={node.owner.avatarUrl as string | undefined}
                       userLogin={node.owner.login}
-                      size={40}
+                      size={48}
                     />
-                    <b className='search-item-name'>{node.owner.login}</b>
-                    {following.includes(node.owner.login) && (
-                      <>
-                        <Middot />
-                        <TextInfo>Following</TextInfo>
-                      </>
-                    )}
+                    <div className='search-item-text'>
+                      <div className='search-item-headline'>
+                        <b className='search-item-login'>{node.owner.login}</b>
+                        {following.includes(node.owner.login) && (
+                          <>
+                            <Middot />
+                            <TextInfo>Following</TextInfo>
+                          </>
+                        )}
+                      </div>
+                      {node.owner?.name && (
+                        <TextDeemph className='search-item-byline'>
+                          {node.owner.name}
+                        </TextDeemph>
+                      )}
+                    </div>
                   </a>
                 </Link>
               </MenuItem>

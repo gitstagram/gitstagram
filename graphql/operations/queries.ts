@@ -21,6 +21,7 @@ export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
 
 export const GET_USER_GITSTAGRAM_LIBRARY = gql`
   ${parts.PART_Repository_With_Issues}
+  ${frags.FRAG_User_Fields}
 
   query GetUserGitstagramLibrary(
     $userLogin: String!
@@ -28,6 +29,7 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
     $firstIssues: Int = 21
   ) {
     user(login: $userLogin) {
+      ...FRAG_User_Fields
       repository(name: $repositoryName) {
         ...PART_Repository_With_Issues
       }
@@ -45,16 +47,19 @@ export const GET_VIEWER = gql`
   }
 `
 
-// Use SEARCH API in favor of GQL search when possible
-// As SEARCH API rate limit refreshes 30 searches / minute
 export const SEARCH_USERS = gql`
+  ${frags.FRAG_User_Fields}
+  ${frags.FRAG_Org_Fields}
+
   query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
     search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {
       nodes {
         ... on Repository {
           id
+          name
           owner {
-            login
+            ...FRAG_User_Fields
+            ...FRAG_Org_Fields
           }
         }
       }

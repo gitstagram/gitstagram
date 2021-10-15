@@ -39,6 +39,7 @@ const fonts = {
   font_Color: sys.monos.mc100,
   font_Color__Inverse: sys.monos.mc900,
   font_Color__Deemph: sys.monos.mc300,
+  font_FontSize__Deemph: `${sys.fontSizes.fs14}rem`,
 
   fontLogo_Family: sys.fontFamilies.logo,
   fontLogo_FontSize__Large: `${sys.fontSizes.fs60}rem`,

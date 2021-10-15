@@ -4,10 +4,21 @@ export const FRAG_User_Fields = gql`
   fragment FRAG_User_Fields on User {
     id
     login
-    bio
-    twitterUsername
-    websiteUrl
     avatarUrl
+    name
+    location
+    twitterUsername
+  }
+`
+
+export const FRAG_Org_Fields = gql`
+  fragment FRAG_Org_Fields on Organization {
+    id
+    login
+    avatarUrl
+    name
+    location
+    twitterUsername
   }
 `
 
@@ -33,7 +44,7 @@ export const FRAG_Repository_Issues = gql`
   ${FRAG_Issue_Nodes}
 
   fragment FRAG_Repository_Issues on Repository {
-    issues(first: $firstIssues) {
+    issues(first: $firstIssues, labels: "gitstagram-library-post") {
       totalCount
       ...FRAG_Issue_Nodes
     }

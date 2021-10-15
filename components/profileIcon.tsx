@@ -8,12 +8,12 @@ import { useGetViewerQuery } from 'graphql/generated'
 
 type ProfileIconStylesProps = {
   interactive?: boolean
-  size?: 32 | 40 | 96
+  size?: 32 | 48 | 96
   emph?: boolean
 }
 
 type ConditionalProps =
-  | { useViewer?: never; url: string; userLogin: string }
+  | { useViewer?: never; url?: string; userLogin: string }
   | { useViewer: true; url?: never; userLogin?: never }
 
 type ProfileIconProps = ProfileIconStylesProps &
@@ -36,10 +36,10 @@ const ProfileWrapper = styled.div<ProfileIconStylesProps>`
     `}
 
   ${({ size }) =>
-    size == 40 &&
+    size == 48 &&
     css`
-      width: ${theme('sz40')};
-      height: ${theme('sz40')};
+      width: ${theme('sz48')};
+      height: ${theme('sz48')};
     `}
 
   ${({ size }) =>
@@ -99,10 +99,10 @@ const PlaceholderWrapper = styled.div<ProfileIconStylesProps>`
     `}
 
   ${({ size }) =>
-    size === 40 &&
+    size === 48 &&
     css`
-      width: ${theme('sz40')};
-      height: ${theme('sz40')};
+      width: ${theme('sz48')};
+      height: ${theme('sz48')};
     `}
 
   ${({ size }) =>

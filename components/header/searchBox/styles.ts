@@ -32,14 +32,39 @@ export const SearchBoxStyles = styled.div`
   .search-item {
     flex-shrink: 0;
     width: 100%;
-    height: ${theme('sz64')};
+
+    a {
+      display: inline-flex;
+      width: 100%;
+      padding: ${theme('sz16')} ${theme('sz24')};
+    }
   }
 
   .search-item-img {
-    margin-left: ${theme('sz8')};
+    flex-shrink: 0;
   }
 
-  .search-item-name {
+  .search-item-text {
+    width: calc(100% - 50px);
     margin-left: ${theme('sz12')};
+  }
+
+  .search-item-headline {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-item-login {
+    max-width: 55%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .search-item-byline {
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `

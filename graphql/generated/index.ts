@@ -21970,7 +21970,9 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any };
+export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined };
+
+export type Frag_Org_FieldsFragment = { __typename?: 'Organization', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined };
 
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, title: string, bodyText: string };
 
@@ -22023,7 +22025,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22032,12 +22034,12 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, bio?: string | null | undefined, twitterUsername?: string | null | undefined, websiteUrl?: any | null | undefined, avatarUrl: any } };
+export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } };
 
 export type SearchUsersQueryVariables = Exact<{
   loginSearch: Scalars['String'];
@@ -22045,16 +22047,26 @@ export type SearchUsersQueryVariables = Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, owner: { __typename?: 'Organization', login: string } | { __typename?: 'User', login: string } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
+export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, owner: { __typename?: 'Organization', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
 
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
   id
   login
-  bio
-  twitterUsername
-  websiteUrl
   avatarUrl
+  name
+  location
+  twitterUsername
+}
+    `;
+export const Frag_Org_FieldsFragmentDoc = gql`
+    fragment FRAG_Org_Fields on Organization {
+  id
+  login
+  avatarUrl
+  name
+  location
+  twitterUsername
 }
     `;
 export const Frag_Commit_FieldsFragmentDoc = gql`
@@ -22086,7 +22098,7 @@ export const Frag_Issue_NodesFragmentDoc = gql`
     ${Frag_Issue_FieldsFragmentDoc}`;
 export const Frag_Repository_IssuesFragmentDoc = gql`
     fragment FRAG_Repository_Issues on Repository {
-  issues(first: $firstIssues) {
+  issues(first: $firstIssues, labels: "gitstagram-library-post") {
     totalCount
     ...FRAG_Issue_Nodes
   }
@@ -22277,12 +22289,14 @@ export type GetViewerGitstagramLibraryQueryResult = Apollo.QueryResult<GetViewer
 export const GetUserGitstagramLibraryDocument = gql`
     query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
   user(login: $userLogin) {
+    ...FRAG_User_Fields
     repository(name: $repositoryName) {
       ...PART_Repository_With_Issues
     }
   }
 }
-    ${Part_Repository_With_IssuesFragmentDoc}`;
+    ${Frag_User_FieldsFragmentDoc}
+${Part_Repository_With_IssuesFragmentDoc}`;
 
 /**
  * __useGetUserGitstagramLibraryQuery__
@@ -22353,14 +22367,17 @@ export const SearchUsersDocument = gql`
     nodes {
       ... on Repository {
         id
+        name
         owner {
-          login
+          ...FRAG_User_Fields
+          ...FRAG_Org_Fields
         }
       }
     }
   }
 }
-    `;
+    ${Frag_User_FieldsFragmentDoc}
+${Frag_Org_FieldsFragmentDoc}`;
 
 /**
  * __useSearchUsersQuery__

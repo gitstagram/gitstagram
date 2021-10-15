@@ -39,38 +39,38 @@ export const ProfileSection = (): JSX.Element => {
       <ProfileIcon className='profile-image' size={96} useViewer />
       <TextInput
         className='profile-input'
+        id='profile-username'
+        name='profile-username'
+        initialValue={data?.viewer.login || ''}
+        disabled
+        label='Username'
+        loading={loading}
+      />
+      <TextInput
+        className='profile-input'
         id='profile-name'
         name='profile-name'
-        initialValue={data?.viewer.login || ''}
+        initialValue={data?.viewer.name || ''}
+        placeholderText='Name...'
         disabled
         label='Name'
         loading={loading}
       />
       <TextInput
         className='profile-input'
-        id='profile-bio'
-        name='profile-bio'
-        initialValue={data?.viewer.bio || ''}
-        placeholderText='Github bio...'
+        id='profile-location'
+        name='profile-location'
+        initialValue={(data?.viewer.location as Maybe<string>) || ''}
+        placeholderText='Location...'
         disabled
-        label='Github Bio'
-        loading={loading}
-      />
-      <TextInput
-        className='profile-input'
-        id='profile-url'
-        name='profile-url'
-        initialValue={(data?.viewer.websiteUrl as Maybe<string>) || ''}
-        placeholderText='Github URL...'
-        disabled
-        label='Website URL'
+        label='Location'
         loading={loading}
       />
       <TextInput
         className='profile-input'
         id='profile-twitter'
         name='profile-twitter'
-        initialValue={data?.viewer.bio || ''}
+        initialValue={data?.viewer.twitterUsername || ''}
         placeholderText='Twitter username...'
         disabled
         label='Twitter Username'

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import cn from 'classnames'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/client'
 import styled from 'styled-components'
@@ -94,6 +95,10 @@ const HeaderStyles = styled.header`
     [role='menu'] {
       width: 100%;
     }
+
+    &.hide {
+      display: none;
+    }
   }
 
   .mobile-search-box {
@@ -180,7 +185,7 @@ export const Header = (): JSX.Element => {
     <HeaderStyles>
       <nav>
         <div className='nav-container'>
-          {!searchMode ? (
+          {!searchMode && (
             <>
               {/* eslint-disable react/no-children-prop */}
               <div className='left-content'>
@@ -194,14 +199,13 @@ export const Header = (): JSX.Element => {
               <div className='right-content'>{rightContent}</div>
               {/* eslint-enable */}
             </>
-          ) : (
-            <div className='mobile-search-mode'>
-              <SearchBox ref={mobileSearchRef} className='mobile-search-box' />
-              <Button onClick={searchModeToggle} variant='naked'>
-                Cancel
-              </Button>
-            </div>
           )}
+          <div className={cn('mobile-search-mode', { hide: !searchMode })}>
+            <SearchBox ref={mobileSearchRef} className='mobile-search-box' />
+            <Button onClick={searchModeToggle} variant='naked'>
+              Cancel
+            </Button>
+          </div>
         </div>
       </nav>
     </HeaderStyles>

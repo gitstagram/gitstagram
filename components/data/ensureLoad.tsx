@@ -135,7 +135,7 @@ export const EnsureLoad = (): JSX.Element => {
       const repository = viewer.repository
       const headOid = repository?.defaultBranchRef?.target?.oid as string
 
-      const descriptionMetadata = getMetadataJson(viewer.login)
+      const descriptionMetadata = getMetadataJson(viewer.login, viewer.name)
 
       if (repository) {
         void ensureMetadataExpected({
