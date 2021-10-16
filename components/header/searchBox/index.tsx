@@ -13,6 +13,8 @@ import {
 } from 'components/ui'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { SearchBoxStyles } from 'components/header/searchBox/styles'
+import { searchCacheVar, useSearchCacheVar } from 'components/data/searchCache'
+import { useOnMount } from 'components/hooks'
 import { useSearchUsersLazyQuery, SearchUsersQuery } from 'graphql/generated'
 import { debounce, searchUsersQueryString } from 'helpers'
 import { getProfilePath } from 'routes'
@@ -28,7 +30,8 @@ function SearchBoxBase(
   { className }: SearchBoxProps,
   ref: React.ForwardedRef<HTMLButtonElement>
 ): JSX.Element {
-  const [search, setSearch] = useState<string>('')
+  const searchCache = useSearchCacheVar()
+  const [search, setSearch] = useState<string>(searchCache || '')
   const following = useFollowingVar()
   const [searchUsers, { data, error }] = useSearchUsersLazyQuery()
   const searchResults = data?.search?.nodes?.filter(
@@ -65,6 +68,22 @@ function SearchBoxBase(
 
     return () => document.removeEventListener('touchmove', blur)
   }, [ref])
+
+  // Search term gets cached and passed to search boxes that may be unmounted
+  // Sync search term states between mobile/desktop search boxes
+  // Simply hiding mobile search bar breaks iOS search input focusing with keyboard
+  // https://github.com/jquery/jquery-mobile/issues/3016
+  useEffect(() => {
+    searchCacheVar(search)
+  }, [search])
+
+  useOnMount(() => {
+    searchUsers({
+      variables: {
+        loginSearch: searchUsersQueryString(searchCache),
+      },
+    })
+  })
 
   const showPrompt = !search && !error
   const showSpinner = search && !searchResults && !error
@@ -125,41 +144,36 @@ function SearchBoxBase(
           searchResults?.map((node) => {
             return (
               node?.owner.__typename === 'User' && (
-                <MenuItem
-                  {...menu}
+                <Link
+                  href={getProfilePath(node.owner.login)}
+                  passHref
                   key={node.owner.id}
-                  className='search-item'
-                  as='div'
                 >
-                  <Link href={getProfilePath(node.owner.login)}>
-                    <a>
-                      <ProfileIcon
-                        className='search-item-img'
-                        url={node.owner.avatarUrl as string | undefined}
-                        userLogin={node.owner.login}
-                        size={48}
-                      />
-                      <div className='search-item-text'>
-                        <div className='search-item-headline'>
-                          <b className='search-item-login'>
-                            {node.owner.login}
-                          </b>
-                          {following.includes(node.owner.login) && (
-                            <>
-                              <Middot />
-                              <TextInfo>Following</TextInfo>
-                            </>
-                          )}
-                        </div>
-                        {node.owner?.name && (
-                          <TextDeemph className='search-item-byline'>
-                            {node.owner.name}
-                          </TextDeemph>
+                  <MenuItem {...menu} className='search-item' as='a'>
+                    <ProfileIcon
+                      className='search-item-img'
+                      url={node.owner.avatarUrl as string | undefined}
+                      userLogin={node.owner.login}
+                      size={48}
+                    />
+                    <div className='search-item-text'>
+                      <div className='search-item-headline'>
+                        <b className='search-item-login'>{node.owner.login}</b>
+                        {following.includes(node.owner.login) && (
+                          <>
+                            <Middot />
+                            <TextInfo>Following</TextInfo>
+                          </>
                         )}
                       </div>
-                    </a>
-                  </Link>
-                </MenuItem>
+                      {node.owner?.name && (
+                        <TextDeemph className='search-item-byline'>
+                          {node.owner.name}
+                        </TextDeemph>
+                      )}
+                    </div>
+                  </MenuItem>
+                </Link>
               )
             )
           })}

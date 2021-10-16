@@ -63,32 +63,18 @@ export const ProfileMenu = (): JSX.Element => {
         />
       </MenuButton>
       <Menu {...menu} ariaLabel='Profile menu' arrowHighlighted={isProfilePath}>
-        <MenuItem
-          {...menu}
-          as='div'
-          onClick={menu.hide}
-          highlighted={isProfilePath}
-        >
-          <Link href={getProfilePath(viewerLogin)}>
-            <a>
-              <Icon icon='person' size={16} ariaHidden />
-              Profile
-            </a>
-          </Link>
-        </MenuItem>
-        <MenuItem
-          {...menu}
-          as='div'
-          onClick={menu.hide}
-          highlighted={isSettingsPath}
-        >
-          <Link href={SETTINGS}>
-            <a>
-              <Icon icon='gear' size={16} ariaHidden />
-              Settings
-            </a>
-          </Link>
-        </MenuItem>
+        <Link href={getProfilePath(viewerLogin)} passHref>
+          <MenuItem {...menu} as='a' highlighted={isProfilePath}>
+            <Icon icon='person' size={16} ariaHidden />
+            Profile
+          </MenuItem>
+        </Link>
+        <Link href={SETTINGS} passHref>
+          <MenuItem {...menu} as='a' highlighted={isSettingsPath}>
+            <Icon icon='gear' size={16} ariaHidden />
+            Settings
+          </MenuItem>
+        </Link>
         <MenuSeparator {...menu} />
         <MenuItem {...menu} className='logout' onClick={handleLogout}>
           Logout

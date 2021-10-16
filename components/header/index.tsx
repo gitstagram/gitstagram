@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import cn from 'classnames'
 import Link from 'next/link'
 import { signIn, useSession } from 'next-auth/client'
 import styled from 'styled-components'
@@ -22,8 +21,6 @@ import { zIndicies } from 'styles/zIndicies'
 
 const HeaderStyles = styled.header`
   z-index: ${zIndicies.header};
-  padding-right: ${theme('sz32')};
-  padding-left: ${theme('sz32')};
   background-color: ${theme('nav_Bg')};
 
   nav {
@@ -45,8 +42,8 @@ const HeaderStyles = styled.header`
     height: 100%;
     margin-right: auto;
     margin-left: auto;
-    padding-right: ${theme('sz32')};
-    padding-left: ${theme('sz32')};
+    padding-right: ${theme('appPadding')};
+    padding-left: ${theme('appPadding')};
   }
 
   .sign-up {
@@ -94,10 +91,6 @@ const HeaderStyles = styled.header`
 
     [role='menu'] {
       width: 100%;
-    }
-
-    &.hide {
-      display: none;
     }
   }
 
@@ -200,12 +193,14 @@ export const Header = (): JSX.Element => {
               {/* eslint-enable */}
             </>
           )}
-          <div className={cn('mobile-search-mode', { hide: !searchMode })}>
-            <SearchBox ref={mobileSearchRef} className='mobile-search-box' />
-            <Button onClick={searchModeToggle} variant='naked'>
-              Cancel
-            </Button>
-          </div>
+          {searchMode && (
+            <div className='mobile-search-mode'>
+              <SearchBox ref={mobileSearchRef} className='mobile-search-box' />
+              <Button onClick={searchModeToggle} variant='naked'>
+                Cancel
+              </Button>
+            </div>
+          )}
         </div>
       </nav>
     </HeaderStyles>

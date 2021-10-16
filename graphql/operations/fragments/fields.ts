@@ -34,7 +34,14 @@ export const FRAG_Repository_Issues = gql`
   ${FRAG_Issue_Nodes}
 
   fragment FRAG_Repository_Issues on Repository {
-    issues(first: $firstIssues, labels: "gitstagram-library-post") {
+    issues(
+      first: $firstIssues
+      filterBy: {
+        labels: "gitstagram-library-post"
+        states: $filterIssuesStates
+        createdBy: $userLogin
+      }
+    ) {
       totalCount
       ...FRAG_Issue_Nodes
     }

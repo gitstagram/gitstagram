@@ -6,7 +6,10 @@ import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
 import { assertExists } from 'helpers'
 
-import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
+import {
+  useGetViewerQuery,
+  useGetViewerGitstagramLibraryQuery,
+} from 'graphql/generated'
 
 const AccountSectionStyles = styled(Panel)`
   .account-info {
@@ -29,8 +32,14 @@ const AccountSectionStyles = styled(Panel)`
 `
 
 export const AccountSection = (): JSX.Element => {
-  const { data } = useGetViewerGitstagramLibraryQuery()
-  const viewerLogin = data?.viewer.login
+  const { data: loginData } = useGetViewerQuery()
+  const viewerLogin = loginData?.viewer.login
+  const { data } = useGetViewerGitstagramLibraryQuery({
+    skip: !viewerLogin,
+    variables: {
+      userLogin: viewerLogin as string,
+    },
+  })
   const totalIssues = data?.viewer?.repository?.issues.totalCount
 
   assertExists(viewerLogin, {

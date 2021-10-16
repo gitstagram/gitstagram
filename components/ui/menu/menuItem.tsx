@@ -21,7 +21,7 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
   z-index: ${zIndicies.menuItem};
 
   button&,
-  a {
+  a& {
     display: flex;
     flex-shrink: 0;
     align-items: center;
@@ -64,23 +64,24 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
   }
 
   &.highlighted {
-    a {
+    a& {
       background-color: ${theme('base_BgColor__Emph')};
     }
   }
 `
 
-export const MenuItem: FC<MenuItemProps> = ({
-  as = 'button',
-  className,
-  highlighted,
-  ...props
-}) => {
+function MenuItemBase(
+  { as = 'button', className, highlighted, ...props }: MenuItemProps,
+  ref: any
+): JSX.Element {
   return (
     <MenuItemStyles
+      ref={ref}
       forwardedAs={as}
       className={cn(className, { highlighted })}
       {...props}
     />
   )
 }
+
+export const MenuItem = React.forwardRef(MenuItemBase)

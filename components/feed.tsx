@@ -1,11 +1,21 @@
 import React from 'react'
-import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
+import {
+  useGetViewerQuery,
+  useGetViewerGitstagramLibraryQuery,
+} from 'graphql/generated'
 
 import { createFileCommitPromise } from 'graphql/mutationWrappers'
 import { fileToB64, nanoid } from 'helpers'
 
 export const Feed = (): JSX.Element => {
-  const { data, loading } = useGetViewerGitstagramLibraryQuery()
+  const { data: loginData } = useGetViewerQuery()
+  const viewerLogin = loginData?.viewer.login
+  const { data, loading } = useGetViewerGitstagramLibraryQuery({
+    skip: !viewerLogin,
+    variables: {
+      userLogin: viewerLogin as string,
+    },
+  })
 
   const handleClick = async () => {
     const input = document.getElementById('file') as HTMLInputElement

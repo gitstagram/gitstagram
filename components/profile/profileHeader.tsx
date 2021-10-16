@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { ProfileIcon } from 'components/profileIcon'
@@ -20,13 +21,11 @@ import { toReadableNum, pluralize } from 'helpers'
 import { theme, themeConstant } from 'styles/themes'
 import { SETTINGS } from 'routes'
 
-import {
-  useGetViewerQuery,
-  GetViewerGitstagramLibraryQueryResult,
-} from 'graphql/generated'
+import { GetViewerGitstagramLibraryQueryResult } from 'graphql/generated'
 
 const ProfileHeaderStyles = styled.div`
   margin-right: auto;
+  margin-bottom: ${theme('sz16')};
   margin-left: auto;
 
   ${themeConstant('media__TabletLandscape')} {
@@ -140,24 +139,17 @@ const ProfileHeaderStyles = styled.div`
   }
 `
 
-type UserData = NonNullable<
-  GetViewerGitstagramLibraryQueryResult['data']
->['viewer']
-
 type ProfileProps = {
-  userLogin: string
-  data: UserData
+  data: NonNullable<GetViewerGitstagramLibraryQueryResult['data']>['viewer']
 }
 
-export const ProfileHeader = ({
-  userLogin,
-  data,
-}: ProfileProps): JSX.Element => {
+export const ProfileHeader = ({ data }: ProfileProps): JSX.Element => {
   const following = useFollowingVar()
-  const { data: loginData } = useGetViewerQuery()
+  const [session] = useSession()
+  const viewerLogin = session?.user?.name
 
-  const isViewer = loginData?.viewer.login === userLogin
-  const isFollowing = !isViewer && following.includes(userLogin)
+  const isViewer = viewerLogin === data.login
+  const isFollowing = !isViewer && following.includes(data.login)
   const notFollowing = !isViewer && !isFollowing
 
   return (

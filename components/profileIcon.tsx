@@ -155,7 +155,7 @@ export const ProfileIcon = ({
   size = 32,
   ...props
 }: ProfileIconProps): JSX.Element => {
-  const { data } = useGetViewerQuery()
+  const { data } = useGetViewerQuery({ skip: !!userLogin })
   const viewerLogin = data?.viewer.login
   const viewerImgUrl = data?.viewer.avatarUrl as Maybe<string>
 

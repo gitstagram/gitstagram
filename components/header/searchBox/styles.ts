@@ -32,12 +32,7 @@ export const SearchBoxStyles = styled.div`
   .search-item {
     flex-shrink: 0;
     width: 100%;
-
-    a {
-      display: inline-flex;
-      width: 100%;
-      padding: ${theme('sz16')} ${theme('sz24')};
-    }
+    padding: ${theme('sz16')} ${theme('sz24')};
   }
 
   .search-item-img {

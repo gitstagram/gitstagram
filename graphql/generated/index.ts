@@ -21986,25 +21986,25 @@ export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repositor
 
 export type Frag_Commit_FieldsFragment = { __typename?: 'Commit', oid: any, message: string };
 
+export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
+
 export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type CloneGitstagramLibraryMutationVariables = Exact<{
-  firstIssues?: Maybe<Scalars['Int']>;
   ownerId: Scalars['ID'];
   description?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type UpdateRepositoryMutationVariables = Exact<{
-  firstIssues?: Maybe<Scalars['Int']>;
   repositoryId: Scalars['ID'];
   description: Scalars['String'];
 }>;
 
 
-export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type CreateFileCommitMutationVariables = Exact<{
   repoWithLogin: Scalars['String'];
@@ -22020,6 +22020,8 @@ export type CreateFileCommitMutation = { __typename?: 'Mutation', createCommitOn
 export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
   firstIssues?: Maybe<Scalars['Int']>;
+  filterIssuesStates?: Maybe<Array<IssueState> | IssueState>;
+  userLogin: Scalars['String'];
 }>;
 
 
@@ -22029,6 +22031,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
   repositoryName?: Maybe<Scalars['String']>;
   firstIssues?: Maybe<Scalars['Int']>;
+  filterIssuesStates?: Maybe<Array<IssueState> | IssueState>;
 }>;
 
 
@@ -22071,6 +22074,27 @@ export const Frag_Repository_FieldsFragmentDoc = gql`
   description
 }
     `;
+export const Frag_BranchRef_TargetFragmentDoc = gql`
+    fragment FRAG_BranchRef_Target on Ref {
+  target {
+    oid
+  }
+}
+    `;
+export const Frag_Repository_DefaultBranchRefFragmentDoc = gql`
+    fragment FRAG_Repository_DefaultBranchRef on Repository {
+  defaultBranchRef {
+    ...FRAG_BranchRef_Target
+  }
+}
+    ${Frag_BranchRef_TargetFragmentDoc}`;
+export const Part_RepositoryFragmentDoc = gql`
+    fragment PART_Repository on Repository {
+  ...FRAG_Repository_Fields
+  ...FRAG_Repository_DefaultBranchRef
+}
+    ${Frag_Repository_FieldsFragmentDoc}
+${Frag_Repository_DefaultBranchRefFragmentDoc}`;
 export const Frag_Issue_FieldsFragmentDoc = gql`
     fragment FRAG_Issue_Fields on Issue {
   id
@@ -22087,26 +22111,15 @@ export const Frag_Issue_NodesFragmentDoc = gql`
     ${Frag_Issue_FieldsFragmentDoc}`;
 export const Frag_Repository_IssuesFragmentDoc = gql`
     fragment FRAG_Repository_Issues on Repository {
-  issues(first: $firstIssues, labels: "gitstagram-library-post") {
+  issues(
+    first: $firstIssues
+    filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
+  ) {
     totalCount
     ...FRAG_Issue_Nodes
   }
 }
     ${Frag_Issue_NodesFragmentDoc}`;
-export const Frag_BranchRef_TargetFragmentDoc = gql`
-    fragment FRAG_BranchRef_Target on Ref {
-  target {
-    oid
-  }
-}
-    `;
-export const Frag_Repository_DefaultBranchRefFragmentDoc = gql`
-    fragment FRAG_Repository_DefaultBranchRef on Repository {
-  defaultBranchRef {
-    ...FRAG_BranchRef_Target
-  }
-}
-    ${Frag_BranchRef_TargetFragmentDoc}`;
 export const Part_Repository_With_IssuesFragmentDoc = gql`
     fragment PART_Repository_With_Issues on Repository {
   ...FRAG_Repository_Fields
@@ -22117,16 +22130,16 @@ export const Part_Repository_With_IssuesFragmentDoc = gql`
 ${Frag_Repository_IssuesFragmentDoc}
 ${Frag_Repository_DefaultBranchRefFragmentDoc}`;
 export const CloneGitstagramLibraryDocument = gql`
-    mutation CloneGitstagramLibrary($firstIssues: Int = 21, $ownerId: ID!, $description: String = "") {
+    mutation CloneGitstagramLibrary($ownerId: ID!, $description: String = "") {
   cloneTemplateRepository(
     input: {repositoryId: "R_kgDOGMruMg", visibility: PUBLIC, name: "gitstagram-library", ownerId: $ownerId, description: $description}
   ) {
     repository {
-      ...PART_Repository_With_Issues
+      ...PART_Repository
     }
   }
 }
-    ${Part_Repository_With_IssuesFragmentDoc}`;
+    ${Part_RepositoryFragmentDoc}`;
 export type CloneGitstagramLibraryMutationFn = Apollo.MutationFunction<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 
 /**
@@ -22142,7 +22155,6 @@ export type CloneGitstagramLibraryMutationFn = Apollo.MutationFunction<CloneGits
  * @example
  * const [cloneGitstagramLibraryMutation, { data, loading, error }] = useCloneGitstagramLibraryMutation({
  *   variables: {
- *      firstIssues: // value for 'firstIssues'
  *      ownerId: // value for 'ownerId'
  *      description: // value for 'description'
  *   },
@@ -22156,16 +22168,16 @@ export type CloneGitstagramLibraryMutationHookResult = ReturnType<typeof useClon
 export type CloneGitstagramLibraryMutationResult = Apollo.MutationResult<CloneGitstagramLibraryMutation>;
 export type CloneGitstagramLibraryMutationOptions = Apollo.BaseMutationOptions<CloneGitstagramLibraryMutation, CloneGitstagramLibraryMutationVariables>;
 export const UpdateRepositoryDocument = gql`
-    mutation UpdateRepository($firstIssues: Int = 21, $repositoryId: ID!, $description: String!) {
+    mutation UpdateRepository($repositoryId: ID!, $description: String!) {
   updateRepository(
     input: {repositoryId: $repositoryId, description: $description}
   ) {
     repository {
-      ...PART_Repository_With_Issues
+      ...PART_Repository
     }
   }
 }
-    ${Part_Repository_With_IssuesFragmentDoc}`;
+    ${Part_RepositoryFragmentDoc}`;
 export type UpdateRepositoryMutationFn = Apollo.MutationFunction<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>;
 
 /**
@@ -22181,7 +22193,6 @@ export type UpdateRepositoryMutationFn = Apollo.MutationFunction<UpdateRepositor
  * @example
  * const [updateRepositoryMutation, { data, loading, error }] = useUpdateRepositoryMutation({
  *   variables: {
- *      firstIssues: // value for 'firstIssues'
  *      repositoryId: // value for 'repositoryId'
  *      description: // value for 'description'
  *   },
@@ -22236,7 +22247,7 @@ export type CreateFileCommitMutationHookResult = ReturnType<typeof useCreateFile
 export type CreateFileCommitMutationResult = Apollo.MutationResult<CreateFileCommitMutation>;
 export type CreateFileCommitMutationOptions = Apollo.BaseMutationOptions<CreateFileCommitMutation, CreateFileCommitMutationVariables>;
 export const GetViewerGitstagramLibraryDocument = gql`
-    query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
+    query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN, $userLogin: String!) {
   viewer {
     ...FRAG_User_Fields
     repository(name: $repositoryName) {
@@ -22261,10 +22272,12 @@ ${Part_Repository_With_IssuesFragmentDoc}`;
  *   variables: {
  *      repositoryName: // value for 'repositoryName'
  *      firstIssues: // value for 'firstIssues'
+ *      filterIssuesStates: // value for 'filterIssuesStates'
+ *      userLogin: // value for 'userLogin'
  *   },
  * });
  */
-export function useGetViewerGitstagramLibraryQuery(baseOptions?: Apollo.QueryHookOptions<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>) {
+export function useGetViewerGitstagramLibraryQuery(baseOptions: Apollo.QueryHookOptions<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>(GetViewerGitstagramLibraryDocument, options);
       }
@@ -22276,7 +22289,7 @@ export type GetViewerGitstagramLibraryQueryHookResult = ReturnType<typeof useGet
 export type GetViewerGitstagramLibraryLazyQueryHookResult = ReturnType<typeof useGetViewerGitstagramLibraryLazyQuery>;
 export type GetViewerGitstagramLibraryQueryResult = Apollo.QueryResult<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>;
 export const GetUserGitstagramLibraryDocument = gql`
-    query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21) {
+    query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN) {
   user(login: $userLogin) {
     ...FRAG_User_Fields
     repository(name: $repositoryName) {
@@ -22302,6 +22315,7 @@ ${Part_Repository_With_IssuesFragmentDoc}`;
  *      userLogin: // value for 'userLogin'
  *      repositoryName: // value for 'repositoryName'
  *      firstIssues: // value for 'firstIssues'
+ *      filterIssuesStates: // value for 'filterIssuesStates'
  *   },
  * });
  */

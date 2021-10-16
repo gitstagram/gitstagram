@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'components/ui'
 
-export const FollowButton = () => {
+export const FollowButton = (): JSX.Element => {
   const handleFollow = () => {
     return
   }

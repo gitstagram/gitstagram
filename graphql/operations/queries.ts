@@ -9,6 +9,8 @@ export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
   query GetViewerGitstagramLibrary(
     $repositoryName: String = "gitstagram-library"
     $firstIssues: Int = 21
+    $filterIssuesStates: [IssueState!] = OPEN
+    $userLogin: String!
   ) {
     viewer {
       ...FRAG_User_Fields
@@ -27,6 +29,7 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
     $userLogin: String!
     $repositoryName: String = "gitstagram-library"
     $firstIssues: Int = 21
+    $filterIssuesStates: [IssueState!] = OPEN
   ) {
     user(login: $userLogin) {
       ...FRAG_User_Fields

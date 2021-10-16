@@ -4,6 +4,7 @@ import { theme } from 'styles/themes'
 
 type HrStylesProps = {
   deemph?: boolean
+  dim?: boolean
 }
 
 type HrProps = HrStylesProps & BaseProps
@@ -15,6 +16,12 @@ const HrStyles = styled.hr<HrStylesProps>`
     deemph &&
     css`
       border-color: ${theme('hr_BorderColor__Deemph')};
+      opacity: 0.5;
+    `}
+
+  ${({ dim }) =>
+    dim &&
+    css`
       opacity: 0.5;
     `}
 `

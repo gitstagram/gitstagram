@@ -3,6 +3,7 @@ import { percentToHex } from 'styles/utilities'
 
 const viewPorts = {
   maxWidth: `${sys.maxWidth}rem`,
+  appPadding: `${sys.sizes.sz32}rem`,
 }
 
 const rootGradientColor1 = sys.monos.mc600

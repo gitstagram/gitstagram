@@ -1,7 +1,8 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 import {
   useGetViewerGitstagramLibraryQuery,
-  Part_Repository_With_IssuesFragment,
+  Part_RepositoryFragment,
 } from 'graphql/generated'
 import {
   useCloneGitstagramLibrary,
@@ -39,6 +40,8 @@ export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
   const [cloneGitstagramLibrary] = useCloneGitstagramLibrary()
   const [updateRepository] = useUpdateRepository()
+  const [session] = useSession()
+  const viewerLogin = session?.user?.name
 
   const starDefaultFollowingCollection = () => {
     const defaultFollowingsPromiseCollection = defaultFollowings.map(
@@ -60,7 +63,7 @@ export const EnsureLoad = (): JSX.Element => {
   const createGitstagramLibrary = async (
     ownerId: string,
     descriptionMetadata: string
-  ): Promise<Maybe<Part_Repository_With_IssuesFragment>> => {
+  ): Promise<Maybe<Part_RepositoryFragment>> => {
     const { res, err } = await async(
       cloneGitstagramLibrary({
         variables: { ownerId, description: descriptionMetadata },
@@ -129,7 +132,10 @@ export const EnsureLoad = (): JSX.Element => {
   }
 
   useGetViewerGitstagramLibraryQuery({
-    skip: loadingState !== 'initiating',
+    skip: !viewerLogin || loadingState !== 'initiating',
+    variables: {
+      userLogin: viewerLogin as string,
+    },
     onCompleted: async (libData) => {
       const viewer = libData?.viewer
       const repository = viewer.repository

@@ -1,13 +1,14 @@
 import React from 'react'
+import { useSession } from 'next-auth/client'
 import styled from 'styled-components'
 import { SkeletonProfile } from 'components/profile/profileSkeleton'
 import { ProfileNotFound } from 'components/profile/profileNotFound'
 import { ProfileHeader } from 'components/profile/profileHeader'
-import { FromTabletLandscape, Hr } from 'components/ui'
+import { FollowingBanner } from 'components/profile/followingBanner'
+import { themeConstant, theme } from 'styles/themes'
 
 import {
   useGetUserGitstagramLibraryQuery,
-  useGetViewerQuery,
   useGetViewerGitstagramLibraryQuery,
 } from 'graphql/generated'
 
@@ -16,16 +17,24 @@ type ProfileProps = {
 }
 
 const ProfileStyles = styled.div`
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-1 * ${theme('appPadding')});
+
+  ${themeConstant('media__TabletLandscape')} {
+    width: 100%;
+    margin-left: 0;
+  }
 `
 
 export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
-  const { data: loginData } = useGetViewerQuery()
-  const isViewer = loginData?.viewer.login === userLogin
+  const [session] = useSession()
+  const viewerLogin = session?.user?.name
+  const isLoggedOut = !session || !viewerLogin
+  const isViewer = viewerLogin === userLogin
 
   const { data: userData, loading: userLoading } =
     useGetUserGitstagramLibraryQuery({
-      skip: isViewer,
+      skip: isLoggedOut || isViewer,
       variables: {
         userLogin,
       },
@@ -33,7 +42,10 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
 
   const { data: viewerData, loading: viewerLoading } =
     useGetViewerGitstagramLibraryQuery({
-      skip: !isViewer,
+      skip: isLoggedOut || !isViewer,
+      variables: {
+        userLogin: viewerLogin as string,
+      },
     })
 
   const data = userData?.user || viewerData?.viewer
@@ -43,12 +55,8 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     <>
       {loading && <SkeletonProfile />}
       {!loading && !data && <ProfileNotFound />}
-      {!loading && data && <ProfileHeader userLogin={userLogin} data={data} />}
-      <ProfileStyles>
-        <FromTabletLandscape>
-          <Hr />
-        </FromTabletLandscape>
-      </ProfileStyles>
+      {!loading && data && <ProfileHeader data={data} />}
+      <ProfileStyles>{!loading && data && <FollowingBanner />}</ProfileStyles>
     </>
   )
 }

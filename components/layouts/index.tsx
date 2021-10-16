@@ -30,7 +30,7 @@ const LayoutStyles = styled.div`
     max-width: ${theme('maxWidth')};
     margin-right: auto;
     margin-left: auto;
-    padding: ${theme('sz32')};
+    padding: ${theme('appPadding')};
 
     &.header-shown {
       padding-top: calc(${theme('sz80')});

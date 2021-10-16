@@ -6,13 +6,9 @@ import * as parts from 'graphql/operations/fragments/parts'
  * gitstagram/gitstagram-library-template: R_kgDOGMruMg
  */
 export const CLONE_GITSTAGRAM_LIBRARY = gql`
-  ${parts.PART_Repository_With_Issues}
+  ${parts.PART_Repository}
 
-  mutation CloneGitstagramLibrary(
-    $firstIssues: Int = 21
-    $ownerId: ID!
-    $description: String = ""
-  ) {
+  mutation CloneGitstagramLibrary($ownerId: ID!, $description: String = "") {
     cloneTemplateRepository(
       input: {
         repositoryId: "R_kgDOGMruMg"
@@ -23,25 +19,21 @@ export const CLONE_GITSTAGRAM_LIBRARY = gql`
       }
     ) {
       repository {
-        ...PART_Repository_With_Issues
+        ...PART_Repository
       }
     }
   }
 `
 
 export const UPDATE_REPOSITORY = gql`
-  ${parts.PART_Repository_With_Issues}
+  ${parts.PART_Repository}
 
-  mutation UpdateRepository(
-    $firstIssues: Int = 21
-    $repositoryId: ID!
-    $description: String!
-  ) {
+  mutation UpdateRepository($repositoryId: ID!, $description: String!) {
     updateRepository(
       input: { repositoryId: $repositoryId, description: $description }
     ) {
       repository {
-        ...PART_Repository_With_Issues
+        ...PART_Repository
       }
     }
   }
