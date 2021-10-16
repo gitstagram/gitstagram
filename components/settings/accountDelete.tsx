@@ -124,7 +124,7 @@ export const AccountDelete = ({
             <Button
               {...props}
               onClick={dialog.show}
-              intent='danger-invert'
+              intent='danger-invert-important'
               disabled={isLoading}
               loading={isLoading}
               icon={{ icon, ariaHidden: true }}
@@ -144,7 +144,7 @@ export const AccountDelete = ({
             <Button
               type='submit'
               onClick={handleDelete}
-              intent='danger-invert'
+              intent='danger-invert-important'
               disabled={unconfirmed || isLoading}
               loading={isLoading}
               icon={{ icon, ariaHidden: true }}

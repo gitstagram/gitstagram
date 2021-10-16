@@ -76,6 +76,16 @@ export const ProfileSection = (): JSX.Element => {
         label='Twitter Username'
         loading={loading}
       />
+      <TextInput
+        className='profile-input'
+        id='profile-bio'
+        name='profile-bio'
+        initialValue={data?.viewer.bio || ''}
+        placeholderText='Bio...'
+        disabled
+        label='Bio'
+        loading={loading}
+      />
       <TextLink
         className='profile-edit'
         href='https://github.com/settings/profile'

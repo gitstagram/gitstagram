@@ -13,6 +13,8 @@ export * from 'helpers/errorHandling/captureException'
 
 export * from 'helpers/file/fileToB64'
 
+export * from 'helpers/number/toReadableNum'
+
 export * from 'helpers/string/getURIQueryString'
 export * from 'helpers/string/nanoid'
 export * from 'helpers/string/pluralize'

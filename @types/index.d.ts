@@ -8,6 +8,10 @@ type FetchThrowNotOk = {
 declare interface BaseProps {
   className?: string
   children?: React.ReactNode
+  onMouseEnter?: React.MouseEventHandler
+  onMouseLeave?: React.MouseEventHandler
+  onTouchStart?: React.TouchEventHandler
+  onTouchEnd?: React.TouchEventHandler
 }
 
 declare interface ComponentProps extends BaseProps {

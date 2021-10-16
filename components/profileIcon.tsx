@@ -8,7 +8,7 @@ import { useGetViewerQuery } from 'graphql/generated'
 
 type ProfileIconStylesProps = {
   interactive?: boolean
-  size?: 32 | 48 | 96
+  size?: 32 | 48 | 96 | 128
   emph?: boolean
 }
 
@@ -47,6 +47,13 @@ const ProfileWrapper = styled.div<ProfileIconStylesProps>`
     css`
       width: ${theme('sz96')};
       height: ${theme('sz96')};
+    `}
+
+  ${({ size }) =>
+    size === 128 &&
+    css`
+      width: ${theme('sz128')};
+      height: ${theme('sz128')};
     `}
 
   ${({ interactive }) =>

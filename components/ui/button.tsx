@@ -10,7 +10,13 @@ type ButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => void
 
 type ButtonStyleProps = {
   type?: string
-  intent?: 'success' | 'success-invert' | 'warning-invert' | 'danger-invert'
+  intent?:
+    | 'success'
+    | 'success-invert'
+    | 'warning-invert'
+    | 'danger-invert'
+    | 'danger-invert-important'
+    | 'primary-invert'
   variant?: ButtonVariants
   isIconButton?: boolean
   disabled?: boolean
@@ -43,6 +49,8 @@ const ButtonStyles = styled(ReakitButton).withConfig({
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
+  -webkit-touch-callout: none;
 
   &:hover,
   &:focus {
@@ -163,6 +171,19 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     `}
 
   ${({ intent }) =>
+    intent === 'primary-invert' &&
+    css`
+      &:hover,
+      &:focus {
+        background-color: ${theme('intentPrimary_Color')};
+      }
+
+      &:active {
+        background-color: ${theme('intentPrimary_Color__Active')};
+      }
+    `}
+
+  ${({ intent }) =>
     intent === 'success-invert' &&
     css`
       &:hover,
@@ -192,6 +213,19 @@ const ButtonStyles = styled(ReakitButton).withConfig({
 
   ${({ intent }) =>
     intent === 'danger-invert' &&
+    css`
+      &:hover,
+      &:focus {
+        background-color: ${theme('intentDanger_Color')};
+      }
+
+      &:active {
+        background-color: ${theme('intentDanger_Color__Active')};
+      }
+    `}
+
+  ${({ intent }) =>
+    intent === 'danger-invert-important' &&
     css`
       color: ${theme('intentDanger_Color')};
       border: 1px solid ${theme('intentDanger_Color')};
