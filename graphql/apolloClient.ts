@@ -49,9 +49,15 @@ const retryLink = new RetryLink({
   },
 })
 
-const customFetch = (input: RequestInfo, init: RequestInit | undefined) => {
+export const customFetch = (
+  input: RequestInfo,
+  init?: RequestInit
+): Promise<Response> => {
   // Cached responses causes issues with contents not updating
-  return fetch(input, { ...init, cache: 'no-store' })
+  return fetch(input, {
+    ...init,
+    cache: 'no-store',
+  })
     .then((res) => {
       // fetch's 404 / 500 do not throw and instead return responses
       if (!res.ok) throw { res } as FetchThrowNotOk

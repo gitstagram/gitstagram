@@ -1,6 +1,8 @@
 type IconProps = import('components/ui/icon/icon').IconProps
 type Maybe<T> = T | null | undefined
 type AnyRecord = Record<string, unknown>
+
+type LoadingStates = 'initiating' | 'loading' | 'complete' | 'errored'
 type FetchThrowNotOk = {
   res: Response
 }

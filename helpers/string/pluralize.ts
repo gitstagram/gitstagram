@@ -1,9 +1,13 @@
+import { nullish } from 'helpers/type/nullish'
+
 type PluralizeArgs = {
   word: string
-  number: number
+  number?: number
 }
 
 export const pluralize = ({ word, number }: PluralizeArgs): string => {
+  if (nullish(number)) return word
+
   const lastChar = word.slice(-1).toLowerCase()
   const lastTwoChars = word.slice(-2).toLowerCase()
 

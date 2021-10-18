@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React, { FC } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import cn from 'classnames'
 import {
@@ -72,7 +71,7 @@ const MenuItemStyles = styled(ReakitMenuItem).withConfig({
 
 function MenuItemBase(
   { as = 'button', className, highlighted, ...props }: MenuItemProps,
-  ref: any
+  ref: React.Ref<HTMLButtonElement>
 ): JSX.Element {
   return (
     <MenuItemStyles

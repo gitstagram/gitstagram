@@ -78,11 +78,12 @@ function SearchBoxBase(
   }, [search])
 
   useOnMount(() => {
-    searchUsers({
-      variables: {
-        loginSearch: searchUsersQueryString(searchCache),
-      },
-    })
+    searchCache &&
+      searchUsers({
+        variables: {
+          loginSearch: searchUsersQueryString(searchCache),
+        },
+      })
   })
 
   const showPrompt = !search && !error

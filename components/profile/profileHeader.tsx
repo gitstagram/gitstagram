@@ -1,11 +1,15 @@
 import React from 'react'
 import { useSession } from 'next-auth/client'
-import styled from 'styled-components'
 import Link from 'next/link'
+import styled from 'styled-components'
+import { DialogStateReturn } from 'reakit/Dialog'
 import { ProfileIcon } from 'components/profileIcon'
+import { UserData } from 'components/profile/types'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
+import { FollowingBanner } from 'components/profile/followingBanner'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
+
 import {
   H2,
   Button,
@@ -15,15 +19,12 @@ import {
   TextLink,
   FromTabletLandscape,
   UntilTabletLandscape,
-  TextDeemph,
 } from 'components/ui'
-import { toReadableNum, pluralize } from 'helpers'
 import { theme, themeConstant } from 'styles/themes'
 import { SETTINGS } from 'routes'
 
-import { GetViewerGitstagramLibraryQueryResult } from 'graphql/generated'
-
 const ProfileHeaderStyles = styled.div`
+  max-width: 100%;
   margin-right: auto;
   margin-bottom: ${theme('sz16')};
   margin-left: auto;
@@ -35,11 +36,11 @@ const ProfileHeaderStyles = styled.div`
 
   .profile-title-section {
     display: inline-flex;
-    width: 100%;
+    max-width: 100%;
   }
 
   .profile-bio-section {
-    margin-top: ${theme('sz12')};
+    margin-top: ${theme('sz8')};
 
     ${themeConstant('media__TabletLandscape')} {
       margin-left: calc(${theme('sz128')} + ${theme('sz24')});
@@ -50,7 +51,7 @@ const ProfileHeaderStyles = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
+    max-width: 100%;
     margin-left: ${theme('sz24')};
     overflow: hidden;
   }
@@ -74,8 +75,15 @@ const ProfileHeaderStyles = styled.div`
   .profile-login-name {
     margin-bottom: ${theme('sz8')};
     overflow: hidden;
+    font-size: ${theme('fontH3_FontSize')};
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  ${themeConstant('media__TabletLandscape')} {
+    .profile-login-name {
+      font-size: ${theme('fontH2_FontSize')};
+    }
   }
 
   .profile-icon {
@@ -83,26 +91,7 @@ const ProfileHeaderStyles = styled.div`
   }
 
   .profile-title-button {
-    width: 100%;
-    max-width: ${theme('sz256')};
-  }
-
-  .profile-following-from-table {
-    display: flex;
-    margin-top: ${theme('sz24')};
-  }
-
-  .profile-following-item {
-    display: flex;
-    margin-right: ${theme('sz80')};
-
-    b {
-      margin-right: ${theme('sz4')};
-    }
-
-    &:last-child {
-      margin-right: 0;
-    }
+    width: ${theme('sz160')};
   }
 
   .profile-names {
@@ -140,17 +129,27 @@ const ProfileHeaderStyles = styled.div`
 `
 
 type ProfileProps = {
-  data: NonNullable<GetViewerGitstagramLibraryQueryResult['data']>['viewer']
+  data: UserData
+  followerDialog: DialogStateReturn
+  followingDialog: DialogStateReturn
+  bannerLoadState: LoadingStates
+  bannerFollowingCount?: number
 }
 
-export const ProfileHeader = ({ data }: ProfileProps): JSX.Element => {
+export const ProfileHeader = ({
+  data,
+  followerDialog,
+  followingDialog,
+  bannerLoadState,
+  bannerFollowingCount,
+}: ProfileProps): JSX.Element => {
   const following = useFollowingVar()
   const [session] = useSession()
   const viewerLogin = session?.user?.name
 
   const isViewer = viewerLogin === data.login
-  const isFollowing = !isViewer && following.includes(data.login)
-  const notFollowing = !isViewer && !isFollowing
+  const isFollowing = session && !isViewer && following.includes(data.login)
+  const notFollowing = session && !isViewer && !isFollowing
 
   return (
     <ProfileHeaderStyles>
@@ -191,24 +190,13 @@ export const ProfileHeader = ({ data }: ProfileProps): JSX.Element => {
             {notFollowing && <FollowButton />}
           </div>
           <FromTabletLandscape>
-            <div className='profile-following-from-table'>
-              <div className='profile-following-item'>
-                <b>{toReadableNum(1789)}</b>
-                <TextDeemph fontSize='normal'>
-                  {pluralize({ word: 'post', number: 1789 })}
-                </TextDeemph>
-              </div>
-              <div className='profile-following-item'>
-                <b>{toReadableNum(2212321)}</b>
-                <TextDeemph fontSize='normal'>
-                  {pluralize({ word: 'follower', number: 2212321 })}
-                </TextDeemph>
-              </div>
-              <div className='profile-following-item'>
-                <b>{toReadableNum(14238)}</b>{' '}
-                <TextDeemph fontSize='normal'>following</TextDeemph>
-              </div>
-            </div>
+            <FollowingBanner
+              data={data}
+              followerDialog={followerDialog}
+              followingDialog={followingDialog}
+              loadState={bannerLoadState}
+              followingCount={bannerFollowingCount}
+            />
           </FromTabletLandscape>
         </div>
       </div>

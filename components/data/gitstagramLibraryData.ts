@@ -13,6 +13,7 @@ import {
 import { createFileCommitPromise } from 'graphql/mutationWrappers'
 
 const defaultLibData = coerceLibraryData({})
+
 export const followingVar = makeVar(defaultLibData.following)
 export const useFollowingVar = (): LibraryData['following'] => {
   return useReactiveVar(followingVar)

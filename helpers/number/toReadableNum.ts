@@ -1,4 +1,7 @@
-export const toReadableNum = (num: number | string): string => {
+import { nullish } from 'helpers/type/nullish'
+
+export const toReadableNum = (num?: number | string): string => {
+  if (nullish(num)) return ''
   const int = parseInt(`${num}`)
 
   if (int >= 1000000) {

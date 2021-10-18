@@ -41,6 +41,8 @@ const fonts = {
   font_Color__Inverse: sys.monos.mc900,
   font_Color__Deemph: sys.monos.mc300,
   font_FontSize__Deemph: `${sys.fontSizes.fs14}rem`,
+  font_Color__Hilite: sys.monos.mc200,
+  font_Color__Hilite_Active: sys.monos.mc100,
 
   fontLogo_Family: sys.fontFamilies.logo,
   fontLogo_FontSize__Large: `${sys.fontSizes.fs60}rem`,

@@ -21978,7 +21978,7 @@ export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?:
 
 export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined } };
 
-export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined };
+export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number };
 
 export type Frag_BranchRef_TargetFragment = { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined };
 
@@ -21986,9 +21986,9 @@ export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repositor
 
 export type Frag_Commit_FieldsFragment = { __typename?: 'Commit', oid: any, message: string };
 
-export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
+export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
-export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
+export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type CloneGitstagramLibraryMutationVariables = Exact<{
   ownerId: Scalars['ID'];
@@ -21996,7 +21996,7 @@ export type CloneGitstagramLibraryMutationVariables = Exact<{
 }>;
 
 
-export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type CloneGitstagramLibraryMutation = { __typename?: 'Mutation', cloneTemplateRepository?: { __typename?: 'CloneTemplateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type UpdateRepositoryMutationVariables = Exact<{
   repositoryId: Scalars['ID'];
@@ -22004,7 +22004,7 @@ export type UpdateRepositoryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type CreateFileCommitMutationVariables = Exact<{
   repoWithLogin: Scalars['String'];
@@ -22025,7 +22025,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22035,7 +22035,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -22072,6 +22072,7 @@ export const Frag_Repository_FieldsFragmentDoc = gql`
   id
   nameWithOwner
   description
+  stargazerCount
 }
     `;
 export const Frag_BranchRef_TargetFragmentDoc = gql`

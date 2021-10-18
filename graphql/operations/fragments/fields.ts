@@ -53,6 +53,7 @@ export const FRAG_Repository_Fields = gql`
     id
     nameWithOwner
     description
+    stargazerCount
   }
 `
 
