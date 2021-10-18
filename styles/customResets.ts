@@ -81,6 +81,15 @@ export const customResets = css`
   }
 
   /**
+  * Touch selection prevention
+  */
+  button,
+  hr {
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /**
   * Sanitize.css overwrites
   */
   button {

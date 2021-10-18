@@ -19,6 +19,7 @@ import {
   TextLink,
   FromTabletLandscape,
   UntilTabletLandscape,
+  useTooltip,
 } from 'components/ui'
 import { theme, themeConstant } from 'styles/themes'
 import { SETTINGS } from 'routes'
@@ -151,6 +152,11 @@ export const ProfileHeader = ({
   const isFollowing = session && !isViewer && following.includes(data.login)
   const notFollowing = session && !isViewer && !isFollowing
 
+  const loginTip = useTooltip()
+  const nameTip = useTooltip()
+  const twitterTip = useTooltip()
+  const locTip = useTooltip()
+
   return (
     <ProfileHeaderStyles>
       <div className='profile-title-section'>
@@ -172,7 +178,10 @@ export const ProfileHeader = ({
         </FromTabletLandscape>
         <div className='profile-follower-actions'>
           <div className='profile-title-actions'>
-            <H2 className='profile-login-name'>{data.login}</H2>
+            <loginTip.Ref {...loginTip.props}>
+              <H2 className='profile-login-name'>{data.login}</H2>
+            </loginTip.Ref>
+            <loginTip.Tip {...loginTip.props}>{data.login}</loginTip.Tip>
             {isViewer && (
               <Link href={SETTINGS} passHref>
                 <Button
@@ -203,26 +212,43 @@ export const ProfileHeader = ({
       <div className='profile-bio-section'>
         {(data.name || data.twitterUsername) && (
           <div className='profile-names'>
-            <b className='profile-bio-name'>{data.name}</b>
+            <nameTip.Ref {...nameTip.props}>
+              <b className='profile-bio-name'>{data.name}</b>
+            </nameTip.Ref>
+            <nameTip.Tip {...nameTip.props}>{data.name}</nameTip.Tip>
             {data.twitterUsername && data.name && <Middot />}
             {data.twitterUsername && (
-              <TextLink
-                className='profile-twitter-name'
-                href={`https://twitter.com/${data.twitterUsername}`}
-                external
-                deemph
-              >
-                @{data.twitterUsername}
-              </TextLink>
+              <>
+                <twitterTip.Ref {...twitterTip.props}>
+                  <TextLink
+                    className='profile-twitter-name'
+                    href={`https://twitter.com/${data.twitterUsername}`}
+                    external
+                    deemph
+                  >
+                    @{data.twitterUsername}
+                  </TextLink>
+                </twitterTip.Ref>
+                <twitterTip.Tip {...twitterTip.props}>
+                  @{data.twitterUsername}
+                </twitterTip.Tip>
+              </>
             )}
           </div>
         )}
         {data.location && (
-          <TextInfo className='profile-location'>
-            <Icon className='profile-location-icon' icon='geo-alt' ariaHidden />
-            {data.location}
-          </TextInfo>
+          <locTip.Ref {...locTip.props}>
+            <TextInfo className='profile-location'>
+              <Icon
+                className='profile-location-icon'
+                icon='geo-alt'
+                ariaHidden
+              />
+              {data.location}
+            </TextInfo>
+          </locTip.Ref>
         )}
+        <locTip.Tip {...locTip.props}>{data.location}</locTip.Tip>
         {data.bio && <div className='profile-bio-text'>{data.bio}</div>}
       </div>
     </ProfileHeaderStyles>

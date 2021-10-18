@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
+import { Separator } from 'reakit/Separator'
 import { theme } from 'styles/themes'
 
 type HrStylesProps = {
@@ -9,7 +10,9 @@ type HrStylesProps = {
 
 type HrProps = HrStylesProps & BaseProps
 
-const HrStyles = styled.hr<HrStylesProps>`
+const HrStyles = styled(Separator).withConfig({
+  shouldForwardProp: (prop) => !['dim'].includes(prop),
+})<HrStylesProps>`
   border-color: ${theme('hr_BorderColor')};
 
   ${({ deemph }) =>
