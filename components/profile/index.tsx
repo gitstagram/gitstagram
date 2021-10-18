@@ -144,7 +144,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
           <FollowDialogStyles
             {...followerDialog}
             ariaLabel='Follower list dialog'
-            title={<span>Followers</span>}
+            title='Followers'
           >
             Follower list
           </FollowDialogStyles>
@@ -153,7 +153,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
           <FollowDialogStyles
             {...followingDialog}
             ariaLabel='Following list dialog'
-            title={<span>Following</span>}
+            title='Following'
           >
             Following list
           </FollowDialogStyles>

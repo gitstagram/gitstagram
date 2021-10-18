@@ -114,9 +114,6 @@ const ProfileHeaderStyles = styled.div`
 
   .profile-location {
     margin-top: ${theme('sz4')};
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   .profile-location-icon {
@@ -152,10 +149,9 @@ export const ProfileHeader = ({
   const isFollowing = session && !isViewer && following.includes(data.login)
   const notFollowing = session && !isViewer && !isFollowing
 
-  const loginTip = useTooltip()
-  const nameTip = useTooltip()
-  const twitterTip = useTooltip()
-  const locTip = useTooltip()
+  const loginTip = useTooltip('login-tooltip')
+  const nameTip = useTooltip('name-tooltip')
+  const twitterTip = useTooltip('twitter-tooltip')
 
   return (
     <ProfileHeaderStyles>
@@ -178,10 +174,16 @@ export const ProfileHeader = ({
         </FromTabletLandscape>
         <div className='profile-follower-actions'>
           <div className='profile-title-actions'>
-            <loginTip.Ref {...loginTip.props}>
-              <H2 className='profile-login-name'>{data.login}</H2>
+            <loginTip.Ref
+              {...loginTip.props}
+              as={H2}
+              className='profile-login-name'
+            >
+              {data.login}
             </loginTip.Ref>
-            <loginTip.Tip {...loginTip.props}>{data.login}</loginTip.Tip>
+            {data.login.length > 15 && (
+              <loginTip.Tip {...loginTip.props}>{data.login}</loginTip.Tip>
+            )}
             {isViewer && (
               <Link href={SETTINGS} passHref>
                 <Button
@@ -212,43 +214,48 @@ export const ProfileHeader = ({
       <div className='profile-bio-section'>
         {(data.name || data.twitterUsername) && (
           <div className='profile-names'>
-            <nameTip.Ref {...nameTip.props}>
-              <b className='profile-bio-name'>{data.name}</b>
-            </nameTip.Ref>
-            <nameTip.Tip {...nameTip.props}>{data.name}</nameTip.Tip>
+            {data.name && (
+              <>
+                <nameTip.Ref
+                  {...nameTip.props}
+                  className='profile-bio-name'
+                  as='b'
+                >
+                  {data.name}
+                </nameTip.Ref>
+                {data.name.length > 20 && (
+                  <nameTip.Tip {...nameTip.props}>{data.name}</nameTip.Tip>
+                )}
+              </>
+            )}
             {data.twitterUsername && data.name && <Middot />}
             {data.twitterUsername && (
               <>
-                <twitterTip.Ref {...twitterTip.props}>
-                  <TextLink
-                    className='profile-twitter-name'
-                    href={`https://twitter.com/${data.twitterUsername}`}
-                    external
-                    deemph
-                  >
-                    @{data.twitterUsername}
-                  </TextLink>
-                </twitterTip.Ref>
-                <twitterTip.Tip {...twitterTip.props}>
+                <twitterTip.Ref
+                  {...twitterTip.props}
+                  as={TextLink}
+                  className='profile-twitter-name'
+                  href={`https://twitter.com/${data.twitterUsername}`}
+                  external
+                  deemph
+                >
                   @{data.twitterUsername}
-                </twitterTip.Tip>
+                </twitterTip.Ref>
+                {data.twitterUsername.length > 20 && (
+                  <twitterTip.Tip {...twitterTip.props}>
+                    @{data.twitterUsername}
+                  </twitterTip.Tip>
+                )}
               </>
             )}
           </div>
         )}
         {data.location && (
-          <locTip.Ref {...locTip.props}>
-            <TextInfo className='profile-location'>
-              <Icon
-                className='profile-location-icon'
-                icon='geo-alt'
-                ariaHidden
-              />
-              {data.location}
-            </TextInfo>
-          </locTip.Ref>
+          <TextInfo className='profile-location'>
+            <Icon className='profile-location-icon' icon='geo-alt' ariaHidden />
+            {data.location}
+          </TextInfo>
         )}
-        <locTip.Tip {...locTip.props}>{data.location}</locTip.Tip>
         {data.bio && <div className='profile-bio-text'>{data.bio}</div>}
       </div>
     </ProfileHeaderStyles>

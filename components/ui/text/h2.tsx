@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
@@ -8,6 +8,15 @@ const H2Styles = styled.h2`
   font-size: ${theme('fontH2_FontSize')};
 `
 
-export const H2: FC<ComponentProps> = ({ children, ...props }) => {
-  return <H2Styles {...props}>{children}</H2Styles>
+function H2Base(
+  { children, ...props }: ComponentProps,
+  ref: React.Ref<HTMLHeadingElement>
+): JSX.Element {
+  return (
+    <H2Styles {...props} ref={ref}>
+      {children}
+    </H2Styles>
+  )
 }
+
+export const H2 = React.forwardRef(H2Base)

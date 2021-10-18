@@ -26,11 +26,12 @@ const TooltipStyles = styled(ReakitTooltip)`
 `
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useTooltip = () => {
+export const useTooltip = (baseId: string) => {
   const props = useTooltipState({
     animated: true,
     placement: 'bottom-start',
     gutter: 0,
+    baseId: baseId,
   })
 
   const Ref = TooltipReference
