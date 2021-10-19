@@ -6,8 +6,10 @@ import { SkeletonProfile } from 'components/profile/profileSkeleton'
 import { ProfileNotFound } from 'components/profile/profileNotFound'
 import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
+import { FollowerDialog } from 'components/profile/followerDialog'
+import { FollowingDialog } from 'components/profile/followingDialog'
 import { getRawLibraryDataPromise } from 'graphql/restOperations'
-import { Hr, UntilTabletLandscape, Dialog } from 'components/ui'
+import { Hr, UntilTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { captureException, isLibraryData } from 'helpers'
@@ -31,8 +33,6 @@ const ProfileStyles = styled.div`
     margin-left: 0;
   }
 `
-
-const FollowDialogStyles = styled(Dialog)``
 
 export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
   const [session] = useSession()
@@ -141,22 +141,10 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
           </UntilTabletLandscape>
         )}
         {followerDialogMounted && (
-          <FollowDialogStyles
-            {...followerDialog}
-            ariaLabel='Follower list dialog'
-            title='Followers'
-          >
-            Follower list
-          </FollowDialogStyles>
+          <FollowerDialog userLogin={userLogin} dialogProps={followerDialog} />
         )}
         {followingDialogMounted && (
-          <FollowDialogStyles
-            {...followingDialog}
-            ariaLabel='Following list dialog'
-            title='Following'
-          >
-            Following list
-          </FollowDialogStyles>
+          <FollowingDialog dialogProps={followingDialog} />
         )}
       </ProfileStyles>
     </>

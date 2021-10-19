@@ -11,7 +11,7 @@ type HrStylesProps = {
 type HrProps = HrStylesProps & BaseProps
 
 const HrStyles = styled(Separator).withConfig({
-  shouldForwardProp: (prop) => !['dim'].includes(prop),
+  shouldForwardProp: (prop) => !['dim', 'deemph'].includes(prop),
 })<HrStylesProps>`
   border-color: ${theme('hr_BorderColor')};
 

@@ -81,3 +81,22 @@ export const FRAG_Commit_Fields = gql`
     message
   }
 `
+
+export const FRAG_Repository_Stargazers = gql`
+  fragment FRAG_Repository_Stargazers on Repository {
+    stargazers(
+      first: $firstStargazers
+      after: $afterStargazers
+      orderBy: { field: STARRED_AT, direction: DESC }
+    ) {
+      nodes {
+        login
+        name
+        avatarUrl
+      }
+      edges {
+        cursor
+      }
+    }
+  }
+`

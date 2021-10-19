@@ -88,6 +88,7 @@ const fonts = {
   fontButton_Color__Invert: sys.monos.mc200,
   fontButton_FontWeight: 'bold',
   fontButton_FontWeight__Large: 'normal',
+  fontButton_FontSize__Small: `${sys.fontSizes.fs14}rem`,
 
   fontAttn_FontSize: `${sys.fontSizes.fs12}rem`,
   fontAttn_Color: sys.monos.mc400,
@@ -157,7 +158,7 @@ const borderColors = {
   hr_BorderColor: sys.monos.mc300,
   hr_BorderColor__Deemph: sys.monos.mc600,
 
-  buttonInvert_Border_Color: sys.monos.mc500,
+  buttonInvert_Border_Color: sys.monos.mc400,
 }
 
 const transitionSpeed = sys.transitionSpeeds.trans150

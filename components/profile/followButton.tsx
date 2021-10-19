@@ -1,19 +1,31 @@
 import React from 'react'
 import { Button } from 'components/ui'
 
-export const FollowButton = (): JSX.Element => {
+type FollowButtonProps = BaseProps & {
+  variant?: 'small'
+}
+
+export const FollowButton = ({
+  variant,
+  ...props
+}: FollowButtonProps): JSX.Element => {
   const handleFollow = () => {
     return
   }
 
   return (
     <Button
-      className='profile-title-button'
+      {...props}
+      variant={variant}
       onClick={handleFollow}
-      icon={{
-        ariaHidden: true,
-        icon: 'person-plus-fill',
-      }}
+      icon={
+        variant === 'small'
+          ? undefined
+          : {
+              ariaHidden: true,
+              icon: 'person-plus-fill',
+            }
+      }
     >
       Follow
     </Button>

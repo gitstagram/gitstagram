@@ -39,6 +39,7 @@ const AccountDeleteStyles = styled.div`
 const DeleteDialogStyles = styled(Dialog)`
   .delete-body {
     max-width: 30ch;
+    padding: ${theme('sz16')} ${theme('sz16')} 0 ${theme('sz16')};
   }
 
   .delete-header {

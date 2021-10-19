@@ -56,7 +56,7 @@ export const TextLogo: FC<TextLogoProps> = ({
     </Link>
   ) : (
     <TextLogoStyles size={size} {...props}>
-      Gistagram
+      Gitstagram
     </TextLogoStyles>
   )
 }

@@ -67,3 +67,20 @@ export const SEARCH_USERS = gql`
     }
   }
 `
+
+export const GET_STARGAZERS = gql`
+  ${frags.FRAG_Repository_Stargazers}
+
+  query GetStargazers(
+    $userLogin: String!
+    $repositoryName: String = "gitstagram-library"
+    $firstStargazers: Int = 50
+    $afterStargazers: String
+  ) {
+    repository(name: $repositoryName, owner: $userLogin) {
+      id
+      stargazerCount
+      ...FRAG_Repository_Stargazers
+    }
+  }
+`

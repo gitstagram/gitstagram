@@ -70,10 +70,6 @@ const ReakitDialogStyles = styled(ReakitDialog)`
     border-bottom: 1px solid ${theme('hr_BorderColor__Deemph')};
   }
 
-  .dialog-body {
-    padding: ${theme('sz16')} ${theme('sz16')} 0 ${theme('sz16')};
-  }
-
   .dialog-footer {
     padding: ${theme('sz16')};
   }
@@ -106,7 +102,7 @@ export const Dialog = ({
           />
         )}
       </div>
-      <div className='dialog-body'>{children}</div>
+      {children}
       {footer && <div className='dialog-footer'>{footer}</div>}
     </>
   )

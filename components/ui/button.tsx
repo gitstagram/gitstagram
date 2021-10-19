@@ -5,7 +5,7 @@ import { Button as ReakitButton } from 'reakit/Button'
 import { Icon, IconProps } from 'components/ui/icon/icon'
 import { theme } from 'styles/themes'
 
-type ButtonVariants = 'large' | 'naked' | IconProps | undefined
+type ButtonVariants = 'small' | 'large' | 'naked' | IconProps | undefined
 type ButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => void
 
 type ButtonStyleProps = {
@@ -68,6 +68,13 @@ const ButtonStyles = styled(ReakitButton).withConfig({
     expand &&
     css`
       width: 100%;
+    `}
+
+  ${({ variant }) =>
+    variant === 'small' &&
+    css`
+      padding: ${theme('sz4')} ${theme('sz12')};
+      font-size: ${theme('fontButton_FontSize__Small')};
     `}
 
   ${({ variant }) =>
@@ -165,6 +172,7 @@ const ButtonStyles = styled(ReakitButton).withConfig({
       &:hover,
       &:focus {
         color: ${theme('fontButton_Color')};
+        border: 1px solid transparent;
       }
     `}
 

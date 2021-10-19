@@ -21986,6 +21986,8 @@ export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repositor
 
 export type Frag_Commit_FieldsFragment = { __typename?: 'Commit', oid: any, message: string };
 
+export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', login: string, name?: string | null | undefined, avatarUrl: any } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } };
+
 export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
@@ -22050,6 +22052,16 @@ export type SearchUsersQueryVariables = Exact<{
 
 export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, owner: { __typename?: 'Organization' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
 
+export type GetStargazersQueryVariables = Exact<{
+  userLogin: Scalars['String'];
+  repositoryName?: Maybe<Scalars['String']>;
+  firstStargazers?: Maybe<Scalars['Int']>;
+  afterStargazers?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetStargazersQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, stargazerCount: number, stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', login: string, name?: string | null | undefined, avatarUrl: any } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } } | null | undefined };
+
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
   id
@@ -22065,6 +22077,24 @@ export const Frag_Commit_FieldsFragmentDoc = gql`
     fragment FRAG_Commit_Fields on Commit {
   oid
   message
+}
+    `;
+export const Frag_Repository_StargazersFragmentDoc = gql`
+    fragment FRAG_Repository_Stargazers on Repository {
+  stargazers(
+    first: $firstStargazers
+    after: $afterStargazers
+    orderBy: {field: STARRED_AT, direction: DESC}
+  ) {
+    nodes {
+      login
+      name
+      avatarUrl
+    }
+    edges {
+      cursor
+    }
+  }
 }
     `;
 export const Frag_Repository_FieldsFragmentDoc = gql`
@@ -22409,3 +22439,43 @@ export function useSearchUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type SearchUsersQueryHookResult = ReturnType<typeof useSearchUsersQuery>;
 export type SearchUsersLazyQueryHookResult = ReturnType<typeof useSearchUsersLazyQuery>;
 export type SearchUsersQueryResult = Apollo.QueryResult<SearchUsersQuery, SearchUsersQueryVariables>;
+export const GetStargazersDocument = gql`
+    query GetStargazers($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstStargazers: Int = 100, $afterStargazers: String) {
+  repository(name: $repositoryName, owner: $userLogin) {
+    id
+    stargazerCount
+    ...FRAG_Repository_Stargazers
+  }
+}
+    ${Frag_Repository_StargazersFragmentDoc}`;
+
+/**
+ * __useGetStargazersQuery__
+ *
+ * To run a query within a React component, call `useGetStargazersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetStargazersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetStargazersQuery({
+ *   variables: {
+ *      userLogin: // value for 'userLogin'
+ *      repositoryName: // value for 'repositoryName'
+ *      firstStargazers: // value for 'firstStargazers'
+ *      afterStargazers: // value for 'afterStargazers'
+ *   },
+ * });
+ */
+export function useGetStargazersQuery(baseOptions: Apollo.QueryHookOptions<GetStargazersQuery, GetStargazersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetStargazersQuery, GetStargazersQueryVariables>(GetStargazersDocument, options);
+      }
+export function useGetStargazersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetStargazersQuery, GetStargazersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetStargazersQuery, GetStargazersQueryVariables>(GetStargazersDocument, options);
+        }
+export type GetStargazersQueryHookResult = ReturnType<typeof useGetStargazersQuery>;
+export type GetStargazersLazyQueryHookResult = ReturnType<typeof useGetStargazersLazyQuery>;
+export type GetStargazersQueryResult = Apollo.QueryResult<GetStargazersQuery, GetStargazersQueryVariables>;
