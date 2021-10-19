@@ -9,7 +9,7 @@ import { DialogStateReturn } from 'reakit/Dialog'
 export const useDialogScroll = (
   dialogProps: DialogStateReturn,
   scrollRef: React.RefObject<HTMLElement>
-) => {
+): void => {
   useEffect(() => {
     const scrollBox = scrollRef.current
     if (dialogProps.visible && scrollBox) {

@@ -9,7 +9,7 @@ import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
 import { getRawLibraryDataPromise } from 'graphql/restOperations'
-import { Hr, UntilTabletLandscape } from 'components/ui'
+import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { captureException, isLibraryData } from 'helpers'
@@ -128,17 +128,22 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
       )}
       <ProfileStyles>
         {!loading && data && (
-          <UntilTabletLandscape>
-            <Hr dim />
-            <FollowingBanner
-              data={data}
-              followerDialog={followerDialog}
-              followingDialog={followingDialog}
-              loadState={bannerLoadState}
-              followingCount={bannerFollowingCount}
-            />
-            <Hr dim />
-          </UntilTabletLandscape>
+          <>
+            <UntilTabletLandscape>
+              <Hr dim />
+              <FollowingBanner
+                data={data}
+                followerDialog={followerDialog}
+                followingDialog={followingDialog}
+                loadState={bannerLoadState}
+                followingCount={bannerFollowingCount}
+              />
+              <Hr dim />
+            </UntilTabletLandscape>
+            <FromTabletLandscape>
+              <Hr dim />
+            </FromTabletLandscape>
+          </>
         )}
         {followerDialogMounted && (
           <FollowerDialog userLogin={userLogin} dialogProps={followerDialog} />

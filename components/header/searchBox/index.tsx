@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useMenuState, MenuButton } from 'reakit/Menu'
 import { ProfileIcon } from 'components/profileIcon'
@@ -34,10 +34,15 @@ function SearchBoxBase(
   const [search, setSearch] = useState<string>(searchCache || '')
   const following = useFollowingVar()
   const [searchUsers, { data, error }] = useSearchUsersLazyQuery()
-  const searchResults = data?.search?.nodes?.filter(
-    (item) =>
-      item?.__typename === 'Repository' && item.name === 'gitstagram-library'
-  ) as SearchRepo[]
+  const searchResults = useMemo(
+    () =>
+      data?.search?.nodes?.filter(
+        (item) =>
+          item?.__typename === 'Repository' &&
+          item.name === 'gitstagram-library'
+      ) as SearchRepo[],
+    [data]
+  )
 
   const menu = useMenuState({
     animated: true,
@@ -150,7 +155,12 @@ function SearchBoxBase(
                   passHref
                   key={node.owner.id}
                 >
-                  <MenuItem {...menu} className='search-item' as='a'>
+                  <MenuItem
+                    {...menu}
+                    className='search-item'
+                    as='a'
+                    id={node.owner.id}
+                  >
                     <ProfileIcon
                       className='search-item-img'
                       url={node.owner.avatarUrl as string | undefined}

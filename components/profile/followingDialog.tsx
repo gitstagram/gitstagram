@@ -59,7 +59,6 @@ export const FollowingDialog = ({
 
   const [following, setFollowing] = useState<User[]>([])
   const [fetchedCount, setFetchedCount] = useState(0)
-  const [nextBatch, setNextBatch] = useState<string[]>([])
   const firstBatch = useMemo(
     () => followingList?.slice(0, fetchBatchCount),
     [followingList]
@@ -84,49 +83,39 @@ export const FollowingDialog = ({
   useEffect(() => {
     setFollowing([])
     setFetchedCount(0)
-    setNextBatch([])
   }, [userLogin])
 
   useEffect(() => {
     if (data && fetchedCount === 0) {
       const followingResults = getFollowingResults(data)
       setFollowing(followingResults)
-      setFetchedCount((fetchedCount) => {
-        const newFetchedCount = fetchedCount + fetchBatchCount
-        const nextBatchIndex = newFetchedCount + fetchBatchCount
-        setNextBatch(
-          (followingList as string[]).slice(newFetchedCount, nextBatchIndex)
-        )
-        return newFetchedCount
-      })
+      setFetchedCount((fetchedCount) => fetchedCount + fetchBatchCount)
     }
-  }, [data, fetchedCount, followingList])
+  }, [data, fetchedCount])
 
   useEffect(() => {
     if (moreData) {
       const followingResults = getFollowingResults(moreData)
       setFollowing((following) => [...following, ...followingResults])
-      setFetchedCount((fetchedCount) => {
-        const newFetchedCount = fetchedCount + fetchBatchCount
-        const nextBatchIndex = newFetchedCount + fetchBatchCount
-        setNextBatch(
-          (followingList as string[]).slice(newFetchedCount, nextBatchIndex)
-        )
-        return newFetchedCount
-      })
+      setFetchedCount((fetchedCount) => fetchedCount + fetchBatchCount)
     }
-  }, [moreData, followingList])
+  }, [moreData])
 
   const handleListScrollToBottom = () => {
     const fetchedMoreThanTotal =
       typeof totalFollowing === 'number' ? fetchedCount > totalFollowing : true
-    if (!isLoading && !fetchedMoreThanTotal && nextBatch.length) {
-      getMoreFollowing({
-        variables: {
-          followingSearch: getFollowingQueryString(nextBatch),
-          firstUsers: fetchBatchCount,
-        },
-      })
+    if (!isLoading && !fetchedMoreThanTotal) {
+      const nextBatch = followingList?.slice(
+        fetchedCount,
+        fetchedCount + fetchBatchCount
+      )
+      nextBatch &&
+        getMoreFollowing({
+          variables: {
+            followingSearch: getFollowingQueryString(nextBatch),
+            firstUsers: fetchBatchCount,
+          },
+        })
     }
   }
   const scrollRef = useBottomScrollListener(handleListScrollToBottom)
@@ -147,7 +136,6 @@ export const FollowingDialog = ({
             <TextInfo>No users to show</TextInfo>
           </div>
         )}
-
         {following.length !== 0 &&
           // use index as key because pagination may result in duplicated items
           following.map((follow, index) => {
@@ -184,7 +172,6 @@ export const FollowingDialog = ({
               </div>
             )
           })}
-
         {hasError && (
           <div className='follow-nothing'>
             <TextInfo>Issue loading, please try again</TextInfo>
