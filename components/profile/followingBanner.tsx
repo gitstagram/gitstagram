@@ -30,7 +30,7 @@ const FollowingBannerStyles = styled.div`
   }
 
   .following-load {
-    width: ${theme('sz48')};
+    width: ${theme('sz16')};
     height: ${theme('sz16')};
     margin-right: auto;
     margin-left: auto;

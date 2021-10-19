@@ -84,3 +84,13 @@ export const GET_STARGAZERS = gql`
     }
   }
 `
+
+export const GET_FOLLOWING = gql`
+  query GetFollowing($followingSearch: String!, $firstUsers: Int = 50) {
+    search(query: $followingSearch, type: USER, first: $firstUsers) {
+      nodes {
+        ...FRAG_User_Fields
+      }
+    }
+  }
+`

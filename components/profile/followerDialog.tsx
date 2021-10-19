@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/client'
 import { DialogStateReturn } from 'reakit/Dialog'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { ProfileIcon } from 'components/profileIcon'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
-import { TextDeemph, TextInfo, SkeletonUserList } from 'components/ui'
+import {
+  TextDeemph,
+  TextInfo,
+  SkeletonUserList,
+  useDialogScroll,
+} from 'components/ui'
 import {
   useGetStargazersLazyQuery,
   useGetStargazersQuery,
@@ -64,21 +68,26 @@ export const FollowerDialog = ({
   dialogProps,
   userLogin,
 }: FollowerDialogProps): JSX.Element => {
+  const followingVar = useFollowingVar()
   const [session] = useSession()
+  const [lastCursor, setLastCursor] = useState<string | null>(null)
+  const [stargazers, setStargazers] = useState<StargazersWithCursor>([])
+  const [fetchedCount, setFetchedCount] = useState(0)
+
   const { data, loading, error } = useGetStargazersQuery({
     variables: {
       userLogin,
       firstStargazers: fetchBatchCount,
     },
   })
-  const totalStargazers = data?.repository?.stargazerCount || 0
   const [
     getMoreStargazers,
     { data: moreData, loading: moreLoading, error: moreError },
   ] = useGetStargazersLazyQuery()
-  const [lastCursor, setLastCursor] = useState<string | null>(null)
-  const [stargazers, setStargazers] = useState<StargazersWithCursor>([])
-  const [fetchedCount, setFetchedCount] = useState(0)
+
+  const totalStargazers = data?.repository?.stargazerCount || 0
+  const isLoading = loading || moreLoading
+  const hasError = error || moreError
 
   useEffect(() => {
     if (data) {
@@ -112,25 +121,8 @@ export const FollowerDialog = ({
       })
     }
   }
-
-  const followingVar = useFollowingVar()
-  const isLoading = loading || moreLoading
-  const hasError = error || moreError
-
-  /**
-   * This fixes iOS scroll lock not being released
-   * https://github.com/reakit/reakit/issues/469
-   */
   const scrollRef = useBottomScrollListener(handleListScrollToBottom)
-  useEffect(() => {
-    const scrollBox = scrollRef.current
-    if (dialogProps.visible && scrollBox) {
-      disableBodyScroll(scrollBox)
-    }
-    return () => {
-      scrollBox && enableBodyScroll(scrollBox)
-    }
-  }, [dialogProps.visible, scrollRef])
+  useDialogScroll(dialogProps, scrollRef)
 
   return (
     <FollowDialogStyles
@@ -144,16 +136,17 @@ export const FollowerDialog = ({
       >
         {!isLoading && stargazers.length === 0 && (
           <div className='follow-nothing'>
-            <TextInfo className='search-prompt'>No users to show</TextInfo>
+            <TextInfo>No users to show</TextInfo>
           </div>
         )}
         {stargazers.length !== 0 &&
-          stargazers.map((stargazer) => {
+          // use index as key because pagination may result in duplicated items
+          stargazers.map((stargazer, index) => {
             const login = stargazer.login
             const isUser = login === session?.user?.name
             const isFollowing = followingVar.includes(login)
             return (
-              <div key={stargazer.login} className='follow-item'>
+              <div key={index} className='follow-item'>
                 <Link href={getProfilePath(login)}>
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                   <a className='follow-profile' onClick={dialogProps.hide}>
@@ -184,9 +177,7 @@ export const FollowerDialog = ({
           })}
         {hasError && (
           <div className='follow-nothing'>
-            <TextInfo className='search-prompt'>
-              Issue loading, please try again
-            </TextInfo>
+            <TextInfo>Issue loading, please try again</TextInfo>
           </div>
         )}
         {isLoading && <SkeletonUserList />}

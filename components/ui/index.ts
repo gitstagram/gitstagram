@@ -1,11 +1,13 @@
 export * from 'components/ui/button'
-export * from 'components/ui/dialog'
 export * from 'components/ui/emoji'
 export * from 'components/ui/hr'
 export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
 export * from 'components/ui/preWrap'
 export * from 'components/ui/useTooltip'
+
+export * from 'components/ui/dialog/dialog'
+export * from 'components/ui/dialog/useDialogScroll'
 
 export * from 'components/ui/display/fromTabletLandscape'
 export * from 'components/ui/display/untilTabletLandscape'
