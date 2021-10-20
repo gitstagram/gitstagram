@@ -30,7 +30,7 @@ export const useSavedVar = (): LibraryData['saved'] => {
 }
 
 export type CommitOpts = {
-  repoWithLogin: string
+  login: string
   headOid: string
   commitMessage: string
 }

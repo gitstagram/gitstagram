@@ -1,4 +1,5 @@
 export * from 'helpers/array/times'
+export * from 'helpers/array/uniqArr'
 
 export * from 'helpers/assert/assertExists'
 

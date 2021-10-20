@@ -12,13 +12,12 @@ type AddStarQueryVariables = {
 }
 
 const ADD_STAR = gql`
-  query AddStar($userLogin: String!, $input: String!, $bodySerializer: any) {
+  query AddStar($userLogin: String!, $input: String!) {
     addStar(input: $input, userLogin: $userLogin)
       @rest(
         type: "RestAddStar"
         path: "/user/starred/{args.userLogin}/gitstagram-library"
         method: "PUT"
-        bodySerializer: $bodySerializer
       ) {
       raw
     }
@@ -30,6 +29,7 @@ export const addStarQueryPromise = (
 ): Promise<ApolloQueryResult<AddStarQuery>> => {
   return apolloClient.query<AddStarQuery>({
     query: ADD_STAR,
+    fetchPolicy: 'no-cache',
     variables: {
       ...variables,
       input: '{}',

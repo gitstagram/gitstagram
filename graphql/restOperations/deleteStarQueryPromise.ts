@@ -29,6 +29,7 @@ export const deleteStarQueryPromise = (
 ): Promise<ApolloQueryResult<DeleteStarQuery>> => {
   return apolloClient.query<DeleteStarQuery>({
     query: DELETE_STAR,
+    fetchPolicy: 'no-cache',
     variables,
   })
 }

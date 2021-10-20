@@ -45,7 +45,7 @@ export const FollowingDialog = ({
   dialogProps,
 }: FollowingDialogProps): JSX.Element => {
   const [session] = useSession()
-  const isViewer = session?.user?.name === userLogin
+  const isViewerPage = session?.user?.name === userLogin
 
   const {
     data: libData,
@@ -55,7 +55,7 @@ export const FollowingDialog = ({
     arguments: [userLogin],
   })
   const followingVar = useFollowingVar()
-  const followingList = isViewer ? followingVar : libData?.following
+  const followingList = isViewerPage ? followingVar : libData?.following
 
   const [following, setFollowing] = useState<User[]>([])
   const [fetchedCount, setFetchedCount] = useState(0)
@@ -79,6 +79,18 @@ export const FollowingDialog = ({
   const totalFollowing = followingList?.length
   const isLoading = libLoading || loading || moreLoading
   const hasError = libErr || error || moreError
+
+  useEffect(() => {
+    if (followingList) {
+      setFollowing((following) => {
+        if (followingList.length < following.length) {
+          return following.filter((item) => followingList.includes(item.login))
+        } else {
+          return following
+        }
+      })
+    }
+  }, [followingList])
 
   useEffect(() => {
     setFollowing([])
@@ -141,7 +153,7 @@ export const FollowingDialog = ({
           following.map((follow, index) => {
             const login = follow.login
             const isUser = login === session?.user?.name
-            const isFollowing = followingList?.includes(login)
+            const isFollowing = followingVar?.includes(login)
             return (
               <div key={index} className='follow-item'>
                 <Link href={getProfilePath(login)}>
@@ -163,12 +175,18 @@ export const FollowingDialog = ({
                     </div>
                   </a>
                 </Link>
-                {session && !isUser && isFollowing && (
-                  <FollowingButton className='follow-button' variant='small' />
-                )}
-                {session && !isUser && !isFollowing && (
-                  <FollowButton className='follow-button' variant='small' />
-                )}
+                <FollowingButton
+                  className='follow-button'
+                  variant='small'
+                  followUserLogin={follow.login}
+                  show={session && !isUser && isFollowing}
+                />
+                <FollowButton
+                  className='follow-button'
+                  variant='small'
+                  followUserLogin={follow.login}
+                  show={session && !isUser && !isFollowing}
+                />
               </div>
             )
           })}

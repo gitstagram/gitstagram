@@ -166,12 +166,18 @@ export const FollowerDialog = ({
                     </div>
                   </a>
                 </Link>
-                {session && !isUser && isFollowing && (
-                  <FollowingButton className='follow-button' variant='small' />
-                )}
-                {session && !isUser && !isFollowing && (
-                  <FollowButton className='follow-button' variant='small' />
-                )}
+                <FollowingButton
+                  className='follow-button'
+                  variant='small'
+                  followUserLogin={stargazer.login}
+                  show={session && !isUser && isFollowing}
+                />
+                <FollowButton
+                  className='follow-button'
+                  variant='small'
+                  followUserLogin={stargazer.login}
+                  show={session && !isUser && !isFollowing}
+                />
               </div>
             )
           })}

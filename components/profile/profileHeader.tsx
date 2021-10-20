@@ -197,10 +197,16 @@ export const ProfileHeader = ({
                 </Button>
               </Link>
             )}
-            {isFollowing && (
-              <FollowingButton className='profile-title-button' />
-            )}
-            {notFollowing && <FollowButton className='profile-title-button' />}
+            <FollowingButton
+              className='profile-title-button'
+              followUserLogin={data.login}
+              show={isFollowing}
+            />
+            <FollowButton
+              className='profile-title-button'
+              followUserLogin={data.login}
+              show={notFollowing}
+            />
           </div>
           <FromTabletLandscape>
             <FollowingBanner

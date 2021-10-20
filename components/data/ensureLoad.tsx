@@ -183,7 +183,7 @@ export const EnsureLoad = (): JSX.Element => {
         const libraryData = parseJsonIfB64(fileContents)
 
         void ensureLibraryDataExpected(libraryData, {
-          repoWithLogin: `${viewer.login}/gitstagram-library`,
+          login: viewer.login,
           headOid,
           commitMessage: 'Correct errors found in `gitstagram-library.json`',
         })

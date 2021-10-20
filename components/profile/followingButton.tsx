@@ -1,12 +1,33 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import styled, { css } from 'styled-components'
 import { Button } from 'components/ui'
+import { toast } from 'react-toastify'
+import {
+  writeLibraryData,
+  useFollowingVar,
+} from 'components/data/gitstagramLibraryData'
+import { deleteStarQueryPromise } from 'graphql/restOperations'
+import { async, captureException } from 'helpers'
+import {
+  useGetViewerQuery,
+  useGetViewerGitstagramLibraryQuery,
+} from 'graphql/generated'
 
-type FollowingButtonProps = BaseProps & {
-  variant?: 'small'
+type FollowingButtonStylesProps = {
+  show: Maybe<boolean>
 }
 
-const FollowingButtonStyles = styled.span`
+type FollowingButtonProps = BaseProps &
+  FollowingButtonStylesProps & {
+    variant?: 'small'
+    followUserLogin: string
+  }
+
+type FollowState = 'base' | 'loading'
+
+const FollowingButtonStyles = styled.span.withConfig({
+  shouldForwardProp: (prop) => !['show'].includes(prop),
+})<FollowingButtonStylesProps>`
   button {
     ::after {
       content: 'Following';
@@ -19,18 +40,73 @@ const FollowingButtonStyles = styled.span`
       }
     }
   }
+
+  ${({ show }) =>
+    !show &&
+    css`
+      display: none;
+    `}
 `
 
 export const FollowingButton = ({
   variant,
+  followUserLogin,
+  show,
   ...props
 }: FollowingButtonProps): JSX.Element => {
-  const handleUnfollow = () => {
-    return
+  const [followState, setFollowState] = useState<FollowState>('base')
+
+  const { data: loginData } = useGetViewerQuery()
+  const viewerLogin = loginData?.viewer.login
+  const { data } = useGetViewerGitstagramLibraryQuery({
+    skip: !viewerLogin,
+    variables: {
+      userLogin: viewerLogin as string,
+    },
+  })
+
+  const followingVar = useFollowingVar()
+
+  const handleUnfollow = async () => {
+    if (!viewerLogin) {
+      toast.warn('Cannot read current user')
+      return
+    }
+
+    setFollowState('loading')
+    const { err: starErr } = await async(
+      deleteStarQueryPromise({ userLogin: followUserLogin })
+    )
+
+    const oid = data?.viewer?.repository?.defaultBranchRef?.target
+      ?.oid as string
+
+    if (starErr || !oid) {
+      captureException({
+        err: starErr,
+        msgs: [
+          [starErr, 'FollowingButton issue removing star'],
+          [!oid, 'FollowingButton no oID found'],
+        ],
+      })
+      toast.warn('Issue unfollowing user on Github')
+      setFollowState('base')
+      return
+    }
+
+    await writeLibraryData(
+      { following: followingVar.filter((item) => item !== followUserLogin) },
+      {
+        login: viewerLogin,
+        headOid: oid,
+        commitMessage: `Unfollow: ${followUserLogin}`,
+      }
+    )
+    setFollowState('base')
   }
 
   return (
-    <FollowingButtonStyles>
+    <FollowingButtonStyles show={show}>
       <Button
         {...props}
         variant={variant}
@@ -41,9 +117,11 @@ export const FollowingButton = ({
             ? undefined
             : {
                 ariaHidden: true,
-                icon: 'person-fill',
+                icon: followState === 'loading' ? 'gear' : 'person-fill',
               }
         }
+        loading={followState === 'loading'}
+        disabled={followState === 'loading'}
       />
     </FollowingButtonStyles>
   )

@@ -31,7 +31,7 @@ export const Feed = (): JSX.Element => {
       void createFileCommitPromise({
         b64Contents: base64,
         path: `media/${fileId}.png`,
-        repoWithLogin: `${viewerLogin}/gitstagram-library`,
+        login: viewerLogin,
         commitMessage: 'Add media',
         headOid: oid,
       })
