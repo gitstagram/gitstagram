@@ -1,17 +1,17 @@
-import { gql, ApolloQueryResult } from '@apollo/client'
+import { gql, FetchResult } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
 
-type DeleteRepoQuery = {
+type DeleteRepoMutation = {
   deleteRepo: {
     raw: string
   }
 }
 
-type DeleteRepoQueryVariables = {
+type DeleteRepoMutationVariables = {
   userLogin: string
 }
 
-const DELETE_REPO = gql`
+const DELETE_REPO_MUTATION = gql`
   query DeleteRepo($userLogin: String!) {
     deleteRepo(userLogin: $userLogin)
       @rest(
@@ -24,11 +24,11 @@ const DELETE_REPO = gql`
   }
 `
 
-export const deleteRepoQueryPromise = (
-  variables: DeleteRepoQueryVariables
-): Promise<ApolloQueryResult<DeleteRepoQuery>> => {
-  return apolloClient.query<DeleteRepoQuery>({
-    query: DELETE_REPO,
+export const deleteRepoMutationPromise = (
+  variables: DeleteRepoMutationVariables
+): Promise<FetchResult<DeleteRepoMutation>> => {
+  return apolloClient.mutate<DeleteRepoMutation>({
+    mutation: DELETE_REPO_MUTATION,
     variables,
   })
 }

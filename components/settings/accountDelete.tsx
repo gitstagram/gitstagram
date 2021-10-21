@@ -14,8 +14,8 @@ import {
 import { theme } from 'styles/themes'
 
 import {
-  deleteStarQueryPromise,
-  deleteRepoQueryPromise,
+  deleteStarMutationPromise,
+  deleteRepoMutationPromise,
 } from 'graphql/restOperations'
 import { promiseReduce, captureException } from 'helpers'
 
@@ -88,13 +88,13 @@ export const AccountDelete = ({
 
     const unstarLoginList: string[] = unstarState ? followingList : []
     const promises = unstarLoginList.map((userLogin) =>
-      deleteStarQueryPromise({ userLogin: userLogin }).catch(() => {
+      deleteStarMutationPromise({ userLogin: userLogin }).catch(() => {
         // noop: this request not important if it fails
       })
     )
     void promiseReduce(promises)
       .then(() => {
-        return deleteRepoQueryPromise({ userLogin: viewerLogin })
+        return deleteRepoMutationPromise({ userLogin: viewerLogin })
       })
       .catch((err: unknown) => {
         captureException({ err, msgs: ['Delete repo failed'] })

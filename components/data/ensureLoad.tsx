@@ -10,7 +10,7 @@ import {
 } from 'graphql/mutationWrappers'
 import {
   getLibraryDataQueryPromise,
-  addStarQueryPromise,
+  addStarMutationPromise,
 } from 'graphql/restOperations'
 import { useLoadingContext } from 'components/contexts/loading'
 import {
@@ -46,7 +46,7 @@ export const EnsureLoad = (): JSX.Element => {
   const starDefaultFollowingCollection = () => {
     const defaultFollowingsPromiseCollection = defaultFollowings.map(
       (defaultFollowing) => {
-        return addStarQueryPromise({ userLogin: defaultFollowing })
+        return addStarMutationPromise({ userLogin: defaultFollowing })
       }
     )
     void promiseReduce(defaultFollowingsPromiseCollection).catch(

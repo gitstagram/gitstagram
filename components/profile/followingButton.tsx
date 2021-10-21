@@ -6,7 +6,7 @@ import {
   writeLibraryData,
   useFollowingVar,
 } from 'components/data/gitstagramLibraryData'
-import { deleteStarQueryPromise } from 'graphql/restOperations'
+import { deleteStarMutationPromise } from 'graphql/restOperations'
 import { async, captureException } from 'helpers'
 import {
   useGetViewerQuery,
@@ -75,7 +75,7 @@ export const FollowingButton = ({
 
     setFollowState('loading')
     const { err: starErr } = await async(
-      deleteStarQueryPromise({ userLogin: followUserLogin })
+      deleteStarMutationPromise({ userLogin: followUserLogin })
     )
 
     const oid = data?.viewer?.repository?.defaultBranchRef?.target
