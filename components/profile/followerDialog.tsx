@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/client'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { ProfileIcon } from 'components/profileIcon'
@@ -18,6 +17,7 @@ import {
   useGetStargazersLazyQuery,
   useGetStargazersQuery,
   GetStargazersQuery,
+  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 import { getProfilePath } from 'routes'
 import type { Merge } from 'type-fest'
@@ -69,11 +69,11 @@ export const FollowerDialog = ({
   userLogin,
 }: FollowerDialogProps): JSX.Element => {
   const followingVar = useFollowingVar()
-  const [session] = useSession()
   const [lastCursor, setLastCursor] = useState<string | null>(null)
   const [stargazers, setStargazers] = useState<StargazersWithCursor>([])
   const [fetchedCount, setFetchedCount] = useState(0)
 
+  const { data: cacheViewer } = useCache_ViewerInfoQuery()
   const { data, loading, error } = useGetStargazersQuery({
     variables: {
       userLogin,
@@ -143,7 +143,7 @@ export const FollowerDialog = ({
           // use index as key because pagination may result in duplicated items
           stargazers.map((stargazer, index) => {
             const login = stargazer.login
-            const isUser = login === session?.user?.name
+            const isUser = login === cacheViewer?.viewerInfo?.login
             const isFollowing = followingVar.includes(login)
             return (
               <div key={index} className='follow-item'>
@@ -170,13 +170,13 @@ export const FollowerDialog = ({
                   className='follow-button'
                   variant='small'
                   followUserLogin={stargazer.login}
-                  show={session && !isUser && isFollowing}
+                  show={!isUser && isFollowing}
                 />
                 <FollowButton
                   className='follow-button'
                   variant='small'
                   followUserLogin={stargazer.login}
-                  show={session && !isUser && !isFollowing}
+                  show={!isUser && !isFollowing}
                 />
               </div>
             )

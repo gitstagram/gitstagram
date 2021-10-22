@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { useSession } from 'next-auth/client'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { ProfileIcon } from 'components/profileIcon'
@@ -13,6 +12,7 @@ import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,
   GetFollowingQuery,
+  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 import { useLoadAsync } from 'components/hooks'
 import {
@@ -44,8 +44,8 @@ export const FollowingDialog = ({
   userLogin,
   dialogProps,
 }: FollowingDialogProps): JSX.Element => {
-  const [session] = useSession()
-  const isViewerPage = session?.user?.name === userLogin
+  const { data: cacheViewer } = useCache_ViewerInfoQuery()
+  const isViewerPage = userLogin === cacheViewer?.viewerInfo?.login
 
   const {
     data: libData,
@@ -152,7 +152,7 @@ export const FollowingDialog = ({
           // use index as key because pagination may result in duplicated items
           following.map((follow, index) => {
             const login = follow.login
-            const isUser = login === session?.user?.name
+            const isUser = login === cacheViewer?.viewerInfo?.login
             const isFollowing = followingVar?.includes(login)
             return (
               <div key={index} className='follow-item'>
@@ -179,13 +179,13 @@ export const FollowingDialog = ({
                   className='follow-button'
                   variant='small'
                   followUserLogin={follow.login}
-                  show={session && !isUser && isFollowing}
+                  show={!isUser && isFollowing}
                 />
                 <FollowButton
                   className='follow-button'
                   variant='small'
                   followUserLogin={follow.login}
-                  show={session && !isUser && !isFollowing}
+                  show={!isUser && !isFollowing}
                 />
               </div>
             )

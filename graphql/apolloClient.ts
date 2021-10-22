@@ -8,6 +8,7 @@ import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
+import type { Session } from 'next-auth'
 import { toast } from 'react-toastify'
 import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import { typePolicies } from 'graphql/typePolicies'
@@ -96,8 +97,12 @@ type PreviousContext = {
   headers: Record<string, string>
 }
 
+let session: Session | null
 const getAuthorization = async (type: 'graphql' | 'rest') => {
-  const session = await getSession()
+  if (!session) {
+    session = await getSession()
+  }
+
   const accessToken = session?.accessToken as string | undefined
 
   const prefixMap = {

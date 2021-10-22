@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/client'
 import styled from 'styled-components'
 import { useDialogState } from 'reakit/Dialog'
 import { SkeletonProfile } from 'components/profile/profileSkeleton'
@@ -18,6 +17,7 @@ import { themeConstant, theme } from 'styles/themes'
 import {
   useGetUserGitstagramLibraryQuery,
   useGetViewerGitstagramLibraryQuery,
+  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 
 type ProfileProps = {
@@ -35,14 +35,13 @@ const ProfileStyles = styled.div`
 `
 
 export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
-  const [session] = useSession()
-  const viewerLogin = session?.user?.name
-  const isLoggedOut = !session || !viewerLogin
-  const isViewer = viewerLogin === userLogin
+  const { data: cacheViewer } = useCache_ViewerInfoQuery()
+  const viewerLogin = cacheViewer?.viewerInfo?.login
+  const isViewer = userLogin === viewerLogin
 
   const { data: userData, loading: userLoading } =
     useGetUserGitstagramLibraryQuery({
-      skip: isLoggedOut || isViewer,
+      skip: isViewer,
       variables: {
         userLogin,
       },
@@ -50,7 +49,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
 
   const { data: viewerData, loading: viewerLoading } =
     useGetViewerGitstagramLibraryQuery({
-      skip: isLoggedOut || !isViewer,
+      skip: !isViewer,
       variables: {
         userLogin: viewerLogin as string,
       },

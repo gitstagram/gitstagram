@@ -1,5 +1,4 @@
 import React from 'react'
-import { useSession } from 'next-auth/client'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { DialogStateReturn } from 'reakit/Dialog'
@@ -23,6 +22,7 @@ import {
 } from 'components/ui'
 import { theme, themeConstant } from 'styles/themes'
 import { SETTINGS } from 'routes'
+import { useCache_ViewerInfoQuery } from 'graphql/generated'
 
 const ProfileHeaderStyles = styled.div`
   max-width: 100%;
@@ -142,12 +142,12 @@ export const ProfileHeader = ({
   bannerFollowingCount,
 }: ProfileProps): JSX.Element => {
   const following = useFollowingVar()
-  const [session] = useSession()
-  const viewerLogin = session?.user?.name
+  const { data: cacheViewer } = useCache_ViewerInfoQuery()
+  const viewerLogin = cacheViewer?.viewerInfo?.login
 
   const isViewer = viewerLogin === data.login
-  const isFollowing = session && !isViewer && following.includes(data.login)
-  const notFollowing = session && !isViewer && !isFollowing
+  const isFollowing = !isViewer && following.includes(data.login)
+  const notFollowing = !isViewer && !isFollowing
 
   const loginTip = useTooltip('login-tooltip')
   const nameTip = useTooltip('name-tooltip')
