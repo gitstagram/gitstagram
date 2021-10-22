@@ -7,6 +7,7 @@ import {
   Cache_ViewerInfoDocument,
   User,
 } from 'graphql/generated'
+import { nullish, captureException } from 'helpers'
 
 export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   User: {
@@ -22,6 +23,26 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
 
         if (user) {
           const { login, name, location, twitterUsername, bio } = user
+          const currentOid = user.repository?.defaultBranchRef?.target
+            ?.oid as Maybe<string>
+          const stargazerCount = user.repository?.stargazerCount
+          const issuesTotalCount = user.repository?.issues.totalCount
+
+          if (
+            !currentOid ||
+            nullish(stargazerCount) ||
+            nullish(issuesTotalCount)
+          ) {
+            captureException({
+              inside: 'typePolicies:User',
+              msgs: [
+                [!currentOid, 'Cannot read currentOid'],
+                [nullish(stargazerCount), 'Cannot read stargazerCount'],
+                [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
+              ],
+            })
+            throw new Error('Cannot populate viewer info')
+          }
 
           cache.writeQuery<Cache_ViewerInfoQuery>({
             query: Cache_ViewerInfoDocument,
@@ -33,10 +54,9 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
                 location,
                 twitterUsername,
                 bio,
-                currentOid: user.repository?.defaultBranchRef?.target
-                  ?.oid as Maybe<string>,
-                stargazerCount: user.repository?.stargazerCount,
-                issuesTotalCount: user.repository?.issues.totalCount,
+                currentOid,
+                stargazerCount,
+                issuesTotalCount,
                 following: [],
                 followingTags: [],
                 saved: [],

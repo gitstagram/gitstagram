@@ -4,6 +4,7 @@ import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { ProfileIcon } from 'components/profileIcon'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
@@ -17,7 +18,6 @@ import {
   useGetStargazersLazyQuery,
   useGetStargazersQuery,
   GetStargazersQuery,
-  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 import { getProfilePath } from 'routes'
 import type { Merge } from 'type-fest'
@@ -73,7 +73,7 @@ export const FollowerDialog = ({
   const [stargazers, setStargazers] = useState<StargazersWithCursor>([])
   const [fetchedCount, setFetchedCount] = useState(0)
 
-  const { data: cacheViewer } = useCache_ViewerInfoQuery()
+  const viewerInfo = useViewerInfo()
   const { data, loading, error } = useGetStargazersQuery({
     variables: {
       userLogin,
@@ -143,7 +143,7 @@ export const FollowerDialog = ({
           // use index as key because pagination may result in duplicated items
           stargazers.map((stargazer, index) => {
             const login = stargazer.login
-            const isUser = login === cacheViewer?.viewerInfo?.login
+            const isUser = login === viewerInfo.login
             const isFollowing = followingVar.includes(login)
             return (
               <div key={index} className='follow-item'>

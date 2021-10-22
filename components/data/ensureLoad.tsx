@@ -53,6 +53,7 @@ export const EnsureLoad = (): JSX.Element => {
       (err: unknown) => {
         captureException({
           err,
+          inside: 'EnsureLoad:starDefaultFollowingCollection',
           msgs: ['Error following default followings'],
         })
         // No need to change state flag, metadata write failure is benign
@@ -76,6 +77,7 @@ export const EnsureLoad = (): JSX.Element => {
       setLoadingState('libCreateFailure')
       captureException({
         err,
+        inside: 'EnsureLoad:createGitstagramLibrary',
         msgs: [
           [err, 'Error cloning template'],
           [!repository, 'Library cloned but no repository received'],
@@ -105,7 +107,11 @@ export const EnsureLoad = (): JSX.Element => {
         })
       )
       if (err) {
-        captureException({ err, msgs: ['Metadata update failure'] })
+        captureException({
+          err,
+          inside: 'EnsureLoad:ensureMetadataExpected',
+          msgs: ['Metadata update failure'],
+        })
         // No need to change state flag, metadata write failure is benign
       }
     }
@@ -125,7 +131,11 @@ export const EnsureLoad = (): JSX.Element => {
       )
       if (err) {
         setLoadingState('libGetFailure')
-        captureException({ err, msgs: ['Error committing LibraryData'] })
+        captureException({
+          err,
+          inside: 'EnsureLoad:ensureLibraryDataExpected',
+          msgs: ['Error committing LibraryData'],
+        })
       }
       setLoadingState('libFound')
     }
@@ -169,6 +179,7 @@ export const EnsureLoad = (): JSX.Element => {
           setLoadingState('libGetFailure')
           captureException({
             err,
+            inside: 'EnsureLoad:onCompletedCallback',
             msgs: [
               [err, 'Error fetching LibraryData'],
               [!fileContents, 'Cannot read LibraryData file contents'],
@@ -188,7 +199,11 @@ export const EnsureLoad = (): JSX.Element => {
     },
     onError: (err) => {
       setLoadingState('libGetFailure')
-      captureException({ err, msgs: ['GetViewer Library failed'] })
+      captureException({
+        err,
+        inside: 'EnsureLoad:onErrorCallback',
+        msgs: ['GetViewer Library failed'],
+      })
     },
   })
 

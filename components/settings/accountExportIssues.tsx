@@ -33,7 +33,11 @@ export const AccountExportIssues = ({
         })
           .then(({ data }) => data.issueExport.raw)
           .catch((err: unknown) => {
-            captureException({ err, msgs: ['Issue Export failed'] })
+            captureException({
+              err,
+              inside: 'AccountExportIssues',
+              msgs: ['Issue Export promise failed'],
+            })
             // continue throwing down the promise chain
             // so error fetching issue creates exception for file saving
             throw err

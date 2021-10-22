@@ -24,7 +24,10 @@ export const createFileCommitPromise = (
   const login = cacheViewer?.viewerInfo?.login
 
   if (!currentOid) {
-    captureException({ msgs: ['Cannot read commit oId'] })
+    captureException({
+      inside: 'createFileCommitPromise',
+      msgs: ['Cannot read commit oId'],
+    })
     return Promise.reject()
   }
 
@@ -49,8 +52,10 @@ export const createFileCommitPromise = (
 
       if (!newOid) {
         captureException({
+          inside: 'createFileCommitPromise:mutateCallback',
           msgs: ['Commit did not return an oId'],
         })
+        throw new Error('Commit did not return oId')
       }
 
       if (newOid && viewerInfo) {

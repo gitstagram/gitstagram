@@ -6,9 +6,7 @@ import { Icon, Button } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
 import { HOME, getProfilePath } from 'routes'
-import { assertExists } from 'helpers'
-
-import { useGetViewerQuery } from 'graphql/generated'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 
 const MobileBottomNavStyles = styled.nav`
   position: fixed;
@@ -48,14 +46,8 @@ const MobileBottomNavStyles = styled.nav`
 export const MobileBottomNav = (): JSX.Element => {
   const router = useRouter()
   const { userLogin } = router.query
-
-  const { data } = useGetViewerQuery()
-  const viewerLogin = data?.viewer.login
-
-  assertExists(viewerLogin, {
-    expected: 'viewerLogin',
-    inside: 'MobileBottomNav',
-  })
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
 
   return (
     <MobileBottomNavStyles>

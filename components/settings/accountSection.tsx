@@ -4,12 +4,8 @@ import { Panel, TextAttn, TextInfo, Button, Hr } from 'components/ui'
 import { AccountExportIssues } from 'components/settings/accountExportIssues'
 import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
-import { assertExists } from 'helpers'
-
-import {
-  useGetViewerQuery,
-  useGetViewerGitstagramLibraryQuery,
-} from 'graphql/generated'
+import { useViewerInfo } from 'components/data/useViewerInfo'
+import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
 
 const AccountSectionStyles = styled(Panel)`
   .account-info {
@@ -32,20 +28,15 @@ const AccountSectionStyles = styled(Panel)`
 `
 
 export const AccountSection = (): JSX.Element => {
-  const { data: loginData } = useGetViewerQuery()
-  const viewerLogin = loginData?.viewer.login
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
   const { data } = useGetViewerGitstagramLibraryQuery({
     skip: !viewerLogin,
     variables: {
-      userLogin: viewerLogin as string,
+      userLogin: viewerLogin,
     },
   })
   const totalIssues = data?.viewer?.repository?.issues.totalCount
-
-  assertExists(viewerLogin, {
-    expected: 'viewerLogin',
-    inside: 'AccountSection',
-  })
 
   return (
     <AccountSectionStyles>

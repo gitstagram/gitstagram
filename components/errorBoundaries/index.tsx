@@ -17,7 +17,12 @@ export class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo): void {
-    captureException({ error, info, msgs: ['Caught in ErrorBoundary'] })
+    captureException({
+      error,
+      info,
+      inside: 'ErrorBoundary',
+      msgs: ['Caught unhandled exception'],
+    })
   }
 
   render(): React.ReactNode {

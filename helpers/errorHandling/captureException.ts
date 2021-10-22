@@ -3,13 +3,15 @@ import { CaptureContext } from '@sentry/types'
 
 type StringIfTrue = [unknown, string] | string
 
-export const handleErrMsg = (arr: StringIfTrue[]): string[] => {
+export const handleErrMsg = (arr: StringIfTrue[], inside: string): string[] => {
   return arr.reduce((acc, contextItem) => {
     if (typeof contextItem === 'string') {
-      acc.push(contextItem)
+      const message = `\`${inside}\`: ${contextItem}`
+      acc.push(message)
     } else {
-      const [condition, msg] = contextItem
-      if (condition) acc.push(msg)
+      const [condition, description] = contextItem
+      const message = `\`${inside}\`: ${description}`
+      if (condition) acc.push(message)
     }
     return acc
   }, [] as string[])
@@ -23,15 +25,15 @@ export const handleErrMsg = (arr: StringIfTrue[]): string[] => {
  */
 export const captureException = (
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-  exception: { [key: string]: any; msgs?: StringIfTrue[] },
+  exception: { [key: string]: any; msgs?: StringIfTrue[]; inside: string },
   captureContext?: CaptureContext
 ): void | never => {
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line  @typescript-eslint/no-unsafe-assignment
     throw { exception, captureContext }
   } else {
-    const { msgs, ...rest } = exception
-    const messages = msgs ? handleErrMsg(msgs) : []
+    const { msgs, inside, ...rest } = exception
+    const messages = msgs ? handleErrMsg(msgs, inside) : []
 
     sentryCaptureException({ ...rest, messages }, captureContext)
   }

@@ -49,18 +49,20 @@ export const FollowButton = ({
     if (starErr) {
       captureException({
         err: starErr,
-        msgs: [[starErr, 'FollowButton issue adding star']],
+        inside: 'FollowButton',
+        msgs: [[starErr, 'Error adding star']],
       })
       toast.warn('Issue following user on Github')
       setFollowState('base')
       return
     }
 
-    await writeLibraryData(
+    return writeLibraryData(
       { following: uniqArr([...followingVar, followUserLogin]) },
       { commitMessage: `Following: ${followUserLogin}` }
-    )
-    setFollowState('base')
+    ).finally(() => {
+      setFollowState('base')
+    })
   }
 
   return (

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useDialogState } from 'reakit/Dialog'
 import { SkeletonProfile } from 'components/profile/profileSkeleton'
 import { ProfileNotFound } from 'components/profile/profileNotFound'
+import { ProfileCorrupted } from 'components/profile/profileCorrupted'
 import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
@@ -11,13 +12,13 @@ import { getRawLibraryDataPromise } from 'graphql/restOperations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import { captureException, isLibraryData } from 'helpers'
 import { themeConstant, theme } from 'styles/themes'
 
 import {
   useGetUserGitstagramLibraryQuery,
   useGetViewerGitstagramLibraryQuery,
-  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 
 type ProfileProps = {
@@ -35,8 +36,8 @@ const ProfileStyles = styled.div`
 `
 
 export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
-  const { data: cacheViewer } = useCache_ViewerInfoQuery()
-  const viewerLogin = cacheViewer?.viewerInfo?.login
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
   const isViewer = userLogin === viewerLogin
 
   const { data: userData, loading: userLoading } =
@@ -51,7 +52,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     useGetViewerGitstagramLibraryQuery({
       skip: !isViewer,
       variables: {
-        userLogin: viewerLogin as string,
+        userLogin: viewerLogin,
       },
     })
 
@@ -94,16 +95,15 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     arguments: [userLogin],
   })
   const libCorrectFormat = !libLoading && !libErr && isLibraryData(libData)
-  const followingData = libData?.following
-  const followingCount = followingData?.length
+  const followingCount = libData?.following?.length
 
-  if (!libLoading && (libErr || !libCorrectFormat || !followingData)) {
+  if (!libLoading && (libErr || !libCorrectFormat)) {
     captureException({
       libErr,
+      inside: 'Profile',
       msgs: [
         [libErr, 'FollowingBanner libData fetch failure'],
         [!libCorrectFormat, 'FollowingBanner libData fetch bad format'],
-        [!followingData, 'FollowingBanner libData no following in response'],
       ],
     })
   }
@@ -116,6 +116,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     <>
       {loading && <SkeletonProfile />}
       {!loading && !data && <ProfileNotFound />}
+      {!libLoading && (libErr || !libCorrectFormat) && <ProfileCorrupted />}
       {!loading && data && (
         <ProfileHeader
           data={data}

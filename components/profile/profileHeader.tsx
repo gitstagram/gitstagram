@@ -8,7 +8,7 @@ import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
-
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import {
   H2,
   Button,
@@ -22,7 +22,6 @@ import {
 } from 'components/ui'
 import { theme, themeConstant } from 'styles/themes'
 import { SETTINGS } from 'routes'
-import { useCache_ViewerInfoQuery } from 'graphql/generated'
 
 const ProfileHeaderStyles = styled.div`
   max-width: 100%;
@@ -142,8 +141,8 @@ export const ProfileHeader = ({
   bannerFollowingCount,
 }: ProfileProps): JSX.Element => {
   const following = useFollowingVar()
-  const { data: cacheViewer } = useCache_ViewerInfoQuery()
-  const viewerLogin = cacheViewer?.viewerInfo?.login
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
 
   const isViewer = viewerLogin === data.login
   const isFollowing = !isViewer && following.includes(data.login)

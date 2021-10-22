@@ -7,12 +7,12 @@ import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import { getRawLibraryDataPromise } from 'graphql/restOperations'
 import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,
   GetFollowingQuery,
-  useCache_ViewerInfoQuery,
 } from 'graphql/generated'
 import { useLoadAsync } from 'components/hooks'
 import {
@@ -44,8 +44,8 @@ export const FollowingDialog = ({
   userLogin,
   dialogProps,
 }: FollowingDialogProps): JSX.Element => {
-  const { data: cacheViewer } = useCache_ViewerInfoQuery()
-  const isViewerPage = userLogin === cacheViewer?.viewerInfo?.login
+  const viewerInfo = useViewerInfo()
+  const isViewerPage = userLogin === viewerInfo.login
 
   const {
     data: libData,
@@ -152,7 +152,7 @@ export const FollowingDialog = ({
           // use index as key because pagination may result in duplicated items
           following.map((follow, index) => {
             const login = follow.login
-            const isUser = login === cacheViewer?.viewerInfo?.login
+            const isUser = login === viewerInfo.login
             const isFollowing = followingVar?.includes(login)
             return (
               <div key={index} className='follow-item'>

@@ -22306,15 +22306,15 @@ export type ViewerInfo = {
   __typename?: 'ViewerInfo';
   avatarUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
-  currentOid?: Maybe<Scalars['String']>;
-  following?: Maybe<Array<Scalars['String']>>;
-  followingTags?: Maybe<Array<Scalars['String']>>;
-  issuesTotalCount?: Maybe<Scalars['Int']>;
+  currentOid: Scalars['String'];
+  following: Array<Scalars['String']>;
+  followingTags: Array<Scalars['String']>;
+  issuesTotalCount: Scalars['Int'];
   location?: Maybe<Scalars['String']>;
   login: Scalars['String'];
   name?: Maybe<Scalars['String']>;
-  saved?: Maybe<Array<Scalars['String']>>;
-  stargazerCount?: Maybe<Scalars['Int']>;
+  saved: Array<Scalars['String']>;
+  stargazerCount: Scalars['Int'];
   twitterUsername?: Maybe<Scalars['String']>;
 };
 
@@ -22391,7 +22391,7 @@ export type Cache_Generate_ViewerInfoFragment = { __typename?: 'User', login: st
 export type Cache_ViewerInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Cache_ViewerInfoQuery = { __typename?: 'Query', viewerInfo?: { __typename?: 'ViewerInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, following?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined } | null | undefined };
+export type Cache_ViewerInfoQuery = { __typename?: 'Query', viewerInfo?: { __typename?: 'ViewerInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid: string, stargazerCount: number, issuesTotalCount: number, following: Array<string>, followingTags: Array<string>, saved: Array<string> } | null | undefined };
 
 export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined };
 

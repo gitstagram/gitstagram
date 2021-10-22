@@ -65,6 +65,7 @@ export const writeLibraryData = async (
       toast.warn('Issue saving your `gitstagram-library` repository.')
       captureException({
         err,
+        inside: 'writeLibraryData',
         msgs: [[err, 'Error committing LibraryData']],
       })
       return Promise.reject()

@@ -32,7 +32,12 @@ export default NextAuth({
   ],
   logger: {
     error: (code, metadata) =>
-      captureException({ code, metadata, msgs: ['NextAuth error'] }),
+      captureException({
+        code,
+        metadata,
+        inside: 'NextAuth',
+        msgs: ['General auth error'],
+      }),
     warn: () => undefined,
     debug: () => undefined,
   },

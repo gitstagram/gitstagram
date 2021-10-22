@@ -8,12 +8,12 @@ export const localTypeDefs = gql`
     location: String
     twitterUsername: String
     bio: String
-    currentOid: String
-    stargazerCount: Int
-    issuesTotalCount: Int
-    following: [String!]
-    followingTags: [String!]
-    saved: [String!]
+    currentOid: String!
+    stargazerCount: Int!
+    issuesTotalCount: Int!
+    following: [String!]!
+    followingTags: [String!]!
+    saved: [String!]!
   }
 
   type RestLibraryData {

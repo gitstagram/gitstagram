@@ -7,9 +7,7 @@ import { MenuButton, useMenuState } from 'reakit/Menu'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { SETTINGS, PROFILE, getProfilePath } from 'routes'
-import { assertExists } from 'helpers'
-
-import { useGetViewerQuery } from 'graphql/generated'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 
 const ProfileMenuStyles = styled.div`
   display: flex;
@@ -29,8 +27,8 @@ const ProfileMenuStyles = styled.div`
 
 export const ProfileMenu = (): JSX.Element => {
   const router = useRouter()
-  const { data } = useGetViewerQuery()
-  const viewerLogin = data?.viewer.login
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
 
   const menu = useMenuState({
     animated: true,
@@ -47,11 +45,6 @@ export const ProfileMenu = (): JSX.Element => {
   const isProfilePath =
     router.pathname === PROFILE && router.query.userLogin === viewerLogin
   const isSettingsPath = router.pathname === SETTINGS
-
-  assertExists(viewerLogin, {
-    expected: 'viewerLogin',
-    inside: 'ProfileMenu',
-  })
 
   return (
     <ProfileMenuStyles>
