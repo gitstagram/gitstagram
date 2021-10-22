@@ -1,7 +1,3 @@
-// https://github.com/dotansimha/graphql-code-generator/issues/4795
-import { disableFragmentWarnings } from 'graphql-tag'
-disableFragmentWarnings()
-
 import {
   ApolloClient,
   createHttpLink,

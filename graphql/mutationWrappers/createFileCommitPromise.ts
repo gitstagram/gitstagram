@@ -4,8 +4,8 @@ import {
   CreateFileCommitMutation,
   Cache_ViewerInfoDocument,
   Cache_ViewerInfoQuery,
+  CreateFileCommitDocument,
 } from 'graphql/generated'
-import { CREATE_FILE_COMMIT } from 'graphql/operations/mutations'
 import { apolloClient } from 'graphql/apolloClient'
 import { captureException } from 'helpers'
 
@@ -38,7 +38,7 @@ export const createFileCommitPromise = (
     CreateFileCommitMutation,
     CreateFileCommitMutationVariables
   >({
-    mutation: CREATE_FILE_COMMIT,
+    mutation: CreateFileCommitDocument,
     variables: mutationVariables,
     update: (cache, { data }) => {
       const newOid = data?.createCommitOnBranch?.commit?.oid as string
