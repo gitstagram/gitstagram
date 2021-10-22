@@ -92,6 +92,7 @@
       "Issue",
       "Milestone",
       "Project",
+      "ProjectNext",
       "PullRequest"
     ],
     "Closer": [
@@ -342,6 +343,7 @@
       "Milestone",
       "MilestonedEvent",
       "MovedColumnsInProjectEvent",
+      "OIDCProvider",
       "OauthApplicationCreateAuditEntry",
       "OrgAddBillingManagerAuditEntry",
       "OrgAddMemberAuditEntry",
@@ -384,6 +386,9 @@
       "Project",
       "ProjectCard",
       "ProjectColumn",
+      "ProjectNext",
+      "ProjectNextItem",
+      "ProjectNextItemFieldValue",
       "PublicKey",
       "PullRequest",
       "PullRequestCommit",
@@ -622,6 +627,14 @@
     "ProjectCardItem": [
       "Issue",
       "PullRequest"
+    ],
+    "ProjectNextItemContent": [
+      "Issue",
+      "PullRequest"
+    ],
+    "ProjectNextOwner": [
+      "Organization",
+      "User"
     ],
     "ProjectOwner": [
       "Organization",
@@ -904,6 +917,7 @@
       "Issue",
       "IssueComment",
       "Project",
+      "ProjectNext",
       "PullRequest",
       "PullRequestReview",
       "PullRequestReviewComment",

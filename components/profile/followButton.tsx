@@ -8,10 +8,6 @@ import {
 } from 'components/data/gitstagramLibraryData'
 import { addStarMutationPromise } from 'graphql/restOperations'
 import { async, captureException, uniqArr } from 'helpers'
-import {
-  useGetViewerQuery,
-  useGetViewerGitstagramLibraryQuery,
-} from 'graphql/generated'
 
 type FollowButtonStylesProps = {
   show: Maybe<boolean>
@@ -42,39 +38,18 @@ export const FollowButton = ({
   ...props
 }: FollowButtonProps): JSX.Element => {
   const [followState, setFollowState] = useState<FollowState>('base')
-
-  const { data: loginData } = useGetViewerQuery()
-  const viewerLogin = loginData?.viewer.login
-  const { data } = useGetViewerGitstagramLibraryQuery({
-    skip: !viewerLogin,
-    variables: {
-      userLogin: viewerLogin as string,
-    },
-  })
-
   const followingVar = useFollowingVar()
 
   const handleFollow = async () => {
-    if (!viewerLogin) {
-      toast.warn('Cannot read current user')
-      return
-    }
-
     setFollowState('loading')
     const { err: starErr } = await async(
       addStarMutationPromise({ userLogin: followUserLogin })
     )
 
-    const oid = data?.viewer?.repository?.defaultBranchRef?.target
-      ?.oid as string
-
-    if (starErr || !oid) {
+    if (starErr) {
       captureException({
         err: starErr,
-        msgs: [
-          [starErr, 'FollowButton issue adding star'],
-          [!oid, 'FollowButton no oID found'],
-        ],
+        msgs: [[starErr, 'FollowButton issue adding star']],
       })
       toast.warn('Issue following user on Github')
       setFollowState('base')
@@ -83,11 +58,7 @@ export const FollowButton = ({
 
     await writeLibraryData(
       { following: uniqArr([...followingVar, followUserLogin]) },
-      {
-        login: viewerLogin,
-        headOid: oid,
-        commitMessage: `Following: ${followUserLogin}`,
-      }
+      { commitMessage: `Following: ${followUserLogin}` }
     )
     setFollowState('base')
   }

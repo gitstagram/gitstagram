@@ -8,10 +8,6 @@ import {
 } from 'components/data/gitstagramLibraryData'
 import { deleteStarMutationPromise } from 'graphql/restOperations'
 import { async, captureException } from 'helpers'
-import {
-  useGetViewerQuery,
-  useGetViewerGitstagramLibraryQuery,
-} from 'graphql/generated'
 
 type FollowingButtonStylesProps = {
   show: Maybe<boolean>
@@ -55,39 +51,18 @@ export const FollowingButton = ({
   ...props
 }: FollowingButtonProps): JSX.Element => {
   const [followState, setFollowState] = useState<FollowState>('base')
-
-  const { data: loginData } = useGetViewerQuery()
-  const viewerLogin = loginData?.viewer.login
-  const { data } = useGetViewerGitstagramLibraryQuery({
-    skip: !viewerLogin,
-    variables: {
-      userLogin: viewerLogin as string,
-    },
-  })
-
   const followingVar = useFollowingVar()
 
   const handleUnfollow = async () => {
-    if (!viewerLogin) {
-      toast.warn('Cannot read current user')
-      return
-    }
-
     setFollowState('loading')
     const { err: starErr } = await async(
       deleteStarMutationPromise({ userLogin: followUserLogin })
     )
 
-    const oid = data?.viewer?.repository?.defaultBranchRef?.target
-      ?.oid as string
-
-    if (starErr || !oid) {
+    if (starErr) {
       captureException({
         err: starErr,
-        msgs: [
-          [starErr, 'FollowingButton issue removing star'],
-          [!oid, 'FollowingButton no oID found'],
-        ],
+        msgs: [[starErr, 'FollowingButton issue removing star']],
       })
       toast.warn('Issue unfollowing user on Github')
       setFollowState('base')
@@ -96,11 +71,7 @@ export const FollowingButton = ({
 
     await writeLibraryData(
       { following: followingVar.filter((item) => item !== followUserLogin) },
-      {
-        login: viewerLogin,
-        headOid: oid,
-        commitMessage: `Unfollow: ${followUserLogin}`,
-      }
+      { commitMessage: `Unfollow: ${followUserLogin}` }
     )
     setFollowState('base')
   }

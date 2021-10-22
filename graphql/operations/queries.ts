@@ -52,13 +52,13 @@ export const GET_VIEWER = gql`
 
 export const SEARCH_USERS = gql`
   ${frags.FRAG_User_Fields}
+  ${frags.FRAG_Repository_Fields}
 
   query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
     search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {
       nodes {
         ... on Repository {
-          id
-          name
+          ...FRAG_Repository_Fields
           owner {
             ...FRAG_User_Fields
           }
@@ -70,6 +70,7 @@ export const SEARCH_USERS = gql`
 
 export const GET_STARGAZERS = gql`
   ${frags.FRAG_Repository_Stargazers}
+  ${frags.FRAG_Repository_Fields}
 
   query GetStargazers(
     $userLogin: String!
@@ -78,8 +79,7 @@ export const GET_STARGAZERS = gql`
     $afterStargazers: String
   ) {
     repository(name: $repositoryName, owner: $userLogin) {
-      id
-      stargazerCount
+      ...FRAG_Repository_Fields
       ...FRAG_Repository_Stargazers
     }
   }

@@ -11,6 +11,11 @@ import {
   captureException,
 } from 'helpers'
 import { createFileCommitPromise } from 'graphql/mutationWrappers'
+import { apolloClient } from 'graphql/apolloClient'
+import {
+  Cache_ViewerInfoDocument,
+  Cache_ViewerInfoQuery,
+} from 'graphql/generated'
 
 const defaultLibData = coerceLibraryData({})
 
@@ -30,8 +35,6 @@ export const useSavedVar = (): LibraryData['saved'] => {
 }
 
 export type CommitOpts = {
-  login: string
-  headOid: string
   commitMessage: string
 }
 
@@ -51,26 +54,18 @@ export const writeLibraryData = async (
   }
 
   if (commitOpts) {
-    const { res, err } = await async(
+    const { err } = await async(
       createFileCommitPromise({
         b64Contents: toJsonB64(newLibData),
         path: 'gitstagram-data.json',
         ...commitOpts,
       })
     )
-    const headOid = res?.data?.createCommitOnBranch?.commit
-      ?.oid as Maybe<string>
-
-    if (err || !headOid) {
-      toast.warn(
-        'Issue saving changes to your `gitstagram-library` repository.'
-      )
+    if (err) {
+      toast.warn('Issue saving your `gitstagram-library` repository.')
       captureException({
         err,
-        msgs: [
-          [err, 'Error committing LibraryData'],
-          [!headOid, 'Cannot read commit oId'],
-        ],
+        msgs: [[err, 'Error committing LibraryData']],
       })
       return Promise.reject()
     }
@@ -80,5 +75,23 @@ export const writeLibraryData = async (
   following && followingVar(newFollowing)
   followingTags && followingTagsVar(newFollowingTags)
   saved && savedVar(newSaved)
+  // Only update cache and resolve(true) after successful write
+  const cacheViewer = apolloClient.readQuery<Cache_ViewerInfoQuery>({
+    query: Cache_ViewerInfoDocument,
+  })
+  const viewerInfo = cacheViewer?.viewerInfo
+
+  viewerInfo &&
+    apolloClient.writeQuery<Cache_ViewerInfoQuery>({
+      query: Cache_ViewerInfoDocument,
+      data: {
+        viewerInfo: {
+          ...viewerInfo,
+          ...(following && { following: newFollowing }),
+          ...(followingTags && { followingTags: newFollowingTags }),
+          ...(saved && { saved: newSaved }),
+        },
+      },
+    })
   return Promise.resolve(true)
 }

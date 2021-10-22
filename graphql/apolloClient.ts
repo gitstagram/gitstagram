@@ -5,17 +5,17 @@ disableFragmentWarnings()
 import {
   ApolloClient,
   createHttpLink,
-  InMemoryCache,
   ApolloLink,
+  InMemoryCache,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
 import { toast } from 'react-toastify'
-
 import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
-import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
+import { typePolicies } from 'graphql/typePolicies'
+import { localTypeDefs } from 'graphql/localTypeDefs'
 
 /*
  * Apollo Link seems to catch all errors and prevents propagation back to caller
@@ -137,8 +137,6 @@ const authRestLink = setContext(async (_, { headers }: PreviousContext) => {
   }
 })
 
-const typePolicies: StrictTypedTypePolicies = {}
-
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([
     // errorLink,
@@ -150,4 +148,5 @@ export const apolloClient = new ApolloClient({
     possibleTypes: generatedIntrospection.possibleTypes,
     typePolicies,
   }),
+  typeDefs: localTypeDefs,
 })

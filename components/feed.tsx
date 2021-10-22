@@ -20,20 +20,16 @@ export const Feed = (): JSX.Element => {
   const handleClick = async () => {
     const input = document.getElementById('file') as HTMLInputElement
     const file = input?.files && input.files[0]
-    const oid = data?.viewer?.repository?.defaultBranchRef?.target
-      ?.oid as string
     const viewerLogin = data?.viewer.login
     const fileId = nanoid()
 
-    if (file && oid && viewerLogin) {
+    if (file && viewerLogin) {
       const base64 = await fileToB64(file)
 
       void createFileCommitPromise({
         b64Contents: base64,
         path: `media/${fileId}.png`,
-        login: viewerLogin,
         commitMessage: 'Add media',
-        headOid: oid,
       })
     }
   }

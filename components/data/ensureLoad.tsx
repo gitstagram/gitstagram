@@ -139,8 +139,6 @@ export const EnsureLoad = (): JSX.Element => {
     onCompleted: async (libData) => {
       const viewer = libData?.viewer
       const repository = viewer.repository
-      const headOid = repository?.defaultBranchRef?.target?.oid as string
-
       const descriptionMetadata = getMetadataJson(viewer.login, viewer.name)
 
       if (repository) {
@@ -167,14 +165,13 @@ export const EnsureLoad = (): JSX.Element => {
           : res?.data?.getLibraryData?.content
 
         // Only fatally terminate if err is not 404
-        if (not404Error || !fileContents || !headOid) {
+        if (not404Error || !fileContents) {
           setLoadingState('libGetFailure')
           captureException({
             err,
             msgs: [
               [err, 'Error fetching LibraryData'],
               [!fileContents, 'Cannot read LibraryData file contents'],
-              [!headOid, 'Cannot read repository head oid'],
             ],
           })
           return
@@ -183,8 +180,6 @@ export const EnsureLoad = (): JSX.Element => {
         const libraryData = parseJsonIfB64(fileContents)
 
         void ensureLibraryDataExpected(libraryData, {
-          login: viewer.login,
-          headOid,
           commitMessage: 'Correct errors found in `gitstagram-library.json`',
         })
       } else {

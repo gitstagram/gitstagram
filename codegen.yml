@@ -3,6 +3,7 @@ schema:
   - https://api.github.com/graphql:
       headers:
         Authorization: 'token ${GITHUB_ACCESS_TOKEN}'
+  - './graphql/localTypeDefs.ts'
 documents: 'graphql/operations/**/*.ts'
 generates:
   graphql/generated/index.ts:

@@ -2,27 +2,35 @@ import { FetchResult } from '@apollo/client'
 import {
   CreateFileCommitMutationVariables,
   CreateFileCommitMutation,
-  GetViewerGitstagramLibraryQuery,
-  GetViewerGitstagramLibraryQueryVariables,
+  Cache_ViewerInfoDocument,
+  Cache_ViewerInfoQuery,
 } from 'graphql/generated'
 import { CREATE_FILE_COMMIT } from 'graphql/operations/mutations'
-import { GET_VIEWER_GITSTAGRAM_LIBRARY } from 'graphql/operations/queries'
 import { apolloClient } from 'graphql/apolloClient'
-import { deepMerge } from 'helpers'
-import type { Merge } from 'type-fest'
+import { captureException } from 'helpers'
 
-type ScalarString = CreateFileCommitMutationVariables['repoWithLogin']
-type CreateFileCommitPromiseVariables = Merge<
-  Omit<CreateFileCommitMutationVariables, 'repoWithLogin'>,
-  { login: ScalarString }
+type CreateFileCommitPromiseVariables = Omit<
+  CreateFileCommitMutationVariables,
+  'repoWithLogin' | 'headOid' | 'login'
 >
 
 export const createFileCommitPromise = (
   variables: CreateFileCommitPromiseVariables
 ): Promise<FetchResult<CreateFileCommitMutation>> => {
-  const { login, ...restVariables } = variables
+  const cacheViewer = apolloClient.readQuery<Cache_ViewerInfoQuery>({
+    query: Cache_ViewerInfoDocument,
+  })
+  const currentOid = cacheViewer?.viewerInfo?.currentOid
+  const login = cacheViewer?.viewerInfo?.login
+
+  if (!currentOid) {
+    captureException({ msgs: ['Cannot read commit oId'] })
+    return Promise.reject()
+  }
+
   const mutationVariables = {
-    ...restVariables,
+    ...variables,
+    headOid: currentOid,
     repoWithLogin: `${login}/gitstagram-library`,
   }
 
@@ -34,32 +42,26 @@ export const createFileCommitPromise = (
     variables: mutationVariables,
     update: (cache, { data }) => {
       const newOid = data?.createCommitOnBranch?.commit?.oid as string
-      const existingViewer = cache.readQuery<
-        GetViewerGitstagramLibraryQuery,
-        GetViewerGitstagramLibraryQueryVariables
-      >({
-        query: GET_VIEWER_GITSTAGRAM_LIBRARY,
-        variables: {
-          userLogin: login,
-        },
+      const cacheViewer = cache.readQuery<Cache_ViewerInfoQuery>({
+        query: Cache_ViewerInfoDocument,
       })
+      const viewerInfo = cacheViewer?.viewerInfo
 
-      if (
-        existingViewer?.viewer?.repository?.defaultBranchRef?.target?.oid &&
-        newOid
-      ) {
-        const newData = deepMerge<GetViewerGitstagramLibraryQuery>(
-          {},
-          existingViewer,
-          {
-            viewer: {
-              repository: { defaultBranchRef: { target: { oid: newOid } } },
-            },
-          }
-        )
+      if (!newOid) {
+        captureException({
+          msgs: ['Commit did not return an oId'],
+        })
+      }
 
-        cache.writeQuery({
-          query: GET_VIEWER_GITSTAGRAM_LIBRARY,
+      if (newOid && viewerInfo) {
+        const newData = {
+          viewerInfo: {
+            ...viewerInfo,
+            currentOid: newOid,
+          },
+        }
+        cache.writeQuery<Cache_ViewerInfoQuery>({
+          query: Cache_ViewerInfoDocument,
           data: newData,
         })
       }

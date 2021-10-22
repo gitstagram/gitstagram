@@ -15,6 +15,7 @@ export const FRAG_User_Fields = gql`
 export const FRAG_Issue_Fields = gql`
   fragment FRAG_Issue_Fields on Issue {
     id
+    number
     title
     bodyText
   }
@@ -51,6 +52,7 @@ export const FRAG_Repository_Issues = gql`
 export const FRAG_Repository_Fields = gql`
   fragment FRAG_Repository_Fields on Repository {
     id
+    name
     nameWithOwner
     description
     stargazerCount
