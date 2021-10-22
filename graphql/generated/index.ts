@@ -22462,11 +22462,6 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 
 export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
-export type GetViewerQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetViewerQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined } };
-
 export type SearchUsersQueryVariables = Exact<{
   loginSearch: Scalars['String'];
   firstRepositories?: Maybe<Scalars['Int']>;
@@ -22863,40 +22858,6 @@ export function useGetUserGitstagramLibraryLazyQuery(baseOptions?: Apollo.LazyQu
 export type GetUserGitstagramLibraryQueryHookResult = ReturnType<typeof useGetUserGitstagramLibraryQuery>;
 export type GetUserGitstagramLibraryLazyQueryHookResult = ReturnType<typeof useGetUserGitstagramLibraryLazyQuery>;
 export type GetUserGitstagramLibraryQueryResult = Apollo.QueryResult<GetUserGitstagramLibraryQuery, GetUserGitstagramLibraryQueryVariables>;
-export const GetViewerDocument = gql`
-    query GetViewer {
-  viewer {
-    ...FRAG_User_Fields
-  }
-}
-    ${Frag_User_FieldsFragmentDoc}`;
-
-/**
- * __useGetViewerQuery__
- *
- * To run a query within a React component, call `useGetViewerQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetViewerQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetViewerQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetViewerQuery(baseOptions?: Apollo.QueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, options);
-      }
-export function useGetViewerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetViewerQuery, GetViewerQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetViewerQuery, GetViewerQueryVariables>(GetViewerDocument, options);
-        }
-export type GetViewerQueryHookResult = ReturnType<typeof useGetViewerQuery>;
-export type GetViewerLazyQueryHookResult = ReturnType<typeof useGetViewerLazyQuery>;
-export type GetViewerQueryResult = Apollo.QueryResult<GetViewerQuery, GetViewerQueryVariables>;
 export const SearchUsersDocument = gql`
     query SearchUsers($loginSearch: String!, $firstRepositories: Int = 50) {
   search(query: $loginSearch, type: REPOSITORY, first: $firstRepositories) {

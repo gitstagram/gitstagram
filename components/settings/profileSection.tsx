@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useGetViewerQuery } from 'graphql/generated'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import { theme } from 'styles/themes'
 
 import { Panel, TextInput, Icon, TextLink } from 'components/ui'
@@ -32,7 +32,7 @@ const ProfileSectionStyles = styled(Panel)`
 `
 
 export const ProfileSection = (): JSX.Element => {
-  const { data, loading } = useGetViewerQuery()
+  const viewerInfo = useViewerInfo()
 
   return (
     <ProfileSectionStyles>
@@ -41,50 +41,45 @@ export const ProfileSection = (): JSX.Element => {
         className='profile-input'
         id='profile-username'
         name='profile-username'
-        initialValue={data?.viewer.login || ''}
+        initialValue={viewerInfo.login || ''}
         disabled
         label='Username'
-        loading={loading}
       />
       <TextInput
         className='profile-input'
         id='profile-name'
         name='profile-name'
-        initialValue={data?.viewer.name || ''}
+        initialValue={viewerInfo.name || ''}
         placeholderText='Name...'
         disabled
         label='Name'
-        loading={loading}
       />
       <TextInput
         className='profile-input'
         id='profile-location'
         name='profile-location'
-        initialValue={(data?.viewer.location as Maybe<string>) || ''}
+        initialValue={(viewerInfo.location as Maybe<string>) || ''}
         placeholderText='Location...'
         disabled
         label='Location'
-        loading={loading}
       />
       <TextInput
         className='profile-input'
         id='profile-twitter'
         name='profile-twitter'
-        initialValue={data?.viewer.twitterUsername || ''}
+        initialValue={viewerInfo.twitterUsername || ''}
         placeholderText='Twitter username...'
         disabled
         label='Twitter Username'
-        loading={loading}
       />
       <TextInput
         className='profile-input'
         id='profile-bio'
         name='profile-bio'
-        initialValue={data?.viewer.bio || ''}
+        initialValue={viewerInfo.bio || ''}
         placeholderText='Bio...'
         disabled
         label='Bio'
-        loading={loading}
       />
       <TextLink
         className='profile-edit'

@@ -3,8 +3,7 @@ import Image from 'next/image'
 import styled, { css } from 'styled-components'
 import { NextImgWrapper, Icon } from 'components/ui'
 import { theme } from 'styles/themes'
-
-import { useGetViewerQuery } from 'graphql/generated'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 
 type ProfileIconStylesProps = {
   interactive?: boolean
@@ -155,9 +154,9 @@ export const ProfileIcon = ({
   size = 32,
   ...props
 }: ProfileIconProps): JSX.Element => {
-  const { data } = useGetViewerQuery({ skip: !!userLogin })
-  const viewerLogin = data?.viewer.login
-  const viewerImgUrl = data?.viewer.avatarUrl as Maybe<string>
+  const viewerInfo = useViewerInfo()
+  const viewerLogin = viewerInfo.login
+  const viewerImgUrl = viewerInfo.avatarUrl as Maybe<string>
 
   const imgUrl = useViewer ? viewerImgUrl : url
   const imgLogin = useViewer ? viewerLogin : userLogin

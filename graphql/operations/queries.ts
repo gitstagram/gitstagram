@@ -40,16 +40,6 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
   }
 `
 
-export const GET_VIEWER = gql`
-  ${frags.FRAG_User_Fields}
-
-  query GetViewer {
-    viewer {
-      ...FRAG_User_Fields
-    }
-  }
-`
-
 export const SEARCH_USERS = gql`
   ${frags.FRAG_User_Fields}
   ${frags.FRAG_Repository_Fields}

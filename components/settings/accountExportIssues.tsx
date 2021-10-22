@@ -8,7 +8,7 @@ import { getIssueExportQueryPromise } from 'graphql/restOperations'
 
 type AccountExportIssuesProps = {
   viewerLogin: string
-  totalIssues?: number
+  totalIssues: number
 }
 
 type ExportState = 'base' | 'loading'

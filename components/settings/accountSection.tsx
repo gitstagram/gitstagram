@@ -5,7 +5,6 @@ import { AccountExportIssues } from 'components/settings/accountExportIssues'
 import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
 import { useViewerInfo } from 'components/data/useViewerInfo'
-import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
 
 const AccountSectionStyles = styled(Panel)`
   .account-info {
@@ -30,13 +29,6 @@ const AccountSectionStyles = styled(Panel)`
 export const AccountSection = (): JSX.Element => {
   const viewerInfo = useViewerInfo()
   const viewerLogin = viewerInfo.login
-  const { data } = useGetViewerGitstagramLibraryQuery({
-    skip: !viewerLogin,
-    variables: {
-      userLogin: viewerLogin,
-    },
-  })
-  const totalIssues = data?.viewer?.repository?.issues.totalCount
 
   return (
     <AccountSectionStyles>
@@ -65,7 +57,7 @@ export const AccountSection = (): JSX.Element => {
       <div className='account-action'>
         <AccountExportIssues
           viewerLogin={viewerLogin}
-          totalIssues={totalIssues}
+          totalIssues={viewerInfo.issuesTotalCount}
         />
       </div>
       <Hr deemph />
