@@ -12,7 +12,7 @@ type AddStarMutationVariables = {
   input?: string
 }
 
-const ADD_STAR_MUTATION = gql`
+const ADD_STAR = gql`
   mutation AddStar($userLogin: String!, $input: String!) {
     addStar(input: $input, userLogin: $userLogin)
       @rest(
@@ -29,7 +29,7 @@ export const addStarMutationPromise = (
   variables: AddStarMutationVariables
 ): Promise<FetchResult<AddStarMutation>> => {
   return apolloClient.mutate<AddStarMutation, AddStarMutationVariables>({
-    mutation: ADD_STAR_MUTATION,
+    mutation: ADD_STAR,
     variables: {
       ...variables,
       input: '{}',

@@ -36,10 +36,10 @@ const RateLimitsSectionStyles = styled(Panel)`
 `
 
 export const RateLimitsSection = (): JSX.Element => {
+  // Get rate limit once per page load, cache but also refresh with network
   const [getRateLimit, { data, loading }] = useGetRateLimitLazyQuery({
     fetchPolicy: 'cache-and-network',
   })
-
   useEffect(() => {
     getRateLimit()
   }, [getRateLimit])

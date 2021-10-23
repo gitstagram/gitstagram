@@ -8,7 +8,7 @@ import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
-import { getRawLibraryDataPromise } from 'graphql/restOperations'
+import { getRawLibraryDataQueryPromise } from 'graphql/restOperations'
 import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,
@@ -51,7 +51,7 @@ export const FollowingDialog = ({
     data: libData,
     loading: libLoading,
     err: libErr,
-  } = useLoadAsync((login: string) => getRawLibraryDataPromise(login), {
+  } = useLoadAsync((login: string) => getRawLibraryDataQueryPromise(login), {
     arguments: [userLogin],
   })
   const followingVar = useFollowingVar()

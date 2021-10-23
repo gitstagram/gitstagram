@@ -57,13 +57,23 @@ export const ProfileMenu = (): JSX.Element => {
       </MenuButton>
       <Menu {...menu} ariaLabel='Profile menu' arrowHighlighted={isProfilePath}>
         <Link href={getProfilePath(viewerLogin)} passHref>
-          <MenuItem {...menu} as='a' highlighted={isProfilePath}>
+          <MenuItem
+            {...menu}
+            as='a'
+            highlighted={isProfilePath}
+            onClick={menu.hide}
+          >
             <Icon icon='person' size={16} ariaHidden />
             Profile
           </MenuItem>
         </Link>
         <Link href={SETTINGS} passHref>
-          <MenuItem {...menu} as='a' highlighted={isSettingsPath}>
+          <MenuItem
+            {...menu}
+            as='a'
+            highlighted={isSettingsPath}
+            onClick={menu.hide}
+          >
             <Icon icon='gear' size={16} ariaHidden />
             Settings
           </MenuItem>

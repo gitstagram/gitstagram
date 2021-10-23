@@ -1,13 +1,13 @@
 import { gql } from '@apollo/client'
 import {
-  useCloneGitstagramLibraryMutation,
+  useCloneGitstagramLibraryMutation as genUseCloneGitstagramLibraryMutation,
   GetViewerGitstagramLibraryQuery,
 } from 'graphql/generated'
 
-type MutationTuple = ReturnType<typeof useCloneGitstagramLibraryMutation>
+type MutationTuple = ReturnType<typeof genUseCloneGitstagramLibraryMutation>
 
-export const useCloneGitstagramLibrary = (): MutationTuple => {
-  const mutationTuple = useCloneGitstagramLibraryMutation({
+export const useCloneGitstagramLibraryMutation = (): MutationTuple => {
+  const mutationTuple = genUseCloneGitstagramLibraryMutation({
     update(cache, { data }) {
       cache.modify({
         fields: {

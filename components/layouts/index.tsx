@@ -80,10 +80,9 @@ export const DefaultLayout = ({
   /**
    * Show overlay if:
    *   - Next-auth is loading
-   *   - Next-auth loaded, logged in, but loadingState not `libFound` or `libCreateSuccess`
+   *   - Next-auth loaded, logged in, but loadingState not `libFound`
    */
-  const ensureLoadCompleted =
-    loadingState === 'libFound' || loadingState === 'libCreateSuccess'
+  const ensureLoadCompleted = loadingState === 'libFound'
   const stillLoading = !loading && !!session && !ensureLoadCompleted
   const showOverlay = loading || stillLoading
 

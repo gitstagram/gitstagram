@@ -11,7 +11,7 @@ type DeleteStarMutationVariables = {
   userLogin: string
 }
 
-const DELETE_STAR_MUTATION = gql`
+const DELETE_STAR = gql`
   mutation DeleteStar($userLogin: String!) {
     deleteStar(userLogin: $userLogin)
       @rest(
@@ -28,7 +28,7 @@ export const deleteStarMutationPromise = (
   variables: DeleteStarMutationVariables
 ): Promise<FetchResult<DeleteStarMutation>> => {
   return apolloClient.mutate<DeleteStarMutation, DeleteStarMutationVariables>({
-    mutation: DELETE_STAR_MUTATION,
+    mutation: DELETE_STAR,
     variables,
   })
 }

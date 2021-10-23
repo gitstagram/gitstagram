@@ -11,7 +11,7 @@ type DeleteRepoMutationVariables = {
   userLogin: string
 }
 
-const DELETE_REPO_MUTATION = gql`
+const DELETE_REPO = gql`
   query DeleteRepo($userLogin: String!) {
     deleteRepo(userLogin: $userLogin)
       @rest(
@@ -28,7 +28,7 @@ export const deleteRepoMutationPromise = (
   variables: DeleteRepoMutationVariables
 ): Promise<FetchResult<DeleteRepoMutation>> => {
   return apolloClient.mutate<DeleteRepoMutation>({
-    mutation: DELETE_REPO_MUTATION,
+    mutation: DELETE_REPO,
     variables,
   })
 }

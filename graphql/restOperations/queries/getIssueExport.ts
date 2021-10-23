@@ -30,5 +30,6 @@ export const getIssueExportQueryPromise = (
   return apolloClient.query<GetIssueExportQuery>({
     query: GET_ISSUE_EXPORT,
     variables,
+    fetchPolicy: 'network-only',
   })
 }

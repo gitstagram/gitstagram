@@ -4,7 +4,6 @@ type LoadingStates =
   | 'initiating'
   | 'libFound'
   | 'libGetFailure'
-  | 'libCreateSuccess'
   | 'libCreateFailure'
 
 type LoadingContext = {

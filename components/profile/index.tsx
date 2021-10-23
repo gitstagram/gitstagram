@@ -8,7 +8,7 @@ import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
-import { getRawLibraryDataPromise } from 'graphql/restOperations'
+import { getRawLibraryDataQueryPromise } from 'graphql/restOperations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
@@ -90,7 +90,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     loadState: libLoadState,
     loading: libLoading,
     err: libErr,
-  } = useLoadAsync((login: string) => getRawLibraryDataPromise(login), {
+  } = useLoadAsync((login: string) => getRawLibraryDataQueryPromise(login), {
     skip: isViewer,
     arguments: [userLogin],
   })

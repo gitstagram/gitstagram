@@ -1,22 +1,22 @@
 import { FetchResult } from '@apollo/client'
 import {
-  CreateFileCommitMutationVariables,
-  CreateFileCommitMutation,
   Cache_ViewerInfoDocument,
   Cache_ViewerInfoQuery,
-  CreateFileCommitDocument,
+  CreateCommitMutationVariables,
+  CreateCommitMutation,
+  CreateCommitDocument,
 } from 'graphql/generated'
 import { apolloClient } from 'graphql/apolloClient'
 import { captureException } from 'helpers'
 
-type CreateFileCommitPromiseVariables = Omit<
-  CreateFileCommitMutationVariables,
+type CreateCommitMutationPromiseVariables = Omit<
+  CreateCommitMutationVariables,
   'repoWithLogin' | 'headOid' | 'login'
 >
 
-export const createFileCommitPromise = (
-  variables: CreateFileCommitPromiseVariables
-): Promise<FetchResult<CreateFileCommitMutation>> => {
+export const createCommitMutationPromise = (
+  variables: CreateCommitMutationPromiseVariables
+): Promise<FetchResult<CreateCommitMutation>> => {
   const cacheViewer = apolloClient.readQuery<Cache_ViewerInfoQuery>({
     query: Cache_ViewerInfoDocument,
   })
@@ -25,7 +25,7 @@ export const createFileCommitPromise = (
 
   if (!currentOid) {
     captureException({
-      inside: 'createFileCommitPromise',
+      inside: 'createCommitMutationPromise',
       msgs: ['Cannot read commit oId'],
     })
     return Promise.reject()
@@ -38,10 +38,10 @@ export const createFileCommitPromise = (
   }
 
   return apolloClient.mutate<
-    CreateFileCommitMutation,
-    CreateFileCommitMutationVariables
+    CreateCommitMutation,
+    CreateCommitMutationVariables
   >({
-    mutation: CreateFileCommitDocument,
+    mutation: CreateCommitDocument,
     variables: mutationVariables,
     update: (cache, { data }) => {
       const newOid = data?.createCommitOnBranch?.commit?.oid as string
@@ -52,7 +52,7 @@ export const createFileCommitPromise = (
 
       if (!newOid) {
         captureException({
-          inside: 'createFileCommitPromise:mutateCallback',
+          inside: 'createCommitMutationPromise:mutateCallback',
           msgs: ['Commit did not return an oId'],
         })
         throw new Error('Commit did not return oId')

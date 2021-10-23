@@ -39,10 +39,10 @@ export const UPDATE_REPOSITORY = gql`
   }
 `
 
-export const CREATE_FILE_COMMIT = gql`
+export const CREATE_COMMIT = gql`
   ${fields.FRAG_Commit_Fields}
 
-  mutation CreateFileCommit(
+  mutation CreateCommit(
     $repoWithLogin: String!
     $headOid: GitObjectID!
     $b64Contents: Base64String!

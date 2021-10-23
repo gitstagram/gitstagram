@@ -22454,7 +22454,7 @@ export type UpdateRepositoryMutationVariables = Exact<{
 
 export type UpdateRepositoryMutation = { __typename?: 'Mutation', updateRepository?: { __typename?: 'UpdateRepositoryPayload', repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
-export type CreateFileCommitMutationVariables = Exact<{
+export type CreateCommitMutationVariables = Exact<{
   repoWithLogin: Scalars['String'];
   headOid: Scalars['GitObjectID'];
   b64Contents: Scalars['Base64String'];
@@ -22463,7 +22463,7 @@ export type CreateFileCommitMutationVariables = Exact<{
 }>;
 
 
-export type CreateFileCommitMutation = { __typename?: 'Mutation', createCommitOnBranch?: { __typename?: 'CreateCommitOnBranchPayload', commit?: { __typename?: 'Commit', oid: any, message: string } | null | undefined } | null | undefined };
+export type CreateCommitMutation = { __typename?: 'Mutation', createCommitOnBranch?: { __typename?: 'CreateCommitOnBranchPayload', commit?: { __typename?: 'Commit', oid: any, message: string } | null | undefined } | null | undefined };
 
 export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
@@ -22818,8 +22818,8 @@ export function useUpdateRepositoryMutation(baseOptions?: Apollo.MutationHookOpt
 export type UpdateRepositoryMutationHookResult = ReturnType<typeof useUpdateRepositoryMutation>;
 export type UpdateRepositoryMutationResult = Apollo.MutationResult<UpdateRepositoryMutation>;
 export type UpdateRepositoryMutationOptions = Apollo.BaseMutationOptions<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>;
-export const CreateFileCommitDocument = gql`
-    mutation CreateFileCommit($repoWithLogin: String!, $headOid: GitObjectID!, $b64Contents: Base64String!, $commitMessage: String!, $path: String!) {
+export const CreateCommitDocument = gql`
+    mutation CreateCommit($repoWithLogin: String!, $headOid: GitObjectID!, $b64Contents: Base64String!, $commitMessage: String!, $path: String!) {
   createCommitOnBranch(
     input: {branch: {repositoryNameWithOwner: $repoWithLogin, branchName: "main"}, expectedHeadOid: $headOid, fileChanges: {additions: {contents: $b64Contents, path: $path}}, message: {headline: $commitMessage}}
   ) {
@@ -22829,20 +22829,20 @@ export const CreateFileCommitDocument = gql`
   }
 }
     ${Frag_Commit_FieldsFragmentDoc}`;
-export type CreateFileCommitMutationFn = Apollo.MutationFunction<CreateFileCommitMutation, CreateFileCommitMutationVariables>;
+export type CreateCommitMutationFn = Apollo.MutationFunction<CreateCommitMutation, CreateCommitMutationVariables>;
 
 /**
- * __useCreateFileCommitMutation__
+ * __useCreateCommitMutation__
  *
- * To run a mutation, you first call `useCreateFileCommitMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateFileCommitMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCommitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommitMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createFileCommitMutation, { data, loading, error }] = useCreateFileCommitMutation({
+ * const [createCommitMutation, { data, loading, error }] = useCreateCommitMutation({
  *   variables: {
  *      repoWithLogin: // value for 'repoWithLogin'
  *      headOid: // value for 'headOid'
@@ -22852,13 +22852,13 @@ export type CreateFileCommitMutationFn = Apollo.MutationFunction<CreateFileCommi
  *   },
  * });
  */
-export function useCreateFileCommitMutation(baseOptions?: Apollo.MutationHookOptions<CreateFileCommitMutation, CreateFileCommitMutationVariables>) {
+export function useCreateCommitMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommitMutation, CreateCommitMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateFileCommitMutation, CreateFileCommitMutationVariables>(CreateFileCommitDocument, options);
+        return Apollo.useMutation<CreateCommitMutation, CreateCommitMutationVariables>(CreateCommitDocument, options);
       }
-export type CreateFileCommitMutationHookResult = ReturnType<typeof useCreateFileCommitMutation>;
-export type CreateFileCommitMutationResult = Apollo.MutationResult<CreateFileCommitMutation>;
-export type CreateFileCommitMutationOptions = Apollo.BaseMutationOptions<CreateFileCommitMutation, CreateFileCommitMutationVariables>;
+export type CreateCommitMutationHookResult = ReturnType<typeof useCreateCommitMutation>;
+export type CreateCommitMutationResult = Apollo.MutationResult<CreateCommitMutation>;
+export type CreateCommitMutationOptions = Apollo.BaseMutationOptions<CreateCommitMutation, CreateCommitMutationVariables>;
 export const GetViewerGitstagramLibraryDocument = gql`
     query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN, $userLogin: String!) {
   viewer {

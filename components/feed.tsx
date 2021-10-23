@@ -1,5 +1,5 @@
 import React from 'react'
-import { createFileCommitPromise } from 'graphql/mutationWrappers'
+import { createCommitMutationPromise } from 'graphql/operationWrappers'
 import { fileToB64, nanoid } from 'helpers'
 
 export const Feed = (): JSX.Element => {
@@ -11,7 +11,7 @@ export const Feed = (): JSX.Element => {
     if (file) {
       const base64 = await fileToB64(file)
 
-      void createFileCommitPromise({
+      void createCommitMutationPromise({
         b64Contents: base64,
         path: `media/${fileId}.png`,
         commitMessage: 'Add media',

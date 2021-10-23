@@ -11,7 +11,7 @@ import { customFetch } from 'graphql/apolloClient'
  *   - For Viewer and Viewer related info, use gQL `getLibraryDataQueryPromise`
  */
 
-export const getRawLibraryDataPromise = (
+export const getRawLibraryDataQueryPromise = (
   userLogin: string
 ): Promise<LibraryData> => {
   return customFetch(

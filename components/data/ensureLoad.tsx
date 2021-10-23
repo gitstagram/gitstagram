@@ -1,13 +1,12 @@
 import React from 'react'
 import { useSession } from 'next-auth/client'
+import { useGetViewerGitstagramLibraryQuery } from 'graphql/generated'
 import {
-  useGetViewerGitstagramLibraryQuery,
-  Part_RepositoryFragment,
-} from 'graphql/generated'
-import {
-  useCloneGitstagramLibrary,
-  useUpdateRepository,
-} from 'graphql/mutationWrappers'
+  useCloneGitstagramLibraryMutation,
+  useUpdateRepositoryMutation,
+  getViewerGitstagramLibraryQueryPromise,
+  GetViewerGitstagramLibraryQueryPromise,
+} from 'graphql/operationWrappers'
 import {
   getLibraryDataQueryPromise,
   addStarMutationPromise,
@@ -28,6 +27,7 @@ import {
   exceptApolloClient404,
   defaultFollowings,
   promiseReduce,
+  wait,
 } from 'helpers'
 
 type EnsureMetadataExpectedOpts = {
@@ -38,8 +38,8 @@ type EnsureMetadataExpectedOpts = {
 
 export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
-  const [cloneGitstagramLibrary] = useCloneGitstagramLibrary()
-  const [updateRepository] = useUpdateRepository()
+  const [cloneGitstagramLibrary] = useCloneGitstagramLibraryMutation()
+  const [updateRepository] = useUpdateRepositoryMutation()
   const [session] = useSession()
   const viewerLogin = session?.user?.name
 
@@ -63,12 +63,12 @@ export const EnsureLoad = (): JSX.Element => {
 
   const createGitstagramLibrary = async (
     ownerId: string,
+    ownerLogin: string,
     descriptionMetadata: string
-  ): Promise<Maybe<Part_RepositoryFragment>> => {
+  ): Promise<Maybe<GetViewerGitstagramLibraryQueryPromise>> => {
     const { res, err } = await async(
       cloneGitstagramLibrary({
         variables: { ownerId, description: descriptionMetadata },
-        refetchQueries: ['GetViewerGitstagramLibrary'],
       })
     )
     const repository = res?.data?.cloneTemplateRepository?.repository
@@ -88,8 +88,27 @@ export const EnsureLoad = (): JSX.Element => {
 
     starDefaultFollowingCollection()
 
-    setLoadingState('libCreateSuccess')
-    return repository
+    // Wait required after clone, or Github defaultBranchRef returns `null`
+    await wait(500)
+    const { res: refetchRes, err: refetchError } = await async(
+      getViewerGitstagramLibraryQueryPromise({
+        variables: { userLogin: ownerLogin },
+        // Force refetch to refresh from network
+        fetchPolicy: 'network-only',
+      })
+    )
+
+    if (refetchError) {
+      setLoadingState('libGetFailure')
+      captureException({
+        err,
+        inside: 'EnsureLoad:createGitstagramLibrary',
+        msgs: ['Refetch GetViewerLibrary failed'],
+      })
+      return
+    }
+
+    return refetchRes
   }
 
   const ensureMetadataExpected = async ({
@@ -113,6 +132,7 @@ export const EnsureLoad = (): JSX.Element => {
           msgs: ['Metadata update failure'],
         })
         // No need to change state flag, metadata write failure is benign
+        return
       }
     }
   }
@@ -136,9 +156,44 @@ export const EnsureLoad = (): JSX.Element => {
           inside: 'EnsureLoad:ensureLibraryDataExpected',
           msgs: ['Error committing LibraryData'],
         })
+        return
       }
       setLoadingState('libFound')
     }
+  }
+
+  const readAndEnsureLibraryData = async (userLogin: string) => {
+    const { res, err } = await async(getLibraryDataQueryPromise({ userLogin }))
+    const not404Error = err && exceptApolloClient404(err)
+
+    /*
+     * Treat 404 (no gitstagram-library.json) as bad data
+     *   - Set contents as arbitrary string to distinguish it from no response contents
+     *   - But bad contents will invoke coercion and committing of corrected data
+     */
+    const fileContents = isApolloClient404(err)
+      ? '404NoContent'
+      : res?.data?.getLibraryData?.content
+
+    // Only fatally terminate if err is not 404
+    if (not404Error || !fileContents) {
+      setLoadingState('libGetFailure')
+      captureException({
+        err,
+        inside: 'EnsureLoad:onCompletedCallback',
+        msgs: [
+          [err, 'Error fetching LibraryData'],
+          [!fileContents, 'Cannot read LibraryData file contents'],
+        ],
+      })
+      return
+    }
+
+    const libraryData = parseJsonIfB64(fileContents)
+
+    void ensureLibraryDataExpected(libraryData, {
+      commitMessage: 'Correct errors found in `gitstagram-library.json`',
+    })
   }
 
   useGetViewerGitstagramLibraryQuery({
@@ -158,43 +213,14 @@ export const EnsureLoad = (): JSX.Element => {
           expected: descriptionMetadata,
         })
 
-        const { res, err } = await async(
-          getLibraryDataQueryPromise({
-            userLogin: viewer.login,
-          })
-        )
-        const not404Error = err && exceptApolloClient404(err)
-
-        /*
-         * Treat 404 (no gitstagram-library.json) as bad data
-         *   - Set contents as arbitrary string to distinguish it from no response contents
-         *   - But bad contents will invoke coercion and committing of corrected data
-         */
-        const fileContents = isApolloClient404(err)
-          ? '404NoContent'
-          : res?.data?.getLibraryData?.content
-
-        // Only fatally terminate if err is not 404
-        if (not404Error || !fileContents) {
-          setLoadingState('libGetFailure')
-          captureException({
-            err,
-            inside: 'EnsureLoad:onCompletedCallback',
-            msgs: [
-              [err, 'Error fetching LibraryData'],
-              [!fileContents, 'Cannot read LibraryData file contents'],
-            ],
-          })
-          return
-        }
-
-        const libraryData = parseJsonIfB64(fileContents)
-
-        void ensureLibraryDataExpected(libraryData, {
-          commitMessage: 'Correct errors found in `gitstagram-library.json`',
-        })
+        void readAndEnsureLibraryData(viewer.login)
       } else {
-        void createGitstagramLibrary(viewer.id, descriptionMetadata)
+        const gitstagramLibraryData = await createGitstagramLibrary(
+          viewer.id,
+          viewer.login,
+          descriptionMetadata
+        )
+        if (gitstagramLibraryData) void readAndEnsureLibraryData(viewer.login)
       }
     },
     onError: (err) => {
@@ -202,7 +228,7 @@ export const EnsureLoad = (): JSX.Element => {
       captureException({
         err,
         inside: 'EnsureLoad:onErrorCallback',
-        msgs: ['GetViewer Library failed'],
+        msgs: ['GetViewerLibrary failed'],
       })
     },
   })

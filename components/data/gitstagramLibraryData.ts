@@ -10,7 +10,7 @@ import {
   async,
   captureException,
 } from 'helpers'
-import { createFileCommitPromise } from 'graphql/mutationWrappers'
+import { createCommitMutationPromise } from 'graphql/operationWrappers'
 import { apolloClient } from 'graphql/apolloClient'
 import {
   Cache_ViewerInfoDocument,
@@ -55,7 +55,7 @@ export const writeLibraryData = async (
 
   if (commitOpts) {
     const { err } = await async(
-      createFileCommitPromise({
+      createCommitMutationPromise({
         b64Contents: toJsonB64(newLibData),
         path: 'gitstagram-data.json',
         ...commitOpts,

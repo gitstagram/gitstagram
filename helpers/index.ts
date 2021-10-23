@@ -25,6 +25,7 @@ export * from 'helpers/string/stringCombinatorials'
 export * from 'helpers/time/debounce'
 export * from 'helpers/time/fromSeconds'
 export * from 'helpers/time/getUtc'
+export * from 'helpers/time/wait'
 
 export * from 'helpers/type/keys'
 export * from 'helpers/type/nullish'

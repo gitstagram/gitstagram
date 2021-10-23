@@ -26,12 +26,12 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           variables,
         })
 
-        if (user) {
+        if (user && user.repository) {
           const { login, name, location, twitterUsername, bio } = user
-          const currentOid = user.repository?.defaultBranchRef?.target
+          const currentOid = user.repository.defaultBranchRef?.target
             ?.oid as Maybe<string>
-          const stargazerCount = user.repository?.stargazerCount
-          const issuesTotalCount = user.repository?.issues.totalCount
+          const stargazerCount = user.repository.stargazerCount
+          const issuesTotalCount = user.repository.issues.totalCount
 
           if (
             !currentOid ||
@@ -39,7 +39,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
             nullish(issuesTotalCount)
           ) {
             captureException({
-              inside: 'typePolicies:User',
+              inside: 'typePolicies:User::Viewer',
               msgs: [
                 [!currentOid, 'Cannot read currentOid'],
                 [nullish(stargazerCount), 'Cannot read stargazerCount'],
@@ -84,7 +84,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           const issuesTotalCount = user.repository?.issues.totalCount
           if (nullish(stargazerCount) || nullish(issuesTotalCount)) {
             captureException({
-              inside: 'typePolicies:User',
+              inside: 'typePolicies:User::User',
               msgs: [
                 [nullish(stargazerCount), 'Cannot read stargazerCount'],
                 [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
