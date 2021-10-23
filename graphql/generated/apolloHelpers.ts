@@ -4499,14 +4499,13 @@ export type PushAllowanceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'getLibraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	codeOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	codesOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterprise?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitationByToken?: FieldPolicy<any> | FieldReadFunction<any>,
-	getLibraryData?: FieldPolicy<any> | FieldReadFunction<any>,
 	license?: FieldPolicy<any> | FieldReadFunction<any>,
 	licenses?: FieldPolicy<any> | FieldReadFunction<any>,
 	marketplaceCategories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4529,6 +4528,7 @@ export type QueryFieldPolicy = {
 	sponsorables?: FieldPolicy<any> | FieldReadFunction<any>,
 	topic?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
+	userInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewerInfo?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -5667,10 +5667,6 @@ export type ResolveReviewThreadPayloadKeySpecifier = ('clientMutationId' | 'thre
 export type ResolveReviewThreadPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	thread?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type RestLibraryDataKeySpecifier = ('contents' | RestLibraryDataKeySpecifier)[];
-export type RestLibraryDataFieldPolicy = {
-	contents?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RestrictedContributionKeySpecifier = ('isRestricted' | 'occurredAt' | 'resourcePath' | 'url' | 'user' | RestrictedContributionKeySpecifier)[];
 export type RestrictedContributionFieldPolicy = {
@@ -7071,6 +7067,18 @@ export type UserEmailMetadataFieldPolicy = {
 	primary?: FieldPolicy<any> | FieldReadFunction<any>,
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type UserInfoKeySpecifier = ('avatarUrl' | 'bio' | 'following' | 'issuesTotalCount' | 'location' | 'login' | 'name' | 'stargazerCount' | 'twitterUsername' | UserInfoKeySpecifier)[];
+export type UserInfoFieldPolicy = {
+	avatarUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	bio?: FieldPolicy<any> | FieldReadFunction<any>,
+	following?: FieldPolicy<any> | FieldReadFunction<any>,
+	issuesTotalCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	location?: FieldPolicy<any> | FieldReadFunction<any>,
+	login?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	stargazerCount?: FieldPolicy<any> | FieldReadFunction<any>,
+	twitterUsername?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type UserStatusKeySpecifier = ('createdAt' | 'emoji' | 'emojiHTML' | 'expiresAt' | 'id' | 'indicatesLimitedAvailability' | 'message' | 'organization' | 'updatedAt' | 'user' | UserStatusKeySpecifier)[];
 export type UserStatusFieldPolicy = {
@@ -9326,10 +9334,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | ResolveReviewThreadPayloadKeySpecifier | (() => undefined | ResolveReviewThreadPayloadKeySpecifier),
 		fields?: ResolveReviewThreadPayloadFieldPolicy,
 	},
-	RestLibraryData?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | RestLibraryDataKeySpecifier | (() => undefined | RestLibraryDataKeySpecifier),
-		fields?: RestLibraryDataFieldPolicy,
-	},
 	RestrictedContribution?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RestrictedContributionKeySpecifier | (() => undefined | RestrictedContributionKeySpecifier),
 		fields?: RestrictedContributionFieldPolicy,
@@ -9993,6 +9997,10 @@ export type StrictTypedTypePolicies = {
 	UserEmailMetadata?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserEmailMetadataKeySpecifier | (() => undefined | UserEmailMetadataKeySpecifier),
 		fields?: UserEmailMetadataFieldPolicy,
+	},
+	UserInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | UserInfoKeySpecifier | (() => undefined | UserInfoKeySpecifier),
+		fields?: UserInfoFieldPolicy,
 	},
 	UserStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserStatusKeySpecifier | (() => undefined | UserStatusKeySpecifier),

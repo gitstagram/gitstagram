@@ -14231,7 +14231,6 @@ export type Query = {
   enterpriseAdministratorInvitation?: Maybe<EnterpriseAdministratorInvitation>;
   /** Look up a pending enterprise administrator invitation by invitation token. */
   enterpriseAdministratorInvitationByToken?: Maybe<EnterpriseAdministratorInvitation>;
-  getLibraryData?: Maybe<RestLibraryData>;
   /** Look up an open source license by its key */
   license?: Maybe<License>;
   /** Return a list of known open source licenses */
@@ -14276,6 +14275,7 @@ export type Query = {
   topic?: Maybe<Topic>;
   /** Lookup a user by login. */
   user?: Maybe<User>;
+  userInfo?: Maybe<UserInfo>;
   /** The currently authenticated user. */
   viewer: User;
   viewerInfo?: Maybe<ViewerInfo>;
@@ -14461,6 +14461,12 @@ export type QueryTopicArgs = {
 
 /** The query root of GitHub's GraphQL interface. */
 export type QueryUserArgs = {
+  login: Scalars['String'];
+};
+
+
+/** The query root of GitHub's GraphQL interface. */
+export type QueryUserInfoArgs = {
   login: Scalars['String'];
 };
 
@@ -17596,11 +17602,6 @@ export type ResolveReviewThreadPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The thread to resolve. */
   thread?: Maybe<PullRequestReviewThread>;
-};
-
-export type RestLibraryData = {
-  __typename?: 'RestLibraryData';
-  contents: Scalars['String'];
 };
 
 /** Represents a private contribution a user made on GitHub. */
@@ -22139,6 +22140,19 @@ export type UserEmailMetadata = {
   value: Scalars['String'];
 };
 
+export type UserInfo = {
+  __typename?: 'UserInfo';
+  avatarUrl?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  following: Array<Scalars['String']>;
+  issuesTotalCount: Scalars['Int'];
+  location?: Maybe<Scalars['String']>;
+  login: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  stargazerCount: Scalars['Int'];
+  twitterUsername?: Maybe<Scalars['String']>;
+};
+
 /** The user's description of what they're currently doing. */
 export type UserStatus = Node & {
   __typename?: 'UserStatus';
@@ -22386,6 +22400,15 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
+export type Cache_Generate_UserInfoFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number } } | null | undefined };
+
+export type Cache_UserInfoQueryVariables = Exact<{
+  login: Scalars['String'];
+}>;
+
+
+export type Cache_UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount: number, issuesTotalCount: number, following: Array<string> } | null | undefined };
+
 export type Cache_Generate_ViewerInfoFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number } } | null | undefined };
 
 export type Cache_ViewerInfoQueryVariables = Exact<{ [key: string]: never; }>;
@@ -22488,6 +22511,25 @@ export type GetFollowingQueryVariables = Exact<{
 
 export type GetFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined } | null | undefined> | null | undefined } };
 
+export const Cache_Generate_UserInfoFragmentDoc = gql`
+    fragment CACHE_Generate_UserInfo on User {
+  login
+  avatarUrl
+  name
+  location
+  twitterUsername
+  bio
+  repository(name: $repositoryName) {
+    stargazerCount
+    issues(
+      first: $firstIssues
+      filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
+    ) {
+      totalCount
+    }
+  }
+}
+    `;
 export const Cache_Generate_ViewerInfoFragmentDoc = gql`
     fragment CACHE_Generate_ViewerInfo on User {
   login
@@ -22612,6 +22654,49 @@ export const Part_Repository_With_IssuesFragmentDoc = gql`
     ${Frag_Repository_FieldsFragmentDoc}
 ${Frag_Repository_IssuesFragmentDoc}
 ${Frag_Repository_DefaultBranchRefFragmentDoc}`;
+export const Cache_UserInfoDocument = gql`
+    query CACHE_UserInfo($login: String!) {
+  userInfo(login: $login) @client {
+    login
+    avatarUrl
+    name
+    location
+    twitterUsername
+    bio
+    stargazerCount
+    issuesTotalCount
+    following
+  }
+}
+    `;
+
+/**
+ * __useCache_UserInfoQuery__
+ *
+ * To run a query within a React component, call `useCache_UserInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCache_UserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCache_UserInfoQuery({
+ *   variables: {
+ *      login: // value for 'login'
+ *   },
+ * });
+ */
+export function useCache_UserInfoQuery(baseOptions: Apollo.QueryHookOptions<Cache_UserInfoQuery, Cache_UserInfoQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Cache_UserInfoQuery, Cache_UserInfoQueryVariables>(Cache_UserInfoDocument, options);
+      }
+export function useCache_UserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Cache_UserInfoQuery, Cache_UserInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Cache_UserInfoQuery, Cache_UserInfoQueryVariables>(Cache_UserInfoDocument, options);
+        }
+export type Cache_UserInfoQueryHookResult = ReturnType<typeof useCache_UserInfoQuery>;
+export type Cache_UserInfoLazyQueryHookResult = ReturnType<typeof useCache_UserInfoLazyQuery>;
+export type Cache_UserInfoQueryResult = Apollo.QueryResult<Cache_UserInfoQuery, Cache_UserInfoQueryVariables>;
 export const Cache_ViewerInfoDocument = gql`
     query CACHE_ViewerInfo {
   viewerInfo @client {

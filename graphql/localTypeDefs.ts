@@ -16,12 +16,20 @@ export const localTypeDefs = gql`
     saved: [String!]!
   }
 
-  type RestLibraryData {
-    contents: String!
+  type UserInfo {
+    login: String!
+    avatarUrl: String
+    name: String
+    location: String
+    twitterUsername: String
+    bio: String
+    stargazerCount: Int!
+    issuesTotalCount: Int!
+    following: [String!]!
   }
 
   extend type Query {
     viewerInfo: ViewerInfo
-    getLibraryData: RestLibraryData
+    userInfo(login: String!): UserInfo
   }
 `
