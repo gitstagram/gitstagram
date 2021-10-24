@@ -36,6 +36,7 @@ export const CACHE_UserInfo = gql`
       stargazerCount
       issuesTotalCount
       following
+      hasBeen
     }
   }
 `
@@ -44,5 +45,11 @@ export const CACHE_GetLibraryData = gql`
   fragment CACHE_GetLibraryData on RestLibraryData {
     content
     sha
+  }
+`
+
+export const CACHE_UserInfoHasBeen = gql`
+  fragment CACHE_UserInfoHasBeen on UserInfo {
+    hasBeen
   }
 `

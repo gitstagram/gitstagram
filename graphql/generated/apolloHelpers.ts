@@ -7074,11 +7074,12 @@ export type UserEmailMetadataFieldPolicy = {
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserInfoKeySpecifier = ('avatarUrl' | 'bio' | 'following' | 'issuesTotalCount' | 'location' | 'login' | 'name' | 'stargazerCount' | 'twitterUsername' | UserInfoKeySpecifier)[];
+export type UserInfoKeySpecifier = ('avatarUrl' | 'bio' | 'following' | 'hasBeen' | 'issuesTotalCount' | 'location' | 'login' | 'name' | 'stargazerCount' | 'twitterUsername' | UserInfoKeySpecifier)[];
 export type UserInfoFieldPolicy = {
 	avatarUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	bio?: FieldPolicy<any> | FieldReadFunction<any>,
 	following?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasBeen?: FieldPolicy<any> | FieldReadFunction<any>,
 	issuesTotalCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	location?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,

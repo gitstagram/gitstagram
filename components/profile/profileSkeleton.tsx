@@ -104,7 +104,7 @@ export const SkeletonProfile = ({ ...props }: BaseProps): JSX.Element => {
         <div className='profile-following-banner skeleton' />
       </UntilTabletLandscape>
       <div className='grid'>
-        {times(1).map((_, index) => {
+        {times(3).map((_, index) => {
           return (
             <div className='square-row' key={index}>
               <div className='square'>

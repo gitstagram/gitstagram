@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { apolloClient } from 'graphql/apolloClient'
 import styled, { css } from 'styled-components'
 import { Button } from 'components/ui'
 import { toast } from 'react-toastify'
-import {
-  writeLibraryData,
-  useFollowingVar,
-} from 'components/data/gitstagramLibraryData'
+import { writeLibraryData } from 'components/data/gitstagramLibraryData'
+import { useUserInfo } from 'components/data/useUserInfo'
 import { addStarMutationPromise } from 'graphql/operations'
+import {
+  UserHasBeen,
+  Cache_UserInfoHasBeenFragmentDoc,
+  Cache_UserInfoHasBeenFragment,
+} from 'graphql/generated'
 import { async, captureException, uniqArr } from 'helpers'
 
 type FollowButtonStylesProps = {
@@ -37,8 +41,8 @@ export const FollowButton = ({
   show,
   ...props
 }: FollowButtonProps): JSX.Element => {
+  const { following, hasBeen } = useUserInfo(followUserLogin)
   const [followState, setFollowState] = useState<FollowState>('base')
-  const followingVar = useFollowingVar()
 
   const handleFollow = async () => {
     setFollowState('loading')
@@ -58,11 +62,28 @@ export const FollowButton = ({
     }
 
     return writeLibraryData(
-      { following: uniqArr([...followingVar, followUserLogin]) },
-      { commitMessage: `Following: ${followUserLogin}` }
-    ).finally(() => {
-      setFollowState('base')
-    })
+      { following: uniqArr([...following, followUserLogin]) },
+      { commitMessage: `Follow: ${followUserLogin}` }
+    )
+      .then(() => {
+        const newHasBeen =
+          hasBeen === UserHasBeen.Unfollowed
+            ? UserHasBeen.Untouched
+            : UserHasBeen.Followed
+
+        apolloClient.writeFragment<Cache_UserInfoHasBeenFragment>({
+          id: apolloClient.cache.identify({
+            __typename: 'UserInfo',
+            login: followUserLogin,
+          }),
+          fragment: Cache_UserInfoHasBeenFragmentDoc,
+          data: { hasBeen: newHasBeen },
+        })
+        return
+      })
+      .finally(() => {
+        setFollowState('base')
+      })
   }
 
   return (

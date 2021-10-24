@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { apolloClient } from 'graphql/apolloClient'
 import styled, { css } from 'styled-components'
 import { Button } from 'components/ui'
 import { toast } from 'react-toastify'
-import {
-  writeLibraryData,
-  useFollowingVar,
-} from 'components/data/gitstagramLibraryData'
+import { writeLibraryData } from 'components/data/gitstagramLibraryData'
+import { useUserInfo } from 'components/data/useUserInfo'
 import { deleteStarMutationPromise } from 'graphql/operations'
+import {
+  UserHasBeen,
+  Cache_UserInfoHasBeenFragmentDoc,
+  Cache_UserInfoHasBeenFragment,
+} from 'graphql/generated'
 import { async, captureException } from 'helpers'
 
 type FollowingButtonStylesProps = {
@@ -50,8 +54,8 @@ export const FollowingButton = ({
   show,
   ...props
 }: FollowingButtonProps): JSX.Element => {
+  const { following, hasBeen } = useUserInfo(followUserLogin)
   const [followState, setFollowState] = useState<FollowState>('base')
-  const followingVar = useFollowingVar()
 
   const handleUnfollow = async () => {
     setFollowState('loading')
@@ -71,11 +75,28 @@ export const FollowingButton = ({
     }
 
     return writeLibraryData(
-      { following: followingVar.filter((item) => item !== followUserLogin) },
+      { following: following.filter((item) => item !== followUserLogin) },
       { commitMessage: `Unfollow: ${followUserLogin}` }
-    ).finally(() => {
-      setFollowState('base')
-    })
+    )
+      .then(() => {
+        const newHasBeen =
+          hasBeen === UserHasBeen.Followed
+            ? UserHasBeen.Untouched
+            : UserHasBeen.Unfollowed
+
+        apolloClient.writeFragment<Cache_UserInfoHasBeenFragment>({
+          id: apolloClient.cache.identify({
+            __typename: 'UserInfo',
+            login: followUserLogin,
+          }),
+          fragment: Cache_UserInfoHasBeenFragmentDoc,
+          data: { hasBeen: newHasBeen },
+        })
+        return
+      })
+      .finally(() => {
+        setFollowState('base')
+      })
   }
 
   return (

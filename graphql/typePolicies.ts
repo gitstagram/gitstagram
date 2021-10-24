@@ -13,6 +13,7 @@ import {
   Cache_UserInfoQueryVariables,
   Cache_GetLibraryDataFragmentDoc,
   Cache_GetLibraryDataFragment,
+  UserHasBeen,
 } from 'graphql/generated'
 import { LibraryDataQuery, LibraryDataQueryVariables } from 'graphql/operations'
 import {
@@ -124,6 +125,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
                 stargazerCount,
                 issuesTotalCount,
                 following: [],
+                hasBeen: UserHasBeen.Untouched,
               },
             },
             variables: {

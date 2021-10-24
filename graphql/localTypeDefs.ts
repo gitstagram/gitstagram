@@ -16,6 +16,12 @@ export const localTypeDefs = gql`
     saved: [String!]!
   }
 
+  enum UserHasBeen {
+    UNTOUCHED
+    FOLLOWED
+    UNFOLLOWED
+  }
+
   type UserInfo {
     login: String!
     avatarUrl: String
@@ -26,6 +32,7 @@ export const localTypeDefs = gql`
     stargazerCount: Int!
     issuesTotalCount: Int!
     following: [String!]!
+    hasBeen: UserHasBeen!
   }
 
   type RestLibraryData {

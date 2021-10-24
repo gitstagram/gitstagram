@@ -22153,11 +22153,18 @@ export type UserEmailMetadata = {
   value: Scalars['String'];
 };
 
+export enum UserHasBeen {
+  Followed = 'FOLLOWED',
+  Unfollowed = 'UNFOLLOWED',
+  Untouched = 'UNTOUCHED'
+}
+
 export type UserInfo = {
   __typename?: 'UserInfo';
   avatarUrl?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
   following: Array<Scalars['String']>;
+  hasBeen: UserHasBeen;
   issuesTotalCount: Scalars['Int'];
   location?: Maybe<Scalars['String']>;
   login: Scalars['String'];
@@ -22420,9 +22427,11 @@ export type Cache_UserInfoQueryVariables = Exact<{
 }>;
 
 
-export type Cache_UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount: number, issuesTotalCount: number, following: Array<string> } | null | undefined };
+export type Cache_UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount: number, issuesTotalCount: number, following: Array<string>, hasBeen: UserHasBeen } | null | undefined };
 
 export type Cache_GetLibraryDataFragment = { __typename?: 'RestLibraryData', content: string, sha: string };
+
+export type Cache_UserInfoHasBeenFragment = { __typename?: 'UserInfo', hasBeen: UserHasBeen };
 
 export type Cache_Generate_ViewerInfoFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number } } | null | undefined };
 
@@ -22549,6 +22558,11 @@ export const Cache_GetLibraryDataFragmentDoc = gql`
     fragment CACHE_GetLibraryData on RestLibraryData {
   content
   sha
+}
+    `;
+export const Cache_UserInfoHasBeenFragmentDoc = gql`
+    fragment CACHE_UserInfoHasBeen on UserInfo {
+  hasBeen
 }
     `;
 export const Cache_Generate_ViewerInfoFragmentDoc = gql`
@@ -22687,6 +22701,7 @@ export const Cache_UserInfoDocument = gql`
     stargazerCount
     issuesTotalCount
     following
+    hasBeen
   }
 }
     `;
