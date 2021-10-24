@@ -10,7 +10,7 @@ import {
   async,
   captureException,
 } from 'helpers'
-import { createCommitMutationPromise } from 'graphql/operationWrappers'
+import { createCommitMutationPromise } from 'graphql/operations'
 import { apolloClient } from 'graphql/apolloClient'
 import {
   Cache_ViewerInfoDocument,

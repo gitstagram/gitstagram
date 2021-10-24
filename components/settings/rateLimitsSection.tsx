@@ -10,7 +10,7 @@ import {
 import { RateLimitTable } from 'components/settings/rateLimitTable'
 import { theme } from 'styles/themes'
 
-import { useGetRateLimitLazyQuery } from 'graphql/restOperations'
+import { useGetRateLimitLazyQuery } from 'graphql/operations'
 
 const RateLimitsSectionStyles = styled(Panel)`
   .load-paragraph {

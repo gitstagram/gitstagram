@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
-import * as frags from 'graphql/operations/fragments/fields'
-import * as parts from 'graphql/operations/fragments/parts'
+import * as frags from 'graphql/documents/fragments/fields'
+import * as parts from 'graphql/documents/fragments/parts'
 
 export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
   ${parts.PART_Repository_With_Issues}

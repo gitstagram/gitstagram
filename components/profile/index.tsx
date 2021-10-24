@@ -11,7 +11,7 @@ import { FollowingDialog } from 'components/profile/followingDialog'
 import {
   getRawLibraryDataQueryPromise,
   getLibraryDataQueryPromise,
-} from 'graphql/restOperations'
+} from 'graphql/operations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'

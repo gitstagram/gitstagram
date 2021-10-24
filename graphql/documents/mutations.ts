@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
-import * as fields from 'graphql/operations/fragments/fields'
-import * as parts from 'graphql/operations/fragments/parts'
+import * as fields from 'graphql/documents/fragments/fields'
+import * as parts from 'graphql/documents/fragments/parts'
 
 /*
  * gitstagram/gitstagram-library-template: R_kgDOGMruMg

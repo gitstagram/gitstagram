@@ -6,7 +6,7 @@ import {
   writeLibraryData,
   useFollowingVar,
 } from 'components/data/gitstagramLibraryData'
-import { addStarMutationPromise } from 'graphql/restOperations'
+import { addStarMutationPromise } from 'graphql/operations'
 import { async, captureException, uniqArr } from 'helpers'
 
 type FollowButtonStylesProps = {

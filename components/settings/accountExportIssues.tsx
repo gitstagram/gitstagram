@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver'
 import { toast } from 'react-toastify'
 import { TextAttn, Button } from 'components/ui'
 import { times, promiseReduce, captureException } from 'helpers'
-import { getIssueExportQueryPromise } from 'graphql/restOperations'
+import { getIssueExportQueryPromise } from 'graphql/operations'
 
 type AccountExportIssuesProps = {
   viewerLogin: string

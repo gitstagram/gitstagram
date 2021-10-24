@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import * as fields from 'graphql/operations/fragments/fields'
+import * as fields from 'graphql/documents/fragments/fields'
 
 export const PART_Repository = gql`
   ${fields.FRAG_Repository_Fields}

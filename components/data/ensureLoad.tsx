@@ -6,11 +6,9 @@ import {
   useUpdateRepositoryMutation,
   getViewerGitstagramLibraryQueryPromise,
   GetViewerGitstagramLibraryQueryPromise,
-} from 'graphql/operationWrappers'
-import {
   getLibraryDataQueryPromise,
   addStarMutationPromise,
-} from 'graphql/restOperations'
+} from 'graphql/operations'
 import { useLoadingContext } from 'components/contexts/loading'
 import {
   CommitOpts,

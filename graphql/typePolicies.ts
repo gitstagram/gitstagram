@@ -14,10 +14,7 @@ import {
   Cache_GetLibraryDataFragmentDoc,
   Cache_GetLibraryDataFragment,
 } from 'graphql/generated'
-import {
-  LibraryDataQuery,
-  LibraryDataQueryVariables,
-} from 'graphql/restOperations'
+import { LibraryDataQuery, LibraryDataQueryVariables } from 'graphql/operations'
 import {
   nullish,
   captureException,

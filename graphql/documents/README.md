@@ -1,0 +1,3 @@
+- Do not use these documents directly.
+- This prevents fragment collisions with duplicate fragments of the same name.
+- Used the typed version in `graphql/generated` after running `yarn codegen`.

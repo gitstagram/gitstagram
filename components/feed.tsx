@@ -1,5 +1,5 @@
 import React from 'react'
-import { createCommitMutationPromise } from 'graphql/operationWrappers'
+import { createCommitMutationPromise } from 'graphql/operations'
 import { fileToB64, nanoid } from 'helpers'
 
 export const Feed = (): JSX.Element => {

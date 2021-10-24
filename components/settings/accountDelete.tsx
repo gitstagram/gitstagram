@@ -16,7 +16,7 @@ import { theme } from 'styles/themes'
 import {
   deleteStarMutationPromise,
   deleteRepoMutationPromise,
-} from 'graphql/restOperations'
+} from 'graphql/operations'
 import { promiseReduce, captureException } from 'helpers'
 
 type AccountDeleteProps = {

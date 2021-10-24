@@ -8,7 +8,7 @@ import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
-import { getRawLibraryDataQueryPromise } from 'graphql/restOperations'
+import { getRawLibraryDataQueryPromise } from 'graphql/operations'
 import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import cn from 'classnames'
 import { theme } from 'styles/themes'
 
-import { RateLimitResource } from 'graphql/restOperations'
+import { RateLimitResource } from 'graphql/operations'
 import { getUtc, fromSeconds, pluralize, nullish } from 'helpers'
 
 const RateLimitTableStyles = styled.table`
