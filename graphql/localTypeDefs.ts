@@ -28,7 +28,7 @@ export const localTypeDefs = gql`
     following: [String!]!
   }
 
-  type GetLibraryData {
+  type RestLibraryData {
     content: String!
     sha: String!
   }
@@ -36,6 +36,6 @@ export const localTypeDefs = gql`
   extend type Query {
     viewerInfo: ViewerInfo
     userInfo(login: String!): UserInfo
-    getLibraryData(userLogin: String!): GetLibraryData
+    libraryData(userLogin: String!): RestLibraryData
   }
 `

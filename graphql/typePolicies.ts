@@ -139,7 +139,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
       return incoming
     },
   },
-  GetLibraryData: {
+  RestLibraryData: {
     keyFields: ['sha'],
     merge(_, incoming, options) {
       const { cache } = options
@@ -162,7 +162,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
         if (!fileContents) {
           const noContentErr = 'Cannot read LibraryData file contents'
           captureException({
-            inside: 'typePolicies:GetLibraryData',
+            inside: 'typePolicies:RestLibraryData',
             msgs: [[!fileContents, noContentErr]],
           })
           throw new Error(noContentErr)
@@ -172,7 +172,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
         if (!isLibraryData(libraryData)) {
           const parseErr = 'Cannot parse base64 contents'
           captureException({
-            inside: 'typePolicies:GetLibraryData',
+            inside: 'typePolicies:RestLibraryData',
             msgs: [parseErr],
           })
           throw new Error(parseErr)
@@ -191,7 +191,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
         if (!userInfo) {
           const noUserInfoErr = 'Cannot read cached UserInfo'
           captureException({
-            inside: 'typePolicies:GetLibraryData',
+            inside: 'typePolicies:RestLibraryData',
             msgs: [noUserInfoErr],
           })
           throw new Error(noUserInfoErr)

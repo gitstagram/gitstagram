@@ -41,7 +41,7 @@ export const CACHE_UserInfo = gql`
 `
 
 export const CACHE_GetLibraryData = gql`
-  fragment CACHE_GetLibraryData on GetLibraryData {
+  fragment CACHE_GetLibraryData on RestLibraryData {
     content
     sha
   }

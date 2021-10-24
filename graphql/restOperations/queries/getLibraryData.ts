@@ -2,7 +2,7 @@ import { gql, ApolloQueryResult } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
 
 export type LibraryDataQuery = {
-  getLibraryData: {
+  libraryData: {
     content: string
     sha: string
   }
@@ -14,9 +14,9 @@ export type LibraryDataQueryVariables = {
 
 const GET_LIBRARY_DATA = gql`
   query GetLibraryData($userLogin: String!) {
-    getLibraryData(userLogin: $userLogin)
+    libraryData(userLogin: $userLogin)
       @rest(
-        type: "GetLibraryData"
+        type: "RestLibraryData"
         path: "/repos/{args.userLogin}/gitstagram-library/contents/gitstagram-data.json"
       ) {
       content

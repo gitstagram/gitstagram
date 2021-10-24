@@ -173,7 +173,7 @@ export const EnsureLoad = (): JSX.Element => {
      */
     const fileContents = isApolloClient404(err)
       ? '404NoContent'
-      : res?.data?.getLibraryData?.content
+      : res?.data?.libraryData?.content
 
     // Only fatally terminate if err is not 404
     if (not404Error || !fileContents) {

@@ -6165,12 +6165,6 @@ export type GenericHovercardContext = HovercardContext & {
   octicon: Scalars['String'];
 };
 
-export type GetLibraryData = {
-  __typename?: 'GetLibraryData';
-  content: Scalars['String'];
-  sha: Scalars['String'];
-};
-
 /** A Gist. */
 export type Gist = Node & Starrable & UniformResourceLocatable & {
   __typename?: 'Gist';
@@ -14237,7 +14231,7 @@ export type Query = {
   enterpriseAdministratorInvitation?: Maybe<EnterpriseAdministratorInvitation>;
   /** Look up a pending enterprise administrator invitation by invitation token. */
   enterpriseAdministratorInvitationByToken?: Maybe<EnterpriseAdministratorInvitation>;
-  getLibraryData?: Maybe<GetLibraryData>;
+  libraryData?: Maybe<RestLibraryData>;
   /** Look up an open source license by its key */
   license?: Maybe<License>;
   /** Return a list of known open source licenses */
@@ -14317,7 +14311,7 @@ export type QueryEnterpriseAdministratorInvitationByTokenArgs = {
 
 
 /** The query root of GitHub's GraphQL interface. */
-export type QueryGetLibraryDataArgs = {
+export type QueryLibraryDataArgs = {
   userLogin: Scalars['String'];
 };
 
@@ -17615,6 +17609,12 @@ export type ResolveReviewThreadPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
   /** The thread to resolve. */
   thread?: Maybe<PullRequestReviewThread>;
+};
+
+export type RestLibraryData = {
+  __typename?: 'RestLibraryData';
+  content: Scalars['String'];
+  sha: Scalars['String'];
 };
 
 /** Represents a private contribution a user made on GitHub. */
@@ -22422,7 +22422,7 @@ export type Cache_UserInfoQueryVariables = Exact<{
 
 export type Cache_UserInfoQuery = { __typename?: 'Query', userInfo?: { __typename?: 'UserInfo', login: string, avatarUrl?: string | null | undefined, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount: number, issuesTotalCount: number, following: Array<string> } | null | undefined };
 
-export type Cache_GetLibraryDataFragment = { __typename?: 'GetLibraryData', content: string, sha: string };
+export type Cache_GetLibraryDataFragment = { __typename?: 'RestLibraryData', content: string, sha: string };
 
 export type Cache_Generate_ViewerInfoFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number } } | null | undefined };
 
@@ -22546,7 +22546,7 @@ export const Cache_Generate_UserInfoFragmentDoc = gql`
 }
     `;
 export const Cache_GetLibraryDataFragmentDoc = gql`
-    fragment CACHE_GetLibraryData on GetLibraryData {
+    fragment CACHE_GetLibraryData on RestLibraryData {
   content
   sha
 }

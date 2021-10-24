@@ -15,7 +15,7 @@ const GET_RATE_LIMIT = gql`
   }
 
   query GetRateLimit {
-    getRateLimit @rest(type: "RestRateLimit", path: "/rate_limit") {
+    rateLimit @rest(type: "RestRateLimit", path: "/rate_limit") {
       resources {
         core @type(name: "RestRateLimitResource") {
           ...FRAG_Rate_Limit_Resource
@@ -40,7 +40,7 @@ export type RateLimitResource = {
 }
 
 type GetRateLimitQuery = {
-  getRateLimit: {
+  rateLimit: {
     __typename?: 'RestRateLimits'
     resources: {
       __typename?: 'RestRateLimitResources'

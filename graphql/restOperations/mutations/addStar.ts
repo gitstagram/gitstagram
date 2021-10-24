@@ -1,11 +1,7 @@
 import { gql, FetchResult } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
 
-type AddStarMutation = {
-  addStar: {
-    raw: string
-  }
-}
+type AddStarMutation = never
 
 type AddStarMutationVariables = {
   userLogin: string
@@ -16,11 +12,11 @@ const ADD_STAR = gql`
   mutation AddStar($userLogin: String!, $input: String!) {
     addStar(input: $input, userLogin: $userLogin)
       @rest(
-        type: "RestAddStar"
+        type: "RestStar"
         path: "/user/starred/{args.userLogin}/gitstagram-library"
         method: "PUT"
       ) {
-      raw
+      NoResponse
     }
   }
 `

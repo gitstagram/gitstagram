@@ -1896,11 +1896,6 @@ export type GenericHovercardContextFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	octicon?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type GetLibraryDataKeySpecifier = ('content' | 'sha' | GetLibraryDataKeySpecifier)[];
-export type GetLibraryDataFieldPolicy = {
-	content?: FieldPolicy<any> | FieldReadFunction<any>,
-	sha?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type GistKeySpecifier = ('comments' | 'createdAt' | 'description' | 'files' | 'forks' | 'id' | 'isFork' | 'isPublic' | 'name' | 'owner' | 'pushedAt' | 'resourcePath' | 'stargazerCount' | 'stargazers' | 'updatedAt' | 'url' | 'viewerHasStarred' | GistKeySpecifier)[];
 export type GistFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4504,14 +4499,14 @@ export type PushAllowanceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'getLibraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'libraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	codeOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	codesOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterprise?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitationByToken?: FieldPolicy<any> | FieldReadFunction<any>,
-	getLibraryData?: FieldPolicy<any> | FieldReadFunction<any>,
+	libraryData?: FieldPolicy<any> | FieldReadFunction<any>,
 	license?: FieldPolicy<any> | FieldReadFunction<any>,
 	licenses?: FieldPolicy<any> | FieldReadFunction<any>,
 	marketplaceCategories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -5673,6 +5668,11 @@ export type ResolveReviewThreadPayloadKeySpecifier = ('clientMutationId' | 'thre
 export type ResolveReviewThreadPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	thread?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type RestLibraryDataKeySpecifier = ('content' | 'sha' | RestLibraryDataKeySpecifier)[];
+export type RestLibraryDataFieldPolicy = {
+	content?: FieldPolicy<any> | FieldReadFunction<any>,
+	sha?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RestrictedContributionKeySpecifier = ('isRestricted' | 'occurredAt' | 'resourcePath' | 'url' | 'user' | RestrictedContributionKeySpecifier)[];
 export type RestrictedContributionFieldPolicy = {
@@ -8144,10 +8144,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | GenericHovercardContextKeySpecifier | (() => undefined | GenericHovercardContextKeySpecifier),
 		fields?: GenericHovercardContextFieldPolicy,
 	},
-	GetLibraryData?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | GetLibraryDataKeySpecifier | (() => undefined | GetLibraryDataKeySpecifier),
-		fields?: GetLibraryDataFieldPolicy,
-	},
 	Gist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GistKeySpecifier | (() => undefined | GistKeySpecifier),
 		fields?: GistFieldPolicy,
@@ -9343,6 +9339,10 @@ export type StrictTypedTypePolicies = {
 	ResolveReviewThreadPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ResolveReviewThreadPayloadKeySpecifier | (() => undefined | ResolveReviewThreadPayloadKeySpecifier),
 		fields?: ResolveReviewThreadPayloadFieldPolicy,
+	},
+	RestLibraryData?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RestLibraryDataKeySpecifier | (() => undefined | RestLibraryDataKeySpecifier),
+		fields?: RestLibraryDataFieldPolicy,
 	},
 	RestrictedContribution?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RestrictedContributionKeySpecifier | (() => undefined | RestrictedContributionKeySpecifier),
