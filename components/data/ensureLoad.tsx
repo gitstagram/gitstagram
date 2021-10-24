@@ -180,7 +180,7 @@ export const EnsureLoad = (): JSX.Element => {
       setLoadingState('libGetFailure')
       captureException({
         err,
-        inside: 'EnsureLoad:onCompletedCallback',
+        inside: 'EnsureLoad:readAndEnsureLibraryData',
         msgs: [
           [err, 'Error fetching LibraryData'],
           [!fileContents, 'Cannot read LibraryData file contents'],

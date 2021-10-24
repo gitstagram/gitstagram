@@ -39,3 +39,10 @@ export const CACHE_UserInfo = gql`
     }
   }
 `
+
+export const CACHE_GetLibraryData = gql`
+  fragment CACHE_GetLibraryData on GetLibraryData {
+    content
+    sha
+  }
+`

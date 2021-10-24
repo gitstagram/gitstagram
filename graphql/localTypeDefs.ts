@@ -28,8 +28,14 @@ export const localTypeDefs = gql`
     following: [String!]!
   }
 
+  type GetLibraryData {
+    content: String!
+    sha: String!
+  }
+
   extend type Query {
     viewerInfo: ViewerInfo
     userInfo(login: String!): UserInfo
+    getLibraryData(userLogin: String!): GetLibraryData
   }
 `

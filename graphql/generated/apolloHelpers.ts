@@ -1896,6 +1896,11 @@ export type GenericHovercardContextFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	octicon?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type GetLibraryDataKeySpecifier = ('content' | 'sha' | GetLibraryDataKeySpecifier)[];
+export type GetLibraryDataFieldPolicy = {
+	content?: FieldPolicy<any> | FieldReadFunction<any>,
+	sha?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type GistKeySpecifier = ('comments' | 'createdAt' | 'description' | 'files' | 'forks' | 'id' | 'isFork' | 'isPublic' | 'name' | 'owner' | 'pushedAt' | 'resourcePath' | 'stargazerCount' | 'stargazers' | 'updatedAt' | 'url' | 'viewerHasStarred' | GistKeySpecifier)[];
 export type GistFieldPolicy = {
 	comments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4499,13 +4504,14 @@ export type PushAllowanceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'getLibraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	codeOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	codesOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterprise?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitation?: FieldPolicy<any> | FieldReadFunction<any>,
 	enterpriseAdministratorInvitationByToken?: FieldPolicy<any> | FieldReadFunction<any>,
+	getLibraryData?: FieldPolicy<any> | FieldReadFunction<any>,
 	license?: FieldPolicy<any> | FieldReadFunction<any>,
 	licenses?: FieldPolicy<any> | FieldReadFunction<any>,
 	marketplaceCategories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -8137,6 +8143,10 @@ export type StrictTypedTypePolicies = {
 	GenericHovercardContext?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GenericHovercardContextKeySpecifier | (() => undefined | GenericHovercardContextKeySpecifier),
 		fields?: GenericHovercardContextFieldPolicy,
+	},
+	GetLibraryData?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | GetLibraryDataKeySpecifier | (() => undefined | GetLibraryDataKeySpecifier),
+		fields?: GetLibraryDataFieldPolicy,
 	},
 	Gist?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | GistKeySpecifier | (() => undefined | GistKeySpecifier),

@@ -8,7 +8,10 @@ import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
-import { getRawLibraryDataQueryPromise } from 'graphql/restOperations'
+import {
+  getRawLibraryDataQueryPromise,
+  getLibraryDataQueryPromise,
+} from 'graphql/restOperations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { useLoadAsync } from 'components/hooks'
 import { useFollowingVar } from 'components/data/gitstagramLibraryData'
@@ -40,13 +43,25 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
   const viewerLogin = viewerInfo.login
   const isViewer = userLogin === viewerLogin
 
-  const { data: userData, loading: userLoading } =
-    useGetUserGitstagramLibraryQuery({
-      skip: isViewer,
-      variables: {
-        userLogin,
-      },
-    })
+  const [allLoading, setAllLoading] = useState(true)
+  const [allError, setAllError] = useState<unknown>(undefined)
+  const { data: userData } = useGetUserGitstagramLibraryQuery({
+    skip: isViewer,
+    variables: {
+      userLogin,
+    },
+    onCompleted: () => {
+      return getLibraryDataQueryPromise({ userLogin: userLogin })
+        .then((res) => {
+          setAllLoading(false)
+          return res
+        })
+        .catch((err) => {
+          setAllError(err)
+        })
+    },
+  })
+  useEffect(() => setAllLoading(true), [userLogin])
 
   const { data: viewerData, loading: viewerLoading } =
     useGetViewerGitstagramLibraryQuery({
@@ -57,7 +72,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     })
 
   const data = userData?.user || viewerData?.viewer
-  const loading = userLoading || viewerLoading
+  const loading = allLoading || viewerLoading
 
   const [followerDialogMounted, setFollowerDialogMounted] = useState(false)
   const followerDialog = useDialogState({
@@ -116,7 +131,9 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     <>
       {loading && <SkeletonProfile />}
       {!loading && !data && <ProfileNotFound />}
-      {!libLoading && (libErr || !libCorrectFormat) && <ProfileCorrupted />}
+      {!libLoading && (libErr || !libCorrectFormat || allError) && (
+        <ProfileCorrupted />
+      )}
       {!loading && data && (
         <ProfileHeader
           data={data}
