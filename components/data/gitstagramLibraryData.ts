@@ -13,8 +13,10 @@ import {
 import { createCommitMutationPromise } from 'graphql/operations'
 import { apolloClient } from 'graphql/apolloClient'
 import {
-  Cache_ViewerInfoDocument,
-  Cache_ViewerInfoQuery,
+  Cache_UserInfo_ViewerPropsDocument,
+  Cache_UserInfo_ViewerPropsQuery,
+  Cache_UserInfo_ViewerLibDataFragment,
+  Cache_UserInfo_ViewerLibDataFragmentDoc,
 } from 'graphql/generated'
 
 const defaultLibData = coerceLibraryData({})
@@ -77,22 +79,21 @@ export const writeLibraryData = async (
   followingTags && followingTagsVar(newFollowingTags)
   saved && savedVar(newSaved)
   // Only update cache and resolve(true) after successful write
-  const cacheViewer = apolloClient.readQuery<Cache_ViewerInfoQuery>({
-    query: Cache_ViewerInfoDocument,
+  const cachedViewer = apolloClient.readQuery<Cache_UserInfo_ViewerPropsQuery>({
+    query: Cache_UserInfo_ViewerPropsDocument,
   })
-  const viewerInfo = cacheViewer?.viewerInfo
+  apolloClient.writeFragment<Cache_UserInfo_ViewerLibDataFragment>({
+    id: apolloClient.cache.identify({
+      __typename: 'User',
+      login: cachedViewer?.viewer.login,
+    }),
+    fragment: Cache_UserInfo_ViewerLibDataFragmentDoc,
+    data: {
+      ...(following && { followingUsers: newFollowing }),
+      ...(followingTags && { followingTags: newFollowingTags }),
+      ...(saved && { saved: newSaved }),
+    },
+  })
 
-  viewerInfo &&
-    apolloClient.writeQuery<Cache_ViewerInfoQuery>({
-      query: Cache_ViewerInfoDocument,
-      data: {
-        viewerInfo: {
-          ...viewerInfo,
-          ...(following && { following: newFollowing }),
-          ...(followingTags && { followingTags: newFollowingTags }),
-          ...(saved && { saved: newSaved }),
-        },
-      },
-    })
   return Promise.resolve(true)
 }

@@ -1,10 +1,10 @@
 import { TypePolicies } from '@apollo/client'
 import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
 import {
-  Cache_Generate_ViewerInfoFragmentDoc,
-  Cache_Generate_ViewerInfoFragment,
-  Cache_ViewerInfoQuery,
-  Cache_ViewerInfoDocument,
+  Cache_Generate_UserInfo_ViewerPropsFragmentDoc,
+  Cache_Generate_UserInfo_ViewerPropsFragment,
+  Cache_UserInfo_ViewerPropsQuery,
+  Cache_UserInfo_ViewerPropsDocument,
   User,
   Cache_Generate_UserInfoFragmentDoc,
   Cache_Generate_UserInfoFragment,
@@ -14,6 +14,8 @@ import {
   Cache_GetLibraryDataFragmentDoc,
   Cache_GetLibraryDataFragment,
   UserHasBeen,
+  Cache_UserInfo_LiftedPropsFragment,
+  Cache_UserInfo_LiftedPropsFragmentDoc,
 } from 'graphql/generated'
 import { LibraryDataQuery, LibraryDataQueryVariables } from 'graphql/operations'
 import {
@@ -22,6 +24,11 @@ import {
   parseJsonIfB64,
   isLibraryData,
 } from 'helpers'
+
+const nullOnUndefinedPolicy = {
+  read: (existing: unknown): unknown =>
+    existing === undefined ? null : existing,
+}
 
 export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   Repository: {
@@ -35,59 +42,55 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   },
   User: {
     keyFields: ['login'],
+    fields: {
+      currentOid: nullOnUndefinedPolicy,
+      stargazerCount: nullOnUndefinedPolicy,
+      issuesTotalCount: nullOnUndefinedPolicy,
+      followingUsers: nullOnUndefinedPolicy,
+      followingTags: nullOnUndefinedPolicy,
+      saved: nullOnUndefinedPolicy,
+      hasBeen: (existing: UserHasBeen = UserHasBeen.Untouched) => existing,
+    },
     merge(_, incoming: User, options) {
       const { cache, variables, fieldName } = options
 
       if (fieldName === 'viewer') {
-        const viewer = cache.readFragment<Cache_Generate_ViewerInfoFragment>({
-          id: cache.identify(incoming),
-          fragment: Cache_Generate_ViewerInfoFragmentDoc,
-          variables,
-        })
-
-        if (viewer && viewer.repository) {
-          const { login, name, location, twitterUsername, bio } = viewer
-          const currentOid = viewer.repository.defaultBranchRef?.target
-            ?.oid as Maybe<string>
-          const stargazerCount = viewer.repository.stargazerCount
-          const issuesTotalCount = viewer.repository.issues.totalCount
-
-          if (
-            !currentOid ||
-            nullish(stargazerCount) ||
-            nullish(issuesTotalCount)
-          ) {
-            captureException({
-              inside: 'typePolicies:User::Viewer',
-              msgs: [
-                [!currentOid, 'Cannot read currentOid'],
-                [nullish(stargazerCount), 'Cannot read stargazerCount'],
-                [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
-              ],
-            })
-            throw new Error('Cannot populate viewer info')
-          }
-
-          cache.writeQuery<Cache_ViewerInfoQuery>({
-            query: Cache_ViewerInfoDocument,
-            data: {
-              viewerInfo: {
-                login,
-                avatarUrl: viewer.avatarUrl as Maybe<string>,
-                name,
-                location,
-                twitterUsername,
-                bio,
-                currentOid,
-                stargazerCount,
-                issuesTotalCount,
-                following: [],
-                followingTags: [],
-                saved: [],
-              },
-            },
+        const viewer =
+          cache.readFragment<Cache_Generate_UserInfo_ViewerPropsFragment>({
+            id: cache.identify(incoming),
+            fragment: Cache_Generate_UserInfo_ViewerPropsFragmentDoc,
+            variables,
           })
+        const currentOid = viewer?.repository?.defaultBranchRef?.target
+          ?.oid as Maybe<string>
+        const stargazerCount = viewer?.repository?.stargazerCount
+        const issuesTotalCount = viewer?.repository?.issues.totalCount
+
+        if (
+          !currentOid ||
+          nullish(stargazerCount) ||
+          nullish(issuesTotalCount)
+        ) {
+          captureException({
+            inside: 'typePolicies:User',
+            msgs: [
+              [!currentOid, 'Cannot read currentOid'],
+              [nullish(stargazerCount), 'Cannot read stargazerCount'],
+              [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
+            ],
+          })
+          throw new Error('Cannot populate viewer info')
         }
+
+        cache.writeFragment<Cache_UserInfo_LiftedPropsFragment>({
+          id: cache.identify(incoming),
+          fragment: Cache_UserInfo_LiftedPropsFragmentDoc,
+          data: {
+            currentOid,
+            stargazerCount,
+            issuesTotalCount,
+          },
+        })
       }
 
       if (fieldName === 'user') {
@@ -144,13 +147,13 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
       const { cache } = options
       const variables = options.variables as LibraryDataQueryVariables
 
-      const cacheViewer = cache.readQuery<Cache_ViewerInfoQuery>({
-        query: Cache_ViewerInfoDocument,
+      const cacheViewer = cache.readQuery<Cache_UserInfo_ViewerPropsQuery>({
+        query: Cache_UserInfo_ViewerPropsDocument,
       })
 
-      const isViewer = cacheViewer?.viewerInfo?.login === variables.userLogin
+      const isViewer = cacheViewer?.viewer?.login === variables.userLogin
 
-      if (!isViewer) {
+      if (cacheViewer && !isViewer) {
         const userLibraryData =
           cache.readFragment<Cache_GetLibraryDataFragment>({
             id: cache.identify(incoming),

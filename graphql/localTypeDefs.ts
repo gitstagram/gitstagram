@@ -1,6 +1,22 @@
 import { gql } from '@apollo/client'
 
 export const localTypeDefs = gql`
+  enum UserHasBeen {
+    UNTOUCHED
+    FOLLOWED
+    UNFOLLOWED
+  }
+
+  type User {
+    currentOid: String
+    stargazerCount: Int
+    issuesTotalCount: Int
+    followingUsers: [String!]
+    followingTags: [String!]
+    saved: [String!]
+    hasBeen: UserHasBeen
+  }
+
   type ViewerInfo {
     login: String!
     avatarUrl: String
@@ -14,12 +30,6 @@ export const localTypeDefs = gql`
     following: [String!]!
     followingTags: [String!]!
     saved: [String!]!
-  }
-
-  enum UserHasBeen {
-    UNTOUCHED
-    FOLLOWED
-    UNFOLLOWED
   }
 
   type UserInfo {

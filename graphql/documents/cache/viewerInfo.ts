@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const CACHE_Generate_ViewerInfo = gql`
-  fragment CACHE_Generate_ViewerInfo on User {
+export const CACHE_Generate_UserInfo_ViewerProps = gql`
+  fragment CACHE_Generate_UserInfo_ViewerProps on User {
     login
     avatarUrl
     name
@@ -29,9 +29,25 @@ export const CACHE_Generate_ViewerInfo = gql`
   }
 `
 
-export const CACHE_ViewerInfo = gql`
-  query CACHE_ViewerInfo {
-    viewerInfo @client {
+export const CACHE_UserInfo_LiftedProps = gql`
+  fragment CACHE_UserInfo_LiftedProps on User {
+    currentOid @client
+    stargazerCount @client
+    issuesTotalCount @client
+  }
+`
+
+export const CACHE_UserInfo_ViewerLibData = gql`
+  fragment CACHE_UserInfo_ViewerLibData on User {
+    followingUsers @client
+    followingTags @client
+    saved @client
+  }
+`
+
+export const CACHE_UserInfo_ViewerProps = gql`
+  query CACHE_UserInfo_ViewerProps {
+    viewer {
       login
       avatarUrl
       name
@@ -41,7 +57,7 @@ export const CACHE_ViewerInfo = gql`
       currentOid
       stargazerCount
       issuesTotalCount
-      following
+      followingUsers
       followingTags
       saved
     }

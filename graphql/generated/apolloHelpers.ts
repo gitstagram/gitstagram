@@ -6937,7 +6937,7 @@ export type UpdateTopicsPayloadFieldPolicy = {
 	invalidTopicNames?: FieldPolicy<any> | FieldReadFunction<any>,
 	repository?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserKeySpecifier = ('anyPinnableItems' | 'avatarUrl' | 'bio' | 'bioHTML' | 'canReceiveOrganizationEmailsWhenNotificationsRestricted' | 'commitComments' | 'company' | 'companyHTML' | 'contributionsCollection' | 'createdAt' | 'databaseId' | 'email' | 'estimatedNextSponsorsPayoutInCents' | 'followers' | 'following' | 'gist' | 'gistComments' | 'gists' | 'hasSponsorsListing' | 'hovercard' | 'id' | 'interactionAbility' | 'isBountyHunter' | 'isCampusExpert' | 'isDeveloperProgramMember' | 'isEmployee' | 'isFollowingViewer' | 'isGitHubStar' | 'isHireable' | 'isSiteAdmin' | 'isSponsoredBy' | 'isSponsoringViewer' | 'isViewer' | 'issueComments' | 'issues' | 'itemShowcase' | 'location' | 'login' | 'monthlyEstimatedSponsorsIncomeInCents' | 'name' | 'organization' | 'organizationVerifiedDomainEmails' | 'organizations' | 'packages' | 'pinnableItems' | 'pinnedItems' | 'pinnedItemsRemaining' | 'project' | 'projectNext' | 'projects' | 'projectsNext' | 'projectsResourcePath' | 'projectsUrl' | 'publicKeys' | 'pullRequests' | 'repositories' | 'repositoriesContributedTo' | 'repository' | 'repositoryDiscussionComments' | 'repositoryDiscussions' | 'resourcePath' | 'savedReplies' | 'sponsoring' | 'sponsors' | 'sponsorsActivities' | 'sponsorsListing' | 'sponsorshipForViewerAsSponsor' | 'sponsorshipForViewerAsSponsorable' | 'sponsorshipNewsletters' | 'sponsorshipsAsMaintainer' | 'sponsorshipsAsSponsor' | 'starredRepositories' | 'status' | 'topRepositories' | 'twitterUsername' | 'updatedAt' | 'url' | 'viewerCanChangePinnedItems' | 'viewerCanCreateProjects' | 'viewerCanFollow' | 'viewerCanSponsor' | 'viewerIsFollowing' | 'viewerIsSponsoring' | 'watching' | 'websiteUrl' | UserKeySpecifier)[];
+export type UserKeySpecifier = ('anyPinnableItems' | 'avatarUrl' | 'bio' | 'bioHTML' | 'canReceiveOrganizationEmailsWhenNotificationsRestricted' | 'commitComments' | 'company' | 'companyHTML' | 'contributionsCollection' | 'createdAt' | 'currentOid' | 'databaseId' | 'email' | 'estimatedNextSponsorsPayoutInCents' | 'followers' | 'following' | 'followingTags' | 'followingUsers' | 'gist' | 'gistComments' | 'gists' | 'hasBeen' | 'hasSponsorsListing' | 'hovercard' | 'id' | 'interactionAbility' | 'isBountyHunter' | 'isCampusExpert' | 'isDeveloperProgramMember' | 'isEmployee' | 'isFollowingViewer' | 'isGitHubStar' | 'isHireable' | 'isSiteAdmin' | 'isSponsoredBy' | 'isSponsoringViewer' | 'isViewer' | 'issueComments' | 'issues' | 'issuesTotalCount' | 'itemShowcase' | 'location' | 'login' | 'monthlyEstimatedSponsorsIncomeInCents' | 'name' | 'organization' | 'organizationVerifiedDomainEmails' | 'organizations' | 'packages' | 'pinnableItems' | 'pinnedItems' | 'pinnedItemsRemaining' | 'project' | 'projectNext' | 'projects' | 'projectsNext' | 'projectsResourcePath' | 'projectsUrl' | 'publicKeys' | 'pullRequests' | 'repositories' | 'repositoriesContributedTo' | 'repository' | 'repositoryDiscussionComments' | 'repositoryDiscussions' | 'resourcePath' | 'saved' | 'savedReplies' | 'sponsoring' | 'sponsors' | 'sponsorsActivities' | 'sponsorsListing' | 'sponsorshipForViewerAsSponsor' | 'sponsorshipForViewerAsSponsorable' | 'sponsorshipNewsletters' | 'sponsorshipsAsMaintainer' | 'sponsorshipsAsSponsor' | 'stargazerCount' | 'starredRepositories' | 'status' | 'topRepositories' | 'twitterUsername' | 'updatedAt' | 'url' | 'viewerCanChangePinnedItems' | 'viewerCanCreateProjects' | 'viewerCanFollow' | 'viewerCanSponsor' | 'viewerIsFollowing' | 'viewerIsSponsoring' | 'watching' | 'websiteUrl' | UserKeySpecifier)[];
 export type UserFieldPolicy = {
 	anyPinnableItems?: FieldPolicy<any> | FieldReadFunction<any>,
 	avatarUrl?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -6949,14 +6949,18 @@ export type UserFieldPolicy = {
 	companyHTML?: FieldPolicy<any> | FieldReadFunction<any>,
 	contributionsCollection?: FieldPolicy<any> | FieldReadFunction<any>,
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
+	currentOid?: FieldPolicy<any> | FieldReadFunction<any>,
 	databaseId?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
 	estimatedNextSponsorsPayoutInCents?: FieldPolicy<any> | FieldReadFunction<any>,
 	followers?: FieldPolicy<any> | FieldReadFunction<any>,
 	following?: FieldPolicy<any> | FieldReadFunction<any>,
+	followingTags?: FieldPolicy<any> | FieldReadFunction<any>,
+	followingUsers?: FieldPolicy<any> | FieldReadFunction<any>,
 	gist?: FieldPolicy<any> | FieldReadFunction<any>,
 	gistComments?: FieldPolicy<any> | FieldReadFunction<any>,
 	gists?: FieldPolicy<any> | FieldReadFunction<any>,
+	hasBeen?: FieldPolicy<any> | FieldReadFunction<any>,
 	hasSponsorsListing?: FieldPolicy<any> | FieldReadFunction<any>,
 	hovercard?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -6974,6 +6978,7 @@ export type UserFieldPolicy = {
 	isViewer?: FieldPolicy<any> | FieldReadFunction<any>,
 	issueComments?: FieldPolicy<any> | FieldReadFunction<any>,
 	issues?: FieldPolicy<any> | FieldReadFunction<any>,
+	issuesTotalCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	itemShowcase?: FieldPolicy<any> | FieldReadFunction<any>,
 	location?: FieldPolicy<any> | FieldReadFunction<any>,
 	login?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -7000,6 +7005,7 @@ export type UserFieldPolicy = {
 	repositoryDiscussionComments?: FieldPolicy<any> | FieldReadFunction<any>,
 	repositoryDiscussions?: FieldPolicy<any> | FieldReadFunction<any>,
 	resourcePath?: FieldPolicy<any> | FieldReadFunction<any>,
+	saved?: FieldPolicy<any> | FieldReadFunction<any>,
 	savedReplies?: FieldPolicy<any> | FieldReadFunction<any>,
 	sponsoring?: FieldPolicy<any> | FieldReadFunction<any>,
 	sponsors?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -7010,6 +7016,7 @@ export type UserFieldPolicy = {
 	sponsorshipNewsletters?: FieldPolicy<any> | FieldReadFunction<any>,
 	sponsorshipsAsMaintainer?: FieldPolicy<any> | FieldReadFunction<any>,
 	sponsorshipsAsSponsor?: FieldPolicy<any> | FieldReadFunction<any>,
+	stargazerCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	starredRepositories?: FieldPolicy<any> | FieldReadFunction<any>,
 	status?: FieldPolicy<any> | FieldReadFunction<any>,
 	topRepositories?: FieldPolicy<any> | FieldReadFunction<any>,

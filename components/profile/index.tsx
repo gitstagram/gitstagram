@@ -61,7 +61,9 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
         })
     },
   })
-  useEffect(() => setAllLoading(true), [userLogin])
+  useEffect(() => {
+    isViewer ? setAllLoading(false) : setAllLoading(true)
+  }, [userLogin, isViewer])
 
   const { data: viewerData, loading: viewerLoading } =
     useGetViewerGitstagramLibraryQuery({

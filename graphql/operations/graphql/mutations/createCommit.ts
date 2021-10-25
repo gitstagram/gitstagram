@@ -1,10 +1,12 @@
 import { FetchResult } from '@apollo/client'
 import {
-  Cache_ViewerInfoDocument,
-  Cache_ViewerInfoQuery,
   CreateCommitMutationVariables,
   CreateCommitMutation,
   CreateCommitDocument,
+  Cache_UserInfo_ViewerPropsQuery,
+  Cache_UserInfo_ViewerPropsDocument,
+  Cache_UserInfo_LiftedPropsFragmentDoc,
+  Cache_UserInfo_LiftedPropsFragment,
 } from 'graphql/generated'
 import { apolloClient } from 'graphql/apolloClient'
 import { captureException } from 'helpers'
@@ -17,11 +19,11 @@ type CreateCommitMutationPromiseVariables = Omit<
 export const createCommitMutationPromise = (
   variables: CreateCommitMutationPromiseVariables
 ): Promise<FetchResult<CreateCommitMutation>> => {
-  const cacheViewer = apolloClient.readQuery<Cache_ViewerInfoQuery>({
-    query: Cache_ViewerInfoDocument,
+  const cacheViewer = apolloClient.readQuery<Cache_UserInfo_ViewerPropsQuery>({
+    query: Cache_UserInfo_ViewerPropsDocument,
   })
-  const currentOid = cacheViewer?.viewerInfo?.currentOid
-  const login = cacheViewer?.viewerInfo?.login
+  const currentOid = cacheViewer?.viewer?.currentOid
+  const login = cacheViewer?.viewer?.login
 
   if (!currentOid) {
     captureException({
@@ -43,13 +45,8 @@ export const createCommitMutationPromise = (
   >({
     mutation: CreateCommitDocument,
     variables: mutationVariables,
-    update: (cache, { data }) => {
+    update: (_, { data }) => {
       const newOid = data?.createCommitOnBranch?.commit?.oid as string
-      const cacheViewer = cache.readQuery<Cache_ViewerInfoQuery>({
-        query: Cache_ViewerInfoDocument,
-      })
-      const viewerInfo = cacheViewer?.viewerInfo
-
       if (!newOid) {
         captureException({
           inside: 'createCommitMutationPromise:mutateCallback',
@@ -57,19 +54,16 @@ export const createCommitMutationPromise = (
         })
         throw new Error('Commit did not return oId')
       }
-
-      if (newOid && viewerInfo) {
-        const newData = {
-          viewerInfo: {
-            ...viewerInfo,
-            currentOid: newOid,
-          },
-        }
-        cache.writeQuery<Cache_ViewerInfoQuery>({
-          query: Cache_ViewerInfoDocument,
-          data: newData,
-        })
-      }
+      apolloClient.writeFragment<Cache_UserInfo_LiftedPropsFragment>({
+        id: apolloClient.cache.identify({
+          __typename: 'User',
+          login,
+        }),
+        fragment: Cache_UserInfo_LiftedPropsFragmentDoc,
+        data: {
+          currentOid: newOid,
+        },
+      })
     },
   })
 }
