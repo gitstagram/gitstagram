@@ -129,16 +129,12 @@ type ProfileProps = {
   data: UserData
   followerDialog: DialogStateReturn
   followingDialog: DialogStateReturn
-  bannerLoadState: LoadingStates
-  bannerFollowingCount?: number
 }
 
 export const ProfileHeader = ({
   data,
   followerDialog,
   followingDialog,
-  bannerLoadState,
-  bannerFollowingCount,
 }: ProfileProps): JSX.Element => {
   const following = useFollowingVar()
   const viewerInfo = useViewerInfo()
@@ -216,8 +212,6 @@ export const ProfileHeader = ({
               data={data}
               followerDialog={followerDialog}
               followingDialog={followingDialog}
-              loadState={bannerLoadState}
-              followingCount={bannerFollowingCount}
             />
           </FromTabletLandscape>
         </div>

@@ -1,10 +1,13 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { DialogDisclosure, DialogStateReturn } from 'reakit/Dialog'
-import { UserData } from 'components/profile/types'
 import { TextDeemph } from 'components/ui'
 import { theme, themeConstant } from 'styles/themes'
 import { toReadableNum, pluralize } from 'helpers'
+import { useUserInfo } from 'components/data/useUserInfo'
+import { useViewerInfo } from 'components/data/useViewerInfo'
+import { UserHasBeen } from 'graphql/generated'
 
 const FollowingBannerStyles = styled.div`
   display: flex;
@@ -26,16 +29,6 @@ const FollowingBannerStyles = styled.div`
       &:last-child {
         margin-right: 0;
       }
-    }
-  }
-
-  .following-load {
-    width: ${theme('sz16')};
-    height: ${theme('sz16')};
-    margin-right: auto;
-    margin-left: auto;
-    ${themeConstant('media__TabletLandscape')} {
-      margin-right: ${theme('sz4')};
     }
   }
 
@@ -62,22 +55,40 @@ const FollowingBannerStyles = styled.div`
 `
 
 type FollowingBannerProps = {
-  data: UserData
   followerDialog: DialogStateReturn
   followingDialog: DialogStateReturn
-  loadState: LoadingStates
-  followingCount?: number
 }
 
 export const FollowingBanner = ({
-  data,
   followerDialog,
   followingDialog,
-  loadState,
-  followingCount,
 }: FollowingBannerProps): JSX.Element => {
-  const postCount = data?.repository?.issues.totalCount
-  const followerCount = data?.repository?.stargazerCount
+  const router = useRouter()
+  const userLogin = router.query.userLogin as string
+  const userInfo = useUserInfo(userLogin)
+  const viewerInfo = useViewerInfo()
+  const isViewer = viewerInfo.login === userLogin
+
+  const postCount = isViewer
+    ? viewerInfo.issuesTotalCount
+    : userInfo.issuesTotalCount
+  const followingCount = isViewer
+    ? viewerInfo.followingUsers.length
+    : userInfo.followingUsers?.length
+
+  let followerCount
+  if (isViewer) {
+    followerCount = viewerInfo.stargazerCount
+  } else {
+    const adjustmentMap = {
+      [UserHasBeen.Untouched]: 0,
+      [UserHasBeen.Followed]: 1,
+      [UserHasBeen.Unfollowed]: -1,
+    }
+    const adjustment = adjustmentMap[userInfo.hasBeen]
+    const stargazerCount = userInfo.stargazerCount || 0
+    followerCount = stargazerCount + adjustment
+  }
 
   return (
     <FollowingBannerStyles>
@@ -94,11 +105,7 @@ export const FollowingBanner = ({
         </TextDeemph>
       </DialogDisclosure>
       <DialogDisclosure className='following-banner-item' {...followingDialog}>
-        {loadState === 'complete' ? (
-          <b>{toReadableNum(followingCount)}</b>
-        ) : (
-          <div className='following-load skeleton' />
-        )}
+        <b>{toReadableNum(followingCount)}</b>
         <TextDeemph fontSize='normal'>following</TextDeemph>
       </DialogDisclosure>
     </FollowingBannerStyles>

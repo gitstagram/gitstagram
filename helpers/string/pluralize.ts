@@ -2,7 +2,7 @@ import { nullish } from 'helpers/type/nullish'
 
 type PluralizeArgs = {
   word: string
-  number?: number
+  number: Maybe<number>
 }
 
 export const pluralize = ({ word, number }: PluralizeArgs): string => {

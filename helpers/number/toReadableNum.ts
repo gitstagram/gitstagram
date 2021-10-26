@@ -1,6 +1,6 @@
 import { nullish } from 'helpers/type/nullish'
 
-export const toReadableNum = (num?: number | string): string => {
+export const toReadableNum = (num: Maybe<number> | Maybe<string>): string => {
   if (nullish(num)) return ''
   const int = parseInt(`${num}`)
 

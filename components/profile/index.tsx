@@ -8,15 +8,9 @@ import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
-import {
-  getRawLibraryDataQueryPromise,
-  getLibraryDataQueryPromise,
-} from 'graphql/operations'
+import { getLibraryDataQueryPromise } from 'graphql/operations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
-import { useLoadAsync } from 'components/hooks'
-import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
-import { captureException, isLibraryData } from 'helpers'
 import { themeConstant, theme } from 'styles/themes'
 
 import {
@@ -44,25 +38,29 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
   const isViewer = userLogin === viewerLogin
 
   const [allLoading, setAllLoading] = useState(true)
-  const [allError, setAllError] = useState<unknown>(undefined)
-  const { data: userData } = useGetUserGitstagramLibraryQuery({
-    skip: isViewer,
-    variables: {
-      userLogin,
-    },
-    onCompleted: () => {
-      return getLibraryDataQueryPromise({ userLogin: userLogin })
-        .then((res) => {
-          setAllLoading(false)
-          return res
-        })
-        .catch((err) => {
-          setAllError(err)
-        })
-    },
-  })
+  const [libDataErr, setLibDataErr] = useState<unknown>(undefined)
+  const { data: userData, error: userError } = useGetUserGitstagramLibraryQuery(
+    {
+      skip: isViewer,
+      variables: {
+        userLogin,
+      },
+      onCompleted: () => {
+        return getLibraryDataQueryPromise({ userLogin: userLogin })
+          .then((res) => {
+            setAllLoading(false)
+            return res
+          })
+          .catch((err) => {
+            setLibDataErr(err)
+            setAllLoading(false)
+          })
+      },
+    }
+  )
   useEffect(() => {
     isViewer ? setAllLoading(false) : setAllLoading(true)
+    setLibDataErr(undefined)
   }, [userLogin, isViewer])
 
   const { data: viewerData, loading: viewerLoading } =
@@ -75,6 +73,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
 
   const data = userData?.user || viewerData?.viewer
   const loading = allLoading || viewerLoading
+  const error = libDataErr || userError
 
   const [followerDialogMounted, setFollowerDialogMounted] = useState(false)
   const followerDialog = useDialogState({
@@ -102,78 +101,39 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
     }
   }, [followingDialog.visible, followingDialogMounted])
 
-  const {
-    data: libData,
-    loadState: libLoadState,
-    loading: libLoading,
-    err: libErr,
-  } = useLoadAsync((login: string) => getRawLibraryDataQueryPromise(login), {
-    skip: isViewer,
-    arguments: [userLogin],
-  })
-  const libCorrectFormat = !libLoading && !libErr && isLibraryData(libData)
-  const followingCount = libData?.following?.length
-
-  if (!libLoading && (libErr || !libCorrectFormat)) {
-    captureException({
-      libErr,
-      inside: 'Profile',
-      msgs: [
-        [libErr, 'FollowingBanner libData fetch failure'],
-        [!libCorrectFormat, 'FollowingBanner libData fetch bad format'],
-      ],
-    })
-  }
-
-  const followingVar = useFollowingVar()
-  const bannerLoadState: LoadingStates = isViewer ? 'complete' : libLoadState
-  const bannerFollowingCount = isViewer ? followingVar.length : followingCount
-
   return (
     <>
       {loading && <SkeletonProfile />}
       {!loading && !data && <ProfileNotFound />}
-      {!libLoading && (libErr || !libCorrectFormat || allError) && (
-        <ProfileCorrupted />
-      )}
-      {!loading && data && (
-        <ProfileHeader
-          data={data}
-          followerDialog={followerDialog}
-          followingDialog={followingDialog}
-          bannerLoadState={bannerLoadState}
-          bannerFollowingCount={bannerFollowingCount}
-        />
-      )}
-      <ProfileStyles>
-        {!loading && data && (
-          <>
+      {!loading && error && <ProfileCorrupted />}
+      {!loading && !error && data && (
+        <>
+          <ProfileHeader
+            data={data}
+            followerDialog={followerDialog}
+            followingDialog={followingDialog}
+          />
+          <ProfileStyles>
             <UntilTabletLandscape>
               <Hr dim />
               <FollowingBanner
-                data={data}
                 followerDialog={followerDialog}
                 followingDialog={followingDialog}
-                loadState={bannerLoadState}
-                followingCount={bannerFollowingCount}
               />
               <Hr dim />
             </UntilTabletLandscape>
             <FromTabletLandscape>
               <Hr dim />
             </FromTabletLandscape>
-          </>
-        )}
-        {followerDialogMounted && (
-          <FollowerDialog userLogin={userLogin} dialogProps={followerDialog} />
-        )}
-        {followingDialogMounted && (
-          <FollowingDialog
-            userLogin={userLogin}
-            dialogProps={followingDialog}
-          />
-        )}
-      </ProfileStyles>
+          </ProfileStyles>
+        </>
+      )}
+      {followerDialogMounted && (
+        <FollowerDialog userLogin={userLogin} dialogProps={followerDialog} />
+      )}
+      {followingDialogMounted && (
+        <FollowingDialog userLogin={userLogin} dialogProps={followingDialog} />
+      )}
     </>
   )
 }
