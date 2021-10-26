@@ -92,6 +92,8 @@ export const FRAG_Commit_Fields = gql`
 `
 
 export const FRAG_Repository_Stargazers = gql`
+  ${FRAG_User_Fields}
+
   fragment FRAG_Repository_Stargazers on Repository {
     stargazers(
       first: $firstStargazers
@@ -99,9 +101,7 @@ export const FRAG_Repository_Stargazers = gql`
       orderBy: { field: STARRED_AT, direction: DESC }
     ) {
       nodes {
-        login
-        name
-        avatarUrl
+        ...FRAG_User_Fields
       }
       edges {
         cursor

@@ -51,6 +51,12 @@ export const CACHE_UserInfo_UserLibData = gql`
   }
 `
 
+export const CACHE_UserInfo_HasBeen = gql`
+  fragment CACHE_UserInfo_HasBeen on User {
+    hasBeen @client
+  }
+`
+
 export const CACHE_RestLibraryData = gql`
   fragment CACHE_RestLibraryData on RestLibraryData {
     content
@@ -78,18 +84,16 @@ export const CACHE_UserInfo_ViewerProps = gql`
 `
 
 export const CACHE_UserInfo_UserProps = gql`
-  query CACHE_UserInfo_UserProps($login: String!) {
-    user(login: $login) {
-      login
-      avatarUrl
-      name
-      location
-      twitterUsername
-      bio
-      stargazerCount @client
-      issuesTotalCount @client
-      followingUsers @client
-      hasBeen @client
-    }
+  fragment CACHE_UserInfo_UserProps on User {
+    login
+    avatarUrl
+    name
+    location
+    twitterUsername
+    bio
+    stargazerCount @client
+    issuesTotalCount @client
+    followingUsers @client
+    hasBeen @client
   }
 `

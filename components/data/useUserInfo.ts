@@ -1,12 +1,13 @@
+import { apolloClient } from 'graphql/apolloClient'
 import {
-  useCache_UserInfo_UserPropsQuery,
-  Cache_UserInfo_UserPropsQuery,
+  Cache_UserInfo_UserPropsFragment,
+  Cache_UserInfo_UserPropsFragmentDoc,
   UserHasBeen,
 } from 'graphql/generated'
 import { captureException } from 'helpers'
 import type { Merge } from 'type-fest'
 
-type UserProperties = NonNullable<Cache_UserInfo_UserPropsQuery['user']>
+type UserProperties = NonNullable<Cache_UserInfo_UserPropsFragment>
 type UserInfo = Merge<
   UserProperties,
   {
@@ -16,8 +17,10 @@ type UserInfo = Merge<
 >
 
 export const useUserInfo = (login: string): UserInfo => {
-  const { data } = useCache_UserInfo_UserPropsQuery({ variables: { login } })
-  const userInfo = data?.user
+  const userInfo = apolloClient.readFragment<Cache_UserInfo_UserPropsFragment>({
+    id: apolloClient.cache.identify({ __typename: 'User', login }),
+    fragment: Cache_UserInfo_UserPropsFragmentDoc,
+  })
   const hasBeen = userInfo?.hasBeen
 
   if (!userInfo || !hasBeen) {

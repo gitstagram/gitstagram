@@ -22397,6 +22397,8 @@ export type Cache_UserInfo_ViewerLibDataFragment = { __typename?: 'User', follow
 
 export type Cache_UserInfo_UserLibDataFragment = { __typename?: 'User', followingUsers?: Array<string> | null | undefined };
 
+export type Cache_UserInfo_HasBeenFragment = { __typename?: 'User', hasBeen?: UserHasBeen | null | undefined };
+
 export type Cache_RestLibraryDataFragment = { __typename?: 'RestLibraryData', content: string, sha: string };
 
 export type Cache_UserInfo_ViewerPropsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -22404,12 +22406,7 @@ export type Cache_UserInfo_ViewerPropsQueryVariables = Exact<{ [key: string]: ne
 
 export type Cache_UserInfo_ViewerPropsQuery = { __typename?: 'Query', viewer: { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined } };
 
-export type Cache_UserInfo_UserPropsQueryVariables = Exact<{
-  login: Scalars['String'];
-}>;
-
-
-export type Cache_UserInfo_UserPropsQuery = { __typename?: 'Query', user?: { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined };
+export type Cache_UserInfo_UserPropsFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined };
 
 export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined };
 
@@ -22427,7 +22424,7 @@ export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repositor
 
 export type Frag_Commit_FieldsFragment = { __typename?: 'Commit', oid: any, message: string };
 
-export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', login: string, name?: string | null | undefined, avatarUrl: any } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } };
+export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } };
 
 export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
@@ -22496,7 +22493,7 @@ export type GetStargazersQueryVariables = Exact<{
 }>;
 
 
-export type GetStargazersQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', login: string, name?: string | null | undefined, avatarUrl: any } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } } | null | undefined };
+export type GetStargazersQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } } | null | undefined };
 
 export type GetFollowingQueryVariables = Exact<{
   followingSearch: Scalars['String'];
@@ -22549,10 +22546,35 @@ export const Cache_UserInfo_UserLibDataFragmentDoc = gql`
   followingUsers @client
 }
     `;
+export const Cache_UserInfo_HasBeenFragmentDoc = gql`
+    fragment CACHE_UserInfo_HasBeen on User {
+  hasBeen @client
+}
+    `;
 export const Cache_RestLibraryDataFragmentDoc = gql`
     fragment CACHE_RestLibraryData on RestLibraryData {
   content
   sha
+}
+    `;
+export const Cache_UserInfo_UserPropsFragmentDoc = gql`
+    fragment CACHE_UserInfo_UserProps on User {
+  login
+  avatarUrl
+  name
+  location
+  twitterUsername
+  bio
+  stargazerCount @client
+  issuesTotalCount @client
+  followingUsers @client
+  hasBeen @client
+}
+    `;
+export const Frag_Commit_FieldsFragmentDoc = gql`
+    fragment FRAG_Commit_Fields on Commit {
+  oid
+  message
 }
     `;
 export const Frag_User_FieldsFragmentDoc = gql`
@@ -22573,12 +22595,6 @@ export const Frag_User_FieldsFragmentDoc = gql`
   hasBeen @client
 }
     `;
-export const Frag_Commit_FieldsFragmentDoc = gql`
-    fragment FRAG_Commit_Fields on Commit {
-  oid
-  message
-}
-    `;
 export const Frag_Repository_StargazersFragmentDoc = gql`
     fragment FRAG_Repository_Stargazers on Repository {
   stargazers(
@@ -22587,16 +22603,14 @@ export const Frag_Repository_StargazersFragmentDoc = gql`
     orderBy: {field: STARRED_AT, direction: DESC}
   ) {
     nodes {
-      login
-      name
-      avatarUrl
+      ...FRAG_User_Fields
     }
     edges {
       cursor
     }
   }
 }
-    `;
+    ${Frag_User_FieldsFragmentDoc}`;
 export const Frag_Repository_FieldsFragmentDoc = gql`
     fragment FRAG_Repository_Fields on Repository {
   id
@@ -22707,50 +22721,6 @@ export function useCache_UserInfo_ViewerPropsLazyQuery(baseOptions?: Apollo.Lazy
 export type Cache_UserInfo_ViewerPropsQueryHookResult = ReturnType<typeof useCache_UserInfo_ViewerPropsQuery>;
 export type Cache_UserInfo_ViewerPropsLazyQueryHookResult = ReturnType<typeof useCache_UserInfo_ViewerPropsLazyQuery>;
 export type Cache_UserInfo_ViewerPropsQueryResult = Apollo.QueryResult<Cache_UserInfo_ViewerPropsQuery, Cache_UserInfo_ViewerPropsQueryVariables>;
-export const Cache_UserInfo_UserPropsDocument = gql`
-    query CACHE_UserInfo_UserProps($login: String!) {
-  user(login: $login) {
-    login
-    avatarUrl
-    name
-    location
-    twitterUsername
-    bio
-    stargazerCount @client
-    issuesTotalCount @client
-    followingUsers @client
-    hasBeen @client
-  }
-}
-    `;
-
-/**
- * __useCache_UserInfo_UserPropsQuery__
- *
- * To run a query within a React component, call `useCache_UserInfo_UserPropsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCache_UserInfo_UserPropsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCache_UserInfo_UserPropsQuery({
- *   variables: {
- *      login: // value for 'login'
- *   },
- * });
- */
-export function useCache_UserInfo_UserPropsQuery(baseOptions: Apollo.QueryHookOptions<Cache_UserInfo_UserPropsQuery, Cache_UserInfo_UserPropsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<Cache_UserInfo_UserPropsQuery, Cache_UserInfo_UserPropsQueryVariables>(Cache_UserInfo_UserPropsDocument, options);
-      }
-export function useCache_UserInfo_UserPropsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Cache_UserInfo_UserPropsQuery, Cache_UserInfo_UserPropsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<Cache_UserInfo_UserPropsQuery, Cache_UserInfo_UserPropsQueryVariables>(Cache_UserInfo_UserPropsDocument, options);
-        }
-export type Cache_UserInfo_UserPropsQueryHookResult = ReturnType<typeof useCache_UserInfo_UserPropsQuery>;
-export type Cache_UserInfo_UserPropsLazyQueryHookResult = ReturnType<typeof useCache_UserInfo_UserPropsLazyQuery>;
-export type Cache_UserInfo_UserPropsQueryResult = Apollo.QueryResult<Cache_UserInfo_UserPropsQuery, Cache_UserInfo_UserPropsQueryVariables>;
 export const CloneGitstagramLibraryDocument = gql`
     mutation CloneGitstagramLibrary($ownerId: ID!, $description: String = "") {
   cloneTemplateRepository(

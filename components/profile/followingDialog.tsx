@@ -152,7 +152,7 @@ export const FollowingDialog = ({
           // use index as key because pagination may result in duplicated items
           following.map((follow, index) => {
             const login = follow.login
-            const isUser = login === viewerInfo.login
+            const isViewer = login === viewerInfo.login
             const isFollowing = followingVar?.includes(login)
             return (
               <div key={index} className='follow-item'>
@@ -175,18 +175,22 @@ export const FollowingDialog = ({
                     </div>
                   </a>
                 </Link>
-                <FollowingButton
-                  className='follow-button'
-                  variant='small'
-                  followUserLogin={follow.login}
-                  show={!isUser && isFollowing}
-                />
-                <FollowButton
-                  className='follow-button'
-                  variant='small'
-                  followUserLogin={follow.login}
-                  show={!isUser && !isFollowing}
-                />
+                {!isViewer && (
+                  <>
+                    <FollowingButton
+                      className='follow-button'
+                      variant='small'
+                      followUserLogin={follow.login}
+                      show={isFollowing}
+                    />
+                    <FollowButton
+                      className='follow-button'
+                      variant='small'
+                      followUserLogin={follow.login}
+                      show={!isFollowing}
+                    />
+                  </>
+                )}
               </div>
             )
           })}

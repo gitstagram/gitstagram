@@ -196,16 +196,20 @@ export const ProfileHeader = ({
                 </Button>
               </Link>
             )}
-            <FollowingButton
-              className='profile-title-button'
-              followUserLogin={data.login}
-              show={isFollowing}
-            />
-            <FollowButton
-              className='profile-title-button'
-              followUserLogin={data.login}
-              show={notFollowing}
-            />
+            {!isViewer && (
+              <>
+                <FollowingButton
+                  className='profile-title-button'
+                  followUserLogin={data.login}
+                  show={isFollowing}
+                />
+                <FollowButton
+                  className='profile-title-button'
+                  followUserLogin={data.login}
+                  show={notFollowing}
+                />
+              </>
+            )}
           </div>
           <FromTabletLandscape>
             <FollowingBanner

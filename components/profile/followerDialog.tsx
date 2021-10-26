@@ -143,7 +143,7 @@ export const FollowerDialog = ({
           // use index as key because pagination may result in duplicated items
           stargazers.map((stargazer, index) => {
             const login = stargazer.login
-            const isUser = login === viewerInfo.login
+            const isViewer = login === viewerInfo.login
             const isFollowing = followingVar.includes(login)
             return (
               <div key={index} className='follow-item'>
@@ -166,18 +166,22 @@ export const FollowerDialog = ({
                     </div>
                   </a>
                 </Link>
-                <FollowingButton
-                  className='follow-button'
-                  variant='small'
-                  followUserLogin={stargazer.login}
-                  show={!isUser && isFollowing}
-                />
-                <FollowButton
-                  className='follow-button'
-                  variant='small'
-                  followUserLogin={stargazer.login}
-                  show={!isUser && !isFollowing}
-                />
+                {!isViewer && (
+                  <>
+                    <FollowingButton
+                      className='follow-button'
+                      variant='small'
+                      followUserLogin={stargazer.login}
+                      show={isFollowing}
+                    />
+                    <FollowButton
+                      className='follow-button'
+                      variant='small'
+                      followUserLogin={stargazer.login}
+                      show={!isFollowing}
+                    />
+                  </>
+                )}
               </div>
             )
           })}
