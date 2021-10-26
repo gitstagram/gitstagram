@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const CACHE_Generate_UserInfo = gql`
-  fragment CACHE_Generate_UserInfo on User {
+export const CACHE_Generate_UserInfo_LiftedProps = gql`
+  fragment CACHE_Generate_UserInfo_LiftedProps on User {
     login
     avatarUrl
     name
@@ -10,6 +10,11 @@ export const CACHE_Generate_UserInfo = gql`
     bio
     repository(name: $repositoryName) {
       stargazerCount
+      defaultBranchRef {
+        target {
+          oid
+        }
+      }
       issues(
         first: $firstIssues
         filterBy: {
@@ -24,32 +29,67 @@ export const CACHE_Generate_UserInfo = gql`
   }
 `
 
-export const CACHE_UserInfo = gql`
-  query CACHE_UserInfo($login: String!) {
-    userInfo(login: $login) @client {
+export const CACHE_UserInfo_LiftedProps = gql`
+  fragment CACHE_UserInfo_LiftedProps on User {
+    currentOid @client
+    stargazerCount @client
+    issuesTotalCount @client
+  }
+`
+
+export const CACHE_UserInfo_ViewerLibData = gql`
+  fragment CACHE_UserInfo_ViewerLibData on User {
+    followingUsers @client
+    followingTags @client
+    saved @client
+  }
+`
+
+export const CACHE_UserInfo_UserLibData = gql`
+  fragment CACHE_UserInfo_UserLibData on User {
+    followingUsers @client
+  }
+`
+
+export const CACHE_RestLibraryData = gql`
+  fragment CACHE_RestLibraryData on RestLibraryData {
+    content
+    sha
+  }
+`
+
+export const CACHE_UserInfo_ViewerProps = gql`
+  query CACHE_UserInfo_ViewerProps {
+    viewer {
       login
       avatarUrl
       name
       location
       twitterUsername
       bio
-      stargazerCount
-      issuesTotalCount
-      following
-      hasBeen
+      currentOid @client
+      stargazerCount @client
+      issuesTotalCount @client
+      followingUsers @client
+      followingTags @client
+      saved @client
     }
   }
 `
 
-export const CACHE_GetLibraryData = gql`
-  fragment CACHE_GetLibraryData on RestLibraryData {
-    content
-    sha
-  }
-`
-
-export const CACHE_UserInfoHasBeen = gql`
-  fragment CACHE_UserInfoHasBeen on UserInfo {
-    hasBeen
+export const CACHE_UserInfo_UserProps = gql`
+  query CACHE_UserInfo_UserProps($login: String!) {
+    user(login: $login) {
+      login
+      avatarUrl
+      name
+      location
+      twitterUsername
+      bio
+      stargazerCount @client
+      issuesTotalCount @client
+      followingUsers @client
+      hasBeen @client
+    }
   }
 `

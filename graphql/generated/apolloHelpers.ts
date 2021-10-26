@@ -4499,7 +4499,7 @@ export type PushAllowanceEdgeFieldPolicy = {
 	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
 	node?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'libraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'userInfo' | 'viewer' | 'viewerInfo' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('codeOfConduct' | 'codesOfConduct' | 'enterprise' | 'enterpriseAdministratorInvitation' | 'enterpriseAdministratorInvitationByToken' | 'libraryData' | 'license' | 'licenses' | 'marketplaceCategories' | 'marketplaceCategory' | 'marketplaceListing' | 'marketplaceListings' | 'meta' | 'node' | 'nodes' | 'organization' | 'rateLimit' | 'relay' | 'repository' | 'repositoryOwner' | 'resource' | 'search' | 'securityAdvisories' | 'securityAdvisory' | 'securityVulnerabilities' | 'sponsorables' | 'topic' | 'user' | 'viewer' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	codeOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
 	codesOfConduct?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -4529,9 +4529,7 @@ export type QueryFieldPolicy = {
 	sponsorables?: FieldPolicy<any> | FieldReadFunction<any>,
 	topic?: FieldPolicy<any> | FieldReadFunction<any>,
 	user?: FieldPolicy<any> | FieldReadFunction<any>,
-	userInfo?: FieldPolicy<any> | FieldReadFunction<any>,
-	viewer?: FieldPolicy<any> | FieldReadFunction<any>,
-	viewerInfo?: FieldPolicy<any> | FieldReadFunction<any>
+	viewer?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RateLimitKeySpecifier = ('cost' | 'limit' | 'nodeCount' | 'remaining' | 'resetAt' | 'used' | RateLimitKeySpecifier)[];
 export type RateLimitFieldPolicy = {
@@ -7081,19 +7079,6 @@ export type UserEmailMetadataFieldPolicy = {
 	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	value?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type UserInfoKeySpecifier = ('avatarUrl' | 'bio' | 'following' | 'hasBeen' | 'issuesTotalCount' | 'location' | 'login' | 'name' | 'stargazerCount' | 'twitterUsername' | UserInfoKeySpecifier)[];
-export type UserInfoFieldPolicy = {
-	avatarUrl?: FieldPolicy<any> | FieldReadFunction<any>,
-	bio?: FieldPolicy<any> | FieldReadFunction<any>,
-	following?: FieldPolicy<any> | FieldReadFunction<any>,
-	hasBeen?: FieldPolicy<any> | FieldReadFunction<any>,
-	issuesTotalCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	location?: FieldPolicy<any> | FieldReadFunction<any>,
-	login?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	stargazerCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	twitterUsername?: FieldPolicy<any> | FieldReadFunction<any>
-};
 export type UserStatusKeySpecifier = ('createdAt' | 'emoji' | 'emojiHTML' | 'expiresAt' | 'id' | 'indicatesLimitedAvailability' | 'message' | 'organization' | 'updatedAt' | 'user' | UserStatusKeySpecifier)[];
 export type UserStatusFieldPolicy = {
 	createdAt?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -7159,21 +7144,6 @@ export type ViewerHovercardContextFieldPolicy = {
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	octicon?: FieldPolicy<any> | FieldReadFunction<any>,
 	viewer?: FieldPolicy<any> | FieldReadFunction<any>
-};
-export type ViewerInfoKeySpecifier = ('avatarUrl' | 'bio' | 'currentOid' | 'following' | 'followingTags' | 'issuesTotalCount' | 'location' | 'login' | 'name' | 'saved' | 'stargazerCount' | 'twitterUsername' | ViewerInfoKeySpecifier)[];
-export type ViewerInfoFieldPolicy = {
-	avatarUrl?: FieldPolicy<any> | FieldReadFunction<any>,
-	bio?: FieldPolicy<any> | FieldReadFunction<any>,
-	currentOid?: FieldPolicy<any> | FieldReadFunction<any>,
-	following?: FieldPolicy<any> | FieldReadFunction<any>,
-	followingTags?: FieldPolicy<any> | FieldReadFunction<any>,
-	issuesTotalCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	location?: FieldPolicy<any> | FieldReadFunction<any>,
-	login?: FieldPolicy<any> | FieldReadFunction<any>,
-	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	saved?: FieldPolicy<any> | FieldReadFunction<any>,
-	stargazerCount?: FieldPolicy<any> | FieldReadFunction<any>,
-	twitterUsername?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type VotableKeySpecifier = ('upvoteCount' | 'viewerCanUpvote' | 'viewerHasUpvoted' | VotableKeySpecifier)[];
 export type VotableFieldPolicy = {
@@ -10016,10 +9986,6 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | UserEmailMetadataKeySpecifier | (() => undefined | UserEmailMetadataKeySpecifier),
 		fields?: UserEmailMetadataFieldPolicy,
 	},
-	UserInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | UserInfoKeySpecifier | (() => undefined | UserInfoKeySpecifier),
-		fields?: UserInfoFieldPolicy,
-	},
 	UserStatus?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | UserStatusKeySpecifier | (() => undefined | UserStatusKeySpecifier),
 		fields?: UserStatusFieldPolicy,
@@ -10051,10 +10017,6 @@ export type StrictTypedTypePolicies = {
 	ViewerHovercardContext?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ViewerHovercardContextKeySpecifier | (() => undefined | ViewerHovercardContextKeySpecifier),
 		fields?: ViewerHovercardContextFieldPolicy,
-	},
-	ViewerInfo?: Omit<TypePolicy, "fields" | "keyFields"> & {
-		keyFields?: false | ViewerInfoKeySpecifier | (() => undefined | ViewerInfoKeySpecifier),
-		fields?: ViewerInfoFieldPolicy,
 	},
 	Votable?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | VotableKeySpecifier | (() => undefined | VotableKeySpecifier),
