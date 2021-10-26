@@ -209,7 +209,6 @@ export const ProfileHeader = ({
           </div>
           <FromTabletLandscape>
             <FollowingBanner
-              data={data}
               followerDialog={followerDialog}
               followingDialog={followingDialog}
             />

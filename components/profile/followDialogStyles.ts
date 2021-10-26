@@ -70,4 +70,20 @@ export const FollowDialogStyles = styled(Dialog)`
     position: absolute;
     right: ${theme('sz12')};
   }
+
+  .following-removed {
+    .follow-profile {
+      opacity: 0.35;
+    }
+
+    .follow-button {
+      opacity: 0.35;
+
+      &:hover,
+      &:active,
+      &:focus {
+        opacity: 1;
+      }
+    }
+  }
 `

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cn from 'classnames'
 import styled, { css } from 'styled-components'
 import { apolloClient } from 'graphql/apolloClient'
 import { Button } from 'components/ui'
@@ -33,7 +34,15 @@ const FollowingButtonStyles = styled.span.withConfig({
     ::after {
       content: 'Following';
     }
+  }
 
+  .loading {
+    ::after {
+      content: 'Unfollow';
+    }
+  }
+
+  button {
     &:hover,
     &:focus {
       ::after {
@@ -110,6 +119,7 @@ export const FollowingButton = ({
     <FollowingButtonStyles show={show}>
       <Button
         {...props}
+        className={cn(props.className, { loading: followState === 'loading' })}
         variant={variant}
         onClick={handleUnfollow}
         intent='danger-invert'

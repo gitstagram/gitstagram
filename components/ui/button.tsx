@@ -205,8 +205,6 @@ const ButtonStyles = styled(ReakitButton).withConfig({
   ${({ intent }) =>
     intent === 'warning-invert' &&
     css`
-      color: ${theme('intentWarning_Color')};
-
       &:hover,
       &:focus {
         background-color: ${theme('intentWarning_Color')};

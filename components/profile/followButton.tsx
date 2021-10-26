@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
+import cn from 'classnames'
 import { apolloClient } from 'graphql/apolloClient'
 import { Button } from 'components/ui'
 import { toast } from 'react-toastify'
@@ -15,20 +16,46 @@ import { addStarMutationPromise } from 'graphql/operations'
 import { async, captureException, uniqArr } from 'helpers'
 
 type FollowButtonStylesProps = {
+  variant?: 'small'
   show: Maybe<boolean>
+  removable?: boolean
 }
 
 type FollowButtonProps = BaseProps &
   FollowButtonStylesProps & {
-    variant?: 'small'
     followUserLogin: string
   }
 
 type FollowState = 'base' | 'loading'
 
 const FollowButtonStyles = styled.span.withConfig({
-  shouldForwardProp: (prop) => !['show'].includes(prop),
+  shouldForwardProp: (prop) => !['show', 'removable'].includes(prop),
 })<FollowButtonStylesProps>`
+  ${({ removable }) =>
+    removable &&
+    css`
+      button {
+        ::after {
+          content: 'Removed';
+        }
+      }
+
+      .loading {
+        ::after {
+          content: 'Refollow';
+        }
+      }
+
+      button {
+        &:hover,
+        &:focus {
+          ::after {
+            content: 'Refollow';
+          }
+        }
+      }
+    `}
+
   ${({ show }) =>
     !show &&
     css`
@@ -40,6 +67,7 @@ export const FollowButton = ({
   variant,
   followUserLogin,
   show,
+  removable,
   ...props
 }: FollowButtonProps): JSX.Element => {
   const [followState, setFollowState] = useState<FollowState>('base')
@@ -90,11 +118,13 @@ export const FollowButton = ({
   }
 
   return (
-    <FollowButtonStyles show={show}>
+    <FollowButtonStyles show={show} variant={variant} removable={removable}>
       <Button
         {...props}
+        className={cn(props.className, { loading: followState === 'loading' })}
         variant={variant}
         onClick={handleFollow}
+        intent={removable ? 'warning-invert' : undefined}
         icon={
           variant === 'small'
             ? undefined
@@ -106,7 +136,7 @@ export const FollowButton = ({
         loading={followState === 'loading'}
         disabled={followState === 'loading'}
       >
-        Follow
+        {removable ? '' : 'Follow'}
       </Button>
     </FollowButtonStyles>
   )

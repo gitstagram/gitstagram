@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import cn from 'classnames'
 import Link from 'next/link'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
@@ -6,15 +7,13 @@ import { ProfileIcon } from 'components/profileIcon'
 import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
-import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
-import { getRawLibraryDataQueryPromise } from 'graphql/operations'
+import { useUserInfo } from 'components/data/useUserInfo'
 import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,
   GetFollowingQuery,
 } from 'graphql/generated'
-import { useLoadAsync } from 'components/hooks'
 import {
   useDialogScroll,
   TextInfo,
@@ -45,26 +44,29 @@ export const FollowingDialog = ({
   dialogProps,
 }: FollowingDialogProps): JSX.Element => {
   const viewerInfo = useViewerInfo()
-  const isViewerPage = userLogin === viewerInfo.login
+  const userInfo = useUserInfo(userLogin)
+  const isViewer = userLogin === viewerInfo.login
 
-  const {
-    data: libData,
-    loading: libLoading,
-    err: libErr,
-  } = useLoadAsync((login: string) => getRawLibraryDataQueryPromise(login), {
-    arguments: [userLogin],
-  })
-  const followingVar = useFollowingVar()
-  const followingList = isViewerPage ? followingVar : libData?.following
+  const followingList = isViewer
+    ? viewerInfo.followingUsers
+    : userInfo?.followingUsers
 
   const [following, setFollowing] = useState<User[]>([])
   const [fetchedCount, setFetchedCount] = useState(0)
+  useEffect(() => {
+    setFollowing([])
+    setFetchedCount(0)
+  }, [userLogin])
+
   const firstBatch = useMemo(
     () => followingList?.slice(0, fetchBatchCount),
     [followingList]
   )
-
-  const { data, loading, error } = useGetFollowingQuery({
+  const {
+    data: initData,
+    loading: initLoading,
+    error: initErr,
+  } = useGetFollowingQuery({
     skip: !firstBatch || firstBatch.length === 0,
     variables: {
       followingSearch: getFollowingQueryString(firstBatch || []),
@@ -77,33 +79,16 @@ export const FollowingDialog = ({
   ] = useGetFollowingLazyQuery()
 
   const totalFollowing = followingList?.length
-  const isLoading = libLoading || loading || moreLoading
-  const hasError = libErr || error || moreError
+  const anyLoading = initLoading || moreLoading
+  const anyError = initErr || moreError
 
   useEffect(() => {
-    if (followingList) {
-      setFollowing((following) => {
-        if (followingList.length < following.length) {
-          return following.filter((item) => followingList.includes(item.login))
-        } else {
-          return following
-        }
-      })
-    }
-  }, [followingList])
-
-  useEffect(() => {
-    setFollowing([])
-    setFetchedCount(0)
-  }, [userLogin])
-
-  useEffect(() => {
-    if (data && fetchedCount === 0) {
-      const followingResults = getFollowingResults(data)
+    if (initData && fetchedCount === 0) {
+      const followingResults = getFollowingResults(initData)
       setFollowing(followingResults)
       setFetchedCount((fetchedCount) => fetchedCount + fetchBatchCount)
     }
-  }, [data, fetchedCount])
+  }, [initData, fetchedCount])
 
   useEffect(() => {
     if (moreData) {
@@ -116,7 +101,7 @@ export const FollowingDialog = ({
   const handleListScrollToBottom = () => {
     const fetchedMoreThanTotal =
       typeof totalFollowing === 'number' ? fetchedCount > totalFollowing : true
-    if (!isLoading && !fetchedMoreThanTotal) {
+    if (!anyLoading && !fetchedMoreThanTotal) {
       const nextBatch = followingList?.slice(
         fetchedCount,
         fetchedCount + fetchBatchCount
@@ -143,7 +128,7 @@ export const FollowingDialog = ({
         className='follow-dialog-body'
         ref={scrollRef as React.RefObject<HTMLDivElement>}
       >
-        {!isLoading && totalFollowing === 0 && (
+        {!anyLoading && !following.length && totalFollowing === 0 && (
           <div className='follow-nothing'>
             <TextInfo>No users to show</TextInfo>
           </div>
@@ -151,22 +136,27 @@ export const FollowingDialog = ({
         {following.length !== 0 &&
           // use index as key because pagination may result in duplicated items
           following.map((follow, index) => {
-            const login = follow.login
-            const isViewer = login === viewerInfo.login
-            const isFollowing = followingVar?.includes(login)
+            const userLogin = follow.login
+            const isViewer = userLogin === viewerInfo.login
+            const isFollowing = followingList?.includes(userLogin)
             return (
-              <div key={index} className='follow-item'>
-                <Link href={getProfilePath(login)}>
+              <div
+                key={index}
+                className={cn('follow-item', {
+                  'following-removed': !isFollowing,
+                })}
+              >
+                <Link href={getProfilePath(userLogin)}>
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
                   <a className='follow-profile' onClick={dialogProps.hide}>
                     <ProfileIcon
                       className='follow-profile-img'
                       url={follow.avatarUrl as string}
-                      userLogin={login}
+                      userLogin={userLogin}
                       size={32}
                     />
                     <div className='follow-profile-details'>
-                      <b>{login}</b>
+                      <b>{userLogin}</b>
                       {follow.name && (
                         <TextDeemph className='follow-profile-name'>
                           {follow.name}
@@ -180,26 +170,27 @@ export const FollowingDialog = ({
                     <FollowingButton
                       className='follow-button'
                       variant='small'
-                      followUserLogin={follow.login}
+                      followUserLogin={userLogin}
                       show={isFollowing}
                     />
                     <FollowButton
                       className='follow-button'
                       variant='small'
-                      followUserLogin={follow.login}
+                      followUserLogin={userLogin}
                       show={!isFollowing}
+                      removable
                     />
                   </>
                 )}
               </div>
             )
           })}
-        {hasError && (
+        {anyError && (
           <div className='follow-nothing'>
             <TextInfo>Issue loading, please try again</TextInfo>
           </div>
         )}
-        {isLoading && <SkeletonUserList />}
+        {anyLoading && <SkeletonUserList />}
       </div>
     </FollowDialogStyles>
   )
