@@ -4,7 +4,7 @@ import {
   Cache_UserInfo_UserPropsFragmentDoc,
   UserHasBeen,
 } from 'graphql/generated'
-import { captureException } from 'helpers'
+import { captureException, nullish } from 'helpers'
 import type { Merge } from 'type-fest'
 
 type UserProperties = NonNullable<Cache_UserInfo_UserPropsFragment>
@@ -22,13 +22,16 @@ export const useUserInfo = (login: string): UserInfo => {
     fragment: Cache_UserInfo_UserPropsFragmentDoc,
   })
   const hasBeen = userInfo?.hasBeen
+  const fullyLoaded = userInfo?.fullyLoaded
+  const fullyLoadedInvalid = nullish(fullyLoaded)
 
-  if (!userInfo || !hasBeen) {
+  if (!userInfo || !hasBeen || fullyLoadedInvalid) {
     captureException({
       inside: 'useUserInfo',
       msgs: [
         [!userInfo, 'No User info'],
-        [!hasBeen, 'No user info hasBeen'],
+        [!hasBeen, 'No user info `hasBeen`'],
+        [fullyLoadedInvalid, 'No user info `fullyLoaded`'],
       ],
     })
     throw new Error('Bad user info')

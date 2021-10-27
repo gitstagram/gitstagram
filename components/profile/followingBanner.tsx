@@ -79,15 +79,19 @@ export const FollowingBanner = ({
   let followerCount
   if (isViewer) {
     followerCount = viewerInfo.stargazerCount
-  } else {
+  } else if (userInfo.fullyLoaded) {
+    // If stargazerCount has already been cached with a full user load
+    // Viewer's follow/unfollow needs to be adjusted in the count
+    const stargazerCount = userInfo.stargazerCount || 0
     const adjustmentMap = {
       [UserHasBeen.Untouched]: 0,
       [UserHasBeen.Followed]: 1,
       [UserHasBeen.Unfollowed]: -1,
     }
     const adjustment = adjustmentMap[userInfo.hasBeen]
-    const stargazerCount = userInfo.stargazerCount || 0
     followerCount = stargazerCount + adjustment
+  } else {
+    followerCount = userInfo.stargazerCount
   }
 
   return (

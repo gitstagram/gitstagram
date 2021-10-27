@@ -47,6 +47,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
       followingTags: nullOnUndefinedPolicy,
       saved: nullOnUndefinedPolicy,
       hasBeen: (existing: UserHasBeen = UserHasBeen.Untouched) => existing,
+      fullyLoaded: (existing = false) => existing,
     },
     merge(_, incoming: User, options) {
       const { cache, variables, fieldName } = options
@@ -148,6 +149,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           fragment: Cache_UserInfo_UserLibDataFragmentDoc,
           data: {
             followingUsers: libraryData.following,
+            fullyLoaded: true,
           },
         })
       }

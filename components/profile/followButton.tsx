@@ -96,20 +96,23 @@ export const FollowButton = ({
       { commitMessage: `Follow: ${followUserLogin}` }
     )
       .then(() => {
-        const newHasBeen =
-          userInfo.hasBeen === UserHasBeen.Unfollowed
-            ? UserHasBeen.Untouched
-            : UserHasBeen.Followed
+        // A fully loaded user will have cached follower number
+        // Following/Unfollowing user from that cached state needs to be flagged
+        if (userInfo.fullyLoaded) {
+          const newHasBeen =
+            userInfo.hasBeen === UserHasBeen.Unfollowed
+              ? UserHasBeen.Untouched
+              : UserHasBeen.Followed
 
-        apolloClient.writeFragment<Cache_UserInfo_HasBeenFragment>({
-          id: apolloClient.cache.identify({
-            __typename: 'User',
-            login: followUserLogin,
-          }),
-          fragment: Cache_UserInfo_HasBeenFragmentDoc,
-          data: { hasBeen: newHasBeen },
-        })
-
+          apolloClient.writeFragment<Cache_UserInfo_HasBeenFragment>({
+            id: apolloClient.cache.identify({
+              __typename: 'User',
+              login: followUserLogin,
+            }),
+            fragment: Cache_UserInfo_HasBeenFragmentDoc,
+            data: { hasBeen: newHasBeen },
+          })
+        }
         return
       })
       .finally(() => {

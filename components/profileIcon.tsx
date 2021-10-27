@@ -156,7 +156,7 @@ export const ProfileIcon = ({
 }: ProfileIconProps): JSX.Element => {
   const viewerInfo = useViewerInfo()
   const viewerLogin = viewerInfo.login
-  const viewerImgUrl = viewerInfo.avatarUrl as Maybe<string>
+  const viewerImgUrl = viewerInfo.avatarUrl
 
   const imgUrl = useViewer ? viewerImgUrl : url
   const imgLogin = useViewer ? viewerLogin : userLogin

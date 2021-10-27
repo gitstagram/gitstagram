@@ -48,6 +48,7 @@ export const CACHE_UserInfo_ViewerLibData = gql`
 export const CACHE_UserInfo_UserLibData = gql`
   fragment CACHE_UserInfo_UserLibData on User {
     followingUsers @client
+    fullyLoaded @client
   }
 `
 
@@ -95,5 +96,6 @@ export const CACHE_UserInfo_UserProps = gql`
     issuesTotalCount @client
     followingUsers @client
     hasBeen @client
+    fullyLoaded @client
   }
 `

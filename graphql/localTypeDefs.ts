@@ -15,6 +15,7 @@ export const localTypeDefs = gql`
     followingTags: [String!]
     saved: [String!]
     hasBeen: UserHasBeen
+    fullyLoaded: Boolean
   }
 
   type RestLibraryData {

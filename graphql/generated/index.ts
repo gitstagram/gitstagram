@@ -21510,6 +21510,7 @@ export type User = Actor & Node & PackageOwner & ProfileOwner & ProjectNextOwner
   following: FollowingConnection;
   followingTags?: Maybe<Array<Scalars['String']>>;
   followingUsers?: Maybe<Array<Scalars['String']>>;
+  fullyLoaded?: Maybe<Scalars['Boolean']>;
   /** Find gist by repo name. */
   gist?: Maybe<Gist>;
   /** A list of gist comments made by this user. */
@@ -22395,7 +22396,7 @@ export type Cache_UserInfo_LiftedPropsFragment = { __typename?: 'User', currentO
 
 export type Cache_UserInfo_ViewerLibDataFragment = { __typename?: 'User', followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined };
 
-export type Cache_UserInfo_UserLibDataFragment = { __typename?: 'User', followingUsers?: Array<string> | null | undefined };
+export type Cache_UserInfo_UserLibDataFragment = { __typename?: 'User', followingUsers?: Array<string> | null | undefined, fullyLoaded?: boolean | null | undefined };
 
 export type Cache_UserInfo_HasBeenFragment = { __typename?: 'User', hasBeen?: UserHasBeen | null | undefined };
 
@@ -22406,9 +22407,9 @@ export type Cache_UserInfo_ViewerPropsQueryVariables = Exact<{ [key: string]: ne
 
 export type Cache_UserInfo_ViewerPropsQuery = { __typename?: 'Query', viewer: { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined } };
 
-export type Cache_UserInfo_UserPropsFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined };
+export type Cache_UserInfo_UserPropsFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined };
 
-export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined };
+export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined };
 
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, number: number, title: string, bodyText: string };
 
@@ -22424,7 +22425,7 @@ export type Frag_Repository_DefaultBranchRefFragment = { __typename?: 'Repositor
 
 export type Frag_Commit_FieldsFragment = { __typename?: 'Commit', oid: any, message: string };
 
-export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } };
+export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } };
 
 export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
@@ -22465,7 +22466,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22475,7 +22476,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type SearchUsersQueryVariables = Exact<{
   loginSearch: Scalars['String'];
@@ -22483,7 +22484,7 @@ export type SearchUsersQueryVariables = Exact<{
 }>;
 
 
-export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, owner: { __typename?: 'Organization' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
+export type SearchUsersQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, owner: { __typename?: 'Organization' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } } | { __typename?: 'User' } | null | undefined> | null | undefined } };
 
 export type GetStargazersQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22493,7 +22494,7 @@ export type GetStargazersQueryVariables = Exact<{
 }>;
 
 
-export type GetStargazersQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } } | null | undefined };
+export type GetStargazersQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, stargazers: { __typename?: 'StargazerConnection', nodes?: Array<{ __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined> | null | undefined, edges?: Array<{ __typename?: 'StargazerEdge', cursor: string } | null | undefined> | null | undefined } } | null | undefined };
 
 export type GetFollowingQueryVariables = Exact<{
   followingSearch: Scalars['String'];
@@ -22501,7 +22502,7 @@ export type GetFollowingQueryVariables = Exact<{
 }>;
 
 
-export type GetFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined } | null | undefined> | null | undefined } };
+export type GetFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined> | null | undefined } };
 
 export const Cache_Generate_UserInfo_LiftedPropsFragmentDoc = gql`
     fragment CACHE_Generate_UserInfo_LiftedProps on User {
@@ -22544,6 +22545,7 @@ export const Cache_UserInfo_ViewerLibDataFragmentDoc = gql`
 export const Cache_UserInfo_UserLibDataFragmentDoc = gql`
     fragment CACHE_UserInfo_UserLibData on User {
   followingUsers @client
+  fullyLoaded @client
 }
     `;
 export const Cache_UserInfo_HasBeenFragmentDoc = gql`
@@ -22569,6 +22571,7 @@ export const Cache_UserInfo_UserPropsFragmentDoc = gql`
   issuesTotalCount @client
   followingUsers @client
   hasBeen @client
+  fullyLoaded @client
 }
     `;
 export const Frag_Commit_FieldsFragmentDoc = gql`
@@ -22593,6 +22596,7 @@ export const Frag_User_FieldsFragmentDoc = gql`
   followingTags @client
   saved @client
   hasBeen @client
+  fullyLoaded @client
 }
     `;
 export const Frag_Repository_StargazersFragmentDoc = gql`

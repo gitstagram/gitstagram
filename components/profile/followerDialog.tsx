@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { ProfileIcon } from 'components/profileIcon'
-import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
+import { useUserInfo } from 'components/data/useUserInfo'
 import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
@@ -18,6 +18,7 @@ import {
   useGetStargazersLazyQuery,
   useGetStargazersQuery,
   GetStargazersQuery,
+  UserHasBeen,
 } from 'graphql/generated'
 import { getProfilePath } from 'routes'
 import type { Merge } from 'type-fest'
@@ -68,13 +69,17 @@ export const FollowerDialog = ({
   dialogProps,
   userLogin,
 }: FollowerDialogProps): JSX.Element => {
-  const followingVar = useFollowingVar()
   const [lastCursor, setLastCursor] = useState<string | null>(null)
   const [stargazers, setStargazers] = useState<StargazersWithCursor>([])
   const [fetchedCount, setFetchedCount] = useState(0)
-
   const viewerInfo = useViewerInfo()
-  const { data, loading, error } = useGetStargazersQuery({
+  const userInfo = useUserInfo(userLogin)
+
+  const {
+    data: initData,
+    loading: initLoading,
+    error: initError,
+  } = useGetStargazersQuery({
     variables: {
       userLogin,
       firstStargazers: fetchBatchCount,
@@ -85,19 +90,19 @@ export const FollowerDialog = ({
     { data: moreData, loading: moreLoading, error: moreError },
   ] = useGetStargazersLazyQuery()
 
-  const totalStargazers = data?.repository?.stargazerCount || 0
-  const isLoading = loading || moreLoading
-  const hasError = error || moreError
+  const totalStargazers = initData?.repository?.stargazerCount || 0
+  const anyLoading = initLoading || moreLoading
+  const anyError = initError || moreError
 
   useEffect(() => {
-    if (data) {
+    if (initData) {
       const { lastCursor, stargazersWithCursor } =
-        getStargazersAndLastCursor(data)
+        getStargazersAndLastCursor(initData)
       setLastCursor(lastCursor || null)
       setStargazers(stargazersWithCursor)
       setFetchedCount((fetchedCount) => (fetchedCount += fetchBatchCount))
     }
-  }, [data])
+  }, [initData])
 
   useEffect(() => {
     if (moreData) {
@@ -111,7 +116,7 @@ export const FollowerDialog = ({
 
   const handleListScrollToBottom = () => {
     const fetchedMoreThanTotal = fetchedCount > totalStargazers
-    if (lastCursor && !isLoading && !fetchedMoreThanTotal) {
+    if (lastCursor && !anyLoading && !fetchedMoreThanTotal) {
       getMoreStargazers({
         variables: {
           userLogin,
@@ -124,6 +129,23 @@ export const FollowerDialog = ({
   const scrollRef = useBottomScrollListener(handleListScrollToBottom)
   useDialogScroll(dialogProps, scrollRef)
 
+  // If user has Followed/Unfollowed by viewer
+  // Ensure that the viewer is visible or filtered out
+  const adjustedStargazers =
+    userInfo.hasBeen === UserHasBeen.Followed &&
+    !stargazers.find((user) => user.login === viewerInfo.login)
+      ? [
+          {
+            login: viewerInfo.login,
+            avatarUrl: viewerInfo.avatarUrl,
+            name: viewerInfo.name,
+          },
+          ...stargazers,
+        ]
+      : userInfo.hasBeen === UserHasBeen.Unfollowed
+      ? stargazers.filter((user) => user.login !== viewerInfo.login)
+      : stargazers
+
   return (
     <FollowDialogStyles
       {...dialogProps}
@@ -134,17 +156,17 @@ export const FollowerDialog = ({
         className='follow-dialog-body'
         ref={scrollRef as React.RefObject<HTMLDivElement>}
       >
-        {!isLoading && stargazers.length === 0 && (
+        {!anyLoading && adjustedStargazers.length === 0 && (
           <div className='follow-nothing'>
             <TextInfo>No users to show</TextInfo>
           </div>
         )}
-        {stargazers.length !== 0 &&
+        {adjustedStargazers.length !== 0 &&
           // use index as key because pagination may result in duplicated items
-          stargazers.map((stargazer, index) => {
+          adjustedStargazers.map((stargazer, index) => {
             const login = stargazer.login
             const isViewer = login === viewerInfo.login
-            const isFollowing = followingVar.includes(login)
+            const isFollowing = viewerInfo.followingUsers.includes(login)
             return (
               <div key={index} className='follow-item'>
                 <Link href={getProfilePath(login)}>
@@ -185,12 +207,12 @@ export const FollowerDialog = ({
               </div>
             )
           })}
-        {hasError && (
+        {anyError && (
           <div className='follow-nothing'>
             <TextInfo>Issue loading, please try again</TextInfo>
           </div>
         )}
-        {isLoading && <SkeletonUserList />}
+        {anyLoading && <SkeletonUserList />}
       </div>
     </FollowDialogStyles>
   )

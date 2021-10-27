@@ -16,6 +16,7 @@ export const FRAG_User_Fields = gql`
     followingTags @client
     saved @client
     hasBeen @client
+    fullyLoaded @client
   }
 `
 

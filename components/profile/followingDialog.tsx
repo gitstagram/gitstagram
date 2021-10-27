@@ -45,12 +45,11 @@ export const FollowingDialog = ({
 }: FollowingDialogProps): JSX.Element => {
   const viewerInfo = useViewerInfo()
   const userInfo = useUserInfo(userLogin)
-  const isViewer = userLogin === viewerInfo.login
+  const isViewerPage = userLogin === viewerInfo.login
 
-  const followingList = isViewer
+  const followingList = isViewerPage
     ? viewerInfo.followingUsers
     : userInfo?.followingUsers
-
   const [following, setFollowing] = useState<User[]>([])
   const [fetchedCount, setFetchedCount] = useState(0)
   useEffect(() => {
@@ -87,6 +86,20 @@ export const FollowingDialog = ({
       const followingResults = getFollowingResults(initData)
       setFollowing(followingResults)
       setFetchedCount((fetchedCount) => fetchedCount + fetchBatchCount)
+    }
+    // If additional initData comes in
+    // That means the viewer's following list has changed in the first batch
+    // Find any items that are not currently in that first batch, and add them
+    if (initData && fetchedCount !== 0) {
+      setFollowing((currentFollowing) => {
+        const newData = getFollowingResults(initData)
+        const currentLogins = currentFollowing.map((user) => user.login)
+        const notInFollowing = newData.filter(
+          (user) => !currentLogins.includes(user.login)
+        )
+        setFetchedCount((fetchedCount) => fetchedCount + notInFollowing.length)
+        return [...currentFollowing, ...notInFollowing]
+      })
     }
   }, [initData, fetchedCount])
 
@@ -138,12 +151,15 @@ export const FollowingDialog = ({
           following.map((follow, index) => {
             const userLogin = follow.login
             const isViewer = userLogin === viewerInfo.login
-            const isFollowing = followingList?.includes(userLogin)
+            const isFollowing = viewerInfo.followingUsers?.includes(userLogin)
+
+            // User a 'following-removed' class on the viewer's page
+            // So unfollowing someone isn't an irreversible disappearance
             return (
               <div
                 key={index}
                 className={cn('follow-item', {
-                  'following-removed': !isFollowing,
+                  'following-removed': isViewerPage && !isFollowing,
                 })}
               >
                 <Link href={getProfilePath(userLogin)}>
@@ -178,7 +194,7 @@ export const FollowingDialog = ({
                       variant='small'
                       followUserLogin={userLogin}
                       show={!isFollowing}
-                      removable
+                      removable={isViewerPage}
                     />
                   </>
                 )}
