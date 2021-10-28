@@ -47,7 +47,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
       followingTags: nullOnUndefinedPolicy,
       saved: nullOnUndefinedPolicy,
       hasBeen: (existing: UserHasBeen = UserHasBeen.Untouched) => existing,
-      fullyLoaded: (existing = false) => existing,
+      fullyLoaded: (existing = false) => existing as boolean,
     },
     merge(_, incoming: User, options) {
       const { cache, variables, fieldName } = options
@@ -59,6 +59,9 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
             fragment: Cache_Generate_UserInfo_LiftedPropsFragmentDoc,
             variables,
           })
+        // No repository means not a gitstagram user
+        if (!user?.repository) return incoming
+
         const currentOid = user?.repository?.defaultBranchRef?.target
           ?.oid as Maybe<string>
         const stargazerCount = user?.repository?.stargazerCount

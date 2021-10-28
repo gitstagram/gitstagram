@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDialogState } from 'reakit/Dialog'
 import { SkeletonProfile } from 'components/profile/profileSkeleton'
-import { ProfileNotFound } from 'components/profile/profileNotFound'
-import { ProfileCorrupted } from 'components/profile/profileCorrupted'
+import { ProfileUnavailable } from 'components/profile/profileUnavailable'
 import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
@@ -34,11 +33,10 @@ const ProfileStyles = styled.div`
 
 export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
   const viewerInfo = useViewerInfo()
-  const viewerLogin = viewerInfo.login
-  const isViewer = userLogin === viewerLogin
+  const isViewer = userLogin === viewerInfo.login
 
-  const [allLoading, setAllLoading] = useState(true)
-  const [libDataErr, setLibDataErr] = useState<unknown>(undefined)
+  const [userLoading, setUserLoading] = useState(true)
+  const [userLibDataErr, setUserLibDataErr] = useState<unknown>(undefined)
   const { data: userData, error: userError } = useGetUserGitstagramLibraryQuery(
     {
       skip: isViewer,
@@ -48,32 +46,35 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
       onCompleted: () => {
         return getLibraryDataQueryPromise({ userLogin: userLogin })
           .then((res) => {
-            setAllLoading(false)
+            setUserLoading(false)
             return res
           })
           .catch((err) => {
-            setLibDataErr(err)
-            setAllLoading(false)
+            setUserLibDataErr(err)
+            setUserLoading(false)
           })
       },
     }
   )
   useEffect(() => {
-    isViewer ? setAllLoading(false) : setAllLoading(true)
-    setLibDataErr(undefined)
+    isViewer ? setUserLoading(false) : setUserLoading(true)
+    setUserLibDataErr(undefined)
   }, [userLogin, isViewer])
 
-  const { data: viewerData, loading: viewerLoading } =
-    useGetViewerGitstagramLibraryQuery({
-      skip: !isViewer,
-      variables: {
-        userLogin: viewerLogin,
-      },
-    })
+  const {
+    data: viewerData,
+    loading: viewerLoading,
+    error: viewerError,
+  } = useGetViewerGitstagramLibraryQuery({
+    skip: !isViewer,
+    variables: {
+      userLogin: viewerInfo.login,
+    },
+  })
 
-  const data = userData?.user || viewerData?.viewer
-  const loading = allLoading || viewerLoading
-  const error = libDataErr || userError
+  const profileData = userData?.user || viewerData?.viewer
+  const anyLoading = userLoading || viewerLoading
+  const anyError = userError || userLibDataErr || viewerError
 
   const [followerDialogMounted, setFollowerDialogMounted] = useState(false)
   const followerDialog = useDialogState({
@@ -103,13 +104,12 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
 
   return (
     <>
-      {loading && <SkeletonProfile />}
-      {!loading && !data && <ProfileNotFound />}
-      {!loading && error && <ProfileCorrupted />}
-      {!loading && !error && data && (
+      {anyLoading && <SkeletonProfile />}
+      {!anyLoading && anyError && <ProfileUnavailable />}
+      {!anyLoading && !anyError && profileData && (
         <>
           <ProfileHeader
-            data={data}
+            userLogin={userLogin}
             followerDialog={followerDialog}
             followingDialog={followingDialog}
           />

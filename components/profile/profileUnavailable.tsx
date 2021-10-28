@@ -3,11 +3,11 @@ import { Mistake } from 'components/mistake'
 import { TextLink } from 'components/ui'
 import { HOME } from 'routes'
 
-export const ProfileNotFound = (): JSX.Element => {
+export const ProfileUnavailable = (): JSX.Element => {
   return (
     <Mistake
-      mistake='USER NOT FOUND'
-      mistakeDescription='This user does not exist. Or it might have been changed or removed.'
+      mistake='USER UNVIEWABLE'
+      mistakeDescription='This user is not available. User may not exist, or the library has bad data.'
     >
       <TextLink href={HOME} deemph>
         Return to Home Page

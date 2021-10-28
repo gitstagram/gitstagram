@@ -3,12 +3,11 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { ProfileIcon } from 'components/profileIcon'
-import { UserData } from 'components/profile/types'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingBanner } from 'components/profile/followingBanner'
-import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { useViewerInfo } from 'components/data/useViewerInfo'
+import { useUserInfo } from 'components/data/useUserInfo'
 import {
   H2,
   Button,
@@ -126,27 +125,28 @@ const ProfileHeaderStyles = styled.div`
 `
 
 type ProfileProps = {
-  data: UserData
+  userLogin: string
   followerDialog: DialogStateReturn
   followingDialog: DialogStateReturn
 }
 
 export const ProfileHeader = ({
-  data,
+  userLogin,
   followerDialog,
   followingDialog,
 }: ProfileProps): JSX.Element => {
-  const following = useFollowingVar()
   const viewerInfo = useViewerInfo()
-  const viewerLogin = viewerInfo.login
+  const userInfo = useUserInfo(userLogin)
 
-  const isViewer = viewerLogin === data.login
-  const isFollowing = !isViewer && following.includes(data.login)
+  const isViewer = viewerInfo.login === userLogin
+  const isFollowing = !isViewer && viewerInfo.followingUsers.includes(userLogin)
   const notFollowing = !isViewer && !isFollowing
 
   const loginTip = useTooltip('login-tooltip')
   const nameTip = useTooltip('name-tooltip')
   const twitterTip = useTooltip('twitter-tooltip')
+
+  const userData = isViewer ? viewerInfo : userInfo
 
   return (
     <ProfileHeaderStyles>
@@ -154,16 +154,16 @@ export const ProfileHeader = ({
         <UntilTabletLandscape>
           <ProfileIcon
             className='profile-icon'
-            url={data.avatarUrl as string}
-            userLogin={data.login}
+            url={userData.avatarUrl as string}
+            userLogin={userData.login}
             size={96}
           />
         </UntilTabletLandscape>
         <FromTabletLandscape>
           <ProfileIcon
             className='profile-icon'
-            url={data.avatarUrl as string}
-            userLogin={data.login}
+            url={userData.avatarUrl as string}
+            userLogin={userData.login}
             size={128}
           />
         </FromTabletLandscape>
@@ -174,10 +174,10 @@ export const ProfileHeader = ({
               as={H2}
               className='profile-login-name'
             >
-              {data.login}
+              {userData.login}
             </loginTip.Ref>
-            {data.login.length > 15 && (
-              <loginTip.Tip {...loginTip.props}>{data.login}</loginTip.Tip>
+            {userData.login.length > 15 && (
+              <loginTip.Tip {...loginTip.props}>{userData.login}</loginTip.Tip>
             )}
             {isViewer && (
               <Link href={SETTINGS} passHref>
@@ -196,12 +196,12 @@ export const ProfileHeader = ({
               <>
                 <FollowingButton
                   className='profile-title-button'
-                  followUserLogin={data.login}
+                  followUserLogin={userData.login}
                   show={isFollowing}
                 />
                 <FollowButton
                   className='profile-title-button'
-                  followUserLogin={data.login}
+                  followUserLogin={userData.login}
                   show={notFollowing}
                 />
               </>
@@ -216,51 +216,51 @@ export const ProfileHeader = ({
         </div>
       </div>
       <div className='profile-bio-section'>
-        {(data.name || data.twitterUsername) && (
+        {(userData.name || userData.twitterUsername) && (
           <div className='profile-names'>
-            {data.name && (
+            {userData.name && (
               <>
                 <nameTip.Ref
                   {...nameTip.props}
                   className='profile-bio-name'
                   as='b'
                 >
-                  {data.name}
+                  {userData.name}
                 </nameTip.Ref>
-                {data.name.length > 20 && (
-                  <nameTip.Tip {...nameTip.props}>{data.name}</nameTip.Tip>
+                {userData.name.length > 20 && (
+                  <nameTip.Tip {...nameTip.props}>{userData.name}</nameTip.Tip>
                 )}
               </>
             )}
-            {data.twitterUsername && data.name && <Middot />}
-            {data.twitterUsername && (
+            {userData.twitterUsername && userData.name && <Middot />}
+            {userData.twitterUsername && (
               <>
                 <twitterTip.Ref
                   {...twitterTip.props}
                   as={TextLink}
                   className='profile-twitter-name'
-                  href={`https://twitter.com/${data.twitterUsername}`}
+                  href={`https://twitter.com/${userData.twitterUsername}`}
                   external
                   deemph
                 >
-                  @{data.twitterUsername}
+                  @{userData.twitterUsername}
                 </twitterTip.Ref>
-                {data.twitterUsername.length > 20 && (
+                {userData.twitterUsername.length > 20 && (
                   <twitterTip.Tip {...twitterTip.props}>
-                    @{data.twitterUsername}
+                    @{userData.twitterUsername}
                   </twitterTip.Tip>
                 )}
               </>
             )}
           </div>
         )}
-        {data.location && (
+        {userData.location && (
           <TextInfo className='profile-location'>
             <Icon className='profile-location-icon' icon='geo-alt' ariaHidden />
-            {data.location}
+            {userData.location}
           </TextInfo>
         )}
-        {data.bio && <div className='profile-bio-text'>{data.bio}</div>}
+        {userData.bio && <div className='profile-bio-text'>{userData.bio}</div>}
       </div>
     </ProfileHeaderStyles>
   )
