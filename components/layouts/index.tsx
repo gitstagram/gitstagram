@@ -1,8 +1,6 @@
 import React, { PropsWithChildren, ReactNode, useEffect } from 'react'
 import { useSession, signOut } from 'next-auth/client'
-import { useRouter } from 'next/router'
 import cn from 'classnames'
-import { HOME } from 'routes'
 import styled from 'styled-components'
 import { theme } from 'styles/themes'
 import { toast } from 'react-toastify'
@@ -41,7 +39,6 @@ const LayoutStyles = styled.div`
 export const DefaultLayout = ({
   children,
 }: PropsWithChildren<ReactNode>): JSX.Element => {
-  const router = useRouter()
   const [session, loading] = useSession()
   const { loadingState, setLoadingState } = useLoadingContext()
 
@@ -70,14 +67,6 @@ export const DefaultLayout = ({
   }, [errored, setLoadingState])
 
   /**
-   * Show header if:
-   *   - Logged in
-   *   - Not logged in, but viewing page besides Home
-   */
-  const isHome = router.pathname === HOME
-  const showHeader = session || (!session && !isHome)
-
-  /**
    * Show overlay if:
    *   - Next-auth is loading
    *   - Next-auth loaded, logged in, but loadingState not `libFound`
@@ -97,10 +86,8 @@ export const DefaultLayout = ({
       {ensureLoad && <EnsureLoad />}
       {!showOverlay && (
         <>
-          {showHeader && <Header />}
-          <main className={cn({ ['header-shown']: showHeader })}>
-            {children}
-          </main>
+          {session && <Header />}
+          <main className={cn({ ['header-shown']: session })}>{children}</main>
           <Footer />
         </>
       )}

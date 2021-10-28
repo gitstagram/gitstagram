@@ -20,8 +20,8 @@ import {
 
 const defaultLibData = coerceLibraryData({})
 
-export type CommitOpts = {
-  commitMessage: string
+type CommitOpts = {
+  commitWithMessage: string
 }
 
 export const writeLibraryData = async (
@@ -46,7 +46,7 @@ export const writeLibraryData = async (
       createCommitMutationPromise({
         b64Contents: toJsonB64(newLibData),
         path: 'gitstagram-data.json',
-        ...commitOpts,
+        commitMessage: commitOpts.commitWithMessage,
       })
     )
     if (err) {

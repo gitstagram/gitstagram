@@ -4,10 +4,10 @@ import { useRouter } from 'next/router'
 import { signOut } from 'next-auth/client'
 import styled from 'styled-components'
 import { MenuButton, useMenuState } from 'reakit/Menu'
+import { useViewerInfo } from 'components/data'
 import { Icon, Menu, MenuSeparator, MenuItem } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { SETTINGS, PROFILE, getProfilePath } from 'routes'
-import { useViewerInfo } from 'components/data/useViewerInfo'
 
 const ProfileMenuStyles = styled.div`
   display: flex;

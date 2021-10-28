@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDialogState } from 'reakit/Dialog'
+import { useViewerInfo } from 'components/data'
 import { SkeletonProfile } from 'components/profile/profileSkeleton'
 import { ProfileUnavailable } from 'components/profile/profileUnavailable'
 import { ProfileHeader } from 'components/profile/profileHeader'
@@ -9,7 +10,6 @@ import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
 import { getLibraryDataQueryPromise } from 'graphql/operations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
-import { useViewerInfo } from 'components/data/useViewerInfo'
 import { themeConstant, theme } from 'styles/themes'
 
 import {

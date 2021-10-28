@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { Icon, Button } from 'components/ui'
+import { useViewerInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
 import { HOME, getProfilePath } from 'routes'
-import { useViewerInfo } from 'components/data/useViewerInfo'
 
 const MobileBottomNavStyles = styled.nav`
   position: fixed;

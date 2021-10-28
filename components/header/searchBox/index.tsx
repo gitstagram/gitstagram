@@ -12,8 +12,11 @@ import {
   TextDeemph,
 } from 'components/ui'
 import { SearchBoxStyles } from 'components/header/searchBox/styles'
-import { searchCacheVar, useSearchCacheVar } from 'components/data/searchCache'
-import { useViewerInfo } from 'components/data/useViewerInfo'
+import {
+  searchCacheVar,
+  useSearchCacheVar,
+  useViewerInfo,
+} from 'components/data'
 import { useOnMount } from 'components/hooks'
 import { useSearchUsersLazyQuery, SearchUsersQuery } from 'graphql/generated'
 import { debounce, searchUsersQueryString } from 'helpers'

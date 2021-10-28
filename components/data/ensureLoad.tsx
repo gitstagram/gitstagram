@@ -10,10 +10,7 @@ import {
   addStarMutationPromise,
 } from 'graphql/operations'
 import { useLoadingContext } from 'components/contexts/loading'
-import {
-  CommitOpts,
-  writeLibraryData,
-} from 'components/data/gitstagramLibraryData'
+import { writeLibraryData } from 'components/data'
 import {
   captureException,
   getMetadataJson,
@@ -135,17 +132,17 @@ export const EnsureLoad = (): JSX.Element => {
     }
   }
 
-  const ensureLibraryDataExpected = async (
-    libraryData: unknown,
-    commitOpts: CommitOpts
-  ) => {
+  const ensureLibraryDataExpected = async (libraryData: unknown) => {
     if (isLibraryData(libraryData)) {
       await writeLibraryData(libraryData)
       setLoadingState('libFound')
     } else {
       const correctedLibraryData = coerceLibraryData(libraryData)
       const { err } = await async(
-        writeLibraryData(correctedLibraryData, commitOpts)
+        writeLibraryData(correctedLibraryData, {
+          commitWithMessage:
+            'Correct errors found in `gitstagram-library.json`',
+        })
       )
       if (err) {
         setLoadingState('libGetFailure')
@@ -189,9 +186,7 @@ export const EnsureLoad = (): JSX.Element => {
 
     const libraryData = parseJsonIfB64(fileContents)
 
-    void ensureLibraryDataExpected(libraryData, {
-      commitMessage: 'Correct errors found in `gitstagram-library.json`',
-    })
+    void ensureLibraryDataExpected(libraryData)
   }
 
   useGetViewerGitstagramLibraryQuery({

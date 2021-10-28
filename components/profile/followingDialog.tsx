@@ -3,12 +3,11 @@ import cn from 'classnames'
 import Link from 'next/link'
 import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
+import { useViewerInfo, useUserInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
 import { FollowDialogStyles } from 'components/profile/followDialogStyles'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
-import { useViewerInfo } from 'components/data/useViewerInfo'
-import { useUserInfo } from 'components/data/useUserInfo'
 import {
   useGetFollowingQuery,
   useGetFollowingLazyQuery,

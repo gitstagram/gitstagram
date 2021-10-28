@@ -2,12 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { DialogStateReturn } from 'reakit/Dialog'
+import { useViewerInfo, useUserInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingBanner } from 'components/profile/followingBanner'
-import { useViewerInfo } from 'components/data/useViewerInfo'
-import { useUserInfo } from 'components/data/useUserInfo'
 import {
   H2,
   Button,

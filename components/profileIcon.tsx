@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styled, { css } from 'styled-components'
 import { NextImgWrapper, Icon } from 'components/ui'
 import { theme } from 'styles/themes'
-import { useViewerInfo } from 'components/data/useViewerInfo'
+import { useViewerInfo } from 'components/data'
 
 type ProfileIconStylesProps = {
   interactive?: boolean

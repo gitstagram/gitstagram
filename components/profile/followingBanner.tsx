@@ -2,11 +2,10 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { DialogDisclosure, DialogStateReturn } from 'reakit/Dialog'
+import { useUserInfo, useViewerInfo } from 'components/data'
 import { TextDeemph } from 'components/ui'
 import { theme, themeConstant } from 'styles/themes'
 import { toReadableNum, pluralize } from 'helpers'
-import { useUserInfo } from 'components/data/useUserInfo'
-import { useViewerInfo } from 'components/data/useViewerInfo'
 import { UserHasBeen } from 'graphql/generated'
 
 const FollowingBannerStyles = styled.div`

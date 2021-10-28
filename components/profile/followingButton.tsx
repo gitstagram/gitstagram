@@ -4,9 +4,7 @@ import styled, { css } from 'styled-components'
 import { apolloClient } from 'graphql/apolloClient'
 import { Button } from 'components/ui'
 import { toast } from 'react-toastify'
-import { writeLibraryData } from 'components/data/gitstagramLibraryData'
-import { useViewerInfo } from 'components/data/useViewerInfo'
-import { useUserInfo } from 'components/data/useUserInfo'
+import { writeLibraryData, useViewerInfo, useUserInfo } from 'components/data'
 import {
   UserHasBeen,
   Cache_UserInfo_HasBeenFragment,
@@ -91,7 +89,7 @@ export const FollowingButton = ({
           (item) => item !== followUserLogin
         ),
       },
-      { commitMessage: `Unfollow: ${followUserLogin}` }
+      { commitWithMessage: `Unfollow: ${followUserLogin}` }
     )
       .then(() => {
         // A fully loaded user will have cached follower number

@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useViewerInfo } from 'components/data'
 import { Panel, TextAttn, TextInfo, Button, Hr } from 'components/ui'
 import { AccountExportIssues } from 'components/settings/accountExportIssues'
 import { AccountDelete } from 'components/settings/accountDelete'
 import { theme } from 'styles/themes'
-import { useViewerInfo } from 'components/data/useViewerInfo'
 
 const AccountSectionStyles = styled(Panel)`
   .account-info {

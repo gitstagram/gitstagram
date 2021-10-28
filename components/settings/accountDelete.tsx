@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { toast } from 'react-toastify'
 import { signOut } from 'next-auth/client'
 import { useDialogState, DialogDisclosure } from 'reakit/Dialog'
+import { useViewerInfo } from 'components/data'
 import {
   TextAttn,
   Button,
@@ -12,7 +13,6 @@ import {
   TextInput,
 } from 'components/ui'
 import { theme } from 'styles/themes'
-
 import {
   deleteStarMutationPromise,
   deleteRepoMutationPromise,
@@ -63,6 +63,8 @@ const DeleteDialogStyles = styled(Dialog)`
 export const AccountDelete = ({
   viewerLogin,
 }: AccountDeleteProps): JSX.Element => {
+  const viewerInfo = useViewerInfo()
+
   const dialog = useDialogState({
     animated: true,
     modal: true,
@@ -84,9 +86,9 @@ export const AccountDelete = ({
   const handleDelete = (e: React.SyntheticEvent) => {
     e.preventDefault()
     setState('loading')
-    const followingList: string[] = []
+    const followingList = viewerInfo.followingUsers
 
-    const unstarLoginList: string[] = unstarState ? followingList : []
+    const unstarLoginList = unstarState ? followingList : []
     const promises = unstarLoginList.map((userLogin) =>
       deleteStarMutationPromise({ userLogin: userLogin }).catch(() => {
         // noop: this request not important if it fails

@@ -4,9 +4,7 @@ import cn from 'classnames'
 import { apolloClient } from 'graphql/apolloClient'
 import { Button } from 'components/ui'
 import { toast } from 'react-toastify'
-import { writeLibraryData } from 'components/data/gitstagramLibraryData'
-import { useViewerInfo } from 'components/data/useViewerInfo'
-import { useUserInfo } from 'components/data/useUserInfo'
+import { writeLibraryData, useViewerInfo, useUserInfo } from 'components/data'
 import {
   UserHasBeen,
   Cache_UserInfo_HasBeenFragment,
@@ -93,7 +91,7 @@ export const FollowButton = ({
 
     return writeLibraryData(
       { following: uniqArr([...viewerInfo.followingUsers, followUserLogin]) },
-      { commitMessage: `Follow: ${followUserLogin}` }
+      { commitWithMessage: `Follow: ${followUserLogin}` }
     )
       .then(() => {
         // A fully loaded user will have cached follower number

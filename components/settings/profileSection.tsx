@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useViewerInfo } from 'components/data/useViewerInfo'
+import { useViewerInfo } from 'components/data'
 import { theme } from 'styles/themes'
 
 import { Panel, TextInput, Icon, TextLink } from 'components/ui'
