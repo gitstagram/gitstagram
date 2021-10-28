@@ -75,7 +75,9 @@ export const customResets = css`
   */
   input:disabled,
   textarea:disabled,
+  input::placeholder,
   input:disabled::placeholder,
+  textarea::placeholder,
   textarea:disabled::placeholder {
     opacity: 1;
   }

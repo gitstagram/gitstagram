@@ -6,7 +6,11 @@ import { Icon, IconProps } from 'components/ui/icon/icon'
 import { theme } from 'styles/themes'
 
 type ButtonVariants = 'small' | 'large' | 'naked' | IconProps | undefined
-type ButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => void
+type ButtonClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => void
+type ButtomFormHandler = (
+  e?: React.FormEvent<HTMLFormElement> | undefined
+) => void
+type ButtonOnClick = ButtonClickHandler | ButtomFormHandler
 
 type ButtonStyleProps = {
   type?: string

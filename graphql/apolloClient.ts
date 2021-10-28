@@ -9,6 +9,8 @@ import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
 import { getSession } from 'next-auth/client'
 import type { Session } from 'next-auth'
+import camelCase from 'camelcase'
+import { snakeCase } from 'snake-case'
 import { toast } from 'react-toastify'
 import generatedIntrospection from 'graphql/generated/fragmentIntrospection'
 import { typePolicies } from 'graphql/typePolicies'
@@ -86,6 +88,8 @@ const restLink = new RestLink({
     if (json.constructor.name === 'Array') return { collection: json, raw }
     return json
   },
+  fieldNameNormalizer: (key: string) => camelCase(key),
+  fieldNameDenormalizer: (key: string) => snakeCase(key),
 })
 
 const httpLink = createHttpLink({

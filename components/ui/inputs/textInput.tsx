@@ -28,6 +28,7 @@ const TextInputStyles = styled.div<TextInputStylesProps>`
     color: ${theme('fontPlaceholder_Color')};
     font-size: ${theme('fontPlaceholder_FontSize')};
     transform: translate(0, -50%);
+    opacity: ${theme('fontPlaceholder_Opacity')};
     pointer-events: none;
 
     [class^='bi-']::before,

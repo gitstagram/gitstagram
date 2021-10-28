@@ -107,7 +107,8 @@ const fonts = {
   fontEmboss_ShadowColor: sys.monos.mc800,
   fontEmboss_FontWeight: 'bold',
 
-  fontPlaceholder_Color: sys.monos.mc300,
+  fontPlaceholder_Color: sys.monos.mc400,
+  fontPlaceholder_Opacity: 0.8,
   fontPlaceholder_FontSize: `${sys.fontSizes.fs16}rem`,
   fontPlaceholder_Color__Deemph: sys.monos.mc500,
 

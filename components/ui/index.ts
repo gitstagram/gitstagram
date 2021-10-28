@@ -17,6 +17,7 @@ export * from 'components/ui/icon/middot'
 export * from 'components/ui/icon/spinner'
 
 export * from 'components/ui/inputs/checkbox'
+export * from 'components/ui/inputs/textArea'
 export * from 'components/ui/inputs/textInput'
 
 export * from 'components/ui/menu/menu'
