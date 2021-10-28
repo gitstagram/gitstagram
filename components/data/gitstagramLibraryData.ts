@@ -1,4 +1,3 @@
-import { makeVar, useReactiveVar } from '@apollo/client'
 import { toast } from 'react-toastify'
 import {
   coerceLibraryData,
@@ -21,21 +20,6 @@ import {
 
 const defaultLibData = coerceLibraryData({})
 
-export const followingVar = makeVar(defaultLibData.following)
-export const useFollowingVar = (): LibraryData['following'] => {
-  return useReactiveVar(followingVar)
-}
-
-export const followingTagsVar = makeVar(defaultLibData.followingTags)
-export const useFollowingTagsVar = (): LibraryData['followingTags'] => {
-  return useReactiveVar(followingTagsVar)
-}
-
-export const savedVar = makeVar(defaultLibData.saved)
-export const useSavedVar = (): LibraryData['saved'] => {
-  return useReactiveVar(savedVar)
-}
-
 export type CommitOpts = {
   commitMessage: string
 }
@@ -50,9 +34,11 @@ export const writeLibraryData = async (
   const newSaved = saved && coerceLibSaved(saved)
 
   const newLibData: LibraryData = {
-    following: newFollowing ? newFollowing : followingVar(),
-    followingTags: newFollowingTags ? newFollowingTags : followingTagsVar(),
-    saved: newSaved ? newSaved : savedVar(),
+    following: newFollowing ? newFollowing : defaultLibData.following,
+    followingTags: newFollowingTags
+      ? newFollowingTags
+      : defaultLibData.followingTags,
+    saved: newSaved ? newSaved : defaultLibData.saved,
   }
 
   if (commitOpts) {
@@ -74,10 +60,6 @@ export const writeLibraryData = async (
     }
   }
 
-  // Only update reactive vars and resolve(true) after successful write
-  following && followingVar(newFollowing)
-  followingTags && followingTagsVar(newFollowingTags)
-  saved && savedVar(newSaved)
   // Only update cache and resolve(true) after successful write
   const cachedViewer = apolloClient.readQuery<Cache_UserInfo_ViewerPropsQuery>({
     query: Cache_UserInfo_ViewerPropsDocument,

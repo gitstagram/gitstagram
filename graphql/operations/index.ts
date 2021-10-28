@@ -10,6 +10,5 @@ export * from 'graphql/operations/rest/mutations/deleteRepo'
 export * from 'graphql/operations/rest/mutations/deleteStar'
 
 export * from 'graphql/operations/rest/queries/getLibraryData'
-export * from 'graphql/operations/rest/queries/getRawLibraryData'
 export * from 'graphql/operations/rest/queries/getRateLimit'
 export * from 'graphql/operations/rest/queries/getIssueExport'

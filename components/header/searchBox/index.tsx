@@ -11,9 +11,9 @@ import {
   Middot,
   TextDeemph,
 } from 'components/ui'
-import { useFollowingVar } from 'components/data/gitstagramLibraryData'
 import { SearchBoxStyles } from 'components/header/searchBox/styles'
 import { searchCacheVar, useSearchCacheVar } from 'components/data/searchCache'
+import { useViewerInfo } from 'components/data/useViewerInfo'
 import { useOnMount } from 'components/hooks'
 import { useSearchUsersLazyQuery, SearchUsersQuery } from 'graphql/generated'
 import { debounce, searchUsersQueryString } from 'helpers'
@@ -32,7 +32,8 @@ function SearchBoxBase(
 ): JSX.Element {
   const searchCache = useSearchCacheVar()
   const [search, setSearch] = useState<string>(searchCache || '')
-  const following = useFollowingVar()
+  const viewerInfo = useViewerInfo()
+  const following = viewerInfo.followingUsers
   const [searchUsers, { data, error }] = useSearchUsersLazyQuery()
   const searchResults = useMemo(
     () =>
