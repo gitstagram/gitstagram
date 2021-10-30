@@ -59,7 +59,7 @@ const OverlayStyles = styled.div.withConfig({
   }
 
   .overlay-logo {
-    text-shadow: 0 -2px 0 rgba(255, 255, 255, 0.5);
+    text-shadow: ${theme('overlay_TextShadow')};
     opacity: 0.3;
   }
 

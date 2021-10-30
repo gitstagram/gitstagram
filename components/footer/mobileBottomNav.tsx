@@ -2,11 +2,11 @@ import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { Icon, Button } from 'components/ui'
+import { Icon } from 'components/ui'
 import { useViewerInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
-import { HOME, getProfilePath } from 'routes'
+import { HOME, getProfilePath, NEW } from 'routes'
 
 const MobileBottomNavStyles = styled.nav`
   position: fixed;
@@ -62,16 +62,17 @@ export const MobileBottomNav = (): JSX.Element => {
           />
         </a>
       </Link>
-      <Button
-        className='nav-icon'
-        onClick={() => {
-          throw new Error('Test Error')
-        }}
-        variant={{
-          icon: 'camera',
-          ariaLabel: 'Add a photo',
-        }}
-      />
+      <Link href={NEW}>
+        <a>
+          <Icon
+            clickable
+            className='nav-icon'
+            icon='camera'
+            ariaLabel='New post'
+            filled={router.pathname === NEW}
+          />
+        </a>
+      </Link>
       <Link href={getProfilePath(viewerLogin)}>
         <a>
           <ProfileIcon interactive useViewer emph={userLogin === viewerLogin} />

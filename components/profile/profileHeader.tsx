@@ -141,9 +141,9 @@ export const ProfileHeader = ({
   const isFollowing = !isViewer && viewerInfo.followingUsers.includes(userLogin)
   const notFollowing = !isViewer && !isFollowing
 
-  const loginTip = useTooltip('login-tooltip')
-  const nameTip = useTooltip('name-tooltip')
-  const twitterTip = useTooltip('twitter-tooltip')
+  const loginTip = useTooltip({ baseId: 'login-tooltip' })
+  const nameTip = useTooltip({ baseId: 'name-tooltip' })
+  const twitterTip = useTooltip({ baseId: 'twitter-tooltip' })
 
   const userData = isViewer ? viewerInfo : userInfo
 

@@ -18,6 +18,7 @@ const LayoutStyles = styled.div`
   display: flex;
   flex-direction: column;
   min-block-size: var(--app-height);
+  width: 100vw;
 
   main {
     z-index: ${zIndicies.main};

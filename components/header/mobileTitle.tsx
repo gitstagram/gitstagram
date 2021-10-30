@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { TextLogo, H3 } from 'components/ui'
-import { HOME, SETTINGS, PROFILE } from 'routes'
+import { HOME, SETTINGS, PROFILE, NEW } from 'routes'
 
 export const MobileTitle = (): JSX.Element => {
   const router = useRouter()
@@ -13,6 +13,8 @@ export const MobileTitle = (): JSX.Element => {
     <H3>Settings</H3>
   ) : path === PROFILE ? (
     <H3>{userLogin}</H3>
+  ) : path === NEW ? (
+    <H3>New Post</H3>
   ) : (
     <TextLogo href={HOME} />
   )

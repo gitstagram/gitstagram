@@ -9,7 +9,7 @@ export const Feed = (): JSX.Element => {
     const fileId = nanoid()
 
     if (file) {
-      const base64 = await fileToB64(file)
+      const base64 = await fileToB64({ file })
 
       void createCommitMutationPromise({
         b64Contents: base64,

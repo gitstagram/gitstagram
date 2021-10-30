@@ -40,6 +40,7 @@ export * from 'helpers/validation/structs/metadata'
 
 export * from 'helpers/validation/coerceArray'
 export * from 'helpers/validation/isAnyRecord'
+export * from 'helpers/validation/isImage'
 export * from 'helpers/validation/parseIfJson'
 export * from 'helpers/validation/parseJsonIfB64'
 export * from 'helpers/validation/validateLibraryData'

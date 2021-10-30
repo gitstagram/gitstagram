@@ -24,12 +24,16 @@ const backgrounds = {
   tableRow_BgColor__TRowOdd: sys.monos.mc600,
   checkbox_BgColor: sys.monos.mc800,
   checkbox_BgColor__Checked: sys.monos.mc600,
+  inset_BgColor__Hover: sys.monos.mc700,
+  inset_BgColor__Active: `${sys.monos.mc700}${percentToHex(50)}`,
 }
 
 const boxShadows = {
   panel_BoxShadow: `${sys.monos.mc800} 0px 13px 27px -5px, ${sys.monos.mc800} 0px 8px 16px -8px`,
   button_BoxShadow: `inset 0px -3px 4px 2px rgb(0 0 0 / 15%)`,
   input_BoxShadow__Focus: `${sys.colors.blue200} 0 0 0 1px`,
+  inset_BoxShadow: `${sys.monos.mc900} 3px 3px 6px 0 inset, ${sys.monos.mc600} -3px -3px 6px 1px inset`,
+  float_BoxShadow: `${sys.monos.mc800} 10px 10px 9px 2px`,
 }
 
 const fonts = {
@@ -102,10 +106,13 @@ const fonts = {
   fontCode_BgColor: sys.monos.mc000,
   fontCode_Color: sys.monos.mc900,
 
-  fontEmboss_FontSize: `${sys.fontSizes.fs36}rem`,
-  fontEmboss_Color: sys.monos.mc500,
-  fontEmboss_ShadowColor: sys.monos.mc800,
-  fontEmboss_FontWeight: 'bold',
+  fontHEmboss_FontSize: `${sys.fontSizes.fs36}rem`,
+  fontHEmboss_Color: sys.monos.mc500,
+  fontHEmboss_ShadowColor: sys.monos.mc800,
+  fontHEmboss_FontWeight: 'bold',
+
+  fontTextEmboss_Color: sys.monos.mc500,
+  fontTextEmboss_ShadowColor: sys.monos.mc400,
 
   fontPlaceholder_Color: sys.monos.mc400,
   fontPlaceholder_Opacity: 0.8,
@@ -115,6 +122,14 @@ const fonts = {
   fontCheckbox_Color: sys.monos.mc100,
   fontCheckbox_FontSize: `${sys.fontSizes.fs16}rem`,
   fontCheckbox_FontWeight: 'bold',
+}
+
+const textShadows = {
+  overlay_TextShadow: `0 -2px 0 rgba(255, 255, 255, 0.5)`,
+  logo_TextShadow__Hover: `0 0 2px ${fonts.fontLogo_ShadowColor}`,
+  logo_TextShadow__Active: `0 0 5px ${fonts.fontLogo_ShadowColor}`,
+  hEmboss_TextShadow: `3px -3px 0 ${fonts.fontHEmboss_ShadowColor}`,
+  textEmboss_TextShadow: `1px 0 1px ${fonts.fontTextEmboss_ShadowColor}`,
 }
 
 const intentionColors = {
@@ -195,6 +210,7 @@ export const defaultTheme = {
   ...backgrounds,
   ...boxShadows,
   ...fonts,
+  ...textShadows,
   ...intentionColors,
   ...iconColors,
   ...borderColors,

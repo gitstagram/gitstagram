@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 import { customResets } from 'styles/customResets'
 import { theme, Theme, defaultTheme } from 'styles/themes'
 import { keys } from 'helpers'
+import { zIndicies } from 'styles/zIndicies'
 
 const createCssVariables = (theme: Theme): string => {
   return keys(theme).reduce((acc, key) => {
@@ -106,5 +107,9 @@ export const GlobalStyles = createGlobalStyle`
     @media screen and (prefers-reduced-motion: reduce) {
       animation: none;
     }
+  }
+
+  .nav-tooltip {
+    z-index: ${zIndicies.navTooltip};
   }
 `

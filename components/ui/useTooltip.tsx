@@ -4,6 +4,7 @@ import {
   Tooltip as ReakitTooltip,
   TooltipReference,
 } from 'reakit/Tooltip'
+import type { PopoverState } from 'reakit/Popover'
 import { theme } from 'styles/themes'
 
 const TooltipStyles = styled(ReakitTooltip)`
@@ -25,13 +26,23 @@ const TooltipStyles = styled(ReakitTooltip)`
   }
 `
 
+type UseTooltipProps = {
+  baseId: string
+  placement?: PopoverState['placement']
+  gutter?: number
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useTooltip = (baseId: string) => {
+export const useTooltip = ({
+  baseId,
+  placement = 'bottom-start',
+  gutter = 0,
+}: UseTooltipProps) => {
   const props = useTooltipState({
     animated: true,
-    placement: 'bottom-start',
-    gutter: 0,
-    baseId: baseId,
+    placement,
+    gutter,
+    baseId,
   })
 
   const Ref = TooltipReference

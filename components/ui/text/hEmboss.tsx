@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
 const HEmbossStyles = styled.h2`
-  color: ${theme('fontEmboss_Color')};
-  font-weight: ${theme('fontEmboss_FontWeight')};
-  font-size: ${theme('fontEmboss_FontSize')};
-  text-shadow: 3px -3px 0 ${theme('fontEmboss_ShadowColor')};
+  color: ${theme('fontHEmboss_Color')};
+  font-weight: ${theme('fontHEmboss_FontWeight')};
+  font-size: ${theme('fontHEmboss_FontSize')};
+  text-shadow: ${theme('hEmboss_TextShadow')};
 `
 
 export const HEmboss = ({

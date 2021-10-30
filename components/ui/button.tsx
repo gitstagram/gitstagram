@@ -21,12 +21,14 @@ type ButtonStyleProps = {
     | 'danger-invert'
     | 'danger-invert-important'
     | 'primary-invert'
+    | 'rounded'
   variant?: ButtonVariants
   isIconButton?: boolean
   disabled?: boolean
   loading?: boolean
   icon?: IconProps
   expand?: boolean
+  spanClassName?: string
 }
 
 type ConditionalProps =
@@ -252,19 +254,21 @@ const ButtonStyles = styled(ReakitButton).withConfig({
       }
     `}
 
-  ${({ isIconButton, intent }) =>
+  ${({ intent, isIconButton }) =>
     isIconButton &&
-    intent === 'success' &&
+    intent === 'rounded' &&
     css`
-      color: ${theme('intentSuccess_Color')};
+      background-color: ${theme('base_BgColor')};
+      border-radius: ${theme('roundedCircle_BorderRadius')};
+      box-shadow: ${theme('button_BoxShadow')};
 
       &:hover,
       &:focus {
-        color: ${theme('intentSuccess_Color__Hover')};
+        background-color: ${theme('base_BgColor__Hover')};
       }
 
       &:active {
-        color: ${theme('intentSuccess_Color__Active')};
+        background-color: ${theme('base_BgColor__Active')};
       }
     `}
 `
@@ -286,11 +290,11 @@ function isIconVariant(variant: ButtonVariants): variant is IconProps {
 }
 
 function ButtonBase(
-  { children, variant, icon, disabled, ...props }: ButtonProps,
+  { children, variant, icon, disabled, spanClassName, ...props }: ButtonProps,
   ref: React.Ref<HTMLButtonElement>
 ) {
   return (
-    <ClickSpan disabled={disabled}>
+    <ClickSpan disabled={disabled} className={spanClassName}>
       <ButtonStyles
         ref={ref}
         variant={variant}

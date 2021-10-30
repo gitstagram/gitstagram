@@ -30,11 +30,11 @@ const TextLogoStyles = styled.h1<TextLogoStyleProps>`
 
       &:hover,
       &:focus {
-        text-shadow: 0 0 2px ${theme('fontLogo_ShadowColor')};
+        text-shadow: ${theme('logo_TextShadow__Hover')};
       }
 
       &:active {
-        text-shadow: 0 0 5px ${theme('fontLogo_ShadowColor')};
+        text-shadow: ${theme('logo_TextShadow__Active')};
       }
     `}
 `

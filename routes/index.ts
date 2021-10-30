@@ -5,3 +5,5 @@ export const PROFILE = '/[userLogin]'
 export const getProfilePath = (userLogin: string): string => {
   return `/${userLogin}`
 }
+
+export const NEW = '/new'

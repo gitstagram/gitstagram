@@ -10,12 +10,13 @@ import {
   Button,
   FromTabletLandscape,
   UntilTabletLandscape,
+  useTooltip,
 } from 'components/ui'
 import { ProfileMenu } from 'components/header/profileMenu'
 import { SearchBox } from 'components/header/searchBox'
 import { MobileTopNav } from 'components/header/mobileTopNav'
 import { MobileTitle } from 'components/header/mobileTitle'
-import { HOME } from 'routes'
+import { HOME, NEW } from 'routes'
 import { theme } from 'styles/themes'
 import { zIndicies } from 'styles/zIndicies'
 
@@ -121,6 +122,18 @@ export const Header = (): JSX.Element => {
     }
   }, [searchMode])
 
+  const homeTip = useTooltip({
+    baseId: 'home-tooltip',
+    placement: 'bottom',
+    gutter: 4,
+  })
+
+  const postTip = useTooltip({
+    baseId: 'new-post-tooltip',
+    placement: 'bottom',
+    gutter: 4,
+  })
+
   const rightContent = session ? (
     <>
       <UntilTabletLandscape>
@@ -134,27 +147,38 @@ export const Header = (): JSX.Element => {
         />
       </UntilTabletLandscape>
       <FromTabletLandscape>
-        <Button
-          className='nav-icon'
-          onClick={() => {
-            throw new Error('Test Error')
-          }}
-          variant={{
-            icon: 'camera',
-            ariaLabel: 'Add a photo',
-          }}
-        />
-        <Link href={HOME}>
-          <a>
-            <Icon
-              clickable
-              className='nav-icon'
-              icon='house-door'
-              ariaLabel='Home'
-              filled={router.pathname === HOME}
-            />
-          </a>
-        </Link>
+        <postTip.Ref {...postTip.props}>
+          <Link href={NEW}>
+            <a>
+              <Icon
+                clickable
+                className='nav-icon'
+                icon='camera'
+                ariaLabel='New post'
+                filled={router.pathname === NEW}
+              />
+            </a>
+          </Link>
+        </postTip.Ref>
+        <postTip.Tip {...postTip.props} className='nav-tooltip'>
+          New Post
+        </postTip.Tip>
+        <homeTip.Ref {...homeTip.props}>
+          <Link href={HOME}>
+            <a>
+              <Icon
+                clickable
+                className='nav-icon'
+                icon='house-door'
+                ariaLabel='Home'
+                filled={router.pathname === HOME}
+              />
+            </a>
+          </Link>
+        </homeTip.Ref>
+        <homeTip.Tip {...homeTip.props} className='nav-tooltip'>
+          Home
+        </homeTip.Tip>
         <ProfileMenu />
       </FromTabletLandscape>
     </>
