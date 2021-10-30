@@ -62,13 +62,14 @@ export const useViewerInfo = (): ViewerInfo => {
     void signOut()
     throw new Error('Bad viewer info')
   }
+
   return {
     ...viewerInfo,
     avatarUrl: viewerInfo?.avatarUrl as Maybe<string>,
     libraryRepoId,
     currentOid,
-    stargazerCount,
-    issuesTotalCount,
+    stargazerCount: stargazerCount as number,
+    issuesTotalCount: issuesTotalCount as number,
     followingUsers,
     followingTags,
     saved,
