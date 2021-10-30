@@ -12,6 +12,7 @@ type ViewerInfo = Merge<
   ViewerProperties,
   {
     avatarUrl: Maybe<string>
+    libraryRepoId: string
     currentOid: string
     stargazerCount: number
     issuesTotalCount: number
@@ -24,6 +25,7 @@ type ViewerInfo = Merge<
 export const useViewerInfo = (): ViewerInfo => {
   const { data } = useCache_UserInfo_ViewerPropsQuery()
   const viewerInfo = data?.viewer
+  const libraryRepoId = viewerInfo?.libraryRepoId
   const currentOid = viewerInfo?.currentOid
   const stargazerCount = viewerInfo?.stargazerCount
   const stargazerInvalid = nullish(stargazerCount)
@@ -35,6 +37,7 @@ export const useViewerInfo = (): ViewerInfo => {
 
   if (
     !viewerInfo ||
+    !libraryRepoId ||
     !currentOid ||
     stargazerInvalid ||
     issuesTotalCountInvalid ||
@@ -46,6 +49,7 @@ export const useViewerInfo = (): ViewerInfo => {
       inside: 'useViewerInfo',
       msgs: [
         [!viewerInfo, 'No viewer info'],
+        [!libraryRepoId, 'No viewer info libraryRepoId'],
         [!currentOid, 'No viewer info currentOid'],
         [stargazerInvalid, 'No viewer info stargazerCount'],
         [issuesTotalCountInvalid, 'No viewer info issuesTotalCount'],
@@ -61,6 +65,7 @@ export const useViewerInfo = (): ViewerInfo => {
   return {
     ...viewerInfo,
     avatarUrl: viewerInfo?.avatarUrl as Maybe<string>,
+    libraryRepoId,
     currentOid,
     stargazerCount,
     issuesTotalCount,

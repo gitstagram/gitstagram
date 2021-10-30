@@ -99,12 +99,12 @@ export const AccountDelete = ({
         return deleteRepoMutationPromise({ userLogin: viewerLogin })
       })
       .catch((err: unknown) => {
+        toast.warn(`Problem processing this request.`)
         captureException({
           err,
           inside: 'AccountDelete',
           msgs: ['Delete repo failed'],
         })
-        toast.warn(`Problem processing this request.`)
       })
       .finally(() => void signOut())
   }

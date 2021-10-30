@@ -73,12 +73,12 @@ export const FollowingButton = ({
     )
 
     if (starErr) {
+      toast.warn('Issue unfollowing user on Github')
       captureException({
         err: starErr,
         inside: 'FollowingButton',
         msgs: [[starErr, 'Error removing star']],
       })
-      toast.warn('Issue unfollowing user on Github')
       setFollowState('base')
       return
     }

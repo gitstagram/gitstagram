@@ -40,6 +40,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   User: {
     keyFields: ['login'],
     fields: {
+      libraryRepoId: nullOnUndefinedPolicy,
       currentOid: nullOnUndefinedPolicy,
       stargazerCount: nullOnUndefinedPolicy,
       issuesTotalCount: nullOnUndefinedPolicy,
@@ -62,12 +63,14 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
         // No repository means not a gitstagram user
         if (!user?.repository) return incoming
 
+        const libraryRepoId = user?.repository.id
         const currentOid = user?.repository?.defaultBranchRef?.target
           ?.oid as Maybe<string>
         const stargazerCount = user?.repository?.stargazerCount
         const issuesTotalCount = user?.repository?.issues.totalCount
 
         if (
+          !libraryRepoId ||
           !currentOid ||
           nullish(stargazerCount) ||
           nullish(issuesTotalCount)
@@ -75,6 +78,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           captureException({
             inside: 'typePolicies:User',
             msgs: [
+              [!libraryRepoId, 'Cannot read libraryRepoId'],
               [!currentOid, 'Cannot read currentOid'],
               [nullish(stargazerCount), 'Cannot read stargazerCount'],
               [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
@@ -87,6 +91,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           id: cache.identify(incoming),
           fragment: Cache_UserInfo_LiftedPropsFragmentDoc,
           data: {
+            libraryRepoId,
             currentOid,
             stargazerCount,
             issuesTotalCount,

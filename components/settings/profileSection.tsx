@@ -57,6 +57,8 @@ export const ProfileSection = (): JSX.Element => {
 
   const profileForm = useFormik({
     initialValues: {
+      libraryRepoId: viewerInfo.libraryRepoId,
+      login: viewerInfo.login,
       name: viewerInfo.name || '',
       location: viewerInfo.location || '',
       twitterUsername: viewerInfo.twitterUsername || '',
@@ -66,12 +68,12 @@ export const ProfileSection = (): JSX.Element => {
       setSubmitState('loading')
       void updateUserPromise({ ...values })
         .catch((err: unknown) => {
+          toast.warn(`Problem processing this request.`)
           captureException({
             err,
             inside: 'ProfileSection',
             msgs: ['User update failed'],
           })
-          toast.warn(`Problem processing this request.`)
         })
         .finally(() => setSubmitState('base'))
     },

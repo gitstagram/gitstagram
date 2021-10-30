@@ -1,15 +1,9 @@
 import { gql, FetchResult } from '@apollo/client'
 import { apolloClient } from 'graphql/apolloClient'
+import { updateRepositoryMutationPromise } from 'graphql/operations'
+import { getMetadataJson, async } from 'helpers'
 
-type UpdateUser = {
-  login: string
-  name: Maybe<string>
-  location: Maybe<string>
-  twitterUsername: Maybe<string>
-  bio: Maybe<string>
-}
-
-type UpdateUserPromiseInput = {
+type UpdateUserVariablesInput = {
   name: Maybe<string>
   location: Maybe<string>
   twitterUsername: Maybe<string>
@@ -17,7 +11,15 @@ type UpdateUserPromiseInput = {
 }
 
 type UpdateUserVariables = {
-  input: UpdateUserPromiseInput
+  input: UpdateUserVariablesInput
+}
+
+interface UpdateUserMutationReturn extends UpdateUserVariablesInput {
+  login: string
+}
+
+interface UpdateUserPromiseArgs extends UpdateUserMutationReturn {
+  libraryRepoId: string
 }
 
 const UPDATE_USER = gql`
@@ -33,13 +35,24 @@ const UPDATE_USER = gql`
   }
 `
 
-export const updateUserPromise = (
-  input: UpdateUserPromiseInput
-): Promise<FetchResult<UpdateUser>> => {
-  return apolloClient.mutate<UpdateUser, UpdateUserVariables>({
+export const updateUserPromise = async (
+  input: UpdateUserPromiseArgs
+): Promise<FetchResult<UpdateUserMutationReturn>> => {
+  const { login, libraryRepoId, ...restInput } = input
+  if (input.name) {
+    const descriptionMetadata = getMetadataJson(login, input.name)
+    const { err } = await async(
+      updateRepositoryMutationPromise({
+        repositoryId: libraryRepoId,
+        description: descriptionMetadata,
+      })
+    )
+    if (err) return Promise.reject(err)
+  }
+  return apolloClient.mutate<UpdateUserMutationReturn, UpdateUserVariables>({
     mutation: UPDATE_USER,
     variables: {
-      input,
+      input: restInput,
     },
   })
 }

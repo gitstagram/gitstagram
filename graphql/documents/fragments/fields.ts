@@ -9,6 +9,7 @@ export const FRAG_User_Fields = gql`
     location
     twitterUsername
     bio
+    libraryRepoId @client
     currentOid @client
     stargazerCount @client
     issuesTotalCount @client

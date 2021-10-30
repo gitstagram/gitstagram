@@ -9,6 +9,7 @@ export const CACHE_Generate_UserInfo_LiftedProps = gql`
     twitterUsername
     bio
     repository(name: $repositoryName) {
+      id
       stargazerCount
       defaultBranchRef {
         target {
@@ -31,6 +32,7 @@ export const CACHE_Generate_UserInfo_LiftedProps = gql`
 
 export const CACHE_UserInfo_LiftedProps = gql`
   fragment CACHE_UserInfo_LiftedProps on User {
+    libraryRepoId @client
     currentOid @client
     stargazerCount @client
     issuesTotalCount @client
@@ -74,6 +76,7 @@ export const CACHE_UserInfo_ViewerProps = gql`
       location
       twitterUsername
       bio
+      libraryRepoId @client
       currentOid @client
       stargazerCount @client
       issuesTotalCount @client

@@ -8,6 +8,7 @@ export const localTypeDefs = gql`
   }
 
   type User {
+    libraryRepoId: String
     currentOid: String
     stargazerCount: Int
     issuesTotalCount: Int

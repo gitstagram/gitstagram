@@ -79,12 +79,12 @@ export const FollowButton = ({
     )
 
     if (starErr) {
+      toast.warn('Issue following user on Github')
       captureException({
         err: starErr,
         inside: 'FollowButton',
         msgs: [[starErr, 'Error adding star']],
       })
-      toast.warn('Issue following user on Github')
       setFollowState('base')
       return
     }
