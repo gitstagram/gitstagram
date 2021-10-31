@@ -13,7 +13,7 @@ import {
   Icon,
 } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
-import { updateUserPromise } from 'graphql/operations'
+import { updateUserMutationPromise } from 'graphql/operations'
 import { captureException } from 'helpers'
 
 const ProfileSectionStyles = styled(Panel)`
@@ -57,8 +57,6 @@ export const ProfileSection = (): JSX.Element => {
 
   const profileForm = useFormik({
     initialValues: {
-      libraryRepoId: viewerInfo.libraryRepoId,
-      login: viewerInfo.login,
       name: viewerInfo.name || '',
       location: viewerInfo.location || '',
       twitterUsername: viewerInfo.twitterUsername || '',
@@ -66,7 +64,7 @@ export const ProfileSection = (): JSX.Element => {
     },
     onSubmit: (values) => {
       setSubmitState('loading')
-      void updateUserPromise({ ...values })
+      void updateUserMutationPromise({ ...values })
         .catch((err: unknown) => {
           toast.warn(`Problem processing this request.`)
           captureException({

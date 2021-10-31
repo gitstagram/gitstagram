@@ -13,9 +13,14 @@ export * from 'helpers/errorHandling/apolloClient404'
 export * from 'helpers/errorHandling/captureException'
 
 export * from 'helpers/file/fileToB64'
+export * from 'helpers/file/getSanitizedFileExtension'
+export * from 'helpers/file/getSanitizedFileName'
+export * from 'helpers/file/getUniqueSanitizedFileName'
+export * from 'helpers/file/getUploadRawUrl'
 
 export * from 'helpers/number/toReadableNum'
 
+export * from 'helpers/string/getHashtags'
 export * from 'helpers/string/getURIQueryString'
 export * from 'helpers/string/nanoid'
 export * from 'helpers/string/pluralize'
@@ -35,6 +40,7 @@ export * from 'helpers/validation/regex'
 export * from 'helpers/validation/structs/alphaNumHyphenString'
 export * from 'helpers/validation/structs/alphaNumString'
 export * from 'helpers/validation/structs/anyRecord'
+export * from 'helpers/validation/structs/gitstagramPost'
 export * from 'helpers/validation/structs/libraryData'
 export * from 'helpers/validation/structs/metadata'
 

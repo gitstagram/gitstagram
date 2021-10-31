@@ -1,97 +1,42 @@
 import React, { useState, useRef } from 'react'
 import Image from 'next/image'
-import styled from 'styled-components'
-import { TextEmboss, Button, useTooltip } from 'components/ui'
-import { theme } from 'styles/themes'
-import { fileToB64, async, isImage } from 'helpers'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import { ProfileIcon } from 'components/profileIcon'
+import { NewStyles, removeTooltipId } from 'components/new/newStyles'
+import { TextEmboss, Button, useTooltip, Panel, TextArea } from 'components/ui'
+import {
+  fileToB64,
+  async,
+  isImage,
+  GitstagramPost,
+  getUniqueSanitizedFileName,
+  captureException,
+  getUploadRawUrl,
+  getHashtags,
+} from 'helpers'
+import { useViewerInfo } from 'components/data'
+import {
+  createCommitMutationPromise,
+  createIssueMutationPromise,
+} from 'graphql/operations'
+import { getProfilePath } from 'routes'
 
-const removeTooltipId = 'remove-tooltip'
-
-const NewStyles = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: ${theme('sz512')};
-  margin-right: auto;
-  margin-left: auto;
-
-  .post-image {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    clip: rect(0 0 0 0);
-  }
-
-  .post-square {
-    position: relative;
-    width: 100%;
-    max-width: ${theme('sz384')};
-    border-radius: ${theme('roundedLarge_BorderRadius')};
-    box-shadow: ${theme('inset_BoxShadow')};
-
-    &:hover,
-    &:focus {
-      background-color: ${theme('inset_BgColor__Hover')};
-    }
-
-    &:active {
-      background-color: ${theme('inset_BgColor__Active')};
-    }
-  }
-
-  .post-square::after {
-    display: block;
-    padding-bottom: 100%;
-    content: '';
-  }
-
-  .post-square-content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-    div:first-child {
-      border-radius: ${theme('roundedLarge_BorderRadius')};
-    }
-  }
-
-  [aria-describedby=${removeTooltipId}] {
-    position: absolute;
-    top: ${theme('sz12')};
-    right: ${theme('sz12')};
-  }
-
-  .post-remove-button {
-    width: ${theme('sz32')};
-    height: ${theme('sz32')};
-  }
-
-  .post-preview-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: ${theme('roundedLarge_BorderRadius')};
-    box-shadow: ${theme('float_BoxShadow')};
-  }
-
-  .post-select-label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    user-select: none;
-  }
-`
+type NewState = 'base' | 'loading'
 
 export const New = (): JSX.Element => {
+  const viewerInfo = useViewerInfo()
+  const router = useRouter()
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  const [loadingState, setLoadingState] = useState<NewState>('base')
+  const [caption, setCaption] = useState<string>('')
   const [previewSrc, setPreviewSrc] = useState<string | undefined>(undefined)
   const [error, setError] = useState<string | undefined>(undefined)
+
+  const handleCaption: InputChangeHandler<string> = (val) => {
+    setCaption(val)
+  }
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = async (
     e
@@ -109,7 +54,7 @@ export const New = (): JSX.Element => {
         fileToB64({ file, withMeta: true })
       )
       if (parsedErr) {
-        setError('File unreadable')
+        setError('File unreadable, try again?')
         return
       }
       setError(undefined)
@@ -129,50 +74,153 @@ export const New = (): JSX.Element => {
     removeTip.props.hide()
   }
 
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const handleSubmit = async () => {
+    setLoadingState('loading')
+
+    const file = inputRef.current?.files && inputRef.current.files[0]
+    if (file) {
+      const { res: isFile, err: isFileErr } = await async(isImage(file))
+      if (!isFile || isFileErr) {
+        toast.warn('Invalid file, try again?')
+        setLoadingState('base')
+        return
+      }
+
+      const { res: parsedRawImg, err: parsedErr } = await async(
+        fileToB64({ file, withMeta: false })
+      )
+      if (parsedErr) {
+        toast.warn('File unreadable, try again?')
+        setLoadingState('base')
+        return
+      }
+      const fileName = getUniqueSanitizedFileName(file.name)
+
+      const { err: uploadErr } = await async(
+        createCommitMutationPromise({
+          b64Contents: parsedRawImg,
+          path: `media/${fileName}`,
+          commitMessage: `Add media: ${fileName}`,
+        })
+      )
+
+      if (uploadErr) {
+        toast.warn('Upload failed, try again?')
+        captureException({
+          inside: 'New:handleSubmit',
+          msgs: ['Creating file upload commit failed'],
+        })
+        setLoadingState('base')
+        return
+      }
+
+      const creationMsg = `${viewerInfo.login} posted ${fileName}`
+
+      const mediaObj = {
+        src: getUploadRawUrl(viewerInfo.login, fileName),
+        altText: creationMsg,
+        taggedUsers: [],
+      }
+
+      const post: GitstagramPost = {
+        media: [mediaObj],
+        location: '',
+        caption,
+      }
+
+      const { err: postErr } = await async(
+        createIssueMutationPromise({
+          title: creationMsg,
+          body: JSON.stringify(post, null, 2),
+          labels: getHashtags(caption),
+        })
+      )
+
+      if (postErr) {
+        toast.warn('Posting file failed, try again?')
+        captureException({
+          inside: 'New:handleSubmit',
+          msgs: ['Creating issue failed'],
+        })
+        setLoadingState('base')
+        return
+      }
+
+      void router.push(getProfilePath(viewerInfo.login))
+    }
+  }
+
   return (
     <NewStyles>
-      <input
-        ref={inputRef}
-        className='post-image'
-        type='file'
-        id='image'
-        onChange={handleChange}
-        accept='image/*'
-      />
-      <div className='post-square'>
-        <div className='post-square-content'>
-          {previewSrc && (
-            <>
-              <Image
-                unoptimized
-                className='post-preview-image'
-                layout='fill'
-                src={previewSrc}
-                alt='Upload preview'
-              />
-              <removeTip.Ref {...removeTip.props}>
-                <Button
-                  className='post-remove-button'
-                  variant={{
-                    icon: 'x-lg',
-                    ariaLabel: 'Remove photo',
-                    size: 12,
-                  }}
-                  intent='rounded'
-                  onClick={handleRemove}
+      <form onSubmit={handleSubmit}>
+        <input
+          ref={inputRef}
+          className='glb-clip-hide'
+          type='file'
+          id='image'
+          onChange={handleChange}
+          accept='image/*'
+        />
+        <div className='post-square'>
+          <div className='post-square-content'>
+            {previewSrc && (
+              <>
+                <Image
+                  unoptimized
+                  className='post-preview-image'
+                  layout='fill'
+                  src={previewSrc}
+                  alt='Upload preview'
                 />
-              </removeTip.Ref>
-              <removeTip.Tip {...removeTip.props}>Remove photo</removeTip.Tip>
-            </>
-          )}
-          {!previewSrc && (
-            <label className='post-select-label' htmlFor='image'>
-              <TextEmboss>{error ? error : 'Select a photo..'}</TextEmboss>
-            </label>
-          )}
+                <removeTip.Ref {...removeTip.props}>
+                  <Button
+                    className='post-remove-button'
+                    variant={{
+                      icon: 'x-lg',
+                      ariaLabel: 'Remove photo',
+                      size: 12,
+                    }}
+                    intent='rounded'
+                    onClick={handleRemove}
+                    disabled={loadingState === 'loading'}
+                  />
+                </removeTip.Ref>
+                <removeTip.Tip {...removeTip.props}>Remove photo</removeTip.Tip>
+              </>
+            )}
+            {!previewSrc && (
+              <label className='post-select-label' htmlFor='image'>
+                <TextEmboss>{error ? error : 'Select a photo...'}</TextEmboss>
+              </label>
+            )}
+          </div>
         </div>
-      </div>
+        <Panel className='post-caption-panel'>
+          <ProfileIcon className='post-user-icon' useViewer />
+          <TextArea
+            className='post-caption-input'
+            id='post-caption'
+            name='post-caption'
+            initialValue={caption}
+            placeholderText='Write a caption...'
+            onChange={handleCaption}
+            disabled={loadingState === 'loading'}
+          />
+        </Panel>
+        <Button
+          spanClassName='post-submit'
+          onClick={handleSubmit}
+          disabled={!previewSrc || loadingState === 'loading'}
+          loading={loadingState === 'loading'}
+          icon={
+            loadingState === 'loading'
+              ? { icon: 'gear', ariaHidden: true }
+              : undefined
+          }
+        >
+          {loadingState === 'base' ? 'Submit Post' : 'Submitting...'}
+        </Button>
+      </form>
     </NewStyles>
   )
 }

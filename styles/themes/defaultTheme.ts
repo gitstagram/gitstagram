@@ -33,7 +33,7 @@ const boxShadows = {
   button_BoxShadow: `inset 0px -3px 4px 2px rgb(0 0 0 / 15%)`,
   input_BoxShadow__Focus: `${sys.colors.blue200} 0 0 0 1px`,
   inset_BoxShadow: `${sys.monos.mc900} 3px 3px 6px 0 inset, ${sys.monos.mc600} -3px -3px 6px 1px inset`,
-  float_BoxShadow: `${sys.monos.mc800} 10px 10px 9px 2px`,
+  float_BoxShadow: `${sys.monos.mc800} 5px 5px 10px 2px`,
 }
 
 const fonts = {
