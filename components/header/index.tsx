@@ -160,7 +160,7 @@ export const Header = (): JSX.Element => {
             </a>
           </Link>
         </postTip.Ref>
-        <postTip.Tip {...postTip.props} className='nav-tooltip'>
+        <postTip.Tip {...postTip.props} className='glb-nav-tooltip'>
           New Post
         </postTip.Tip>
         <homeTip.Ref {...homeTip.props}>
@@ -176,7 +176,7 @@ export const Header = (): JSX.Element => {
             </a>
           </Link>
         </homeTip.Ref>
-        <homeTip.Tip {...homeTip.props} className='nav-tooltip'>
+        <homeTip.Tip {...homeTip.props} className='glb-nav-tooltip'>
           Home
         </homeTip.Tip>
         <ProfileMenu />

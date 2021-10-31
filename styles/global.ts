@@ -63,7 +63,7 @@ export const GlobalStyles = createGlobalStyle`
     overflow: auto !important;
   }
 
-  .skeleton {
+  .glb-skeleton {
     background-color: ${theme('font_Color')};
     border-radius: ${theme('roundedSmall_BorderRadius')};
     opacity: 0.3;
@@ -91,7 +91,7 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .rotate {
+  .glb-rotate {
     animation: ${theme('trans_Rotation')};
 
     @keyframes rotation {
@@ -109,7 +109,18 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .nav-tooltip {
+  .glb-clip-hide {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0 0 0 0);
+  }
+
+  .glb-nav-tooltip {
     z-index: ${zIndicies.navTooltip};
   }
 `

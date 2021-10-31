@@ -96,25 +96,25 @@ export const SkeletonProfile = ({ ...props }: BaseProps): JSX.Element => {
   return (
     <SkeletonProfileStyles {...props}>
       <div className='profile-title-section'>
-        <div className='profile-icon skeleton' />
-        <div className='profile-title skeleton' />
+        <div className='profile-icon glb-skeleton' />
+        <div className='profile-title glb-skeleton' />
       </div>
-      <div className='profile-description-section skeleton' />
+      <div className='profile-description-section glb-skeleton' />
       <UntilTabletLandscape>
-        <div className='profile-following-banner skeleton' />
+        <div className='profile-following-banner glb-skeleton' />
       </UntilTabletLandscape>
       <div className='grid'>
         {times(3).map((_, index) => {
           return (
             <div className='square-row' key={index}>
               <div className='square'>
-                <div className='content skeleton' />
+                <div className='content glb-skeleton' />
               </div>
               <div className='square'>
-                <div className='content skeleton' />
+                <div className='content glb-skeleton' />
               </div>
               <div className='square'>
-                <div className='content skeleton' />
+                <div className='content glb-skeleton' />
               </div>
             </div>
           )

@@ -33,9 +33,9 @@ const SkeletonUserListItemStyles = styled.div`
 export const SkeletonUserListItem = ({ ...props }: BaseProps): JSX.Element => {
   return (
     <SkeletonUserListItemStyles {...props}>
-      <div className='user-img skeleton' />
-      <div className='user-info skeleton' />
-      <div className='user-action skeleton' />
+      <div className='user-img glb-skeleton' />
+      <div className='user-info glb-skeleton' />
+      <div className='user-action glb-skeleton' />
     </SkeletonUserListItemStyles>
   )
 }

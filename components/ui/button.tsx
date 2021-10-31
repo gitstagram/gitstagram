@@ -306,7 +306,7 @@ function ButtonBase(
           <Icon
             {...icon}
             size={icon.size || 16}
-            className={cn({ rotate: props.loading })}
+            className={cn({ ['glb-rotate']: props.loading })}
           />
         )}
         {isIconVariant(variant) ? <Icon {...variant} /> : children}

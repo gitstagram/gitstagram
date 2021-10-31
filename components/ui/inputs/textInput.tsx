@@ -210,7 +210,7 @@ function TextInputBase(
             }}
           />
         )}
-        {loading && <div className='loading skeleton' />}
+        {loading && <div className='loading glb-skeleton' />}
       </div>
     </TextInputStyles>
   )

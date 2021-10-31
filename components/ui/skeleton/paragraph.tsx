@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { theme } from 'styles/themes'
 
 const SkeletonParagraphStyles = styled.div`
-  .skeleton {
+  .glb-skeleton {
     height: ${theme('sz16')};
     margin-bottom: ${theme('sz8')};
   }
@@ -20,10 +20,10 @@ const SkeletonParagraphStyles = styled.div`
 export const SkeletonParagraph = ({ ...props }: BaseProps): JSX.Element => {
   return (
     <SkeletonParagraphStyles {...props}>
-      <div className='long skeleton' />
-      <div className='long skeleton' />
-      <div className='medium skeleton' />
-      <div className='medium skeleton' />
+      <div className='long glb-skeleton' />
+      <div className='long glb-skeleton' />
+      <div className='medium glb-skeleton' />
+      <div className='medium glb-skeleton' />
     </SkeletonParagraphStyles>
   )
 }

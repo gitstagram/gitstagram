@@ -18,7 +18,7 @@ export const Spinner = ({
   ...props
 }: SpinnerProps): JSX.Element => {
   return (
-    <SpinnerStyles {...props} className={cn(className, 'rotate')}>
+    <SpinnerStyles {...props} className={cn(className, 'glb-rotate')}>
       <Icon icon='gear' ariaLabel={ariaLabel} />
     </SpinnerStyles>
   )
