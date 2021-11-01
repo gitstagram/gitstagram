@@ -66,8 +66,7 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
               <div key={index} className='posts-square-row'>
                 {row.map((post, index) => {
                   const validPost = post && isGitstagramPost(post.bodyText)
-
-                  if (validPost) {
+                  if (post && validPost) {
                     const postData = parseIfJson(
                       post.bodyText
                     ) as GitstagramPost
