@@ -22,7 +22,7 @@ export const MediaObjStruct = object({
 })
 
 export const GitstagramPostStruct = object({
-  media: array(MediaObjStruct),
+  media: size(array(MediaObjStruct), 1),
   location: size(string(), 0, 255),
   caption: string(),
 })

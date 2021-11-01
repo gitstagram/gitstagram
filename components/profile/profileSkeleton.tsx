@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { UntilTabletLandscape } from 'components/ui'
+import { UntilTabletLandscape, FromTabletLandscape, Hr } from 'components/ui'
 import { times } from 'helpers'
 import { theme, themeConstant } from 'styles/themes'
 
@@ -57,22 +57,40 @@ const SkeletonProfileStyles = styled.div`
     margin-left: calc(-1 * ${theme('appPadding')});
   }
 
+  .divider {
+    margin-top: ${theme('sz48')};
+    margin-bottom: ${theme('sz12')};
+  }
+
   .grid {
     width: 100vw;
     max-width: ${theme('maxWidth')};
     margin-top: ${theme('sz16')};
     margin-left: calc(-1 * ${theme('appPadding')});
+
+    ${themeConstant('media__TabletLandscape')} {
+      margin-top: 0;
+      padding: ${theme('appPadding')};
+    }
   }
 
   .square-row {
     display: flex;
     margin-bottom: ${theme('sz4')};
+
+    ${themeConstant('media__TabletLandscape')} {
+      margin-bottom: ${theme('sz24')};
+    }
   }
 
   .square {
     position: relative;
     width: 100%;
     margin-right: ${theme('sz4')};
+
+    ${themeConstant('media__TabletLandscape')} {
+      margin-right: ${theme('sz24')};
+    }
   }
 
   .square:last-child {
@@ -103,6 +121,9 @@ export const SkeletonProfile = ({ ...props }: BaseProps): JSX.Element => {
       <UntilTabletLandscape>
         <div className='profile-following-banner glb-skeleton' />
       </UntilTabletLandscape>
+      <FromTabletLandscape>
+        <Hr className='divider' />
+      </FromTabletLandscape>
       <div className='grid'>
         {times(3).map((_, index) => {
           return (

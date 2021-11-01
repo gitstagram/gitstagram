@@ -45,9 +45,10 @@ export const Mistake = ({
   mistake,
   mistakeDescription,
   expand,
+  ...props
 }: MistakeProps): JSX.Element => {
   return (
-    <MistakeStyles expand={expand}>
+    <MistakeStyles expand={expand} {...props}>
       <HEmboss as='h3' className='mistake'>
         {mistake}
       </HEmboss>

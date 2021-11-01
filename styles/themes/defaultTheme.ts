@@ -26,6 +26,7 @@ const backgrounds = {
   checkbox_BgColor__Checked: sys.monos.mc600,
   inset_BgColor__Hover: sys.monos.mc700,
   inset_BgColor__Active: `${sys.monos.mc700}${percentToHex(50)}`,
+  shroud_BgColor: `${sys.monos.mc900}${percentToHex(70)}`,
 }
 
 const boxShadows = {
@@ -184,6 +185,9 @@ const colorAnimate = `color ${transitionSpeed}ms ease-in-out`
 const bgColorAnimate = `background-color ${transitionSpeed}ms ease-in-out`
 const rotation = `rotation 6s linear infinite`
 
+const transitionSpeed__Long = sys.transitionSpeeds.trans300
+const opacityAnimateLong = `opacity ${transitionSpeed__Long}ms ease-in-out`
+
 const transitions = {
   trans_Speed: transitionSpeed,
   trans_Opacity: opacityAnimate,
@@ -193,6 +197,7 @@ const transitions = {
   trans_BgColor: bgColorAnimate,
   trans_ColorBgColor: `${colorAnimate}, ${bgColorAnimate}`,
   trans_Rotation: rotation,
+  trans_Opacity__Long: opacityAnimateLong,
 }
 
 const roundedRadius = {

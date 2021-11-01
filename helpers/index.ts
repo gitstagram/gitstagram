@@ -1,3 +1,5 @@
+export * from 'helpers/array/padTo'
+export * from 'helpers/array/splitBy'
 export * from 'helpers/array/times'
 export * from 'helpers/array/uniqArr'
 
@@ -46,6 +48,7 @@ export * from 'helpers/validation/structs/metadata'
 
 export * from 'helpers/validation/coerceArray'
 export * from 'helpers/validation/isAnyRecord'
+export * from 'helpers/validation/isGitstagramPost'
 export * from 'helpers/validation/isImage'
 export * from 'helpers/validation/parseIfJson'
 export * from 'helpers/validation/parseJsonIfB64'

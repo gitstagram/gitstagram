@@ -27,6 +27,13 @@ export const FRAG_Issue_Fields = gql`
     number
     title
     bodyText
+    bodyUrl
+    reactions {
+      totalCount
+    }
+    comments {
+      totalCount
+    }
   }
 `
 

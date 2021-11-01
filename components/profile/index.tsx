@@ -8,6 +8,7 @@ import { ProfileHeader } from 'components/profile/profileHeader'
 import { FollowingBanner } from 'components/profile/followingBanner'
 import { FollowerDialog } from 'components/profile/followerDialog'
 import { FollowingDialog } from 'components/profile/followingDialog'
+import { ProfilePosts } from 'components/profile/profilePosts'
 import { getLibraryDataQueryPromise } from 'graphql/operations'
 import { Hr, UntilTabletLandscape, FromTabletLandscape } from 'components/ui'
 import { themeConstant, theme } from 'styles/themes'
@@ -134,6 +135,7 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
       {followingDialogMounted && (
         <FollowingDialog userLogin={userLogin} dialogProps={followingDialog} />
       )}
+      <ProfilePosts userLogin={userLogin} />
     </>
   )
 }

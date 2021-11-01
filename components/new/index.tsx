@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
+import { VisuallyHidden } from 'reakit/VisuallyHidden'
 import { ProfileIcon } from 'components/profileIcon'
 import { NewStyles, removeTooltipId } from 'components/new/newStyles'
 import { TextEmboss, Button, useTooltip, Panel, TextArea } from 'components/ui'
@@ -153,14 +154,15 @@ export const New = (): JSX.Element => {
   return (
     <NewStyles>
       <form onSubmit={handleSubmit}>
-        <input
-          ref={inputRef}
-          className='glb-clip-hide'
-          type='file'
-          id='image'
-          onChange={handleChange}
-          accept='image/*'
-        />
+        <VisuallyHidden>
+          <input
+            ref={inputRef}
+            type='file'
+            id='image'
+            onChange={handleChange}
+            accept='image/*'
+          />
+        </VisuallyHidden>
         <div className='post-square'>
           <div className='post-square-content'>
             {previewSrc && (

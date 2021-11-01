@@ -4,6 +4,7 @@ export enum BootstrapIcons {
   BookmarksFill = 'bookmarks-fill',
   CameraFill = 'camera-fill',
   Camera = 'camera',
+  ChatFill = 'chat-fill',
   Chat = 'chat',
   ChevronLeft = 'chevron-left',
   ChevronRight = 'chevron-right',

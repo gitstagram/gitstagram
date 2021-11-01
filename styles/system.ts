@@ -117,6 +117,7 @@ export const borderRads = {
 
 export const transitionSpeeds = {
   trans150: 150,
+  trans300: 300,
 }
 
 export const iconSizes = {

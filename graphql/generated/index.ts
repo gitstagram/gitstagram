@@ -22453,11 +22453,11 @@ export type Cache_UserInfo_UserPropsFragment = { __typename?: 'User', login: str
 
 export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined };
 
-export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, number: number, title: string, bodyText: string };
+export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } };
 
-export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined };
+export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined };
 
-export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined } };
+export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined } };
 
 export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number };
 
@@ -22471,7 +22471,7 @@ export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', st
 
 export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
-export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
+export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type CloneGitstagramLibraryMutationVariables = Exact<{
   ownerId: Scalars['ID'];
@@ -22508,7 +22508,7 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
@@ -22518,7 +22518,7 @@ export type GetUserGitstagramLibraryQueryVariables = Exact<{
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type SearchUsersQueryVariables = Exact<{
   loginSearch: Scalars['String'];
@@ -22696,6 +22696,13 @@ export const Frag_Issue_FieldsFragmentDoc = gql`
   number
   title
   bodyText
+  bodyUrl
+  reactions {
+    totalCount
+  }
+  comments {
+    totalCount
+  }
 }
     `;
 export const Frag_Issue_NodesFragmentDoc = gql`
