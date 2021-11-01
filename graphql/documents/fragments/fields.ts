@@ -58,6 +58,7 @@ export const FRAG_Repository_Issues = gql`
         states: $filterIssuesStates
         createdBy: $userLogin
       }
+      orderBy: { field: CREATED_AT, direction: DESC }
     ) {
       totalCount
       ...FRAG_Issue_Nodes

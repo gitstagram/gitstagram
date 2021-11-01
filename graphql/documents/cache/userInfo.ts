@@ -23,6 +23,7 @@ export const CACHE_Generate_UserInfo_LiftedProps = gql`
           states: $filterIssuesStates
           createdBy: $userLogin
         }
+        orderBy: { field: CREATED_AT, direction: DESC }
       ) {
         totalCount
       }

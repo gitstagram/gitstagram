@@ -14,6 +14,7 @@ export * from 'helpers/object/toJsonB64'
 export * from 'helpers/errorHandling/apolloClient404'
 export * from 'helpers/errorHandling/captureException'
 
+export * from 'helpers/file/compressFile'
 export * from 'helpers/file/fileToB64'
 export * from 'helpers/file/getSanitizedFileExtension'
 export * from 'helpers/file/getSanitizedFileName'

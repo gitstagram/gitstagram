@@ -23,6 +23,15 @@ import {
 } from 'graphql/operations'
 import { getProfilePath } from 'routes'
 
+const compressOpts = {
+  quality: 0.6,
+  checkOrientation: false,
+  height: 800,
+  width: 800,
+  resize: 'cover' as const,
+  convertSize: 2000000, // 2MB
+}
+
 type NewState = 'base' | 'loading'
 
 export const New = (): JSX.Element => {
@@ -52,7 +61,7 @@ export const New = (): JSX.Element => {
       }
 
       const { res: parsedImg, err: parsedErr } = await async(
-        fileToB64({ file, withMeta: true })
+        fileToB64({ file, withHeader: true, compressOpts })
       )
       if (parsedErr) {
         setError('File unreadable, try again?')
@@ -88,7 +97,7 @@ export const New = (): JSX.Element => {
       }
 
       const { res: parsedRawImg, err: parsedErr } = await async(
-        fileToB64({ file, withMeta: false })
+        fileToB64({ file, withHeader: false, compressOpts })
       )
       if (parsedErr) {
         toast.warn('File unreadable, try again?')

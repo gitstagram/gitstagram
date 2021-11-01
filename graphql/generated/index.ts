@@ -22565,6 +22565,7 @@ export const Cache_Generate_UserInfo_LiftedPropsFragmentDoc = gql`
     issues(
       first: $firstIssues
       filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
+      orderBy: {field: CREATED_AT, direction: DESC}
     ) {
       totalCount
     }
@@ -22717,6 +22718,7 @@ export const Frag_Repository_IssuesFragmentDoc = gql`
   issues(
     first: $firstIssues
     filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
+    orderBy: {field: CREATED_AT, direction: DESC}
   ) {
     totalCount
     ...FRAG_Issue_Nodes
