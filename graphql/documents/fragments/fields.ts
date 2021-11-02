@@ -1,5 +1,26 @@
 import { gql } from '@apollo/client'
 
+export const FRAG_User_Fields = gql`
+  fragment FRAG_User_Fields on User {
+    id
+    login
+    avatarUrl
+    name
+    location
+    twitterUsername
+    bio
+    libraryRepoId @client
+    currentOid @client
+    stargazerCount @client
+    issuesTotalCount @client
+    followingUsers @client
+    followingTags @client
+    saved @client
+    hasBeen @client
+    fullyLoaded @client
+  }
+`
+
 export const FRAG_Issue_Fields = gql`
   fragment FRAG_Issue_Fields on Issue {
     id
@@ -16,44 +37,12 @@ export const FRAG_Issue_Fields = gql`
   }
 `
 
-export const FRAG_User_Fields = gql`
-  ${FRAG_Issue_Fields}
-
-  fragment FRAG_User_Fields on User {
-    id
-    login
-    avatarUrl
-    name
-    location
-    twitterUsername
-    bio
-    libraryRepoId @client
-    currentOid @client
-    stargazerCount @client
-    issuesTotalCount @client
-    followingUsers @client
-    followingTags @client
-    issuesFeed @client {
-      ...FRAG_Issue_Fields
-    }
-    issuesHasNextPage @client
-    issuesEndCursor @client
-    saved @client
-    hasBeen @client
-    fullyLoaded @client
-  }
-`
-
 export const FRAG_Issue_Nodes = gql`
   ${FRAG_Issue_Fields}
 
   fragment FRAG_Issue_Nodes on IssueConnection {
     nodes {
       ...FRAG_Issue_Fields
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
     }
   }
 `
@@ -63,7 +52,6 @@ export const FRAG_Repository_Issues = gql`
 
   fragment FRAG_Repository_Issues on Repository {
     issues(
-      after: $afterIssueCursor
       first: $firstIssues
       filterBy: {
         labels: "gitstagram-library-post"

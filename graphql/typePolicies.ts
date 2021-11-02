@@ -47,9 +47,6 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
       followingUsers: nullOnUndefinedPolicy,
       followingTags: nullOnUndefinedPolicy,
       saved: nullOnUndefinedPolicy,
-      issuesFeed: nullOnUndefinedPolicy,
-      issuesHasNextPage: nullOnUndefinedPolicy,
-      issuesEndCursor: nullOnUndefinedPolicy,
       hasBeen: (existing: UserHasBeen = UserHasBeen.Untouched) => existing,
       fullyLoaded: (existing = false) => existing as boolean,
     },
@@ -62,7 +59,6 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
             id: cache.identify(incoming),
             fragment: Cache_Generate_UserInfo_LiftedPropsFragmentDoc,
             variables,
-            fragmentName: 'CACHE_Generate_UserInfo_LiftedProps',
           })
         // No repository means not a gitstagram user
         if (!user?.repository) return incoming
@@ -72,16 +68,12 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           ?.oid as Maybe<string>
         const stargazerCount = user?.repository?.stargazerCount
         const issuesTotalCount = user?.repository?.issues.totalCount
-        const hasNextPage = user?.repository?.issues.pageInfo.hasNextPage
-        const endCursor = user?.repository?.issues.pageInfo.endCursor
-        const issues = user?.repository?.issues.nodes
 
         if (
           !libraryRepoId ||
           !currentOid ||
           nullish(stargazerCount) ||
-          nullish(issuesTotalCount) ||
-          nullish(hasNextPage)
+          nullish(issuesTotalCount)
         ) {
           captureException({
             inside: 'typePolicies:User',
@@ -90,7 +82,6 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
               [!currentOid, 'Cannot read currentOid'],
               [nullish(stargazerCount), 'Cannot read stargazerCount'],
               [nullish(issuesTotalCount), 'Cannot read issuesTotalCount'],
-              [nullish(hasNextPage), 'Cannot read hasNextPage'],
             ],
           })
           throw new Error('Cannot populate viewer info')
@@ -104,11 +95,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
             currentOid,
             stargazerCount,
             issuesTotalCount,
-            issuesFeed: issues && issues.length ? issues : [],
-            issuesHasNextPage: hasNextPage,
-            issuesEndCursor: endCursor,
           },
-          fragmentName: 'CACHE_UserInfo_LiftedProps',
         })
       }
 
