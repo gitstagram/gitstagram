@@ -14,12 +14,16 @@ export default NextAuth({
     }),
   },
   callbacks: {
-    jwt(token, _, account) {
+    jwt(token, _, account, profile) {
       if (account?.accessToken) token.accessToken = account.accessToken
+      if (profile?.login) token.login = profile.login
+
       return token
     },
     session(session, token) {
       session.accessToken = token.accessToken
+      session.login = token.login
+
       return session
     },
   },

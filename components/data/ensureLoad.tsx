@@ -35,8 +35,10 @@ export const EnsureLoad = (): JSX.Element => {
   const { loadingState, setLoadingState } = useLoadingContext()
   const [cloneGitstagramLibrary] = useCloneGitstagramLibraryMutation()
   const [updateRepository] = useUpdateRepositoryMutation()
+
   const [session] = useSession()
-  const viewerLogin = session?.user?.name
+  const viewerLogin = session?.login
+  if (!viewerLogin) setLoadingState('libGetFailure')
 
   const starDefaultFollowingCollection = () => {
     const defaultFollowingsPromiseCollection = defaultFollowings.map(
