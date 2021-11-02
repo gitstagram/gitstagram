@@ -31,6 +31,8 @@ export const useViewerInfo = (): ViewerInfo => {
   const stargazerInvalid = nullish(stargazerCount)
   const issuesTotalCount = viewerInfo?.issuesTotalCount
   const issuesTotalCountInvalid = nullish(issuesTotalCount)
+  const issuesHasNextPage = viewerInfo?.issuesHasNextPage
+  const issuesHasNextPageInvalid = nullish(issuesHasNextPage)
   const followingUsers = viewerInfo?.followingUsers
   const followingTags = viewerInfo?.followingTags
   const saved = viewerInfo?.saved
@@ -53,6 +55,7 @@ export const useViewerInfo = (): ViewerInfo => {
         [!currentOid, 'No viewer info currentOid'],
         [stargazerInvalid, 'No viewer info stargazerCount'],
         [issuesTotalCountInvalid, 'No viewer info issuesTotalCount'],
+        [issuesHasNextPageInvalid, 'No viewer info issuesHasNextPage'],
         [!followingUsers, 'No viewer info followingUsers'],
         [!followingTags, 'No viewer info followingTags'],
         [!saved, 'No viewer info saved'],
@@ -70,6 +73,7 @@ export const useViewerInfo = (): ViewerInfo => {
     currentOid,
     stargazerCount: stargazerCount as number,
     issuesTotalCount: issuesTotalCount as number,
+    issuesHasNextPage: issuesHasNextPage as boolean,
     followingUsers,
     followingTags,
     saved,

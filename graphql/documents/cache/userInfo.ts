@@ -1,42 +1,32 @@
 import { gql } from '@apollo/client'
+import * as frags from 'graphql/documents/fragments/fields'
+import * as parts from 'graphql/documents/fragments/parts'
 
 export const CACHE_Generate_UserInfo_LiftedProps = gql`
+  ${parts.PART_Repository_With_Issues}
+  ${frags.FRAG_User_Fields}
+
   fragment CACHE_Generate_UserInfo_LiftedProps on User {
-    login
-    avatarUrl
-    name
-    location
-    twitterUsername
-    bio
+    ...FRAG_User_Fields
     repository(name: $repositoryName) {
-      id
-      stargazerCount
-      defaultBranchRef {
-        target {
-          oid
-        }
-      }
-      issues(
-        first: $firstIssues
-        filterBy: {
-          labels: "gitstagram-library-post"
-          states: $filterIssuesStates
-          createdBy: $userLogin
-        }
-        orderBy: { field: CREATED_AT, direction: DESC }
-      ) {
-        totalCount
-      }
+      ...PART_Repository_With_Issues
     }
   }
 `
 
 export const CACHE_UserInfo_LiftedProps = gql`
+  ${frags.FRAG_Issue_Fields}
+
   fragment CACHE_UserInfo_LiftedProps on User {
     libraryRepoId @client
     currentOid @client
     stargazerCount @client
     issuesTotalCount @client
+    issuesFeed @client {
+      ...FRAG_Issue_Fields
+    }
+    issuesHasNextPage @client
+    issuesEndCursor @client
   }
 `
 
@@ -69,6 +59,8 @@ export const CACHE_RestLibraryData = gql`
 `
 
 export const CACHE_UserInfo_ViewerProps = gql`
+  ${frags.FRAG_Issue_Fields}
+
   query CACHE_UserInfo_ViewerProps {
     viewer {
       login
@@ -81,6 +73,11 @@ export const CACHE_UserInfo_ViewerProps = gql`
       currentOid @client
       stargazerCount @client
       issuesTotalCount @client
+      issuesFeed @client {
+        ...FRAG_Issue_Fields
+      }
+      issuesHasNextPage @client
+      issuesEndCursor @client
       followingUsers @client
       followingTags @client
       saved @client
@@ -89,6 +86,8 @@ export const CACHE_UserInfo_ViewerProps = gql`
 `
 
 export const CACHE_UserInfo_UserProps = gql`
+  ${frags.FRAG_Issue_Fields}
+
   fragment CACHE_UserInfo_UserProps on User {
     login
     avatarUrl
@@ -98,6 +97,11 @@ export const CACHE_UserInfo_UserProps = gql`
     bio
     stargazerCount @client
     issuesTotalCount @client
+    issuesFeed @client {
+      ...FRAG_Issue_Fields
+    }
+    issuesHasNextPage @client
+    issuesEndCursor @client
     followingUsers @client
     hasBeen @client
     fullyLoaded @client

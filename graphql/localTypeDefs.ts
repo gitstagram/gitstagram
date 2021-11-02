@@ -15,6 +15,9 @@ export const localTypeDefs = gql`
     followingUsers: [String!]
     followingTags: [String!]
     saved: [String!]
+    issuesFeed: [Issue]
+    issuesHasNextPage: Boolean!
+    issuesEndCursor: String
     hasBeen: UserHasBeen
     fullyLoaded: Boolean
   }

@@ -20,10 +20,13 @@ export const useUserInfo = (login: string): UserInfo => {
   const userInfo = apolloClient.readFragment<Cache_UserInfo_UserPropsFragment>({
     id: apolloClient.cache.identify({ __typename: 'User', login }),
     fragment: Cache_UserInfo_UserPropsFragmentDoc,
+    fragmentName: 'CACHE_UserInfo_UserProps',
   })
   const hasBeen = userInfo?.hasBeen
   const fullyLoaded = userInfo?.fullyLoaded
   const fullyLoadedInvalid = nullish(fullyLoaded)
+  const issuesHasNextPage = userInfo?.issuesHasNextPage
+  const issuesHasNextPageInvalid = nullish(issuesHasNextPage)
 
   if (!userInfo || !hasBeen || fullyLoadedInvalid) {
     captureException({
@@ -32,6 +35,7 @@ export const useUserInfo = (login: string): UserInfo => {
         [!userInfo, 'No User info'],
         [!hasBeen, 'No user info `hasBeen`'],
         [fullyLoadedInvalid, 'No user info `fullyLoaded`'],
+        [issuesHasNextPageInvalid, 'No user info `issuesHasNextPage`'],
       ],
     })
     throw new Error('Bad user info')
@@ -40,5 +44,7 @@ export const useUserInfo = (login: string): UserInfo => {
     ...userInfo,
     avatarUrl: userInfo?.avatarUrl as Maybe<string>,
     hasBeen,
+    fullyLoaded: fullyLoaded as boolean,
+    issuesHasNextPage: issuesHasNextPage as boolean,
   }
 }
