@@ -6,9 +6,13 @@ Gitstagram is a full social photo sharing app built with Github's API. It works 
 
 The result is a self-contained social media platform using existing Github features, giving you full control of your personal data - free from advertisements, marketing trackers, and other conflicting interests.
 
-Gitstagram is open source photo sharing made by developers, for developers!
+Gitstagram is open source photo sharing made by developers, for developers. Give it a try today!
 
-![preview](https://github.com/gitstagram/gitstagram/raw/main/readme-preview.png)
+![preview](https://github.com/gitstagram/gitstagram/raw/main/readme-preview.jpg)
+
+Any feedback is appreciated, feel free to [join the discussion!](https://github.com/gitstagram/gitstagram/discussions)
+
+Find a problem? Encounter an bug? Help the community by [posting your issue!](https://github.com/gitstagram/gitstagram/issues)
 
 # Development
 
