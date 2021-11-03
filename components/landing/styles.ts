@@ -82,8 +82,8 @@ export const LandingStyles = styled.div`
 
     .right-column {
       position: absolute;
-      top: 50%;
-      right: 0;
+      top: 60%;
+      right: -10%;
       width: 50%;
       padding-right: ${theme('sz48')};
       padding-left: ${theme('sz48')};
@@ -91,8 +91,8 @@ export const LandingStyles = styled.div`
 
       .mobile-preview {
         position: absolute;
-        top: -145%;
-        left: -12%;
+        top: -150%;
+        left: -20%;
         display: block;
         width: ${theme('sz256')};
         height: ${theme('sz512')};
