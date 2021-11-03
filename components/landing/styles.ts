@@ -91,8 +91,8 @@ export const LandingStyles = styled.div`
 
       .mobile-preview {
         position: absolute;
-        top: -120%;
-        left: -5%;
+        top: -145%;
+        left: -12%;
         display: block;
         width: ${theme('sz256')};
         height: ${theme('sz512')};

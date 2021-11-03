@@ -151,7 +151,7 @@ export const ProfileSection = (): JSX.Element => {
         deemph
       >
         <Icon icon='github' ariaHidden />
-        Edit Profile more on Github
+        Edit on Github
       </TextLink>
     </ProfileSectionStyles>
   )
