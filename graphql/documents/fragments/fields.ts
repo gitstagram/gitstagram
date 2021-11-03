@@ -44,6 +44,10 @@ export const FRAG_Issue_Nodes = gql`
     nodes {
       ...FRAG_Issue_Fields
     }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
   }
 `
 
@@ -52,6 +56,7 @@ export const FRAG_Repository_Issues = gql`
 
   fragment FRAG_Repository_Issues on Repository {
     issues(
+      after: $afterIssueCursor
       first: $firstIssues
       filterBy: {
         labels: "gitstagram-library-post"

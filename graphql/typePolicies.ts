@@ -13,6 +13,7 @@ import {
   Cache_UserInfo_LiftedPropsFragmentDoc,
   Cache_UserInfo_UserLibDataFragment,
   Cache_UserInfo_UserLibDataFragmentDoc,
+  Frag_Issue_NodesFragment,
 } from 'graphql/generated'
 import { LibraryDataQuery, LibraryDataQueryVariables } from 'graphql/operations'
 import {
@@ -30,6 +31,26 @@ const nullOnUndefinedPolicy = {
 export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   Repository: {
     keyFields: ['nameWithOwner'],
+    fields: {
+      issues: {
+        keyArgs: ['filterBy', 'orderBy'],
+        merge(
+          existing: Frag_Issue_NodesFragment,
+          incoming: Frag_Issue_NodesFragment
+        ) {
+          if (!existing) return incoming
+          const existingNodes = existing.nodes
+          const incomingNodes = incoming.nodes
+
+          return existingNodes && incomingNodes
+            ? {
+                ...incoming,
+                nodes: [...existingNodes, ...incomingNodes],
+              }
+            : incoming
+        },
+      },
+    },
   },
   Issue: {
     keyFields: ['number'],
@@ -58,6 +79,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
           cache.readFragment<Cache_Generate_UserInfo_LiftedPropsFragment>({
             id: cache.identify(incoming),
             fragment: Cache_Generate_UserInfo_LiftedPropsFragmentDoc,
+            fragmentName: 'CACHE_Generate_UserInfo_LiftedProps',
             variables,
           })
         // No repository means not a gitstagram user

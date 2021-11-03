@@ -129,13 +129,13 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
           </ProfileStyles>
         </>
       )}
+      {!anyLoading && <ProfilePosts userLogin={userLogin} />}
       {followerDialogMounted && (
         <FollowerDialog userLogin={userLogin} dialogProps={followerDialog} />
       )}
       {followingDialogMounted && (
         <FollowingDialog userLogin={userLogin} dialogProps={followingDialog} />
       )}
-      <ProfilePosts userLogin={userLogin} />
     </>
   )
 }

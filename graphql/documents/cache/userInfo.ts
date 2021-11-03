@@ -1,32 +1,15 @@
 import { gql } from '@apollo/client'
+import * as frags from 'graphql/documents/fragments/fields'
+import * as parts from 'graphql/documents/fragments/parts'
 
 export const CACHE_Generate_UserInfo_LiftedProps = gql`
+  ${parts.PART_Repository_With_Issues}
+  ${frags.FRAG_User_Fields}
+
   fragment CACHE_Generate_UserInfo_LiftedProps on User {
-    login
-    avatarUrl
-    name
-    location
-    twitterUsername
-    bio
+    ...FRAG_User_Fields
     repository(name: $repositoryName) {
-      id
-      stargazerCount
-      defaultBranchRef {
-        target {
-          oid
-        }
-      }
-      issues(
-        first: $firstIssues
-        filterBy: {
-          labels: "gitstagram-library-post"
-          states: $filterIssuesStates
-          createdBy: $userLogin
-        }
-        orderBy: { field: CREATED_AT, direction: DESC }
-      ) {
-        totalCount
-      }
+      ...PART_Repository_With_Issues
     }
   }
 `

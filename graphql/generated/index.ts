@@ -22432,7 +22432,7 @@ export type WorkflowRunPendingDeploymentRequestsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type Cache_Generate_UserInfo_LiftedPropsFragment = { __typename?: 'User', login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, repository?: { __typename?: 'Repository', id: string, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined, issues: { __typename?: 'IssueConnection', totalCount: number } } | null | undefined };
+export type Cache_Generate_UserInfo_LiftedPropsFragment = { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined };
 
 export type Cache_UserInfo_LiftedPropsFragment = { __typename?: 'User', libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined };
 
@@ -22455,9 +22455,9 @@ export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login:
 
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } };
 
-export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined };
+export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } };
 
-export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined } };
+export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } } };
 
 export type Frag_Repository_FieldsFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number };
 
@@ -22471,7 +22471,7 @@ export type Frag_Repository_StargazersFragment = { __typename?: 'Repository', st
 
 export type Part_RepositoryFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
-export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
+export type Part_Repository_With_IssuesFragment = { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined };
 
 export type CloneGitstagramLibraryMutationVariables = Exact<{
   ownerId: Scalars['ID'];
@@ -22504,21 +22504,23 @@ export type GetViewerGitstagramLibraryQueryVariables = Exact<{
   repositoryName?: Maybe<Scalars['String']>;
   firstIssues?: Maybe<Scalars['Int']>;
   filterIssuesStates?: Maybe<Array<IssueState> | IssueState>;
+  afterIssueCursor?: Maybe<Scalars['String']>;
   userLogin: Scalars['String'];
 }>;
 
 
-export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
+export type GetViewerGitstagramLibraryQuery = { __typename?: 'Query', viewer: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } };
 
 export type GetUserGitstagramLibraryQueryVariables = Exact<{
   userLogin: Scalars['String'];
   repositoryName?: Maybe<Scalars['String']>;
   firstIssues?: Maybe<Scalars['Int']>;
   filterIssuesStates?: Maybe<Array<IssueState> | IssueState>;
+  afterIssueCursor?: Maybe<Scalars['String']>;
 }>;
 
 
-export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
+export type GetUserGitstagramLibraryQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined, repository?: { __typename?: 'Repository', id: string, name: string, nameWithOwner: string, description?: string | null | undefined, stargazerCount: number, issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, bodyText: string, bodyUrl: any, reactions: { __typename?: 'ReactionConnection', totalCount: number }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } }, defaultBranchRef?: { __typename?: 'Ref', target?: { __typename?: 'Blob', oid: any } | { __typename?: 'Commit', oid: any } | { __typename?: 'Tag', oid: any } | { __typename?: 'Tree', oid: any } | null | undefined } | null | undefined } | null | undefined } | null | undefined };
 
 export type SearchUsersQueryVariables = Exact<{
   loginSearch: Scalars['String'];
@@ -22546,32 +22548,106 @@ export type GetFollowingQueryVariables = Exact<{
 
 export type GetFollowingQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined> | null | undefined } };
 
-export const Cache_Generate_UserInfo_LiftedPropsFragmentDoc = gql`
-    fragment CACHE_Generate_UserInfo_LiftedProps on User {
+export const Frag_User_FieldsFragmentDoc = gql`
+    fragment FRAG_User_Fields on User {
+  id
   login
   avatarUrl
   name
   location
   twitterUsername
   bio
-  repository(name: $repositoryName) {
-    id
-    stargazerCount
-    defaultBranchRef {
-      target {
-        oid
-      }
-    }
-    issues(
-      first: $firstIssues
-      filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
-      orderBy: {field: CREATED_AT, direction: DESC}
-    ) {
-      totalCount
-    }
+  libraryRepoId @client
+  currentOid @client
+  stargazerCount @client
+  issuesTotalCount @client
+  followingUsers @client
+  followingTags @client
+  saved @client
+  hasBeen @client
+  fullyLoaded @client
+}
+    `;
+export const Frag_Repository_FieldsFragmentDoc = gql`
+    fragment FRAG_Repository_Fields on Repository {
+  id
+  name
+  nameWithOwner
+  description
+  stargazerCount
+}
+    `;
+export const Frag_Issue_FieldsFragmentDoc = gql`
+    fragment FRAG_Issue_Fields on Issue {
+  id
+  number
+  title
+  bodyText
+  bodyUrl
+  reactions {
+    totalCount
+  }
+  comments {
+    totalCount
   }
 }
     `;
+export const Frag_Issue_NodesFragmentDoc = gql`
+    fragment FRAG_Issue_Nodes on IssueConnection {
+  nodes {
+    ...FRAG_Issue_Fields
+  }
+  pageInfo {
+    endCursor
+    hasNextPage
+  }
+}
+    ${Frag_Issue_FieldsFragmentDoc}`;
+export const Frag_Repository_IssuesFragmentDoc = gql`
+    fragment FRAG_Repository_Issues on Repository {
+  issues(
+    after: $afterIssueCursor
+    first: $firstIssues
+    filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
+    orderBy: {field: CREATED_AT, direction: DESC}
+  ) {
+    totalCount
+    ...FRAG_Issue_Nodes
+  }
+}
+    ${Frag_Issue_NodesFragmentDoc}`;
+export const Frag_BranchRef_TargetFragmentDoc = gql`
+    fragment FRAG_BranchRef_Target on Ref {
+  target {
+    oid
+  }
+}
+    `;
+export const Frag_Repository_DefaultBranchRefFragmentDoc = gql`
+    fragment FRAG_Repository_DefaultBranchRef on Repository {
+  defaultBranchRef {
+    ...FRAG_BranchRef_Target
+  }
+}
+    ${Frag_BranchRef_TargetFragmentDoc}`;
+export const Part_Repository_With_IssuesFragmentDoc = gql`
+    fragment PART_Repository_With_Issues on Repository {
+  ...FRAG_Repository_Fields
+  ...FRAG_Repository_Issues
+  ...FRAG_Repository_DefaultBranchRef
+}
+    ${Frag_Repository_FieldsFragmentDoc}
+${Frag_Repository_IssuesFragmentDoc}
+${Frag_Repository_DefaultBranchRefFragmentDoc}`;
+export const Cache_Generate_UserInfo_LiftedPropsFragmentDoc = gql`
+    fragment CACHE_Generate_UserInfo_LiftedProps on User {
+  ...FRAG_User_Fields
+  repository(name: $repositoryName) {
+    ...PART_Repository_With_Issues
+  }
+}
+    ${Frag_User_FieldsFragmentDoc}
+${Part_Repository_With_IssuesFragmentDoc}`;
 export const Cache_UserInfo_LiftedPropsFragmentDoc = gql`
     fragment CACHE_UserInfo_LiftedProps on User {
   libraryRepoId @client
@@ -22625,26 +22701,6 @@ export const Frag_Commit_FieldsFragmentDoc = gql`
   message
 }
     `;
-export const Frag_User_FieldsFragmentDoc = gql`
-    fragment FRAG_User_Fields on User {
-  id
-  login
-  avatarUrl
-  name
-  location
-  twitterUsername
-  bio
-  libraryRepoId @client
-  currentOid @client
-  stargazerCount @client
-  issuesTotalCount @client
-  followingUsers @client
-  followingTags @client
-  saved @client
-  hasBeen @client
-  fullyLoaded @client
-}
-    `;
 export const Frag_Repository_StargazersFragmentDoc = gql`
     fragment FRAG_Repository_Stargazers on Repository {
   stargazers(
@@ -22661,78 +22717,12 @@ export const Frag_Repository_StargazersFragmentDoc = gql`
   }
 }
     ${Frag_User_FieldsFragmentDoc}`;
-export const Frag_Repository_FieldsFragmentDoc = gql`
-    fragment FRAG_Repository_Fields on Repository {
-  id
-  name
-  nameWithOwner
-  description
-  stargazerCount
-}
-    `;
-export const Frag_BranchRef_TargetFragmentDoc = gql`
-    fragment FRAG_BranchRef_Target on Ref {
-  target {
-    oid
-  }
-}
-    `;
-export const Frag_Repository_DefaultBranchRefFragmentDoc = gql`
-    fragment FRAG_Repository_DefaultBranchRef on Repository {
-  defaultBranchRef {
-    ...FRAG_BranchRef_Target
-  }
-}
-    ${Frag_BranchRef_TargetFragmentDoc}`;
 export const Part_RepositoryFragmentDoc = gql`
     fragment PART_Repository on Repository {
   ...FRAG_Repository_Fields
   ...FRAG_Repository_DefaultBranchRef
 }
     ${Frag_Repository_FieldsFragmentDoc}
-${Frag_Repository_DefaultBranchRefFragmentDoc}`;
-export const Frag_Issue_FieldsFragmentDoc = gql`
-    fragment FRAG_Issue_Fields on Issue {
-  id
-  number
-  title
-  bodyText
-  bodyUrl
-  reactions {
-    totalCount
-  }
-  comments {
-    totalCount
-  }
-}
-    `;
-export const Frag_Issue_NodesFragmentDoc = gql`
-    fragment FRAG_Issue_Nodes on IssueConnection {
-  nodes {
-    ...FRAG_Issue_Fields
-  }
-}
-    ${Frag_Issue_FieldsFragmentDoc}`;
-export const Frag_Repository_IssuesFragmentDoc = gql`
-    fragment FRAG_Repository_Issues on Repository {
-  issues(
-    first: $firstIssues
-    filterBy: {labels: "gitstagram-library-post", states: $filterIssuesStates, createdBy: $userLogin}
-    orderBy: {field: CREATED_AT, direction: DESC}
-  ) {
-    totalCount
-    ...FRAG_Issue_Nodes
-  }
-}
-    ${Frag_Issue_NodesFragmentDoc}`;
-export const Part_Repository_With_IssuesFragmentDoc = gql`
-    fragment PART_Repository_With_Issues on Repository {
-  ...FRAG_Repository_Fields
-  ...FRAG_Repository_Issues
-  ...FRAG_Repository_DefaultBranchRef
-}
-    ${Frag_Repository_FieldsFragmentDoc}
-${Frag_Repository_IssuesFragmentDoc}
 ${Frag_Repository_DefaultBranchRefFragmentDoc}`;
 export const Cache_UserInfo_ViewerPropsDocument = gql`
     query CACHE_UserInfo_ViewerProps {
@@ -22898,7 +22888,7 @@ export type CreateCommitMutationHookResult = ReturnType<typeof useCreateCommitMu
 export type CreateCommitMutationResult = Apollo.MutationResult<CreateCommitMutation>;
 export type CreateCommitMutationOptions = Apollo.BaseMutationOptions<CreateCommitMutation, CreateCommitMutationVariables>;
 export const GetViewerGitstagramLibraryDocument = gql`
-    query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN, $userLogin: String!) {
+    query GetViewerGitstagramLibrary($repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN, $afterIssueCursor: String, $userLogin: String!) {
   viewer {
     ...FRAG_User_Fields
     repository(name: $repositoryName) {
@@ -22924,6 +22914,7 @@ ${Part_Repository_With_IssuesFragmentDoc}`;
  *      repositoryName: // value for 'repositoryName'
  *      firstIssues: // value for 'firstIssues'
  *      filterIssuesStates: // value for 'filterIssuesStates'
+ *      afterIssueCursor: // value for 'afterIssueCursor'
  *      userLogin: // value for 'userLogin'
  *   },
  * });
@@ -22940,7 +22931,7 @@ export type GetViewerGitstagramLibraryQueryHookResult = ReturnType<typeof useGet
 export type GetViewerGitstagramLibraryLazyQueryHookResult = ReturnType<typeof useGetViewerGitstagramLibraryLazyQuery>;
 export type GetViewerGitstagramLibraryQueryResult = Apollo.QueryResult<GetViewerGitstagramLibraryQuery, GetViewerGitstagramLibraryQueryVariables>;
 export const GetUserGitstagramLibraryDocument = gql`
-    query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN) {
+    query GetUserGitstagramLibrary($userLogin: String!, $repositoryName: String = "gitstagram-library", $firstIssues: Int = 21, $filterIssuesStates: [IssueState!] = OPEN, $afterIssueCursor: String) {
   user(login: $userLogin) {
     ...FRAG_User_Fields
     repository(name: $repositoryName) {
@@ -22967,6 +22958,7 @@ ${Part_Repository_With_IssuesFragmentDoc}`;
  *      repositoryName: // value for 'repositoryName'
  *      firstIssues: // value for 'firstIssues'
  *      filterIssuesStates: // value for 'filterIssuesStates'
+ *      afterIssueCursor: // value for 'afterIssueCursor'
  *   },
  * });
  */

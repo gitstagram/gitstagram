@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Mistake } from 'components/mistake'
 import { ProfilePostsStyles } from 'components/profile/profilePostsStyles'
+import { useBodyScrollListener } from 'components/hooks'
 import { Icon, TextSecondary, TextLink, TextInfo } from 'components/ui'
 import { useViewerInfo } from 'components/data'
 import {
@@ -16,6 +17,8 @@ import {
 import {
   useGetViewerGitstagramLibraryQuery,
   useGetUserGitstagramLibraryQuery,
+  GetViewerGitstagramLibraryQuery,
+  GetViewerGitstagramLibraryQueryVariables,
 } from 'graphql/generated'
 import { NEW } from 'routes'
 
@@ -27,15 +30,25 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
   const viewerInfo = useViewerInfo()
   const isViewer = userLogin === viewerInfo.login
 
-  const { data: userData } = useGetUserGitstagramLibraryQuery({
+  const {
+    data: userData,
+    loading: userLoading,
+    fetchMore: userFetchMore,
+  } = useGetUserGitstagramLibraryQuery({
     skip: isViewer,
+    notifyOnNetworkStatusChange: true,
     variables: {
       userLogin,
     },
   })
 
-  const { data: viewerData } = useGetViewerGitstagramLibraryQuery({
+  const {
+    data: viewerData,
+    loading: viewerLoading,
+    fetchMore: viewerFetchMore,
+  } = useGetViewerGitstagramLibraryQuery({
     skip: !isViewer,
+    notifyOnNetworkStatusChange: true,
     variables: {
       userLogin: viewerInfo.login,
     },
@@ -43,9 +56,26 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
 
   const profileData = userData?.user || viewerData?.viewer
   const posts = profileData?.repository?.issues.nodes
+  const fetchMore = isViewer ? viewerFetchMore : userFetchMore
+  const anyLoading = userLoading || viewerLoading
+
+  const handleMore = () => {
+    if (profileData?.repository?.issues.pageInfo.hasNextPage && !anyLoading) {
+      const cursor = profileData.repository.issues.pageInfo.endCursor
+      void fetchMore<
+        GetViewerGitstagramLibraryQuery,
+        GetViewerGitstagramLibraryQueryVariables
+      >({
+        variables: {
+          userLogin,
+          afterIssueCursor: cursor,
+        },
+      })
+    }
+  }
+  useBodyScrollListener(handleMore)
 
   const splitPosts = posts && padTo(splitBy(posts, 3), 3)
-
   return (
     <ProfilePostsStyles>
       {!posts?.length && (
@@ -131,6 +161,13 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
               </div>
             )
           })}
+          {anyLoading && (
+            <div className='posts-square-row'>
+              <div className='posts-square glb-skeleton' />
+              <div className='posts-square glb-skeleton' />
+              <div className='posts-square glb-skeleton' />
+            </div>
+          )}
         </div>
       )}
     </ProfilePostsStyles>

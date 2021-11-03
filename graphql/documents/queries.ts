@@ -10,6 +10,7 @@ export const GET_VIEWER_GITSTAGRAM_LIBRARY = gql`
     $repositoryName: String = "gitstagram-library"
     $firstIssues: Int = 21
     $filterIssuesStates: [IssueState!] = OPEN
+    $afterIssueCursor: String
     $userLogin: String!
   ) {
     viewer {
@@ -30,6 +31,7 @@ export const GET_USER_GITSTAGRAM_LIBRARY = gql`
     $repositoryName: String = "gitstagram-library"
     $firstIssues: Int = 21
     $filterIssuesStates: [IssueState!] = OPEN
+    $afterIssueCursor: String
   ) {
     user(login: $userLogin) {
       ...FRAG_User_Fields
@@ -76,6 +78,8 @@ export const GET_STARGAZERS = gql`
 `
 
 export const GET_FOLLOWING = gql`
+  ${frags.FRAG_User_Fields}
+
   query GetFollowing($followingSearch: String!, $firstUsers: Int = 50) {
     search(query: $followingSearch, type: USER, first: $firstUsers) {
       nodes {
