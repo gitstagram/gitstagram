@@ -3,6 +3,7 @@ export * from 'graphql/operations/graphql/mutations/createCommit'
 export * from 'graphql/operations/graphql/mutations/cloneGitstagramLibrary'
 export * from 'graphql/operations/graphql/mutations/updateRepository'
 
+export * from 'graphql/operations/graphql/queries/getIssueNode'
 export * from 'graphql/operations/graphql/queries/getViewerGitstagramLibrary'
 
 export * from 'graphql/operations/rest/mutations/addStar'

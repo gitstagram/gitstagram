@@ -88,3 +88,13 @@ export const GET_FOLLOWING = gql`
     }
   }
 `
+
+export const GET_ISSUE_NODE = gql`
+  ${frags.FRAG_Issue_Fields}
+
+  query GetIssueNode($issueId: ID!) {
+    node(id: $issueId) {
+      ...FRAG_Issue_Fields
+    }
+  }
+`

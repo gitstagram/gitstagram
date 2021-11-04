@@ -3,7 +3,10 @@ import { apolloClient } from 'graphql/apolloClient'
 import {
   Cache_UserInfo_ViewerPropsQuery,
   Cache_UserInfo_ViewerPropsDocument,
+  GetUserGitstagramLibraryQuery,
 } from 'graphql/generated'
+import { getIssueNodeQueryPromise } from 'graphql/operations'
+import { async, nullish } from 'helpers'
 
 type CreateIssueVariablesInput = {
   title: string
@@ -12,7 +15,9 @@ type CreateIssueVariablesInput = {
 }
 
 type CreateIssueMutation = {
-  node_id: string
+  createIssue: {
+    nodeId: string
+  }
 }
 
 type CreateIssueMutationVariables = {
@@ -28,10 +33,18 @@ const CREATE_ISSUE = gql`
         path: "/repos/{args.userLogin}/gitstagram-library/issues"
         method: "POST"
       ) {
-      node_id
+      nodeId
     }
   }
 `
+
+type IssuesNodes = NonNullable<
+  NonNullable<GetUserGitstagramLibraryQuery['user']>['repository']
+>['issues']
+
+type IssuesTotalCount = NonNullable<
+  GetUserGitstagramLibraryQuery['user']
+>['issuesTotalCount']
 
 export const createIssueMutationPromise = (
   input: CreateIssueVariablesInput
@@ -53,6 +66,54 @@ export const createIssueMutationPromise = (
             ? ['gitstagram-library-post', ...input.labels]
             : ['gitstagram-library-post'],
         },
+      },
+      update: async (cache, result, options) => {
+        const issueId = result.data?.createIssue.nodeId
+        const userLogin = options.variables?.userLogin
+        if (!issueId)
+          throw new Error('No issueId from createIssueMutationPromise update')
+        if (!userLogin)
+          throw new Error('No userLogin from createIssueMutationPromise update')
+
+        const { res, err } = await async(
+          getIssueNodeQueryPromise({ variables: { issueId } })
+        )
+        if (err) throw new Error(`${err}`)
+
+        const issue = res?.data.node
+        if (!issue)
+          throw new Error(
+            'No issue fetched from createIssueMutationPromise update'
+          )
+
+        cache.modify({
+          id: cache.identify({
+            __typename: 'Repository',
+            nameWithOwner: `${userLogin}/gitstagram-library`,
+          }),
+          fields: {
+            issues(existing: IssuesNodes): IssuesNodes {
+              const currentNodes = existing.nodes
+              const newNode =
+                res.data.node?.__typename === 'Issue' && res.data.node
+              return currentNodes && newNode
+                ? {
+                    ...existing,
+                    nodes: [newNode, ...currentNodes],
+                  }
+                : existing
+            },
+          },
+        })
+
+        cache.modify({
+          id: cache.identify({ __typename: 'User', login: userLogin }),
+          fields: {
+            issuesTotalCount(existing: IssuesTotalCount): IssuesTotalCount {
+              return nullish(existing) ? existing : existing + 1
+            },
+          },
+        })
       },
     }
   )

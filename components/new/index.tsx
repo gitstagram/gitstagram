@@ -2,10 +2,18 @@ import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
+import cn from 'classnames'
 import { VisuallyHidden } from 'reakit/VisuallyHidden'
 import { ProfileIcon } from 'components/profileIcon'
 import { NewStyles, removeTooltipId } from 'components/new/newStyles'
-import { TextEmboss, Button, useTooltip, Panel, TextArea } from 'components/ui'
+import {
+  TextEmboss,
+  Button,
+  useTooltip,
+  Panel,
+  TextArea,
+  Icon,
+} from 'components/ui'
 import {
   fileToB64,
   async,
@@ -39,6 +47,7 @@ export const New = (): JSX.Element => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement | null>(null)
 
+  const [fileInputState, setFileInputState] = useState<NewState>('base')
   const [loadingState, setLoadingState] = useState<NewState>('base')
   const [caption, setCaption] = useState<string>('')
   const [previewSrc, setPreviewSrc] = useState<string | undefined>(undefined)
@@ -51,12 +60,14 @@ export const New = (): JSX.Element => {
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = async (
     e
   ) => {
+    setFileInputState('loading')
     const input = e.target
     const file = input?.files && input.files[0]
     if (file) {
       const { res: isFile, err: isFileErr } = await async(isImage(file))
       if (!isFile || isFileErr) {
         setError('Invalid file, try again?')
+        setFileInputState('base')
         return
       }
 
@@ -65,10 +76,12 @@ export const New = (): JSX.Element => {
       )
       if (parsedErr) {
         setError('File unreadable, try again?')
+        setFileInputState('base')
         return
       }
       setError(undefined)
       setPreviewSrc(parsedImg)
+      setFileInputState('base')
     }
   }
 
@@ -165,6 +178,7 @@ export const New = (): JSX.Element => {
       <form onSubmit={handleSubmit}>
         <VisuallyHidden>
           <input
+            disabled={fileInputState === 'loading'}
             ref={inputRef}
             type='file'
             id='image'
@@ -172,7 +186,12 @@ export const New = (): JSX.Element => {
             accept='image/*'
           />
         </VisuallyHidden>
-        <div className='post-square'>
+        <div
+          className={cn('post-square', {
+            'post-input-loading': fileInputState === 'loading',
+            'post-upload-loading': loadingState === 'loading',
+          })}
+        >
           <div className='post-square-content'>
             {previewSrc && (
               <>
@@ -197,11 +216,32 @@ export const New = (): JSX.Element => {
                   />
                 </removeTip.Ref>
                 <removeTip.Tip {...removeTip.props}>Remove photo</removeTip.Tip>
+                {loadingState === 'loading' && (
+                  <Icon
+                    icon='gear'
+                    ariaLabel='Posting...'
+                    className='post-loading-icon glb-rotate'
+                  />
+                )}
               </>
             )}
             {!previewSrc && (
-              <label className='post-select-label' htmlFor='image'>
-                <TextEmboss>{error ? error : 'Select a photo...'}</TextEmboss>
+              <label
+                className={cn('post-select-label', {
+                  'post-label-loading': fileInputState === 'loading',
+                })}
+                htmlFor='image'
+              >
+                {fileInputState === 'base' && (
+                  <TextEmboss>{error ? error : 'Select a photo...'}</TextEmboss>
+                )}
+                {fileInputState === 'loading' && (
+                  <Icon
+                    icon='gear'
+                    ariaLabel='Loading image'
+                    className='post-loading-icon glb-rotate'
+                  />
+                )}
               </label>
             )}
           </div>

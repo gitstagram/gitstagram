@@ -27,6 +27,20 @@ export const NewStyles = styled.div`
     &:active {
       background-color: ${theme('inset_BgColor__Active')};
     }
+
+    &.post-square-loading {
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: inherit;
+      }
+    }
+
+    &.post-upload-loading {
+      img {
+        filter: brightness(0.5);
+      }
+    }
   }
 
   .post-square::after {
@@ -37,6 +51,9 @@ export const NewStyles = styled.div`
 
   .post-square-content {
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
 
@@ -69,6 +86,14 @@ export const NewStyles = styled.div`
     height: 100%;
     cursor: pointer;
     user-select: none;
+  }
+
+  .post-label-loading {
+    cursor: not-allowed;
+  }
+
+  .post-loading-icon {
+    color: ${theme('font_Color__Deemph')};
   }
 
   .post-caption-panel {

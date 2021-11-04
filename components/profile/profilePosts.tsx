@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import cn from 'classnames'
 import { Mistake } from 'components/mistake'
 import { ProfilePostsStyles } from 'components/profile/profilePostsStyles'
 import { useBodyScrollListener } from 'components/hooks'
@@ -139,7 +140,12 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
                     )
                   } else {
                     return post === undefined ? (
-                      <div key={index} className='posts-square'></div>
+                      <div
+                        key={index}
+                        className={cn('posts-square', {
+                          'glb-skeleton': anyLoading,
+                        })}
+                      />
                     ) : (
                       post && (
                         <a
