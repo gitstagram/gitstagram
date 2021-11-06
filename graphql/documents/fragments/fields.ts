@@ -28,8 +28,15 @@ export const FRAG_Issue_Fields = gql`
     title
     bodyText
     bodyUrl
+    authorAssociation
+    createdAt
+    author {
+      login
+      avatarUrl
+    }
     reactions {
       totalCount
+      viewerHasReacted
     }
     comments {
       totalCount

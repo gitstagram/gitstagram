@@ -98,3 +98,24 @@ export const GET_ISSUE_NODE = gql`
     }
   }
 `
+
+export const GET_FEED = gql`
+  # hack to identify feed search
+  fragment FeedSearchIdentifier on SearchResultItemConnection {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+
+  ${frags.FRAG_Issue_Fields}
+
+  query GetFeed($feedSearch: String!, $firstIssues: Int = 25) {
+    search(query: $feedSearch, type: ISSUE, first: $firstIssues) {
+      nodes {
+        ...FRAG_Issue_Fields
+      }
+      ...FeedSearchIdentifier
+    }
+  }
+`

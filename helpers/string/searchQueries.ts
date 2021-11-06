@@ -5,3 +5,12 @@ export const searchUsersQueryString = (searchTerm: string): string => {
 export const getFollowingQueryString = (following: string[]): string => {
   return following.map((follow) => `user:${follow}`).join(' ')
 }
+
+export const getFeedQueryString = (followings: string[]): string => {
+  const followingStr = followings
+    .map((following) => `repo:${following}/gitstagram-library`)
+    .join(' ')
+  return followings.length
+    ? `sort:created-desc label:gitstagram-library-post ${followingStr}`
+    : ''
+}

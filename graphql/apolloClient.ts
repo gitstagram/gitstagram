@@ -3,7 +3,10 @@ import {
   createHttpLink,
   ApolloLink,
   InMemoryCache,
+  defaultDataIdFromObject,
+  StoreObject,
 } from '@apollo/client'
+import { KeyFieldsContext } from '@apollo/client/cache/inmemory/policies'
 import { setContext } from '@apollo/client/link/context'
 import { RetryLink } from '@apollo/client/link/retry'
 import { RestLink } from 'apollo-link-rest'
@@ -152,6 +155,18 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,
     typePolicies,
+    dataIdFromObject: (object: StoreObject, context: KeyFieldsContext) => {
+      if (
+        object.__typename === 'SearchResultItemConnection' &&
+        context.fragmentMap
+      ) {
+        const isFeed = Object.keys(context.fragmentMap).includes(
+          'FeedSearchIdentifier'
+        )
+        if (isFeed) return 'Feed'
+      }
+      return defaultDataIdFromObject(object)
+    },
   }),
   typeDefs: localTypeDefs,
 })
