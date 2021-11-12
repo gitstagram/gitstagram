@@ -25,6 +25,7 @@ export * from 'components/ui/menu/menuItem'
 export * from 'components/ui/menu/menuSeparator'
 
 export * from 'components/ui/skeleton/paragraph'
+export * from 'components/ui/skeleton/post'
 export * from 'components/ui/skeleton/userList'
 export * from 'components/ui/skeleton/userListItem'
 

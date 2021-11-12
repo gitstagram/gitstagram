@@ -74,7 +74,7 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
       })
     }
   }
-  useBodyScrollListener(handleMore)
+  useBodyScrollListener(handleMore, { offset: 300 })
 
   const splitPosts = posts && padTo(splitBy(posts, 3), 3)
   return (

@@ -29,6 +29,9 @@ type TextLinkProps = ComponentProps &
 
 const TextLinkStyles = styled.a<TextLinkStyleProps>`
   color: ${theme('fontLink_Color')};
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
 
   &:hover,
   &:focus {
