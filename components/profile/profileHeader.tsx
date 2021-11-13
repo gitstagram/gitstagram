@@ -240,7 +240,7 @@ export const ProfileHeader = ({
                   className='profile-twitter-name'
                   href={`https://twitter.com/${userData.twitterUsername}`}
                   external
-                  deemph
+                  variant='deemph'
                 >
                   @{userData.twitterUsername}
                 </twitterTip.Ref>

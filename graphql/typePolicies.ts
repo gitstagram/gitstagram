@@ -1,5 +1,8 @@
 import { TypePolicies } from '@apollo/client'
-import type { StrictTypedTypePolicies } from 'graphql/generated/apolloHelpers'
+import type {
+  StrictTypedTypePolicies,
+  IssueKeySpecifier,
+} from 'graphql/generated/apolloHelpers'
 import {
   Cache_Generate_UserInfo_LiftedPropsFragmentDoc,
   Cache_Generate_UserInfo_LiftedPropsFragment,
@@ -53,7 +56,7 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
     },
   },
   Issue: {
-    keyFields: ['number'],
+    keyFields: ['number', 'author', ['login'] as unknown as IssueKeySpecifier],
   },
   UserInfo: {
     keyFields: ['login'],

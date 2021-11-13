@@ -95,7 +95,7 @@ export const createIssueMutationPromise = (
             issues(existing: IssuesNodes): IssuesNodes {
               const currentNodes = existing.nodes
               const newNode =
-                res.data.node?.__typename === 'Issue' && res.data.node
+                res?.data?.node?.__typename === 'Issue' && res.data.node
               return currentNodes && newNode
                 ? {
                     ...existing,
