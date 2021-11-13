@@ -6,7 +6,7 @@ import { BootstrapIcons } from 'components/ui/icon/types'
 type BootstrapIconsId = `${BootstrapIcons}`
 
 type IconStyleProps = {
-  size?: 20 | 16 | 12
+  size?: 24 | 20 | 16 | 12
   clickable?: boolean
 }
 
@@ -22,6 +22,12 @@ export type IconProps = ComponentProps &
   }
 
 const IconStyles = styled.i<IconStyleProps>`
+  ${({ size }) =>
+    size === 24 &&
+    css`
+      font-size: ${theme('icn24')};
+    `}
+
   ${({ size }) =>
     size === 20 &&
     css`

@@ -4,11 +4,13 @@ import { useRouter } from 'next/router'
 import { useGetFeedQuery } from 'graphql/operations'
 import { GetFeedQuery } from 'graphql/generated'
 import { SkeletonFeed } from 'components/feed/feedSkeleton'
+import { FeedPost } from 'components/feed/feedPost'
 import { TextLink } from 'components/ui'
 import { Mistake } from 'components/mistake'
 import { useViewerInfo } from 'components/data'
+import { isGitstagramPost } from 'helpers'
 import { getProfilePath } from 'routes'
-import { theme } from 'styles/themes'
+import { theme, themeConstant } from 'styles/themes'
 
 type SearchTypes = NonNullable<GetFeedQuery['search']['nodes']>[number]
 type Posts = Extract<SearchTypes, { __typename?: 'Issue' }>[]
@@ -16,6 +18,17 @@ type Posts = Extract<SearchTypes, { __typename?: 'Issue' }>[]
 const FeedStyles = styled.div`
   .feed-empty {
     margin-top: ${theme('sz56')};
+  }
+
+  .feed-container {
+    width: 100vw;
+    max-width: ${theme('sz600')};
+    margin-left: calc(-1 * ${theme('appPadding')});
+
+    ${themeConstant('media__TabletLandscape')} {
+      margin-right: auto;
+      margin-left: auto;
+    }
   }
 `
 
@@ -27,7 +40,11 @@ export const Feed = (): JSX.Element => {
   const { data, loading, error } = useGetFeedQuery()
   const posts =
     data?.search?.nodes?.reduce((posts, item) => {
-      return item?.__typename === 'Issue' ? [...posts, item] : posts
+      return item?.__typename === 'Issue' &&
+        isGitstagramPost(item.bodyText) &&
+        item.authorAssociation === 'OWNER'
+        ? [...posts, item]
+        : posts
     }, [] as Posts) || []
 
   return (
@@ -38,20 +55,31 @@ export const Feed = (): JSX.Element => {
           mistake='Feed Empty!'
           mistakeDescription='Why not follow somebody?'
         >
-          <TextLink href={getProfilePath(viewerLogin)} deemph>
+          <TextLink href={getProfilePath(viewerLogin)} variant='deemph'>
             See your profile and followings
           </TextLink>
         </Mistake>
       )}
       {!error && loading && <SkeletonFeed />}
-      {data && <>{JSON.stringify(data)}</>}
+      {data && (
+        <div className='feed-container'>
+          {posts.map((issue) => {
+            const validPost = issue && isGitstagramPost(issue.bodyText)
+            return validPost ? <FeedPost key={issue.id} issue={issue} /> : null
+          })}
+        </div>
+      )}
       {error && (
         <Mistake
           className='feed-error'
           mistake='FEED ISSUE'
           mistakeDescription='An issue occurred fetching feed posts. Reload to try again'
         >
-          <TextLink as='button' deemph onClick={() => router.reload()}>
+          <TextLink
+            as='button'
+            variant='deemph'
+            onClick={() => router.reload()}
+          >
             Reload page
           </TextLink>
         </Mistake>

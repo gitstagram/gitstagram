@@ -124,6 +124,7 @@ export const iconSizes = {
   icn12: 12 / baseSize,
   icn16: 16 / baseSize,
   icn20: 20 / baseSize,
+  icn24: 24 / baseSize,
 }
 
 type IconSizesMembers = {
