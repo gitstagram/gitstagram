@@ -9,7 +9,7 @@ export const ProfileUnavailable = (): JSX.Element => {
       mistake='USER UNVIEWABLE'
       mistakeDescription='This user is not available. User may not exist, or the library has bad data.'
     >
-      <TextLink href={HOME} deemph>
+      <TextLink href={HOME} variant='deemph'>
         Return to Home Page
       </TextLink>
     </Mistake>

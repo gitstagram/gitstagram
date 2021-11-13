@@ -74,7 +74,7 @@ export const Landing = (): JSX.Element => {
           </ul>
           <TextLink
             className='sign-up'
-            deemph
+            variant='deemph'
             external
             href='https://github.com/signup'
           >

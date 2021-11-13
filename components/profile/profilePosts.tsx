@@ -85,7 +85,7 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
           mistake='No Posts Yet'
           mistakeDescription='Why not share something?'
         >
-          <TextLink href={NEW} deemph>
+          <TextLink href={NEW} variant='deemph'>
             Make a new post
           </TextLink>
         </Mistake>

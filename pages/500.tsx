@@ -14,7 +14,7 @@ const ServerErrorPage = (): JSX.Element => {
       <Mistake mistake='ERROR OCCURRED' mistakeDescription={mistakeDescription}>
         <TextLink
           href='https://github.com/gitstagram/gitstagram/issues'
-          deemph
+          variant='deemph'
           external
         >
           Report problem in a Github issue

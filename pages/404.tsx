@@ -13,7 +13,7 @@ const NotFoundPage = (): JSX.Element => {
         <title>Not Found · Gitstagram</title>
       </Head>
       <Mistake mistake='PAGE NOT FOUND' mistakeDescription={mistakeDescription}>
-        <TextLink href={HOME} deemph>
+        <TextLink href={HOME} variant='deemph'>
           Return to Home Page
         </TextLink>
       </Mistake>

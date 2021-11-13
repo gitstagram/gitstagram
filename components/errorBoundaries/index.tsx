@@ -34,7 +34,7 @@ export class ErrorBoundary extends React.Component {
       >
         <TextLink
           href='https://github.com/gitstagram/gitstagram/issues'
-          deemph
+          variant='deemph'
           external
         >
           Report problem in a Github issue

@@ -188,7 +188,7 @@ export const Header = (): JSX.Element => {
       <FromTabletLandscape>
         <TextLink
           className='sign-up'
-          boldened
+          variant='boldened'
           external
           href='https://github.com/signup'
         >

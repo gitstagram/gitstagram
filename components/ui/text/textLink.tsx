@@ -5,7 +5,10 @@ import styled, { css } from 'styled-components'
 import { theme } from 'styles/themes'
 
 type Url = string | UrlObject
-type TextLinkStyleProps = { deemph?: boolean; boldened?: boolean }
+type TextLinkVariants = 'deemph' | 'boldened' | 'title'
+type TextLinkStyleProps = {
+  variant?: TextLinkVariants
+}
 
 type ConditionalProps =
   | { external: true; as?: never; onClick?: never; href: string }
@@ -42,8 +45,8 @@ const TextLinkStyles = styled.a<TextLinkStyleProps>`
     color: ${theme('fontLink_Color__Active')};
   }
 
-  ${({ deemph }) =>
-    deemph &&
+  ${({ variant }) =>
+    variant === 'deemph' &&
     css`
       color: ${theme('fontLink_Color__Deemph')};
       font-size: ${theme('fontLink_FontSize__Deemph')};
@@ -58,11 +61,28 @@ const TextLinkStyles = styled.a<TextLinkStyleProps>`
       }
     `}
 
-  ${({ boldened }) =>
-    boldened &&
+  ${({ variant }) =>
+    variant === 'boldened' &&
     css`
       font-weight: ${theme('fontLink_FontWeight__Bold')};
       text-decoration: none;
+    `}
+
+  ${({ variant }) =>
+    variant === 'title' &&
+    css`
+      color: ${theme('font_Color')};
+      font-weight: ${theme('fontLink_FontWeight__Bold')};
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: ${theme('fontLink_Color__Deemph_Hover')};
+      }
+
+      &:active {
+        color: ${theme('fontLink_Color__Deemph_Active')};
+      }
     `}
 `
 

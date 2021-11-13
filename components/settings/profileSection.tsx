@@ -147,8 +147,8 @@ export const ProfileSection = (): JSX.Element => {
       <TextLink
         className='profile-edit'
         href='https://github.com/settings/profile'
+        variant='deemph'
         external
-        deemph
       >
         <Icon icon='github' ariaHidden />
         Edit on Github
