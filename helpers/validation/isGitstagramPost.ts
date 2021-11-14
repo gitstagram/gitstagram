@@ -6,8 +6,8 @@ import {
 import { parseIfJson } from 'helpers/validation/parseIfJson'
 
 export const isGitstagramPost = (
-  issueBodyText: unknown
-): issueBodyText is GitstagramPost => {
-  const json = parseIfJson(issueBodyText as string)
+  issueBody: unknown
+): issueBody is GitstagramPost => {
+  const json = parseIfJson(issueBody as string)
   return json ? is(json, GitstagramPostStruct) : false
 }

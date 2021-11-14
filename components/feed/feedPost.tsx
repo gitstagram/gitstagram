@@ -125,7 +125,7 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
 
   const [likeOverlay, setLikeOverlay] = useState(false)
 
-  const postData = parseIfJson(issue.bodyText) as GitstagramPost
+  const postData = parseIfJson(issue.body) as GitstagramPost
   const { src, altText } = postData.media[0]
   const likeCount = toReadableNum(issue.reactions.totalCount)
   const commentCount = toReadableNum(issue.comments.totalCount)

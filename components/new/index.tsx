@@ -151,10 +151,12 @@ export const New = (): JSX.Element => {
         caption,
       }
 
+      const body = JSON.stringify(post, null, 2)
+
       const { err: postErr } = await async(
         createIssueMutationPromise({
           title: creationMsg,
-          body: JSON.stringify(post, null, 2),
+          body,
           labels: getHashtags(caption),
         })
       )

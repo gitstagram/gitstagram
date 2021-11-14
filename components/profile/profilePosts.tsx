@@ -96,11 +96,9 @@ export const ProfilePosts = ({ userLogin }: ProfilePostsProps): JSX.Element => {
             return (
               <div key={index} className='posts-square-row'>
                 {row.map((post, index) => {
-                  const validPost = post && isGitstagramPost(post.bodyText)
+                  const validPost = post && isGitstagramPost(post.body)
                   if (post && validPost) {
-                    const postData = parseIfJson(
-                      post.bodyText
-                    ) as GitstagramPost
+                    const postData = parseIfJson(post.body) as GitstagramPost
                     const { src, altText } = postData.media[0]
                     const likeCount = toReadableNum(post.reactions.totalCount)
                     const commentCount = toReadableNum(post.comments.totalCount)

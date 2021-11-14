@@ -41,7 +41,7 @@ export const Feed = (): JSX.Element => {
   const posts =
     data?.search?.nodes?.reduce((posts, item) => {
       return item?.__typename === 'Issue' &&
-        isGitstagramPost(item.bodyText) &&
+        isGitstagramPost(item.body) &&
         item.authorAssociation === 'OWNER'
         ? [...posts, item]
         : posts
@@ -64,7 +64,7 @@ export const Feed = (): JSX.Element => {
       {data && (
         <div className='feed-container'>
           {posts.map((issue) => {
-            const validPost = issue && isGitstagramPost(issue.bodyText)
+            const validPost = issue && isGitstagramPost(issue.body)
             return validPost ? <FeedPost key={issue.id} issue={issue} /> : null
           })}
         </div>

@@ -26,7 +26,7 @@ export const FRAG_Issue_Fields = gql`
     id
     number
     title
-    bodyText
+    body
     bodyUrl
     authorAssociation
     createdAt
