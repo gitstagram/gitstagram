@@ -63,3 +63,27 @@ export const CREATE_COMMIT = gql`
     }
   }
 `
+
+export const ADD_REACTION = gql`
+  ${fields.FRAG_Issue_Fields}
+
+  mutation addHeart($subjectId: ID!) {
+    addReaction(input: { subjectId: $subjectId, content: HEART }) {
+      subject {
+        ...FRAG_Issue_Fields
+      }
+    }
+  }
+`
+
+export const REMOVE_REACTION = gql`
+  ${fields.FRAG_Issue_Fields}
+
+  mutation removeHeart($subjectId: ID!) {
+    removeReaction(input: { subjectId: $subjectId, content: HEART }) {
+      subject {
+        ...FRAG_Issue_Fields
+      }
+    }
+  }
+`

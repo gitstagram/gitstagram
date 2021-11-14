@@ -152,6 +152,9 @@ const intentionColors = {
   intentDanger_Color: sys.colors.red500,
   intentDanger_Color__Active: sys.colors.red700,
 
+  intentSplendid_Color: sys.colors.red500,
+  intentSplendid_Color__Active: sys.colors.red700,
+
   intentDisabled_Color: sys.monos.mc600,
   intentDisabled_Color__Accent: sys.monos.mc400,
 }
@@ -183,6 +186,7 @@ const opacityAnimate = `opacity ${transitionSpeed}ms ease-in-out`
 const transformAnimate = `transform ${transitionSpeed}ms ease-in-out`
 const colorAnimate = `color ${transitionSpeed}ms ease-in-out`
 const bgColorAnimate = `background-color ${transitionSpeed}ms ease-in-out`
+const allAnimate = `all ${transitionSpeed}ms ease-in-out`
 const rotation = `rotation 6s linear infinite`
 
 const transitionSpeed__Long = sys.transitionSpeeds.trans300
@@ -195,6 +199,7 @@ const transitions = {
   trans_OpacityTransform: `${opacityAnimate}, ${transformAnimate}`,
   trans_Color: colorAnimate,
   trans_BgColor: bgColorAnimate,
+  trans_All: allAnimate,
   trans_ColorBgColor: `${colorAnimate}, ${bgColorAnimate}`,
   trans_Rotation: rotation,
   trans_Opacity__Long: opacityAnimateLong,

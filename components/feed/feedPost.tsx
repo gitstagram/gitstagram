@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import cn from 'classnames'
 import Image from 'next/image'
-import { Panel, TextLink, Button, PreWrap, TextAttn } from 'components/ui'
+import { toast } from 'react-toastify'
+import { Panel, TextLink, Button, PreWrap, TextAttn, Icon } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { theme } from 'styles/themes'
-import { parseIfJson, GitstagramPost, toReadableNum, pluralize } from 'helpers'
+import {
+  parseIfJson,
+  GitstagramPost,
+  toReadableNum,
+  pluralize,
+  captureException,
+} from 'helpers'
 import { Frag_Issue_FieldsFragment } from 'graphql/generated'
+import { useAddHeartMutation, useRemoveHeartMutation } from 'graphql/operations'
 import { getProfilePath, HOME } from 'routes'
 
 const FeedPostStyles = styled.div`
@@ -39,12 +48,42 @@ const FeedPostStyles = styled.div`
     content: '';
   }
 
+  .post-like-overlay {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: ${theme('trans_All')};
+
+    i {
+      transform: scale(2);
+    }
+
+    &.active {
+      transform: scale(2.5);
+      opacity: 1;
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .post-like-overlay {
+      transition: none;
+    }
+  }
+
   .post-action-row {
     display: flex;
     padding: ${theme('sz16')};
 
     i {
       margin-right: ${theme('sz8')};
+    }
+
+    .bi-heart-fill {
+      color: ${theme('intentSplendid_Color')};
     }
   }
 
@@ -74,16 +113,58 @@ type FeedPostProps = {
 }
 
 export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
+  const [addHeart, { loading: addHeartLoading }] = useAddHeartMutation({
+    subjectId: issue.id,
+  })
+
+  const [removeHeart, { loading: removeHeartLoading }] = useRemoveHeartMutation(
+    {
+      subjectId: issue.id,
+    }
+  )
+
+  const [likeOverlay, setLikeOverlay] = useState(false)
+
   const postData = parseIfJson(issue.bodyText) as GitstagramPost
   const { src, altText } = postData.media[0]
   const likeCount = toReadableNum(issue.reactions.totalCount)
   const commentCount = toReadableNum(issue.comments.totalCount)
   const avatarUrl = issue?.author?.avatarUrl as string
   const authorLogin = issue?.author?.login as string
+  const heartIcon = issue.reactions.viewerHasReacted ? 'heart-fill' : 'heart'
+  const heartAction = issue.reactions.viewerHasReacted ? 'Like' : 'Unlike'
+
+  const problemEncountered = (err: unknown) => {
+    toast.warn('Encountered issue handling likes')
+    captureException({
+      err,
+      inside: 'FeedPost:problemEncountered',
+      msgs: [[err, 'Error handling like']],
+    })
+  }
 
   const handleLike = () => {
-    console.log('like')
+    setLikeOverlay(true)
+    void addHeart().catch(problemEncountered)
   }
+
+  const handleLikeActionRowClick = () => {
+    issue.reactions.viewerHasReacted
+      ? void removeHeart().catch(problemEncountered)
+      : handleLike()
+  }
+
+  const handlePostClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    if (e.detail === 2) handleLike()
+  }
+
+  const handlePostKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    if (e.code === 'Enter') handleLike()
+  }
+
+  useEffect(() => {
+    setTimeout(() => likeOverlay && setLikeOverlay(false), 500)
+  }, [likeOverlay])
 
   const handleLikesClick = () => {
     console.log('likesCliced')
@@ -106,7 +187,13 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
             {authorLogin}
           </TextLink>
         </div>
-        <div className='post-square'>
+        <div
+          className='post-square'
+          onClick={handlePostClick}
+          onKeyDown={handlePostKeyDown}
+          role='button'
+          tabIndex={0}
+        >
           <Image
             className='posts-square-image'
             unoptimized
@@ -114,13 +201,17 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
             src={src}
             alt={altText}
           />
+          <div className={cn('post-like-overlay', { active: likeOverlay })}>
+            <Icon icon='heart-fill' ariaLabel='Like this post' />
+          </div>
         </div>
         <div className='post-action-row'>
           <Button
-            onClick={handleLike}
+            onClick={handleLikeActionRowClick}
+            disabled={addHeartLoading || removeHeartLoading}
             variant={{
-              icon: 'heart',
-              ariaLabel: `Like this post`,
+              icon: heartIcon,
+              ariaLabel: `${heartAction} this post`,
               size: 24,
             }}
           />
@@ -128,7 +219,7 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
             href={HOME}
             variant={{
               icon: 'chat',
-              ariaLabel: `Comment on this post`,
+              ariaLabel: 'Comment on this post',
               size: 24,
             }}
           />

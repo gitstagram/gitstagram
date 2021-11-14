@@ -9,7 +9,7 @@ const SkeletonFeedStyles = styled.div`
   max-width: ${theme('sz600')};
   margin-left: calc(-1 * ${theme('appPadding')});
 
-  ${themeConstant('media__TabletLandscape')} {
+  ${themeConstant('media__TabletPortrait')} {
     margin-right: auto;
     margin-left: auto;
   }

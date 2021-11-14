@@ -1,6 +1,8 @@
 // graphql operations
+export * from 'graphql/operations/graphql/mutations/addHeart'
 export * from 'graphql/operations/graphql/mutations/createCommit'
 export * from 'graphql/operations/graphql/mutations/cloneGitstagramLibrary'
+export * from 'graphql/operations/graphql/mutations/removeHeart'
 export * from 'graphql/operations/graphql/mutations/updateRepository'
 
 export * from 'graphql/operations/graphql/queries/getFeed'
