@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components'
 import { theme } from 'styles/themes'
 
 type Url = string | UrlObject
-type TextLinkVariants = 'deemph' | 'boldened' | 'title'
+type TextLinkVariants = 'deemph' | 'boldened' | 'title' | 'disclosure'
 type TextLinkStyleProps = {
   variant?: TextLinkVariants
 }
@@ -58,6 +58,22 @@ const TextLinkStyles = styled.a<TextLinkStyleProps>`
 
       &:active {
         color: ${theme('fontLink_Color__Deemph_Active')};
+      }
+    `}
+
+  ${({ variant }) =>
+    variant === 'disclosure' &&
+    css`
+      color: ${theme('fontLink_Color__Disclosure')};
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        color: ${theme('fontLink_Color__Disclosure_Hover')};
+      }
+
+      &:active {
+        color: ${theme('fontLink_Color__Disclosure_Active')};
       }
     `}
 

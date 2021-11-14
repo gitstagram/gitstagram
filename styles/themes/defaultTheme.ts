@@ -86,6 +86,10 @@ const fonts = {
   fontLink_Color__Deemph_Hover: sys.monos.mc300,
   fontLink_Color__Deemph_Active: sys.monos.mc500,
 
+  fontLink_Color__Disclosure: sys.monos.mc400,
+  fontLink_Color__Disclosure_Hover: sys.monos.mc300,
+  fontLink_Color__Disclosure_Active: sys.monos.mc500,
+
   fontLabel_FontWeight: 'bold',
   fontLabel_FontSize: `${sys.fontSizes.fs14}rem`,
 

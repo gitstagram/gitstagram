@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import cn from 'classnames'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
-import { Panel, TextLink, Button, PreWrap, TextAttn, Icon } from 'components/ui'
+import { Panel, TextLink, Button, TextAttn, Icon } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
+import { FeedCaption } from 'components/feed/feedCaption'
 import { theme } from 'styles/themes'
 import {
   parseIfJson,
@@ -235,7 +236,7 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
             <TextLink href={getProfilePath(authorLogin)} variant='title'>
               {authorLogin}
             </TextLink>{' '}
-            <PreWrap str={postData.caption} />
+            <FeedCaption caption={postData.caption} />
           </div>
         )}
         {issue.comments.totalCount >= 1 && (

@@ -10,12 +10,13 @@ const PreWrapStyles = styled.span`
 `
 
 export const PreWrap = ({ str }: PreWrapProps): JSX.Element => {
+  const lineBrokenParts = str.split('\n')
   return (
     <PreWrapStyles>
-      {str.split('\\n').map((item, index) => (
+      {lineBrokenParts.map((item, index) => (
         <Fragment key={index}>
           {item}
-          <br />
+          {index !== lineBrokenParts.length - 1 && <br />}
         </Fragment>
       ))}
     </PreWrapStyles>
