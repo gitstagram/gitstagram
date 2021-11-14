@@ -11,6 +11,6 @@ export const getFeedQueryString = (followings: string[]): string => {
     .map((following) => `repo:${following}/gitstagram-library`)
     .join(' ')
   return followings.length
-    ? `sort:created-desc label:gitstagram-library-post ${followingStr}`
+    ? `sort:created-desc label:gitstagram-library-post state:open ${followingStr}`
     : ''
 }
