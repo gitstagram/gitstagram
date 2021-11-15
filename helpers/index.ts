@@ -33,6 +33,8 @@ export * from 'helpers/string/stringCombinatorials'
 export * from 'helpers/time/debounce'
 export * from 'helpers/time/fromSeconds'
 export * from 'helpers/time/getUtc'
+export * from 'helpers/time/isoToLocale'
+export * from 'helpers/time/timeAgo'
 export * from 'helpers/time/wait'
 
 export * from 'helpers/type/keys'

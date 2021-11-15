@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import cn from 'classnames'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
-import { Panel, TextLink, Button, TextAttn, Icon } from 'components/ui'
+import { Panel, TextLink, Button, Icon, ReadableTime } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { FeedCaption } from 'components/feed/feedCaption'
 import { theme } from 'styles/themes'
@@ -164,8 +164,9 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
   }
 
   useEffect(() => {
-    setTimeout(() => likeOverlay && setLikeOverlay(false), 500)
-  }, [likeOverlay])
+    const timeout = setTimeout(() => likeOverlay && setLikeOverlay(false), 500)
+    return () => clearTimeout(timeout)
+  }, [likeOverlay, setLikeOverlay])
 
   const handleLikesClick = () => {
     console.log('likesCliced')
@@ -254,7 +255,10 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
             </TextLink>
           </div>
         )}
-        <TextAttn className='post-time-ago'>5 hours ago</TextAttn>
+        <ReadableTime
+          className='post-time-ago'
+          isoString={issue.createdAt as string}
+        />
       </Panel>
     </FeedPostStyles>
   )

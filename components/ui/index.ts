@@ -4,6 +4,7 @@ export * from 'components/ui/hr'
 export * from 'components/ui/nextImgWrapper'
 export * from 'components/ui/panel'
 export * from 'components/ui/preWrap'
+export * from 'components/ui/readableTime'
 export * from 'components/ui/useTooltip'
 
 export * from 'components/ui/dialog/dialog'
