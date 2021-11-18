@@ -297,7 +297,7 @@ export type BotFieldPolicy = {
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type BranchProtectionRuleKeySpecifier = ('allowsDeletions' | 'allowsForcePushes' | 'branchProtectionRuleConflicts' | 'creator' | 'databaseId' | 'dismissesStaleReviews' | 'id' | 'isAdminEnforced' | 'matchingRefs' | 'pattern' | 'pushAllowances' | 'repository' | 'requiredApprovingReviewCount' | 'requiredStatusCheckContexts' | 'requiresApprovingReviews' | 'requiresCodeOwnerReviews' | 'requiresCommitSignatures' | 'requiresConversationResolution' | 'requiresLinearHistory' | 'requiresStatusChecks' | 'requiresStrictStatusChecks' | 'restrictsPushes' | 'restrictsReviewDismissals' | 'reviewDismissalAllowances' | BranchProtectionRuleKeySpecifier)[];
+export type BranchProtectionRuleKeySpecifier = ('allowsDeletions' | 'allowsForcePushes' | 'branchProtectionRuleConflicts' | 'creator' | 'databaseId' | 'dismissesStaleReviews' | 'id' | 'isAdminEnforced' | 'matchingRefs' | 'pattern' | 'pushAllowances' | 'repository' | 'requiredApprovingReviewCount' | 'requiredStatusCheckContexts' | 'requiredStatusChecks' | 'requiresApprovingReviews' | 'requiresCodeOwnerReviews' | 'requiresCommitSignatures' | 'requiresConversationResolution' | 'requiresLinearHistory' | 'requiresStatusChecks' | 'requiresStrictStatusChecks' | 'restrictsPushes' | 'restrictsReviewDismissals' | 'reviewDismissalAllowances' | BranchProtectionRuleKeySpecifier)[];
 export type BranchProtectionRuleFieldPolicy = {
 	allowsDeletions?: FieldPolicy<any> | FieldReadFunction<any>,
 	allowsForcePushes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -313,6 +313,7 @@ export type BranchProtectionRuleFieldPolicy = {
 	repository?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiredApprovingReviewCount?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiredStatusCheckContexts?: FieldPolicy<any> | FieldReadFunction<any>,
+	requiredStatusChecks?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiresApprovingReviews?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiresCodeOwnerReviews?: FieldPolicy<any> | FieldReadFunction<any>,
 	requiresCommitSignatures?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -5664,6 +5665,11 @@ export type RequirableByPullRequestKeySpecifier = ('isRequired' | RequirableByPu
 export type RequirableByPullRequestFieldPolicy = {
 	isRequired?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type RequiredStatusCheckDescriptionKeySpecifier = ('app' | 'context' | RequiredStatusCheckDescriptionKeySpecifier)[];
+export type RequiredStatusCheckDescriptionFieldPolicy = {
+	app?: FieldPolicy<any> | FieldReadFunction<any>,
+	context?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type RerequestCheckSuitePayloadKeySpecifier = ('checkSuite' | 'clientMutationId' | RerequestCheckSuitePayloadKeySpecifier)[];
 export type RerequestCheckSuitePayloadFieldPolicy = {
 	checkSuite?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -9327,6 +9333,10 @@ export type StrictTypedTypePolicies = {
 	RequirableByPullRequest?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RequirableByPullRequestKeySpecifier | (() => undefined | RequirableByPullRequestKeySpecifier),
 		fields?: RequirableByPullRequestFieldPolicy,
+	},
+	RequiredStatusCheckDescription?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | RequiredStatusCheckDescriptionKeySpecifier | (() => undefined | RequiredStatusCheckDescriptionKeySpecifier),
+		fields?: RequiredStatusCheckDescriptionFieldPolicy,
 	},
 	RerequestCheckSuitePayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | RerequestCheckSuitePayloadKeySpecifier | (() => undefined | RerequestCheckSuitePayloadKeySpecifier),

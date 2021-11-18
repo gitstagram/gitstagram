@@ -3,9 +3,11 @@ import styled from 'styled-components'
 import cn from 'classnames'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
+import { useDialogState } from 'reakit/Dialog'
 import { Panel, TextLink, Button, Icon, ReadableTime } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { FeedCaption } from 'components/feed/feedCaption'
+import { LikesDialog } from 'components/feed/likesDialog'
 import { theme } from 'styles/themes'
 import {
   parseIfJson,
@@ -168,9 +170,18 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
     return () => clearTimeout(timeout)
   }, [likeOverlay, setLikeOverlay])
 
-  const handleLikesClick = () => {
-    console.log('likesCliced')
-  }
+  const [likesDialogMounted, setLikesDialogMounted] = useState(false)
+  const likesDialog = useDialogState({
+    animated: true,
+    modal: true,
+    baseId: 'LikesDialog',
+  })
+
+  useEffect(() => {
+    if (likesDialog.visible && !likesDialogMounted) setLikesDialogMounted(true)
+  }, [likesDialog.visible, likesDialogMounted])
+
+  const handleLikesClick = () => likesDialog.toggle()
 
   const handleCommentsClick = () => {
     console.log('commentsClicked')
@@ -244,7 +255,7 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
           <div className='post-comments'>
             <TextLink
               as='button'
-              variant='deemph'
+              variant='disclosure'
               onClick={handleCommentsClick}
             >
               View {commentCount}{' '}
@@ -260,6 +271,9 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
           isoString={issue.createdAt as string}
         />
       </Panel>
+      {likesDialogMounted && (
+        <LikesDialog issueId={issue.id} dialogProps={likesDialog} />
+      )}
     </FeedPostStyles>
   )
 }

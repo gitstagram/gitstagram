@@ -119,3 +119,17 @@ export const GET_FEED = gql`
     }
   }
 `
+
+export const GET_LIKES = gql`
+  ${frags.FRAG_Issue_Likes}
+
+  query GetLikes(
+    $issueId: ID!
+    $firstReactions: Int = 50
+    $afterReactionsCursor: String
+  ) {
+    node(id: $issueId) {
+      ...FRAG_Issue_Likes
+    }
+  }
+`

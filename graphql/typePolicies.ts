@@ -17,6 +17,7 @@ import {
   Cache_UserInfo_UserLibDataFragment,
   Cache_UserInfo_UserLibDataFragmentDoc,
   Frag_Issue_NodesFragment,
+  Frag_Issue_LikesFragment,
 } from 'graphql/generated'
 import { LibraryDataQuery, LibraryDataQueryVariables } from 'graphql/operations'
 import {
@@ -57,6 +58,30 @@ export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
   },
   Issue: {
     keyFields: ['number', 'author', ['login'] as unknown as IssueKeySpecifier],
+    fields: {
+      reactions: {
+        keyArgs: [],
+        merge(
+          existing: Frag_Issue_LikesFragment['reactions'],
+          incoming: Frag_Issue_LikesFragment['reactions']
+        ) {
+          const existingNodes = existing?.nodes
+          const incomingNodes = incoming?.nodes
+
+          const topLevelMerged = { ...existing, ...incoming }
+
+          if (existingNodes && incomingNodes) {
+            const nodes = [...existingNodes, ...incomingNodes]
+            return {
+              ...topLevelMerged,
+              nodes,
+            }
+          } else {
+            return topLevelMerged
+          }
+        },
+      },
+    },
   },
   UserInfo: {
     keyFields: ['login'],

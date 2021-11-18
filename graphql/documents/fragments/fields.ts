@@ -34,12 +34,39 @@ export const FRAG_Issue_Fields = gql`
       login
       avatarUrl
     }
-    reactions {
+    reactions(content: HEART) {
       totalCount
       viewerHasReacted
     }
     comments {
       totalCount
+    }
+  }
+`
+
+export const FRAG_Issue_Likes = gql`
+  ${FRAG_User_Fields}
+
+  fragment FRAG_Issue_Likes on Issue {
+    number
+    author {
+      login
+    }
+    reactions(
+      first: $firstReactions
+      after: $afterReactionsCursor
+      orderBy: { field: CREATED_AT, direction: DESC }
+      content: HEART
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        user {
+          ...FRAG_User_Fields
+        }
+      }
     }
   }
 `

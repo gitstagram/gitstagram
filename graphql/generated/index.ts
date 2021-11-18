@@ -888,6 +888,8 @@ export type BranchProtectionRule = Node & {
   requiredApprovingReviewCount?: Maybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
   requiredStatusCheckContexts?: Maybe<Array<Maybe<Scalars['String']>>>;
+  /** List of required status checks that must pass for commits to be accepted to matching branches. */
+  requiredStatusChecks?: Maybe<Array<RequiredStatusCheckDescription>>;
   /** Are approving reviews required to update matching branches. */
   requiresApprovingReviews: Scalars['Boolean'];
   /** Are reviews from code owners required to update matching branches. */
@@ -2656,6 +2658,8 @@ export type CreateBranchProtectionRuleInput = {
   requiredApprovingReviewCount?: Maybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
   requiredStatusCheckContexts?: Maybe<Array<Scalars['String']>>;
+  /** The list of required status checks */
+  requiredStatusChecks?: Maybe<Array<RequiredStatusCheckInput>>;
   /** Are approving reviews required to update matching branches. */
   requiresApprovingReviews?: Maybe<Scalars['Boolean']>;
   /** Are reviews from code owners required to update matching branches. */
@@ -11461,6 +11465,7 @@ export type OrganizationRepositoriesArgs = {
 
 /** An account on GitHub, with one or more owners, that has repositories, members and teams. */
 export type OrganizationRepositoryArgs = {
+  followRenames?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
 };
 
@@ -12715,7 +12720,7 @@ export type ProjectEdge = {
   node?: Maybe<Project>;
 };
 
-/** New projects that manage issues, pull requests and drafts with tables and. */
+/** New projects that manage issues, pull requests and drafts using tables and boards. */
 export type ProjectNext = Closable & Node & Updatable & {
   __typename?: 'ProjectNext';
   /** Returns true if the project is closed. */
@@ -12752,7 +12757,7 @@ export type ProjectNext = Closable & Node & Updatable & {
 };
 
 
-/** New projects that manage issues, pull requests and drafts with tables and. */
+/** New projects that manage issues, pull requests and drafts using tables and boards. */
 export type ProjectNextFieldsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -12761,7 +12766,7 @@ export type ProjectNextFieldsArgs = {
 };
 
 
-/** New projects that manage issues, pull requests and drafts with tables and. */
+/** New projects that manage issues, pull requests and drafts using tables and boards. */
 export type ProjectNextItemsArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -12831,7 +12836,7 @@ export type ProjectNextFieldEdge = {
   node?: Maybe<ProjectNextField>;
 };
 
-/** An item in a Memex project. */
+/** An item within a new Project. */
 export type ProjectNextItem = Node & {
   __typename?: 'ProjectNextItem';
   /** The content of the referenced issue or pull request */
@@ -12854,7 +12859,7 @@ export type ProjectNextItem = Node & {
 };
 
 
-/** An item in a Memex project. */
+/** An item within a new Project. */
 export type ProjectNextItemFieldValuesArgs = {
   after?: Maybe<Scalars['String']>;
   before?: Maybe<Scalars['String']>;
@@ -12887,7 +12892,7 @@ export type ProjectNextItemEdge = {
   node?: Maybe<ProjectNextItem>;
 };
 
-/** An value of a field in an item of Memex project. */
+/** An value of a field in an item of a new Project. */
 export type ProjectNextItemFieldValue = Node & {
   __typename?: 'ProjectNextItemFieldValue';
   /** Identifies the date and time when the object was created. */
@@ -14434,6 +14439,7 @@ export type QueryRateLimitArgs = {
 
 /** The query root of GitHub's GraphQL interface. */
 export type QueryRepositoryArgs = {
+  followRenames?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
   owner: Scalars['String'];
 };
@@ -17350,6 +17356,7 @@ export type RepositoryOwnerRepositoriesArgs = {
 
 /** Represents an owner of a Repository. */
 export type RepositoryOwnerRepositoryArgs = {
+  followRenames?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
 };
 
@@ -17614,6 +17621,23 @@ export type RequirableByPullRequest = {
 export type RequirableByPullRequestIsRequiredArgs = {
   pullRequestId?: Maybe<Scalars['ID']>;
   pullRequestNumber?: Maybe<Scalars['Int']>;
+};
+
+/** Represents a required status check for a protected branch, but not any specific run of that check. */
+export type RequiredStatusCheckDescription = {
+  __typename?: 'RequiredStatusCheckDescription';
+  /** The App that must provide this status in order for it to be accepted. */
+  app?: Maybe<App>;
+  /** The name of this status. */
+  context: Scalars['String'];
+};
+
+/** Specifies the attributes for a new or updated required status check. */
+export type RequiredStatusCheckInput = {
+  /** The ID of the App that must set the status in order for it to be accepted. */
+  appId?: Maybe<Scalars['ID']>;
+  /** Status check context that must pass for commits to be accepted to the matching branch. */
+  context: Scalars['String'];
 };
 
 /** Autogenerated input type of RerequestCheckSuite */
@@ -20561,6 +20585,8 @@ export type UpdateBranchProtectionRuleInput = {
   requiredApprovingReviewCount?: Maybe<Scalars['Int']>;
   /** List of required status check contexts that must pass for commits to be accepted to matching branches. */
   requiredStatusCheckContexts?: Maybe<Array<Scalars['String']>>;
+  /** The list of required status checks */
+  requiredStatusChecks?: Maybe<Array<RequiredStatusCheckInput>>;
   /** Are approving reviews required to update matching branches. */
   requiresApprovingReviews?: Maybe<Scalars['Boolean']>;
   /** Are reviews from code owners required to update matching branches. */
@@ -21984,6 +22010,7 @@ export type UserRepositoriesContributedToArgs = {
 
 /** A user is an individual's account on GitHub that owns repositories and can make new content. */
 export type UserRepositoryArgs = {
+  followRenames?: Maybe<Scalars['Boolean']>;
   name: Scalars['String'];
 };
 
@@ -22482,6 +22509,8 @@ export type Frag_User_FieldsFragment = { __typename?: 'User', id: string, login:
 
 export type Frag_Issue_FieldsFragment = { __typename?: 'Issue', id: string, number: number, title: string, body: string, bodyUrl: any, authorAssociation: CommentAuthorAssociation, createdAt: any, author?: { __typename?: 'Bot', login: string, avatarUrl: any } | { __typename?: 'EnterpriseUserAccount', login: string, avatarUrl: any } | { __typename?: 'Mannequin', login: string, avatarUrl: any } | { __typename?: 'Organization', login: string, avatarUrl: any } | { __typename?: 'User', login: string, avatarUrl: any } | null | undefined, reactions: { __typename?: 'ReactionConnection', totalCount: number, viewerHasReacted: boolean }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } };
 
+export type Frag_Issue_LikesFragment = { __typename?: 'Issue', number: number, author?: { __typename?: 'Bot', login: string } | { __typename?: 'EnterpriseUserAccount', login: string } | { __typename?: 'Mannequin', login: string } | { __typename?: 'Organization', login: string } | { __typename?: 'User', login: string } | null | undefined, reactions: { __typename?: 'ReactionConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean }, nodes?: Array<{ __typename?: 'Reaction', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined } | null | undefined> | null | undefined } };
+
 export type Frag_Issue_NodesFragment = { __typename?: 'IssueConnection', nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, body: string, bodyUrl: any, authorAssociation: CommentAuthorAssociation, createdAt: any, author?: { __typename?: 'Bot', login: string, avatarUrl: any } | { __typename?: 'EnterpriseUserAccount', login: string, avatarUrl: any } | { __typename?: 'Mannequin', login: string, avatarUrl: any } | { __typename?: 'Organization', login: string, avatarUrl: any } | { __typename?: 'User', login: string, avatarUrl: any } | null | undefined, reactions: { __typename?: 'ReactionConnection', totalCount: number, viewerHasReacted: boolean }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } };
 
 export type Frag_Repository_IssuesFragment = { __typename?: 'Repository', issues: { __typename?: 'IssueConnection', totalCount: number, nodes?: Array<{ __typename?: 'Issue', id: string, number: number, title: string, body: string, bodyUrl: any, authorAssociation: CommentAuthorAssociation, createdAt: any, author?: { __typename?: 'Bot', login: string, avatarUrl: any } | { __typename?: 'EnterpriseUserAccount', login: string, avatarUrl: any } | { __typename?: 'Mannequin', login: string, avatarUrl: any } | { __typename?: 'Organization', login: string, avatarUrl: any } | { __typename?: 'User', login: string, avatarUrl: any } | null | undefined, reactions: { __typename?: 'ReactionConnection', totalCount: number, viewerHasReacted: boolean }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } } };
@@ -22606,6 +22635,15 @@ export type GetFeedQueryVariables = Exact<{
 
 export type GetFeedQuery = { __typename?: 'Query', search: { __typename?: 'SearchResultItemConnection', nodes?: Array<{ __typename?: 'App' } | { __typename?: 'Discussion' } | { __typename?: 'Issue', id: string, number: number, title: string, body: string, bodyUrl: any, authorAssociation: CommentAuthorAssociation, createdAt: any, author?: { __typename?: 'Bot', login: string, avatarUrl: any } | { __typename?: 'EnterpriseUserAccount', login: string, avatarUrl: any } | { __typename?: 'Mannequin', login: string, avatarUrl: any } | { __typename?: 'Organization', login: string, avatarUrl: any } | { __typename?: 'User', login: string, avatarUrl: any } | null | undefined, reactions: { __typename?: 'ReactionConnection', totalCount: number, viewerHasReacted: boolean }, comments: { __typename?: 'IssueCommentConnection', totalCount: number } } | { __typename?: 'MarketplaceListing' } | { __typename?: 'Organization' } | { __typename?: 'PullRequest' } | { __typename?: 'Repository' } | { __typename?: 'User' } | null | undefined> | null | undefined, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean } } };
 
+export type GetLikesQueryVariables = Exact<{
+  issueId: Scalars['ID'];
+  firstReactions?: Maybe<Scalars['Int']>;
+  afterReactionsCursor?: Maybe<Scalars['String']>;
+}>;
+
+
+export type GetLikesQuery = { __typename?: 'Query', node?: { __typename?: 'AddedToProjectEvent' } | { __typename?: 'App' } | { __typename?: 'AssignedEvent' } | { __typename?: 'AutoMergeDisabledEvent' } | { __typename?: 'AutoMergeEnabledEvent' } | { __typename?: 'AutoRebaseEnabledEvent' } | { __typename?: 'AutoSquashEnabledEvent' } | { __typename?: 'AutomaticBaseChangeFailedEvent' } | { __typename?: 'AutomaticBaseChangeSucceededEvent' } | { __typename?: 'BaseRefChangedEvent' } | { __typename?: 'BaseRefDeletedEvent' } | { __typename?: 'BaseRefForcePushedEvent' } | { __typename?: 'Blob' } | { __typename?: 'Bot' } | { __typename?: 'BranchProtectionRule' } | { __typename?: 'CWE' } | { __typename?: 'CheckRun' } | { __typename?: 'CheckSuite' } | { __typename?: 'ClosedEvent' } | { __typename?: 'CodeOfConduct' } | { __typename?: 'CommentDeletedEvent' } | { __typename?: 'Commit' } | { __typename?: 'CommitComment' } | { __typename?: 'CommitCommentThread' } | { __typename?: 'ConnectedEvent' } | { __typename?: 'ConvertToDraftEvent' } | { __typename?: 'ConvertedNoteToIssueEvent' } | { __typename?: 'CrossReferencedEvent' } | { __typename?: 'DemilestonedEvent' } | { __typename?: 'DeployKey' } | { __typename?: 'DeployedEvent' } | { __typename?: 'Deployment' } | { __typename?: 'DeploymentEnvironmentChangedEvent' } | { __typename?: 'DeploymentReview' } | { __typename?: 'DeploymentStatus' } | { __typename?: 'DisconnectedEvent' } | { __typename?: 'Discussion' } | { __typename?: 'DiscussionCategory' } | { __typename?: 'DiscussionComment' } | { __typename?: 'Enterprise' } | { __typename?: 'EnterpriseAdministratorInvitation' } | { __typename?: 'EnterpriseIdentityProvider' } | { __typename?: 'EnterpriseRepositoryInfo' } | { __typename?: 'EnterpriseServerInstallation' } | { __typename?: 'EnterpriseServerUserAccount' } | { __typename?: 'EnterpriseServerUserAccountEmail' } | { __typename?: 'EnterpriseServerUserAccountsUpload' } | { __typename?: 'EnterpriseUserAccount' } | { __typename?: 'Environment' } | { __typename?: 'ExternalIdentity' } | { __typename?: 'Gist' } | { __typename?: 'GistComment' } | { __typename?: 'HeadRefDeletedEvent' } | { __typename?: 'HeadRefForcePushedEvent' } | { __typename?: 'HeadRefRestoredEvent' } | { __typename?: 'IpAllowListEntry' } | { __typename?: 'Issue', number: number, author?: { __typename?: 'Bot', login: string } | { __typename?: 'EnterpriseUserAccount', login: string } | { __typename?: 'Mannequin', login: string } | { __typename?: 'Organization', login: string } | { __typename?: 'User', login: string } | null | undefined, reactions: { __typename?: 'ReactionConnection', pageInfo: { __typename?: 'PageInfo', endCursor?: string | null | undefined, hasNextPage: boolean }, nodes?: Array<{ __typename?: 'Reaction', user?: { __typename?: 'User', id: string, login: string, avatarUrl: any, name?: string | null | undefined, location?: string | null | undefined, twitterUsername?: string | null | undefined, bio?: string | null | undefined, libraryRepoId?: string | null | undefined, currentOid?: string | null | undefined, stargazerCount?: number | null | undefined, issuesTotalCount?: number | null | undefined, followingUsers?: Array<string> | null | undefined, followingTags?: Array<string> | null | undefined, saved?: Array<string> | null | undefined, hasBeen?: UserHasBeen | null | undefined, fullyLoaded?: boolean | null | undefined } | null | undefined } | null | undefined> | null | undefined } } | { __typename?: 'IssueComment' } | { __typename?: 'Label' } | { __typename?: 'LabeledEvent' } | { __typename?: 'Language' } | { __typename?: 'License' } | { __typename?: 'LockedEvent' } | { __typename?: 'Mannequin' } | { __typename?: 'MarkedAsDuplicateEvent' } | { __typename?: 'MarketplaceCategory' } | { __typename?: 'MarketplaceListing' } | { __typename?: 'MembersCanDeleteReposClearAuditEntry' } | { __typename?: 'MembersCanDeleteReposDisableAuditEntry' } | { __typename?: 'MembersCanDeleteReposEnableAuditEntry' } | { __typename?: 'MentionedEvent' } | { __typename?: 'MergedEvent' } | { __typename?: 'Milestone' } | { __typename?: 'MilestonedEvent' } | { __typename?: 'MovedColumnsInProjectEvent' } | { __typename?: 'OIDCProvider' } | { __typename?: 'OauthApplicationCreateAuditEntry' } | { __typename?: 'OrgAddBillingManagerAuditEntry' } | { __typename?: 'OrgAddMemberAuditEntry' } | { __typename?: 'OrgBlockUserAuditEntry' } | { __typename?: 'OrgConfigDisableCollaboratorsOnlyAuditEntry' } | { __typename?: 'OrgConfigEnableCollaboratorsOnlyAuditEntry' } | { __typename?: 'OrgCreateAuditEntry' } | { __typename?: 'OrgDisableOauthAppRestrictionsAuditEntry' } | { __typename?: 'OrgDisableSamlAuditEntry' } | { __typename?: 'OrgDisableTwoFactorRequirementAuditEntry' } | { __typename?: 'OrgEnableOauthAppRestrictionsAuditEntry' } | { __typename?: 'OrgEnableSamlAuditEntry' } | { __typename?: 'OrgEnableTwoFactorRequirementAuditEntry' } | { __typename?: 'OrgInviteMemberAuditEntry' } | { __typename?: 'OrgInviteToBusinessAuditEntry' } | { __typename?: 'OrgOauthAppAccessApprovedAuditEntry' } | { __typename?: 'OrgOauthAppAccessDeniedAuditEntry' } | { __typename?: 'OrgOauthAppAccessRequestedAuditEntry' } | { __typename?: 'OrgRemoveBillingManagerAuditEntry' } | { __typename?: 'OrgRemoveMemberAuditEntry' } | { __typename?: 'OrgRemoveOutsideCollaboratorAuditEntry' } | { __typename?: 'OrgRestoreMemberAuditEntry' } | { __typename?: 'OrgUnblockUserAuditEntry' } | { __typename?: 'OrgUpdateDefaultRepositoryPermissionAuditEntry' } | { __typename?: 'OrgUpdateMemberAuditEntry' } | { __typename?: 'OrgUpdateMemberRepositoryCreationPermissionAuditEntry' } | { __typename?: 'OrgUpdateMemberRepositoryInvitationPermissionAuditEntry' } | { __typename?: 'Organization' } | { __typename?: 'OrganizationIdentityProvider' } | { __typename?: 'OrganizationInvitation' } | { __typename?: 'Package' } | { __typename?: 'PackageFile' } | { __typename?: 'PackageTag' } | { __typename?: 'PackageVersion' } | { __typename?: 'PinnedDiscussion' } | { __typename?: 'PinnedEvent' } | { __typename?: 'PinnedIssue' } | { __typename?: 'PrivateRepositoryForkingDisableAuditEntry' } | { __typename?: 'PrivateRepositoryForkingEnableAuditEntry' } | { __typename?: 'Project' } | { __typename?: 'ProjectCard' } | { __typename?: 'ProjectColumn' } | { __typename?: 'ProjectNext' } | { __typename?: 'ProjectNextItem' } | { __typename?: 'ProjectNextItemFieldValue' } | { __typename?: 'PublicKey' } | { __typename?: 'PullRequest' } | { __typename?: 'PullRequestCommit' } | { __typename?: 'PullRequestCommitCommentThread' } | { __typename?: 'PullRequestReview' } | { __typename?: 'PullRequestReviewComment' } | { __typename?: 'PullRequestReviewThread' } | { __typename?: 'Push' } | { __typename?: 'PushAllowance' } | { __typename?: 'Reaction' } | { __typename?: 'ReadyForReviewEvent' } | { __typename?: 'Ref' } | { __typename?: 'ReferencedEvent' } | { __typename?: 'Release' } | { __typename?: 'ReleaseAsset' } | { __typename?: 'RemovedFromProjectEvent' } | { __typename?: 'RenamedTitleEvent' } | { __typename?: 'ReopenedEvent' } | { __typename?: 'RepoAccessAuditEntry' } | { __typename?: 'RepoAddMemberAuditEntry' } | { __typename?: 'RepoAddTopicAuditEntry' } | { __typename?: 'RepoArchivedAuditEntry' } | { __typename?: 'RepoChangeMergeSettingAuditEntry' } | { __typename?: 'RepoConfigDisableAnonymousGitAccessAuditEntry' } | { __typename?: 'RepoConfigDisableCollaboratorsOnlyAuditEntry' } | { __typename?: 'RepoConfigDisableContributorsOnlyAuditEntry' } | { __typename?: 'RepoConfigDisableSockpuppetDisallowedAuditEntry' } | { __typename?: 'RepoConfigEnableAnonymousGitAccessAuditEntry' } | { __typename?: 'RepoConfigEnableCollaboratorsOnlyAuditEntry' } | { __typename?: 'RepoConfigEnableContributorsOnlyAuditEntry' } | { __typename?: 'RepoConfigEnableSockpuppetDisallowedAuditEntry' } | { __typename?: 'RepoConfigLockAnonymousGitAccessAuditEntry' } | { __typename?: 'RepoConfigUnlockAnonymousGitAccessAuditEntry' } | { __typename?: 'RepoCreateAuditEntry' } | { __typename?: 'RepoDestroyAuditEntry' } | { __typename?: 'RepoRemoveMemberAuditEntry' } | { __typename?: 'RepoRemoveTopicAuditEntry' } | { __typename?: 'Repository' } | { __typename?: 'RepositoryInvitation' } | { __typename?: 'RepositoryTopic' } | { __typename?: 'RepositoryVisibilityChangeDisableAuditEntry' } | { __typename?: 'RepositoryVisibilityChangeEnableAuditEntry' } | { __typename?: 'RepositoryVulnerabilityAlert' } | { __typename?: 'ReviewDismissalAllowance' } | { __typename?: 'ReviewDismissedEvent' } | { __typename?: 'ReviewRequest' } | { __typename?: 'ReviewRequestRemovedEvent' } | { __typename?: 'ReviewRequestedEvent' } | { __typename?: 'SavedReply' } | { __typename?: 'SecurityAdvisory' } | { __typename?: 'SponsorsActivity' } | { __typename?: 'SponsorsListing' } | { __typename?: 'SponsorsTier' } | { __typename?: 'Sponsorship' } | { __typename?: 'SponsorshipNewsletter' } | { __typename?: 'Status' } | { __typename?: 'StatusCheckRollup' } | { __typename?: 'StatusContext' } | { __typename?: 'SubscribedEvent' } | { __typename?: 'Tag' } | { __typename?: 'Team' } | { __typename?: 'TeamAddMemberAuditEntry' } | { __typename?: 'TeamAddRepositoryAuditEntry' } | { __typename?: 'TeamChangeParentTeamAuditEntry' } | { __typename?: 'TeamDiscussion' } | { __typename?: 'TeamDiscussionComment' } | { __typename?: 'TeamRemoveMemberAuditEntry' } | { __typename?: 'TeamRemoveRepositoryAuditEntry' } | { __typename?: 'Topic' } | { __typename?: 'TransferredEvent' } | { __typename?: 'Tree' } | { __typename?: 'UnassignedEvent' } | { __typename?: 'UnlabeledEvent' } | { __typename?: 'UnlockedEvent' } | { __typename?: 'UnmarkedAsDuplicateEvent' } | { __typename?: 'UnpinnedEvent' } | { __typename?: 'UnsubscribedEvent' } | { __typename?: 'User' } | { __typename?: 'UserBlockedEvent' } | { __typename?: 'UserContentEdit' } | { __typename?: 'UserStatus' } | { __typename?: 'VerifiableDomain' } | { __typename?: 'Workflow' } | { __typename?: 'WorkflowRun' } | null | undefined };
+
 export const Frag_User_FieldsFragmentDoc = gql`
     fragment FRAG_User_Fields on User {
   id
@@ -22648,7 +22686,7 @@ export const Frag_Issue_FieldsFragmentDoc = gql`
     login
     avatarUrl
   }
-  reactions {
+  reactions(content: HEART) {
     totalCount
     viewerHasReacted
   }
@@ -22760,6 +22798,30 @@ export const Cache_UserInfo_UserPropsFragmentDoc = gql`
   fullyLoaded @client
 }
     `;
+export const Frag_Issue_LikesFragmentDoc = gql`
+    fragment FRAG_Issue_Likes on Issue {
+  number
+  author {
+    login
+  }
+  reactions(
+    first: $firstReactions
+    after: $afterReactionsCursor
+    orderBy: {field: CREATED_AT, direction: DESC}
+    content: HEART
+  ) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    nodes {
+      user {
+        ...FRAG_User_Fields
+      }
+    }
+  }
+}
+    ${Frag_User_FieldsFragmentDoc}`;
 export const Frag_Commit_FieldsFragmentDoc = gql`
     fragment FRAG_Commit_Fields on Commit {
   oid
@@ -23313,3 +23375,40 @@ export function useGetFeedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetFeedQueryHookResult = ReturnType<typeof useGetFeedQuery>;
 export type GetFeedLazyQueryHookResult = ReturnType<typeof useGetFeedLazyQuery>;
 export type GetFeedQueryResult = Apollo.QueryResult<GetFeedQuery, GetFeedQueryVariables>;
+export const GetLikesDocument = gql`
+    query GetLikes($issueId: ID!, $firstReactions: Int = 50, $afterReactionsCursor: String) {
+  node(id: $issueId) {
+    ...FRAG_Issue_Likes
+  }
+}
+    ${Frag_Issue_LikesFragmentDoc}`;
+
+/**
+ * __useGetLikesQuery__
+ *
+ * To run a query within a React component, call `useGetLikesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLikesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLikesQuery({
+ *   variables: {
+ *      issueId: // value for 'issueId'
+ *      firstReactions: // value for 'firstReactions'
+ *      afterReactionsCursor: // value for 'afterReactionsCursor'
+ *   },
+ * });
+ */
+export function useGetLikesQuery(baseOptions: Apollo.QueryHookOptions<GetLikesQuery, GetLikesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLikesQuery, GetLikesQueryVariables>(GetLikesDocument, options);
+      }
+export function useGetLikesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLikesQuery, GetLikesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLikesQuery, GetLikesQueryVariables>(GetLikesDocument, options);
+        }
+export type GetLikesQueryHookResult = ReturnType<typeof useGetLikesQuery>;
+export type GetLikesLazyQueryHookResult = ReturnType<typeof useGetLikesLazyQuery>;
+export type GetLikesQueryResult = Apollo.QueryResult<GetLikesQuery, GetLikesQueryVariables>;
