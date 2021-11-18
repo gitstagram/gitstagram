@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import { Dialog } from 'components/ui'
 import { theme } from 'styles/themes'
 
-export const FollowDialogStyles = styled(Dialog)`
-  .follow-dialog-body {
+export const ListDialogStyles = styled(Dialog)`
+  .list-dialog-body {
     width: 95vw;
     max-width: ${theme('sz384')};
     height: 80vh;
@@ -16,12 +16,12 @@ export const FollowDialogStyles = styled(Dialog)`
     }
   }
 
-  .follow-nothing {
+  .list-dialog-nothing {
     margin-top: ${theme('sz56')};
     text-align: center;
   }
 
-  .follow-item {
+  .list-dialog-item {
     position: relative;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@ export const FollowDialogStyles = styled(Dialog)`
     height: ${theme('sz64')};
   }
 
-  .follow-profile {
+  .list-dialog-profile {
     display: flex;
     align-items: center;
     width: 100%;
@@ -47,36 +47,36 @@ export const FollowDialogStyles = styled(Dialog)`
     }
   }
 
-  .follow-profile-img {
+  .list-dialog-profile-img {
     flex-shrink: 0;
     margin-right: ${theme('sz12')};
     margin-left: ${theme('sz12')};
   }
 
-  .follow-profile-details {
+  .list-dialog-profile-details {
     width: 50%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  .follow-profile-name {
+  .list-dialog-profile-name {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  .follow-button {
+  .list-dialog-follow-button {
     position: absolute;
     right: ${theme('sz12')};
   }
 
-  .following-removed {
-    .follow-profile {
+  .list-dialog-following-removed {
+    .list-dialog-profile {
       opacity: 0.35;
     }
 
-    .follow-button {
+    .list-dialog-follow-button {
       opacity: 0.35;
 
       &:hover,

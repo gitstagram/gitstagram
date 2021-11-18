@@ -4,7 +4,7 @@ import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { useViewerInfo, useUserInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
-import { FollowDialogStyles } from 'components/profile/followDialogStyles'
+import { ListDialogStyles } from 'components/listDialogStyles'
 import { FollowingButton } from 'components/profile/followingButton'
 import { FollowButton } from 'components/profile/followButton'
 import {
@@ -146,17 +146,17 @@ export const FollowerDialog = ({
       : stargazers
 
   return (
-    <FollowDialogStyles
+    <ListDialogStyles
       {...dialogProps}
       ariaLabel='Followers list dialog'
       title='Followers'
     >
       <div
-        className='follow-dialog-body'
+        className='list-dialog-body'
         ref={scrollRef as React.RefObject<HTMLDivElement>}
       >
         {!anyLoading && adjustedStargazers.length === 0 && (
-          <div className='follow-nothing'>
+          <div className='list-dialog-nothing'>
             <TextInfo>No users to show</TextInfo>
           </div>
         )}
@@ -167,20 +167,20 @@ export const FollowerDialog = ({
             const isViewer = login === viewerInfo.login
             const isFollowing = viewerInfo.followingUsers.includes(login)
             return (
-              <div key={index} className='follow-item'>
+              <div key={index} className='list-dialog-item'>
                 <Link href={getProfilePath(login)}>
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                  <a className='follow-profile' onClick={dialogProps.hide}>
+                  <a className='list-dialog-profile' onClick={dialogProps.hide}>
                     <ProfileIcon
-                      className='follow-profile-img'
+                      className='list-dialog-profile-img'
                       url={stargazer.avatarUrl as string}
                       userLogin={login}
                       size={32}
                     />
-                    <div className='follow-profile-details'>
+                    <div className='list-dialog-profile-details'>
                       <b>{login}</b>
                       {stargazer.name && (
-                        <TextDeemph className='follow-profile-name'>
+                        <TextDeemph className='list-dialog-profile-name'>
                           {stargazer.name}
                         </TextDeemph>
                       )}
@@ -190,13 +190,13 @@ export const FollowerDialog = ({
                 {!isViewer && (
                   <>
                     <FollowingButton
-                      className='follow-button'
+                      className='list-dialog-follow-button'
                       variant='small'
                       followUserLogin={stargazer.login}
                       show={isFollowing}
                     />
                     <FollowButton
-                      className='follow-button'
+                      className='list-dialog-follow-button'
                       variant='small'
                       followUserLogin={stargazer.login}
                       show={!isFollowing}
@@ -207,12 +207,12 @@ export const FollowerDialog = ({
             )
           })}
         {anyError && (
-          <div className='follow-nothing'>
+          <div className='list-dialog-nothing'>
             <TextInfo>Issue loading, please try again</TextInfo>
           </div>
         )}
         {anyLoading && <SkeletonUserList />}
       </div>
-    </FollowDialogStyles>
+    </ListDialogStyles>
   )
 }

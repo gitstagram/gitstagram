@@ -5,7 +5,7 @@ import { DialogStateReturn } from 'reakit/Dialog'
 import { useBottomScrollListener } from 'react-bottom-scroll-listener'
 import { useViewerInfo, useUserInfo } from 'components/data'
 import { ProfileIcon } from 'components/profileIcon'
-import { FollowDialogStyles } from 'components/profile/followDialogStyles'
+import { ListDialogStyles } from 'components/listDialogStyles'
 import { FollowButton } from 'components/profile/followButton'
 import { FollowingButton } from 'components/profile/followingButton'
 import {
@@ -131,17 +131,17 @@ export const FollowingDialog = ({
   useDialogScroll(dialogProps, scrollRef)
 
   return (
-    <FollowDialogStyles
+    <ListDialogStyles
       {...dialogProps}
       ariaLabel='Following list dialog'
       title='Following'
     >
       <div
-        className='follow-dialog-body'
+        className='list-dialog-body'
         ref={scrollRef as React.RefObject<HTMLDivElement>}
       >
         {!anyLoading && !following.length && totalFollowing === 0 && (
-          <div className='follow-nothing'>
+          <div className='list-dialog-nothing'>
             <TextInfo>No users to show</TextInfo>
           </div>
         )}
@@ -152,28 +152,28 @@ export const FollowingDialog = ({
             const isViewer = userLogin === viewerInfo.login
             const isFollowing = viewerInfo.followingUsers?.includes(userLogin)
 
-            // User a 'following-removed' class on the viewer's page
+            // Use a 'list-dialog-following-removed' class on the viewer's page
             // So unfollowing someone isn't an irreversible disappearance
             return (
               <div
                 key={index}
-                className={cn('follow-item', {
-                  'following-removed': isViewerPage && !isFollowing,
+                className={cn('list-dialog-item', {
+                  'list-dialog-following-removed': isViewerPage && !isFollowing,
                 })}
               >
                 <Link href={getProfilePath(userLogin)}>
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                  <a className='follow-profile' onClick={dialogProps.hide}>
+                  <a className='list-dialog-profile' onClick={dialogProps.hide}>
                     <ProfileIcon
-                      className='follow-profile-img'
+                      className='list-dialog-profile-img'
                       url={follow.avatarUrl as string}
                       userLogin={userLogin}
                       size={32}
                     />
-                    <div className='follow-profile-details'>
+                    <div className='list-dialog-profile-details'>
                       <b>{userLogin}</b>
                       {follow.name && (
-                        <TextDeemph className='follow-profile-name'>
+                        <TextDeemph className='list-dialog-profile-name'>
                           {follow.name}
                         </TextDeemph>
                       )}
@@ -183,13 +183,13 @@ export const FollowingDialog = ({
                 {!isViewer && (
                   <>
                     <FollowingButton
-                      className='follow-button'
+                      className='list-dialog-follow-button'
                       variant='small'
                       followUserLogin={userLogin}
                       show={isFollowing}
                     />
                     <FollowButton
-                      className='follow-button'
+                      className='list-dialog-follow-button'
                       variant='small'
                       followUserLogin={userLogin}
                       show={!isFollowing}
@@ -201,12 +201,12 @@ export const FollowingDialog = ({
             )
           })}
         {anyError && (
-          <div className='follow-nothing'>
+          <div className='list-dialog-nothing'>
             <TextInfo>Issue loading, please try again</TextInfo>
           </div>
         )}
         {anyLoading && <SkeletonUserList />}
       </div>
-    </FollowDialogStyles>
+    </ListDialogStyles>
   )
 }
