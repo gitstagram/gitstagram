@@ -105,8 +105,8 @@ export const Profile = ({ userLogin }: ProfileProps): JSX.Element => {
 
   return (
     <>
-      {anyLoading && <SkeletonProfile />}
-      {!anyLoading && anyError && <ProfileUnavailable />}
+      {anyLoading && !anyError && <SkeletonProfile />}
+      {anyError && <ProfileUnavailable />}
       {!anyLoading && !anyError && profileData && (
         <>
           <ProfileHeader

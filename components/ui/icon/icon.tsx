@@ -49,9 +49,18 @@ const IconStyles = styled.i<IconStyleProps>`
   ${({ clickable }) =>
     clickable &&
     css`
-      color: inherit;
+      color: ${theme('icon_Color')};
       text-decoration: none;
       cursor: pointer;
+
+      &:hover,
+      &:focus {
+        color: ${theme('icon_Color__Hover')};
+      }
+
+      &:active {
+        color: ${theme('icon_Color__Active')};
+      }
     `}
 `
 

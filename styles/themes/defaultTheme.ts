@@ -164,9 +164,9 @@ const intentionColors = {
 }
 
 const iconColors = {
-  iconNav_Color: sys.monos.mc300,
-  iconNav_Color__Hover: sys.monos.mc200,
-  iconNav_Color__Active: sys.monos.mc400,
+  icon_Color: sys.monos.mc300,
+  icon_Color__Hover: sys.monos.mc200,
+  icon_Color__Active: sys.monos.mc400,
 
   iconInput_Color: sys.monos.mc200,
   iconInput_Color__Hover: sys.monos.mc000,

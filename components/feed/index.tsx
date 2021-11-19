@@ -39,20 +39,20 @@ export const Feed = (): JSX.Element => {
 
   const { data, loading, error } = useGetFeedQuery()
   const posts =
-    data?.search?.nodes?.reduce((posts, item) => {
-      return item?.__typename === 'Issue' &&
+    (data?.search?.nodes?.filter((item) => {
+      return (
+        item?.__typename === 'Issue' &&
         isGitstagramPost(item.body) &&
         item.authorAssociation === 'OWNER'
-        ? [...posts, item]
-        : posts
-    }, [] as Posts) || []
+      )
+    }) as Posts) || ([] as Posts)
 
   return (
     <FeedStyles>
-      {!posts && !error && (
+      {posts.length === 0 && !error && (
         <Mistake
           className='feed-empty'
-          mistake='Feed Empty!'
+          mistake='Feed Empty'
           mistakeDescription='Why not follow somebody?'
         >
           <TextLink href={getProfilePath(viewerLogin)} variant='deemph'>
@@ -61,7 +61,7 @@ export const Feed = (): JSX.Element => {
         </Mistake>
       )}
       {!error && loading && <SkeletonFeed />}
-      {data && (
+      {posts.length !== 0 && (
         <div className='feed-container'>
           {posts.map((issue) => {
             const validPost = issue && isGitstagramPost(issue.body)

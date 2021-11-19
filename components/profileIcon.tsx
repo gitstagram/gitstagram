@@ -58,16 +58,16 @@ const ProfileWrapper = styled.div<ProfileIconStylesProps>`
   ${({ interactive }) =>
     interactive &&
     css`
-      border: 1px solid ${theme('iconNav_Color')};
+      border: 1px solid ${theme('icon_Color')};
       cursor: pointer;
 
       &:hover,
       &:focus {
-        border: 1px solid ${theme('iconNav_Color__Hover')};
+        border: 1px solid ${theme('icon_Color__Hover')};
       }
 
       &:active {
-        border: 1px solid ${theme('iconNav_Color__Active')};
+        border: 1px solid ${theme('icon_Color__Active')};
       }
     `}
 
@@ -94,7 +94,7 @@ const PlaceholderWrapper = styled.div<ProfileIconStylesProps>`
   border-radius: ${theme('roundedCircle_BorderRadius')};
 
   .profile-placeholder {
-    color: ${theme('iconNav_Color')};
+    color: ${theme('icon_Color')};
   }
 
   ${({ size }) =>
@@ -125,23 +125,23 @@ const PlaceholderWrapper = styled.div<ProfileIconStylesProps>`
   ${({ interactive }) =>
     interactive &&
     css`
-      border: 1px solid ${theme('iconNav_Color')};
+      border: 1px solid ${theme('icon_Color')};
       cursor: pointer;
 
       &:hover,
       &:focus {
-        border: 1px solid ${theme('iconNav_Color__Hover')};
+        border: 1px solid ${theme('icon_Color__Hover')};
 
         .profile-placeholder {
-          color: ${theme('iconNav_Color__Hover')};
+          color: ${theme('icon_Color__Hover')};
         }
       }
 
       &:active {
-        border: 1px solid ${theme('iconNav_Color__Active')};
+        border: 1px solid ${theme('icon_Color__Active')};
 
         .profile-placeholder {
-          color: ${theme('iconNav_Color__Active')};
+          color: ${theme('icon_Color__Active')};
         }
       }
     `}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import cn from 'classnames'
+import Link from 'next/link'
 import Image from 'next/image'
 import { toast } from 'react-toastify'
 import { useDialogState } from 'reakit/Dialog'
@@ -8,7 +8,7 @@ import { Panel, TextLink, Button, Icon, ReadableTime } from 'components/ui'
 import { ProfileIcon } from 'components/profileIcon'
 import { FeedCaption } from 'components/feed/feedCaption'
 import { LikesDialog } from 'components/feed/likesDialog'
-import { theme } from 'styles/themes'
+import { FeedPostStyles } from 'components/feed/feedPostStyles'
 import {
   parseIfJson,
   GitstagramPost,
@@ -18,98 +18,7 @@ import {
 } from 'helpers'
 import { Frag_Issue_FieldsFragment } from 'graphql/generated'
 import { useAddHeartMutation, useRemoveHeartMutation } from 'graphql/operations'
-import { getProfilePath, HOME } from 'routes'
-
-const FeedPostStyles = styled.div`
-  margin-bottom: ${theme('sz24')};
-
-  .post-panel {
-    padding: 0;
-  }
-
-  .post-header {
-    display: flex;
-    align-items: center;
-    height: ${theme('sz64')};
-  }
-
-  .post-user {
-    margin-right: ${theme('sz12')};
-    margin-left: ${theme('sz24')};
-  }
-
-  .post-square {
-    position: relative;
-    width: 100%;
-    border-top-left-radius: ${theme('roundedNone')};
-    border-top-right-radius: ${theme('roundedNone')};
-  }
-
-  .post-square::after {
-    display: block;
-    padding-bottom: 100%;
-    content: '';
-  }
-
-  .post-like-overlay {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: ${theme('trans_All')};
-
-    i {
-      transform: scale(2);
-    }
-
-    &.active {
-      transform: scale(2.5);
-      opacity: 1;
-    }
-  }
-
-  @media screen and (prefers-reduced-motion: reduce) {
-    .post-like-overlay {
-      transition: none;
-    }
-  }
-
-  .post-action-row {
-    display: flex;
-    padding: ${theme('sz16')};
-
-    i {
-      margin-right: ${theme('sz8')};
-    }
-
-    .bi-heart-fill {
-      color: ${theme('intentSplendid_Color')};
-    }
-  }
-
-  .post-likes {
-    padding: ${theme('sz16')};
-    padding-top: 0;
-  }
-
-  .post-description {
-    padding: ${theme('sz16')};
-    padding-top: 0;
-  }
-
-  .post-comments {
-    padding: ${theme('sz16')};
-    padding-top: 0;
-  }
-
-  .post-time-ago {
-    padding: ${theme('sz16')};
-    padding-top: 0;
-  }
-`
+import { getProfilePath, getCommentsPath } from 'routes'
 
 type FeedPostProps = {
   issue: Frag_Issue_FieldsFragment
@@ -183,10 +92,6 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
 
   const handleLikesClick = () => likesDialog.toggle()
 
-  const handleCommentsClick = () => {
-    console.log('commentsClicked')
-  }
-
   return (
     <FeedPostStyles>
       <Panel className='post-panel'>
@@ -228,14 +133,16 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
               size: 24,
             }}
           />
-          <Button
-            href={HOME}
-            variant={{
-              icon: 'chat',
-              ariaLabel: 'Comment on this post',
-              size: 24,
-            }}
-          />
+          <Link href={getCommentsPath(issue.id)}>
+            <a>
+              <Icon
+                clickable
+                icon='chat'
+                ariaLabel='Comment on this post'
+                size={24}
+              />
+            </a>
+          </Link>
         </div>
         <div className='post-likes'>
           <TextLink variant='title' as='button' onClick={handleLikesClick}>
@@ -253,11 +160,7 @@ export const FeedPost = ({ issue }: FeedPostProps): JSX.Element => {
         )}
         {issue.comments.totalCount >= 1 && (
           <div className='post-comments'>
-            <TextLink
-              as='button'
-              variant='disclosure'
-              onClick={handleCommentsClick}
-            >
+            <TextLink variant='disclosure' href={getCommentsPath(issue.id)}>
               View {commentCount}{' '}
               {pluralize({
                 word: 'comment',

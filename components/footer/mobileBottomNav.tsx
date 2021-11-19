@@ -30,16 +30,6 @@ const MobileBottomNavStyles = styled.nav`
 
   .nav-icon {
     margin-right: ${theme('sz16')};
-    color: ${theme('iconNav_Color')};
-
-    &:hover,
-    &:focus {
-      color: ${theme('iconNav_Color__Hover')};
-    }
-
-    &:active {
-      color: ${theme('iconNav_Color__Active')};
-    }
   }
 `
 
