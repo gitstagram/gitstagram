@@ -33,6 +33,20 @@ const nullOnUndefinedPolicy = {
 }
 
 export const typePolicies: TypePolicies & StrictTypedTypePolicies = {
+  SearchResultItemConnection: {
+    fields: {
+      nodes: {
+        merge(existing: unknown[], incoming: unknown[], options) {
+          if (options.variables?.feedSearch) {
+            // Merge if is a feedSearch in query. Otherwise replace result
+            return existing ? [...existing, ...incoming] : incoming
+          } else {
+            return incoming
+          }
+        },
+      },
+    },
+  },
   Repository: {
     keyFields: ['nameWithOwner'],
     fields: {

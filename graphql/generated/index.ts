@@ -22630,6 +22630,7 @@ export type FeedSearchIdentifierFragment = { __typename?: 'SearchResultItemConne
 export type GetFeedQueryVariables = Exact<{
   feedSearch: Scalars['String'];
   firstIssues?: Maybe<Scalars['Int']>;
+  afterIssueCursor?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -23336,8 +23337,13 @@ export type GetIssueNodeQueryHookResult = ReturnType<typeof useGetIssueNodeQuery
 export type GetIssueNodeLazyQueryHookResult = ReturnType<typeof useGetIssueNodeLazyQuery>;
 export type GetIssueNodeQueryResult = Apollo.QueryResult<GetIssueNodeQuery, GetIssueNodeQueryVariables>;
 export const GetFeedDocument = gql`
-    query GetFeed($feedSearch: String!, $firstIssues: Int = 25) {
-  search(query: $feedSearch, type: ISSUE, first: $firstIssues) {
+    query GetFeed($feedSearch: String!, $firstIssues: Int = 25, $afterIssueCursor: String) {
+  search(
+    query: $feedSearch
+    type: ISSUE
+    first: $firstIssues
+    after: $afterIssueCursor
+  ) {
     nodes {
       ...FRAG_Issue_Fields
     }
@@ -23361,6 +23367,7 @@ ${FeedSearchIdentifierFragmentDoc}`;
  *   variables: {
  *      feedSearch: // value for 'feedSearch'
  *      firstIssues: // value for 'firstIssues'
+ *      afterIssueCursor: // value for 'afterIssueCursor'
  *   },
  * });
  */

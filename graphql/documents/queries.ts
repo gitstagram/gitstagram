@@ -110,8 +110,17 @@ export const GET_FEED = gql`
 
   ${frags.FRAG_Issue_Fields}
 
-  query GetFeed($feedSearch: String!, $firstIssues: Int = 25) {
-    search(query: $feedSearch, type: ISSUE, first: $firstIssues) {
+  query GetFeed(
+    $feedSearch: String!
+    $firstIssues: Int = 25
+    $afterIssueCursor: String
+  ) {
+    search(
+      query: $feedSearch
+      type: ISSUE
+      first: $firstIssues
+      after: $afterIssueCursor
+    ) {
       nodes {
         ...FRAG_Issue_Fields
       }

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
-import { useGetFeedQuery } from 'graphql/operations'
+import { useBodyScrollListener } from 'components/hooks'
+import { useGetFeedQuery, feedFetchMore } from 'graphql/operations'
 import { GetFeedQuery } from 'graphql/generated'
 import { SkeletonFeed } from 'components/feed/feedSkeleton'
 import { FeedPost } from 'components/feed/feedPost'
@@ -37,7 +38,7 @@ export const Feed = (): JSX.Element => {
   const viewerLogin = viewerInfo.login
   const router = useRouter()
 
-  const { data, loading, error } = useGetFeedQuery()
+  const { data, loading, error, fetchMore } = useGetFeedQuery()
   const posts =
     (data?.search?.nodes?.filter((item) => {
       return (
@@ -46,6 +47,15 @@ export const Feed = (): JSX.Element => {
         item.authorAssociation === 'OWNER'
       )
     }) as Posts) || ([] as Posts)
+
+  const handleMore = () => {
+    if (data?.search.pageInfo.hasNextPage && !loading) {
+      const cursor = data.search.pageInfo.endCursor
+      cursor && feedFetchMore(fetchMore, cursor)
+    }
+  }
+
+  useBodyScrollListener(handleMore)
 
   return (
     <FeedStyles>
@@ -60,7 +70,6 @@ export const Feed = (): JSX.Element => {
           </TextLink>
         </Mistake>
       )}
-      {!error && loading && <SkeletonFeed />}
       {posts.length !== 0 && (
         <div className='feed-container'>
           {posts.map((issue) => {
@@ -84,6 +93,7 @@ export const Feed = (): JSX.Element => {
           </TextLink>
         </Mistake>
       )}
+      {!error && loading && <SkeletonFeed />}
     </FeedStyles>
   )
 }
